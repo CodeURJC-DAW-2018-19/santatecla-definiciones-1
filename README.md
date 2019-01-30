@@ -1,6 +1,8 @@
 # santatecla-definiciones-1
 ## Authors
 
+|Name|E-mail|Github|
+|-----|-----|-----|
 |Daniel Diz Molinero  |  d.diz.2016@alumnos.urjc.es	    | https://github.com/LordHansTopo|
 
 |Iván Chicano Capelo| | i.chicano.2016@alumnos.urjc.es  |	https://github.com/ivchicano   |
