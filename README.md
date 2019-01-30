@@ -1,20 +1,20 @@
 # santatecla-definiciones-1
-# Authors
+## Authors
 
-Daniel Diz Molinero	  d.diz.2016@alumnos.urjc.es	    LordHansTopo
+|Daniel Diz Molinero  |  d.diz.2016@alumnos.urjc.es	    | https://github.com/LordHansTopo|
 
-Iván Chicano Capelo	  i.chicano.2016@alumnos.urjc.es	ivchicano
+|Iván Chicano Capelo| | i.chicano.2016@alumnos.urjc.es  |	https://github.com/ivchicano   |
 
-Diego Jara López	    d.jaral@alumnos.urjc.es	        DiegoJL97
+|Diego Jara López	    | d.jaral@alumnos.urjc.es	        | https://github.com/DiegoJL97   |
 
-David Muñoz Alonso	  d.munoza.2016@alumnos.urjc.es	  ggeettaa
+|David Muñoz Alonso	  | d.munoza.2016@alumnos.urjc.es	  | https://github.com/ggeettaa    |
 
-Ramón Barrabés Parra	r.barrabes.2016@alumnos.urjc.es	ram2701
+|Ramón Barrabés Parra	| r.barrabes.2016@alumnos.urjc.es |	https://github.com/ram2701     |
 
-# Trello 
+## Trello 
 
-https://trello.com/b/W7MyhRsn/daw-grupo-5-santatecla-definiciones-1
+*https://trello.com/b/W7MyhRsn/daw-grupo-5-santatecla-definiciones-1*
 
-# Statement
+## Statement
 
-https://docs.google.com/document/d/10n4gIg0pwB3BZ_6u_VGCdrfOEw9FunZCnHMr7cPo4Ao/edit?usp=sharing
+*https://docs.google.com/document/d/10n4gIg0pwB3BZ_6u_VGCdrfOEw9FunZCnHMr7cPo4Ao/edit?usp=sharing*
