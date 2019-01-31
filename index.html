@@ -34,7 +34,7 @@
 										<h5 class="modal-title" id="diagramModalLabel">Diagrama de resultados</h5>
 									</div>
 									<div class="modal-body">
-									  <div id="diagram" style="height:400px; width: 470px"></div>
+									  <div id="diagram" style="height:400px; width: 400px"></div>
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -43,34 +43,35 @@
  							</div>
 						</div>
 						<script type="text/javascript">
-							var myChart = echarts.init(ocument.getElementById("diagram"));
+							var myChart = echarts.init(document.getElementById("diagram"));
 							var option = {
+								color:  ["#27A1EE","#43C472", "#F05050"],
 								tooltip: {},
 								legend: {
 									data:["Respuestas sin corregir","Respuestas incorrectas", "Respuestas correctas"]
 								},
 								xAxis: {
-									data: ["Tema 1"]
+									data: ["Tema 1", "Tema 2"]
 								},
 								yAxis: {},
 								series:[{
 										name:"Respuestas sin corregir",
 										type:"bar",
-										stack: "Stack 1",
-										data: [20]
+										stack: "Tema 1",
+										data: [2,3]
 									},
 									{
 										name: "Respuestas incorrectas",
 										type:"bar",
-										stack:"Stack 1",
-										data: [5]
+										stack:"Tema 1",
+										data: [2,1]
 									},
 									{
 										name: "Respuestas correctas",
 										type:"bar",
-										stack: "Stack 1",
-										data: [10]
-									}
+										stack: "Tema 1",
+										data: [2,4]
+									},
 								]
 							};
 							myChart.setOption(option);
