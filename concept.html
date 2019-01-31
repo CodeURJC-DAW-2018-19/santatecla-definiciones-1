@@ -4,6 +4,8 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
 		<link href="assets/css/material-dashboard.min.css?v=2.1.1" rel="stylesheet" />
 		<link href="assets/css/main.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="assets/css/modalstyle.css"/>
+		<script src="assets/js/plugins/echarts.min.js"></script>
 		<title>Gestor de definiciones</title>
 	</head>
 	<body>
@@ -86,7 +88,7 @@
 
 			<!-- Diagram button -->
 			<div class="addQuestionSeeDiagram">
-				<button class="btn btn-primary">DIAGRAMA</button>
+				<button class="btn btn-primary" data-toggle="modal" data-target="#diagramModal">DIAGRAMA</button>
 			</div>
 
 		</div>
@@ -110,6 +112,56 @@
 		    </div>
 		  </div>
 		</div>
+		<!-- Diagram Modal -->
+		<div class="modal fade" id="diagramModal" tabindex="-1" role="dialog" aria-labelledby="diagramModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-diagram">
+				 <div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="diagramModalLabel">Diagrama de resultados</h5>
+					</div>
+					<div class="modal-body">
+					  <div id="diagram" style="height:400px; width: 400px"></div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+					</div>
+				</div>
+			 </div>
+		</div>
+		<script type="text/javascript">
+			var myChart = echarts.init(document.getElementById("diagram"));
+			var option = {
+				color:  ["#27A1EE","#43C472", "#F05050"],
+				tooltip: {},
+				legend: {
+					data:["Respuestas sin corregir","Respuestas incorrectas", "Respuestas correctas"]
+				},
+				xAxis: {
+					data: ["Tema 1", "Tema 2"]
+				},
+				yAxis: {},
+				series:[{
+						name:"Respuestas sin corregir",
+						type:"bar",
+						stack: "Tema 1",
+						data: [2,3]
+					},
+					{
+						name: "Respuestas incorrectas",
+						type:"bar",
+						stack:"Tema 1",
+						data: [2,1]
+					},
+					{
+						name: "Respuestas correctas",
+						type:"bar",
+						stack: "Tema 1",
+						data: [2,4]
+					},
+				]
+			};
+			myChart.setOption(option);
+		</script>
 
 		<script src="assets/js/core/jquery.min.js" type="text/javascript"></script>
 		<script src="assets/js/core/popper.min.js" type="text/javascript"></script>
