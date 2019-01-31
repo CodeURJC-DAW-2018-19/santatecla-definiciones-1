@@ -3,9 +3,11 @@
 		<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
 		<link href="assets/css/material-dashboard.min.css?v=2.1.1" rel="stylesheet" />
+		<link href="assets/css/main.css" rel="stylesheet" />
 		<title>Gestor de definiciones</title>
 	</head>
 	<body>
+
 		<div class="card card-nav-tabs card-plain">
 			<div class="card-header card-header-primary">
 				<div class="nav-tabs-navigation">
@@ -13,23 +15,79 @@
 						<ul class="nav nav-tabs" data-tabs="tabs" id="tabList">
 							<li class="nav-item">
 								<a class="nav-link" href="./index.html">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#">Concept 1</a>
-                            </li>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="#">Concept 1</a>
+              </li>
 						</ul>
 					</div>
 				</div>
 			</div>
-			<div class="card-body">
-				<div class="tab-content">
-					<div class="tab-pane active" id="concept1">
-                        <!-- Placeholder -->
-                        <h1>Concept 1 page</h1>
-                    </div>
-				</div>
-			</div>
 		</div>
+
+		<div class="content">
+
+			<div class="row">
+				<div class="col-md-6">
+					<div class="card">
+							<div class="card-header card-header-danger">
+									<h4 class="card-title text-center">PREGUNTAS CORREGIDAS</h4>
+							</div>
+							<div class="card-body">
+								<div class="question">
+									<h6>Pregunta 1</h6>
+									<p>RESPUESTA/JUSTIFICACION ABIERTA 1</p>
+									<i class="material-icons">done</i>
+								</div>
+								<div class="question">
+									<h6>Pregunta 2</h6>
+									<p>RESPUESTA/JUSTIFICACION ABIERTA 2</p>
+									<i class="material-icons">clear</i>
+								</div>
+								<div class="question">
+									<h6>Pregunta 3</h6>
+									<p>RESPUESTA/JUSTIFICACION CERRADA 3</p>
+									<i class="material-icons">clear</i>
+								</div>
+								<div class="question">
+									<h6>Pregunta 4</h6>
+									<p>RESPUESTA/JUSTIFICACION CERRADA 4</p>
+									<i class="material-icons">done</i>
+								</div>
+							</div>
+					</div>
+				</div>
+					<div class="col-md-6">
+						<div class="card">
+								<div class="card-header card-header-danger">
+										<h4 class="card-title text-center">PREGUNTAS POR CORREGIR</h4>
+								</div>
+								<div class="card-body">
+										<div class="question">
+											<h6>Pregunta 6</h6>
+											<p>RESPUESTA/JUSTIFICACION CERRADA 6</p>
+										</div>
+										<div class="question">
+											<h6>Pregunta 7</h6>
+											<p>RESPUESTA/JUSTIFICACION ABIERTA 7</p>
+										</div>
+								</div>
+						</div>
+					</div>
+			</div>
+
+			<div class="addQuestionSeeDiagram">
+				<button class="btn btn-primary btn-fab btn-fab-mini btn-round">
+  				<i class="material-icons">add</i>
+				</button>
+			</div>
+			
+			<div class="addQuestionSeeDiagram">
+				<button class="btn btn-primary">DIAGRAMA</button>
+			</div>
+
+		</div>
+
 		<script src="assets/js/core/jquery.min.js" type="text/javascript"></script>
 		<script src="assets/js/core/popper.min.js" type="text/javascript"></script>
 		<script src="assets/js/core/bootstrap-material-design.min.js" type="text/javascript"></script>
