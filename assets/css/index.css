@@ -1,0 +1,36 @@
+#button { 
+    line-height: 12px; 
+    width: 18px; 
+    font-size: 8pt; 
+    font-family: tahoma; 
+    margin-top: 1px; 
+    margin-right: 2px; 
+    position:absolute; 
+    top:0; 
+    right:0; 
+}
+@import "compass/css3";
+
+.flexsearch--wrapper {
+	height: auto;
+	width: auto;
+	max-width: 100%;
+	overflow: hidden;
+	background: transparent;
+	margin: 0;
+	position: static;
+}
+	
+.flexsearch--form {
+	overflow: hidden;
+	position: relative;
+}
+	
+.flexsearch--input-wrapper {
+	padding: 0 66px 0 0; /* Right padding for submit button width */
+	overflow: hidden;
+}
+
+.flexsearch--input {
+  width: 100%;
+}
