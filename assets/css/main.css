@@ -11,7 +11,7 @@
 }
 
 .question h6 {
-  width: 30%;
+  width: 45%;
   float: left;
 }
 
@@ -21,13 +21,14 @@
 }
 
 .question p {
-  width: 60%;
+  width: 30%;
+  margin-left: 15px;
   float: left;
 }
 
 .question i {
   width: 10%;
-  float: left;
+  float: right;
 }
 
 .addQuestionSeeDiagram {
