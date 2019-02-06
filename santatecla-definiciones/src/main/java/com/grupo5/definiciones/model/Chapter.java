@@ -13,14 +13,15 @@ public class Chapter {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	private String name;
+	private String chapterName;
 	@OneToMany(mappedBy="chapter")
 	private List<Concept> concepts;
 	
 	protected Chapter() {}
-	
-	public Chapter(String name) {
-		this.name = name;
+
+	public Chapter(String chapterName) {
+		super();
+		this.chapterName = chapterName;
 	}
 
 	public long getId() {
@@ -31,12 +32,12 @@ public class Chapter {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getChapterName() {
+		return chapterName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setChapterName(String chapterName) {
+		this.chapterName = chapterName;
 	}
 
 	public List<Concept> getConcepts() {
@@ -49,8 +50,9 @@ public class Chapter {
 
 	@Override
 	public String toString() {
-		return "Chapter [id=" + id + ", name=" + name + ", concepts=" + concepts + "]";
+		return "Chapter [id=" + id + ", chapterName=" + chapterName + ", concepts=" + concepts + "]";
 	}
-
+	
+	
 	
 }
