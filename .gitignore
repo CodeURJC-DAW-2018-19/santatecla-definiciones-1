@@ -1,4 +1,4 @@
-target/
+santatecla-definiciones/target/
 !.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###
@@ -23,5 +23,3 @@ target/
 /nbdist/
 /.nb-gradle/
 /build/
-santatecla-definiciones/target/classes/META-INF/MANIFEST.MF
-santatecla-definiciones/target/classes/META-INF/maven/com.grupo5/santatecla-definiciones/pom.properties
