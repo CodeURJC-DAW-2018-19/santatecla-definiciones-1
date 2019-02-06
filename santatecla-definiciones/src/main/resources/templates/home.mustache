@@ -45,61 +45,34 @@
 						<div class="tab-content">
 							<div class="tab-pane active" id="home">
 								<div id="accordion" role="tablist">
+									{{#chapters}}
 									<div class="card card-collapse">
-										<div class="card-header card-header-warning" role="tab" id="headingOne">
-											<h5 class="mb-0 card-title">
-												<a class="collapsed" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseTwo">
+										<div class="card-header card-header-warning" role="tab" id="{{chapterName}}">
+											<h5 class = "mb-0 card-title">
+												<a class="collapsed" data-toggle="collapse" href="#collapse{{chapterName}}" aria-expanded="false" aria-controls="collapse{{chapterName}}">
 													<i class="material-icons">keyboard_arrow_right</i>
-													Tema 1: Desarrollo web servidor
-												</a>
+													{{chapterName}}
+												</a> 
 											</h5>
 										</div>
-										<div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
+										<div id="collapse{{chapterName}}" class="collapse" role="tabpanel" aria-labelledby="{{chapterName}}" data-parent="#accordion">
 											<div class="card-body">
-												<a  href="concept.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Spring</a>
-                                                <a href="concept.html"><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APIs REST con Spring</a>
-											</div>
+												{{#concepts}}
+												<ul>
+													<li><a href="concept.html">{{conceptName}}</a></li>
+                                                </ul>
+                                                {{/concepts}}
+                                            </div>
 										</div>
 									</div>
 									<br />
-									<div class="card card-collapse">
-										<div class="card-header card-header-warning" role="tab" id="headingTwo">
-											<h5 class="mb-0 card-title">
-												<a class="collapsed" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-													<i class="material-icons">keyboard_arrow_right</i>
-													Tema 2: Despliegue de webs
-												</a>
-											</h5>
-										</div>
-										<div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
-											<div class="card-body">
-												<a  href="concept.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Virtualización y Cloud Computing</a>
-                                                <a href="concept.html"><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Docker</a>
-											</div>
-										</div>
-									</div>
-									<br />
-									<div class="card card-collapse">
-										<div class="card-header card-header-warning" role="tab" id="headingThree">
-											<h5 class="mb-0 card-title">
-												<a class="collapsed" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-													<i class="material-icons">keyboard_arrow_right</i>
-													Tema 3: Desarrollo web de cliente avanzado: SPA
-												</a>
-											</h5>
-										</div>
-										<div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
-											<div class="card-body">
-												<a href="concept.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Angular: Typescript y herramientas</a>
-                                                <a href="concept.html"><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Componentes de Angular</a>
-											</div>
-										</div>
-									</div>
-									<br />
+									{{/chapters}}
+									{{^chapters}}
+									<span>No hay temas disponibles.</span>
+									{{/chapters}}
 								</div>
 							</div>
 						</div>
-						<!-- Diagram modal and script-->
 						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#diagramModal">Diagrama</button>
 					</div>
 				</div>

@@ -6,20 +6,26 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+
+import net.bytebuddy.utility.privilege.GetSystemPropertyAction;
+
 @Entity
 public class Concept {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	private String name;
+	private String conceptName;
 	@ManyToOne
 	private Chapter chapter;
 	
 	protected Concept() {}
-	
-	public Concept(String name) {
-		this.name = name;
+
+	public Concept(String conceptName) {
+		super();
+		this.conceptName = conceptName;
 	}
 
 	public long getId() {
@@ -30,12 +36,12 @@ public class Concept {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getConceptName() {
+		return conceptName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setConceptName(String conceptName) {
+		this.conceptName = conceptName;
 	}
 
 	public Chapter getChapter() {
@@ -48,8 +54,7 @@ public class Concept {
 
 	@Override
 	public String toString() {
-		return "Concept [id=" + id + ", name=" + name + ", chapter=" + chapter + "]";
+		return "Concept [id=" + id + ", conceptName=" + conceptName + ", chapter=" + chapter + "]";
 	}
-	
 	
 }
