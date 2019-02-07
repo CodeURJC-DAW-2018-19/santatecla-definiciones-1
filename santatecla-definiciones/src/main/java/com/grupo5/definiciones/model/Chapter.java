@@ -1,7 +1,9 @@
 package com.grupo5.definiciones.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,8 +16,8 @@ public class Chapter {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private String chapterName;
-	@OneToMany(mappedBy="chapter")
-	private List<Concept> concepts;
+	@OneToMany(cascade=CascadeType.ALL)
+	private List<Concept> concepts = new ArrayList<>();
 	
 	protected Chapter() {}
 
