@@ -1,15 +1,14 @@
 package com.grupo5.definiciones.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-
-import net.bytebuddy.utility.privilege.GetSystemPropertyAction;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Concept {
@@ -18,8 +17,8 @@ public class Concept {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private String conceptName;
-	@ManyToOne
-	private Chapter chapter;
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<Answer> answers = new ArrayList<>();
 	
 	protected Concept() {}
 
@@ -44,17 +43,9 @@ public class Concept {
 		this.conceptName = conceptName;
 	}
 
-	public Chapter getChapter() {
-		return chapter;
-	}
-
-	public void setChapter(Chapter chapter) {
-		this.chapter = chapter;
-	}
-
 	@Override
 	public String toString() {
-		return "Concept [id=" + id + ", conceptName=" + conceptName + ", chapter=" + chapter + "]";
+		return "Concept [id=" + id + ", conceptName=" + conceptName + "]";
 	}
 	
 }
