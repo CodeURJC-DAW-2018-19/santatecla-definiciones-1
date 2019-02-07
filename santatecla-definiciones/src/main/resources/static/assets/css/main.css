@@ -40,3 +40,60 @@
 .addQuestionSeeDiagram button {
   margin: 0 auto;
 }
+
+/* CONCEPT TEACHER STYLES */
+
+.url {
+  overflow: auto;
+}
+
+.url h3 {
+  width: 5%;
+  float: left;
+  padding: 0px;
+  margin: 0px;
+}
+
+.url input {
+  width: 50%;
+  float: left;
+}
+
+.uncorrectedAnswersJ {
+  overflow: auto;
+}
+
+.uncorrectedAnswersJ p {
+  width: 45%;
+  float: left;
+}
+
+.correction {
+  width: 45%;
+  float: left;
+}
+
+.uncorrectedAnswersButton {
+  width: 10%;
+  float: left;
+}
+
+.uncorrectedAnswersNJ {
+  overflow: auto;
+}
+
+.uncorrectedAnswersNJ p {
+  margin-bottom: 2px;
+}
+
+.justification p {
+  width: 45%;
+  float: left;
+  padding-left: 3%;
+}
+
+.justification2 {
+  width: 45%;
+  float: left;
+}
+
