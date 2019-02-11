@@ -1,5 +1,7 @@
 package com.grupo5.definiciones.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.ElementCollection;
@@ -8,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
 
 @Entity
 public class User {
@@ -22,12 +25,10 @@ public class User {
 	@ElementCollection(fetch = FetchType.EAGER)
 	private List<String> roles;
 
-	
-	public User(String name, String passwordHash, List<String> roles) {
-		super();
+	public User(String name, String password, String... roles) {
 		this.name = name;
-		this.passwordHash = passwordHash;
-		this.roles = roles;
+		this.passwordHash = password;
+		this.roles = new ArrayList<>(Arrays.asList(roles));
 	}
 	
 	public User() {
