@@ -3,6 +3,7 @@ package com.grupo5.definiciones;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -50,4 +51,21 @@ public class ChapterController {
 		model.addAttribute("chapters", chapters);
 		return "home";
 	}
+	
+	@RequestMapping("/concept")
+	public String conceptPage(Model model,HttpServletRequest req) {
+		//Test for user management only
+		if(req.isUserInRole("DOCENTE")) {
+			return "teacher";
+		}
+		return "concept";
+	}
+	
+	@RequestMapping("/login")
+	public String loginPage() {
+		return "login";
+	}
+	
+	
+	
 }
