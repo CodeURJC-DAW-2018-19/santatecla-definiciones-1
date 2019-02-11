@@ -9,6 +9,6 @@ import com.grupo5.definiciones.model.Chapter;
 
 public interface ChapterRepository extends JpaRepository<Chapter, Long>{
 	
-	@Query("SELECT DISTINCT ch FROM Chapter ch JOIN FETCH ch.concepts ORDER BY ch.chapterName")
+	@Query("SELECT DISTINCT ch FROM Chapter ch LEFT JOIN FETCH ch.concepts ORDER BY ch.chapterName")
 	List<Chapter> findChaptersOrderedByName();
 }

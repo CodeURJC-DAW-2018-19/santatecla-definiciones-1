@@ -9,6 +9,5 @@ public class SantateclaDefinicionesApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SantateclaDefinicionesApplication.class, args);
 	}
-
 }
 
