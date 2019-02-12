@@ -44,15 +44,16 @@ public class ChapterController {
 	}
 
 	@RequestMapping("/")
-	public String getChaptersAndConcepts(Model model) {
+	public String getChaptersAndConcepts(Model model, HttpServletRequest req) {
 		//Needed so it fetchs the concepts to avoid lazy initialization issues
 		List<Chapter> chapters = chapterRepository.findChaptersOrderedByName();
 		model.addAttribute("empty", chapters.isEmpty());
 		model.addAttribute("chapters", chapters);
+		model.addAttribute("docente", req.isUserInRole("DOCENTE"));
 		return "home";
 	}
 	
-	@RequestMapping("/concept")
+	@RequestMapping("/concepts")
 	public String conceptPage(Model model,HttpServletRequest req) {
 		//Test for user management only
 		if(req.isUserInRole("DOCENTE")) {
@@ -63,7 +64,7 @@ public class ChapterController {
 	
 	@RequestMapping("/login")
 	public String loginPage() {
-		return "login";
+		return "loginPage";
 	}
 	
 }
