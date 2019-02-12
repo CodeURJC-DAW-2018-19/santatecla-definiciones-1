@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MyErrorController implements ErrorController  {
  
     @RequestMapping("/error")
-    public String handleError() {
+    public String runError() {
         //do something like logging
         return "error";
     }
