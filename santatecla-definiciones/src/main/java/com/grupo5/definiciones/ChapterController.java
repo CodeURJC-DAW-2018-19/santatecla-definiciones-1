@@ -66,6 +66,5 @@ public class ChapterController {
 		return "login";
 	}
 	
-	
-	
 }
+
