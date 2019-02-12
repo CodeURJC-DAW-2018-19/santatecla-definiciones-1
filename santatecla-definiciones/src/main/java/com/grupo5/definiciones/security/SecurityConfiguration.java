@@ -23,13 +23,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		
 		//Private pages
 		http.authorizeRequests().antMatchers("/concept").hasAnyRole("ESTUDIANTE","DOCENTE");
-		//http.authorizeRequests().antMatchers("/concept").hasAnyRole("DOCENTE");
 		
 		//Login form
 		http.formLogin().loginPage("/login");
 		http.formLogin().usernameParameter("username");
 		http.formLogin().passwordParameter("password");
-		http.formLogin().defaultSuccessUrl("/concepts");
+		//http.formLogin().defaultSuccessUrl("/concepts");
 		http.formLogin().failureUrl("/");
 		
 		//Logout

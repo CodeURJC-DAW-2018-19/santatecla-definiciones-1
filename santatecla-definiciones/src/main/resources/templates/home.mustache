@@ -64,6 +64,13 @@
 													<li><a href="/concept">{{conceptName}}</a></li>
                                                 </ul>
                                                 {{/concepts}}
+                                                {{#docente}}
+													<div class="addQuestionSeeDiagram">
+														<button type="button" class="btn btn-primary btn-fab btn-fab-mini btn-round" data-toggle="modal" data-target="#exampleModal">
+			  												<i class="material-icons">add</i>
+														</button>
+													</div>
+												{{/docente}}
                                             </div>
 										</div>
 									</div>
@@ -72,6 +79,13 @@
 									{{^chapters}}
 									<span>No hay temas disponibles.</span>
 									{{/chapters}}
+									{{#docente}}
+										<div class="addQuestionSeeDiagram">
+											<button type="button" class="btn btn-primary btn-fab btn-fab-mini btn-round" data-toggle="modal" data-target="#exampleModal">
+  												<i class="material-icons">add</i>
+											</button>
+										</div>
+									{{/docente}}
 								</div>
 							</div>
 						</div>
