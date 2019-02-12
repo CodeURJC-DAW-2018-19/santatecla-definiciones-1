@@ -52,7 +52,7 @@ public class ChapterController {
 		return "home";
 	}
 	
-	@RequestMapping("/concept")
+	@RequestMapping("/concepts")
 	public String conceptPage(Model model,HttpServletRequest req) {
 		//Test for user management only
 		if(req.isUserInRole("DOCENTE")) {
@@ -63,7 +63,7 @@ public class ChapterController {
 	
 	@RequestMapping("/login")
 	public String loginPage() {
-		return "login";
+		return "loginPage";
 	}
 	
 }
