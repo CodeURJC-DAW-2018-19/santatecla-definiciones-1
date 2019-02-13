@@ -79,6 +79,15 @@
 									{{^chapters}}
 									<span>No hay temas disponibles.</span>
 									{{/chapters}}
+									{{#showPrev}}
+										<a href"/?page={{prevPage}}">Prev</a>
+									{{/showPrev}}
+									{{#numPage}}
+										<h5> Hola esto es una prueba </h5>
+									{{/numPage}}
+									{{#showNext}}
+										<a href"/?page={{nextPage}}">Next</a>
+									{{/showNext}}
 									{{#docente}}
 										<div class="addQuestionSeeDiagram">
 											<button type="button" class="btn btn-primary btn-fab btn-fab-mini btn-round" data-toggle="modal" data-target="#exampleModal">
