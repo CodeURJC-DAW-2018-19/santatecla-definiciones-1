@@ -49,14 +49,14 @@ public class ChapterController {
 		List<Chapter> chapters = chapterRepository.findChaptersOrderedByName();
 		model.addAttribute("empty", chapters.isEmpty());
 		model.addAttribute("chapters", chapters);
-		model.addAttribute("docente", req.isUserInRole("DOCENTE"));
+		model.addAttribute("docente", req.isUserInRole("ROLE_DOCENTE"));
 		return "home";
 	}
 	
-	@RequestMapping("/concepts")
+	@RequestMapping("/concept")
 	public String conceptPage(Model model,HttpServletRequest req) {
 		//Test for user management only
-		if(req.isUserInRole("DOCENTE")) {
+		if(req.isUserInRole("ROLE_DOCENTE")) {
 			return "teacher";
 		}
 		return "concept";
