@@ -1,5 +1,9 @@
 {{>header}}
-<h1>Something went wrong! </h1>
-<h2>Our Engineers are on it</h2>
-<a href="/">Go Home</a>
+<div class="card">
+    <div class="card-body">
+        <h1>Error {{statusCode}}</h1>
+        <h3>{{errorMessage}}</h3>
+        <a href="/">Volver al inicio</a>
+    </div>    
+</div>
 {{>footer}}
