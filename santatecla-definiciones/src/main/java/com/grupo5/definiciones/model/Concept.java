@@ -44,9 +44,23 @@ public class Concept {
 		this.conceptName = conceptName;
 	}
 
+	public List<Answer> getAnswers() {
+		return answers;
+	}
+
+	public void setAnswers(List<Answer> answers) {
+		this.answers = answers;
+	}
+
+	public void addAnswer(Answer answer) {
+		this.answers.add(answer);
+	}
+
 	@Override
 	public String toString() {
-		return "Concept [id=" + id + ", conceptName=" + conceptName + "]";
+		return "Concept [id=" + id + ", conceptName=" + conceptName + ", answers=" + answers + "]";
 	}
+	
+	
 	
 }
