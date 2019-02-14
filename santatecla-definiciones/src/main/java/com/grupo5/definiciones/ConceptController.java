@@ -25,10 +25,6 @@ public class ConceptController {
 		Concept concept = conceptRepository.findById(id).get();
 		List<Answer> answers = concept.getAnswers();
 		model.addAttribute("answers", answers);
-		//Test for user management only
-		if(req.isUserInRole("ROLE_DOCENTE")) {
-			return "teacher";
-		}
 		boolean noMarkedAnswers = true;
 		boolean noUnmarkedAnswers = true;
 		if (!answers.isEmpty()) {
@@ -45,6 +41,9 @@ public class ConceptController {
 		}
 		model.addAttribute("noMarkedAnswers", noMarkedAnswers);
 		model.addAttribute("noUnmarkedAnswers", noUnmarkedAnswers);
+		if(req.isUserInRole("ROLE_DOCENTE")) {
+			return "teacher";
+		}
 		return "concept";
 	}
 }

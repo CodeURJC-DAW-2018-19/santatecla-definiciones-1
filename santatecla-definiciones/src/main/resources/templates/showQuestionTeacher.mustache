@@ -1,0 +1,87 @@
+<div class="correctedAnswers">
+  <div class="uncorrectedAnswersJ">
+    <p>{{answerText}}</p>
+    <div class="correction">
+      {{#marked}}
+	  {{#correct}}
+      <div class="form-check form-check-inline">
+        <label class="form-check-label">
+          <input class="form-check-input" type="checkbox" checked>
+          Correcta
+          <span class="form-check-sign">
+            <span class="check"></span>
+          </span>
+        </label>
+      </div>
+      <div class="form-check  form-check-inline">
+        <label class="form-check-label">
+          <input class="form-check-input" type="checkbox">
+          Incorrecta
+          <span class="form-check-sign">
+            <span class="check"></span>
+          </span>
+        </label>
+      </div>
+	  {{/correct}}
+	  {{^correct}}
+		<div class="form-check form-check-inline">
+			<label class="form-check-label">
+			  <input class="form-check-input" type="checkbox">
+			  Correcta
+			  <span class="form-check-sign">
+				<span class="check"></span>
+			  </span>
+			</label>
+		</div>
+		<div class="form-check  form-check-inline">
+			<label class="form-check-label">
+			  <input class="form-check-input" type="checkbox" checked>
+			  Incorrecta
+			  <span class="form-check-sign">
+				<span class="check"></span>
+			  </span>
+			</label>
+		</div>
+	  {{/correct}}
+	  {{/marked}}
+	  {{^marked}}
+	  	<div class="form-check form-check-inline">
+	        <label class="form-check-label">
+	          <input class="form-check-input" type="checkbox">
+	          Correcta
+	          <span class="form-check-sign">
+	            <span class="check"></span>
+	          </span>
+	        </label>
+      	</div>
+      	<div class="form-check  form-check-inline">
+	        <label class="form-check-label">
+	          <input class="form-check-input" type="checkbox">
+	          Incorrecta
+	          <span class="form-check-sign">
+	            <span class="check"></span>
+	          </span>
+	        </label>
+      	</div>
+	  {{/marked}}
+    </div>
+     {{#marked}}
+    <div class="uncorrectedAnswersButton">
+      <button type="button" class="btn btn-primary btn-fab btn-fab-mini btn-round" data-toggle="modal"
+        data-target="#exampleModal">
+        <i class="material-icons">delete</i>
+      </button>
+    </div>
+    {{/marked}}
+    {{^marked}}
+		<div class="uncorrectedAnswersButton">
+          <button type="button" class="btn btn-primary btn-fab btn-fab-mini btn-round" data-toggle="modal"
+            data-target="#exampleModal">
+            <i class="material-icons">add</i>
+          </button>
+        </div>
+    {{/marked}}
+  </div>
+</div>
+
+

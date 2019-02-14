@@ -10,70 +10,19 @@
         <h4 class="card-title text-center">PREGUNTAS CORREGIDAS</h4>
       </div>
       <div class="card-body">
-        <div class="correctedAnswers">
-          <div class="uncorrectedAnswersJ">
-            <p>Respuesta 1</p>
-            <div class="correction">
-              <div class="form-check form-check-inline">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="checkbox" value="" checked>
-                  Correcta
-                  <span class="form-check-sign">
-                    <span class="check"></span>
-                  </span>
-                </label>
-              </div>
-              <div class="form-check  form-check-inline">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="checkbox" value="">
-                  Incorrecta
-                  <span class="form-check-sign">
-                    <span class="check"></span>
-                  </span>
-                </label>
-              </div>
-            </div>
-            <div class="uncorrectedAnswersButton">
-              <button type="button" class="btn btn-primary btn-fab btn-fab-mini btn-round" data-toggle="modal"
-                data-target="#exampleModal">
-                <i class="material-icons">delete</i>
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="correctedAnswers">
-          <div class="uncorrectedAnswersJ">
-            <p>Respuesta 2</p>
-            <div class="correction">
-              <div class="form-check form-check-inline">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="checkbox" value="">
-                  Correcta
-                  <span class="form-check-sign">
-                    <span class="check"></span>
-                  </span>
-                </label>
-              </div>
-              <div class="form-check  form-check-inline">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="checkbox" value="" checked>
-                  Incorrecta
-                  <span class="form-check-sign">
-                    <span class="check"></span>
-                  </span>
-                </label>
-              </div>
-            </div>
-            <div class="uncorrectedAnswersButton">
-              <button type="button" class="btn btn-primary btn-fab btn-fab-mini btn-round" data-toggle="modal"
-                data-target="#exampleModal">
-                <i class="material-icons">delete</i>
-              </button>
-            </div>
-            <div class="">
-            </div>
-          </div>
-        </div>
+        <!-- If there are no marked answers -->
+		  {{#noMarkedAnswers}}
+          <p>No hay preguntas corregidas</p>
+		  {{/noMarkedAnswers}}
+		  <!-- Else -->
+		  {{^noMarkedAnswers}}
+		  <!-- Write all marked answers -->
+          {{#answers}}
+          {{#marked}}
+          {{>showQuestionTeacher}}
+          {{/marked}}
+          {{/answers}}
+          {{/noMarkedAnswers}}
       </div>
     </div>
   </div>
@@ -83,67 +32,17 @@
         <h4 class="card-title text-center">PREGUNTAS POR CORREGIR</h4>
       </div>
       <div class="card-body">
-        <div class="uncorrectedAnswersJ">
-          <p>Respuesta a corregir 1</p>
-          <div class="correction">
-            <div class="form-check form-check-inline">
-              <label class="form-check-label">
-                <input class="form-check-input" type="checkbox" value="">
-                Correcta
-                <span class="form-check-sign">
-                  <span class="check"></span>
-                </span>
-              </label>
-            </div>
-            <div class="form-check  form-check-inline">
-              <label class="form-check-label">
-                <input class="form-check-input" type="checkbox" value="">
-                Incorrecta
-                <span class="form-check-sign">
-                  <span class="check"></span>
-                </span>
-              </label>
-            </div>
-          </div>
-          <div class="uncorrectedAnswersButton">
-            <button type="button" class="btn btn-primary btn-fab btn-fab-mini btn-round" data-toggle="modal"
-              data-target="#exampleModal">
-              <i class="material-icons">add</i>
-            </button>
-          </div>
-        </div>
-        <div class="uncorrectedAnswersNJ">
-          <p>Respuesta a corregir 2</p>
-          <div class="justification">
-            <p>Justificacion a corregir 2</p>
-            <div class="justification2">
-              <div class="form-check form-check-inline">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="checkbox" value="">
-                  Valida
-                  <span class="form-check-sign">
-                    <span class="check"></span>
-                  </span>
-                </label>
-              </div>
-              <div class="form-check form-check-inline">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="checkbox" value="">
-                  Invalida
-                  <span class="form-check-sign">
-                    <span class="check"></span>
-                  </span>
-                </label>
-              </div>
-            </div>
-            <div class="uncorrectedAnswersButton">
-              <button type="button" class="btn btn-primary btn-fab btn-fab-mini btn-round" data-toggle="modal"
-                data-target="#exampleModal">
-                <i class="material-icons">add</i>
-              </button>
-            </div>
-          </div>
-        </div>
+		  {{#noUnmarkedAnswers}}
+          <p>No hay preguntas por corregir</p>
+          {{/noUnmarkedAnswers}}
+          {{^noUnmarkedAnswers}}
+          {{#answers}}
+          {{^marked}}
+          {{>showQuestionTeacher}}
+          {{/marked}}
+          {{/answers}}
+          {{/noUnmarkedAnswers}}
+        
       </div>
     </div>
   </div>
