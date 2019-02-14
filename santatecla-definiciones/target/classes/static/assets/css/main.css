@@ -97,6 +97,11 @@
   margin-bottom: 2px;
 }
 
+.justification {
+	width: 100%;
+	overflow: auto;
+}
+
 .justification p {
   width: 45%;
   float: left;

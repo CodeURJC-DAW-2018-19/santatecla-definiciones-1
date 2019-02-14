@@ -65,7 +65,7 @@
       	</div>
 	  {{/marked}}
     </div>
-     {{#marked}}
+    {{#marked}}
     <div class="uncorrectedAnswersButton">
       <button type="button" class="btn btn-primary btn-fab btn-fab-mini btn-round" data-toggle="modal"
         data-target="#exampleModal">
@@ -81,6 +81,54 @@
           </button>
         </div>
     {{/marked}}
+    {{#justification}}
+		<div class="justification">
+	        <p>{{justificationText}}</p>
+	        <div class="justification2">
+	        {{#valid}}
+	          <div class="form-check form-check-inline">
+	            <label class="form-check-label">
+	              <input class="form-check-input" type="checkbox" checked>
+	              Valida
+	              <span class="form-check-sign">
+	                <span class="check"></span>
+	              </span>
+	            </label>
+	          </div>
+	          <div class="form-check form-check-inline">
+	            <label class="form-check-label">
+	              <input class="form-check-input" type="checkbox">
+	              Invalida
+	              <span class="form-check-sign">
+	                <span class="check"></span>
+	              </span>
+	            </label>
+	          </div>
+	        </div>
+	        {{/valid}}
+	        {{^valid}}
+	        <div class="form-check form-check-inline">
+	            <label class="form-check-label">
+	              <input class="form-check-input" type="checkbox">
+	              Valida
+	              <span class="form-check-sign">
+	                <span class="check"></span>
+	              </span>
+	            </label>
+	          </div>
+	          <div class="form-check form-check-inline">
+	            <label class="form-check-label">
+	              <input class="form-check-input" type="checkbox" checked>
+	              Invalida
+	              <span class="form-check-sign">
+	                <span class="check"></span>
+	              </span>
+	            </label>
+	          </div>
+        	</div>
+        	</div>
+	        {{/valid}}
+    {{/justification}}
   </div>
 </div>
 
