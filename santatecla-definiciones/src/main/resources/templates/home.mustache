@@ -17,57 +17,29 @@
 						<div class="tab-content">
 							<div class="tab-pane active" id="home">
 								<div id="accordion" role="tablist">
-									{{#chapters}}
-									<div class="card card-collapse">
-										<div class="card-header card-header-warning" role="tab" id="{{chapterName}}">
-											<h5 class = "mb-0 card-title">
-												<a class="collapsed" data-toggle="collapse" href="#collapse{{chapterName}}" aria-expanded="false" aria-controls="collapse{{chapterName}}">
-													<i class="material-icons">keyboard_arrow_right</i>
-													{{chapterName}}
-												</a> 
-											</h5>
-										</div>
-										<div id="collapse{{chapterName}}" class="collapse" role="tabpanel" aria-labelledby="{{chapterName}}" data-parent="#accordion">
-											<div class="card-body">
-												{{#concepts}}
-												<ul>
-													<li><a href="/concept/{{conceptName}}">{{conceptName}}</a></li>
-                                                </ul>
-                                                {{/concepts}}
-                                                {{#docente}}
-													<div class="addQuestionSeeDiagram">
-														<button type="button" class="btn btn-primary btn-fab btn-fab-mini btn-round" data-toggle="modal" data-target="#exampleModal">
-			  												<i class="material-icons">add</i>
-														</button>
-													</div>
-												{{/docente}}
-                                            </div>
-										</div>
-									</div>
-									<br />
-									{{/chapters}}
-									{{^chapters}}
-									<span>No hay temas disponibles.</span>
-									{{/chapters}}
-									{{#showPrev}}
-										<a href="/?page={{prevPage}}">Prev</a>
-									{{/showPrev}}
-									{{#numPage}}
-										<h5> Hola esto es una prueba </h5>
-									{{/numPage}}
-									{{#showNext}}
-										<a href="/?page={{nextPage}}">Next</a>
-									{{/showNext}}
-									{{#docente}}
-										<div class="addQuestionSeeDiagram">
-											<button type="button" class="btn btn-primary btn-fab btn-fab-mini btn-round" data-toggle="modal" data-target="#exampleModal">
-  												<i class="material-icons">add</i>
-											</button>
-										</div>
-									{{/docente}}
+									<script src="/assets/js/loadchapters.js"></script>
+									<script>loadchapters()</script>
 								</div>
 							</div>
 						</div>
+						<button type="button" class="btn btn-primary" id="showMoreBtn" data-target="#showMore">
+							Más resultados
+						</button>
+						<div id="loadGif"></div>
+						<script type="text/javascript">
+							$(document).ready(function (){
+								$('#showMoreBtn').click(function (){
+									loadchapters();
+								});
+							});
+						</script>
+						{{#docente}}
+							<div class="addQuestionSeeDiagram">
+								<button type="button" class="btn btn-primary btn-fab btn-fab-mini btn-round" data-toggle="modal" data-target="#exampleModal">
+									<i class="material-icons">add</i>
+								</button>
+							</div>
+						{{/docente}}
 						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#diagramModal">Diagrama</button>
 					</div>
 				</div>
@@ -88,7 +60,5 @@
 			</div>
 		</div>
 	</div>
-	<!-- change class button to "nav-link active" when move into the nav  -->
-						
 	<script src="/assets/js/diagramdummy.js" type="text/javascript"></script>
 {{>footer}}
