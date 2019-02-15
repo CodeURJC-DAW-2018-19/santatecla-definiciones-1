@@ -10,7 +10,7 @@ import org.springframework.web.context.annotation.SessionScope;
 @SessionScope
 public class UserSessionInfoComponent {
 
-	List<Tab> openTabs;
+	private List<Tab> openTabs;
 
 	public UserSessionInfoComponent() {
 		openTabs = new ArrayList<>();
@@ -40,6 +40,11 @@ public class UserSessionInfoComponent {
 	public void removeTab(String name) {
 		openTabs.remove(new Tab(name, null, false));
 		
+	}
+	
+	public void resetTabs() {
+		openTabs = new ArrayList<>();
+		openTabs.add(new Tab("inicio", "/", false));
 	}
 
 }

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import com.grupo5.definiciones.model.User;
 import com.grupo5.definiciones.repositories.UserRepository;
+import com.grupo5.definiciones.usersession.UserSessionInfoComponent;
 
 @Component
 public class UserRepositoryAuthenticationProvider implements AuthenticationProvider {
@@ -23,6 +24,9 @@ public class UserRepositoryAuthenticationProvider implements AuthenticationProvi
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	private UserSessionInfoComponent userSession;
+	
 	@Override
 	public Authentication authenticate(Authentication auth) throws AuthenticationException {
 
@@ -41,6 +45,8 @@ public class UserRepositoryAuthenticationProvider implements AuthenticationProvi
 		for (String role : user.getRoles()) {
 			roles.add(new SimpleGrantedAuthority(role));
 		}
+		
+		userSession.resetTabs();
 
 		return new UsernamePasswordAuthenticationToken(user.getName(), password, roles);
 	}
