@@ -20,9 +20,11 @@
 			<div class="nav-tabs-navigation float-left">
 				<div class="nav-tabs-wrapper">
 					<ul class="nav nav-tabs" data-tabs="tabs" id="tabList">
+						{{#tabs}}
 						<li class="nav-item">
-							<a class="nav-link active" href="/">Home</a>
+							<a class="nav-link {{#active}}active{{/active}}" href="{{tabURL}}">{{tabName}}{{#closable}}<i class="material-icons closeTab">close</i>{{/closable}}</a>
 						</li>
+						{{/tabs}}
 					</ul>
 				</div>
 			</div>
