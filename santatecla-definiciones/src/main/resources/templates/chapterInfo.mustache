@@ -1,0 +1,34 @@
+{{#chapters}}
+<div class="card card-collapse">
+    <div class="card-header card-header-warning" role="tab" id="{{ chapterName }}">
+        <h5 class="mb-0 card-title">
+            <a class="collapsed" data-toggle="collapse" href="#collapse{{ chapterName }}" aria-expanded="false" aria-controls="collapse{{ chapterName }}">
+                <i class="material-icons">keyboard_arrow_right</i>
+                {{ chapterName }}
+            </a>
+        </h5>
+    </div>
+    <div id="collapse{{ chapterName }}" class="collapse" role="tabpanel" aria-labelledby="{{ chapterName }}" data-parent="#accordion">
+        <div class="card-body">
+            {{#concepts}}
+            <ul>
+                <li>
+                <a href="/concept/{{ id }}">{{ conceptName }}</a>
+                </li>
+            </ul>
+            {{/concepts}}
+            {{#docente}}
+            <div class="addQuestionSeeDiagram">
+                <button type="button" class="btn btn-primary btn-fab btn-fab-mini btn-round" data-toggle="modal" data-target="#exampleModal">
+                    <i class="material-icons">add</i>
+                </button>
+            </div>
+            {{/docente}}
+        </div>
+    </div>
+</div>
+<br />
+{{/chapters}}
+{{^chapters}}
+    <span>No hay temas disponibles.</span>
+{{/chapters}}
