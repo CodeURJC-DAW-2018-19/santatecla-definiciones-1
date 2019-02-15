@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
 
 @Component
+@SessionScope
 public class UserSessionInfoComponent {
 
 	List<Tab> openTabs;
@@ -33,6 +35,11 @@ public class UserSessionInfoComponent {
 				t.setActive(true);
 			}
 		}
+	}
+
+	public void removeTab(String name) {
+		openTabs.remove(new Tab(name, null, false));
+		
 	}
 
 }
