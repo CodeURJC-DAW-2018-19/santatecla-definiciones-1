@@ -69,10 +69,18 @@ public class ConceptController {
 	}
 	
 	@RequestMapping("/mark/{id}")
-	public String markAnswer (Model model, @PathVariable Long id) {
+	public String markAnswer (Model model, @PathVariable Long id, @RequestParam(value = "correctAnswer", required = false) String cAnswer, @RequestParam(value = "incorrectAnswer", required = false) String iAnswer) {
 		Answer ans = answerRepository.getOne(id);
 		ans.setMarked(true);
-		answerRepository.save(ans);
+		if(cAnswer != null && iAnswer == null) {
+			ans.setCorrect(true);
+			answerRepository.save(ans);
+		} else if (cAnswer == null && iAnswer != null) {
+			ans.setCorrect(false);
+			answerRepository.save(ans);
+		} else {
+			//Error porque no podemos marcar ambas
+		}
 		return "home";
 	}
 	
