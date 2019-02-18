@@ -12,7 +12,7 @@ import com.grupo5.definiciones.model.User;
 @SessionScope
 public class UserSessionInfoComponent {
 
-	//private User user;
+	private User user;
 	private List<Tab> openTabs;
 
 	public UserSessionInfoComponent() {
@@ -50,7 +50,7 @@ public class UserSessionInfoComponent {
 		openTabs.add(new Tab("inicio", "/", false));
 	}
 	
-	/*public User getLoggedUser() {
+	public User getLoggedUser() {
 		return user;
 	}
 
@@ -60,5 +60,5 @@ public class UserSessionInfoComponent {
 
 	public boolean isLoggedUser() {
 		return this.user != null;
-	}*/
+	}
 }

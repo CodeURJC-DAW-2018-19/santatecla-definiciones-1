@@ -15,14 +15,10 @@ public class UserSessionService {
 	@Autowired
 	private UserSessionInfoComponent userSession;
 	
-	/*public void addUserToModel(Model model) {
+	public void addUserToModel(Model model) {
 		boolean logged = userSession.getLoggedUser() != null;
 		model.addAttribute("logged", logged);
-		if(logged) {
-			model.addAttribute("admin", userSession.getLoggedUser().getRoles().contains("ROLE_ADMIN"));
-			model.addAttribute("userName", userSession.getLoggedUser().getName());
-		}
-	}*/
+	}
 
 	public void setActive(String tabName) {
 		userSession.setActive(tabName);

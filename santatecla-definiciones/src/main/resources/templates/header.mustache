@@ -29,8 +29,13 @@
 					</ul>
 				</div>
 			</div>
-			<!-- Log in button -->
+			{{#logged}}
+			<a class="btn btn-primary float-right" href="/logout">Logout</a>
+			{{/logged}}
+			{{^logged}}
 			<a class="btn btn-primary float-right" href="/login">Login
 			<i class="material-icons">assignment</i></a>
+			{{/logged}}
+			<!-- Log in button -->
 		</div>
 	</div>

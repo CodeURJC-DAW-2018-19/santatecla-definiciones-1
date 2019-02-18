@@ -37,6 +37,11 @@ public class ChapterController {
 		*/
 	}
 
+	@ModelAttribute
+	public void addUserToModel(Model model) {
+		userSession.addUserToModel(model);
+	}
+	
 	@RequestMapping("/")
 	public String loadHome(Model model) {
 		userSession.setActive("inicio");

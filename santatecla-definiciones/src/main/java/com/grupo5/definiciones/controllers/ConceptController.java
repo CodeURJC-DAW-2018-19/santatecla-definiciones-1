@@ -33,6 +33,10 @@ public class ConceptController {
 	@Autowired
 	private UserSessionService userSession;
 
+	@ModelAttribute
+	public void addUserToModel(Model model) {
+		userSession.addUserToModel(model);
+	}
 	
 	@RequestMapping("/concept/{name}")
 	public String conceptPage(Model model, HttpServletRequest req, @PathVariable String name) {
