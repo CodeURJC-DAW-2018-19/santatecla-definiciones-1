@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.grupo5.definiciones.model.Answer;
 import com.grupo5.definiciones.model.Concept;
+import com.grupo5.definiciones.repositories.AnswerRepository;
 import com.grupo5.definiciones.repositories.ConceptRepository;
 import com.grupo5.definiciones.usersession.Tab;
 import com.grupo5.definiciones.usersession.UserSessionInfoComponent;
@@ -24,6 +25,9 @@ public class ConceptController {
 
 	@Autowired
 	private ConceptRepository conceptRepository;
+	
+	@Autowired
+	private AnswerRepository answerRepository;
 
 	@Autowired
 	private UserSessionService userSession;
@@ -61,6 +65,20 @@ public class ConceptController {
 			return "teacher";
 		}
 		return "concept";
+	}
+	
+	@RequestMapping("/mark/{id}")
+	public String markAnswer (Model model, @PathVariable Long id) {
+		Answer ans = answerRepository.getOne(id);
+		ans.setMarked(true);
+		answerRepository.save(ans);
+		return "home";
+	}
+	
+	@RequestMapping("/delete/{id}")
+	public String deleteAnswer (Model model, @PathVariable Long id) {
+		answerRepository.deleteById(id);;
+		return "home";
 	}
 	
 }

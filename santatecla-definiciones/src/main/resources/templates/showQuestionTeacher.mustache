@@ -1,4 +1,10 @@
 <div class="correctedAnswers">
+	{{#marked}}
+  		<form action="/delete/{{id}}" method="post">
+ 	 {{/marked}}
+  	 {{^marked}}
+  		<form action="/mark/{{id}}" method="post">
+ 	 {{/marked}}
   <div class="uncorrectedAnswersJ">
     <p>{{answerText}}</p>
     <div class="correction">
@@ -67,7 +73,7 @@
     </div>
     {{#marked}}
     <div class="uncorrectedAnswersButton">
-      <button type="button" class="btn btn-primary btn-fab btn-fab-mini btn-round" data-toggle="modal"
+      <button type="submit" class="btn btn-primary btn-fab btn-fab-mini btn-round" data-toggle="modal"
         data-target="#exampleModal">
         <i class="material-icons">delete</i>
       </button>
@@ -75,7 +81,7 @@
     {{/marked}}
     {{^marked}}
 		<div class="uncorrectedAnswersButton">
-          <button type="button" class="btn btn-primary btn-fab btn-fab-mini btn-round" data-toggle="modal"
+          <button type="submit" class="btn btn-primary btn-fab btn-fab-mini btn-round" data-toggle="modal"
             data-target="#exampleModal">
             <i class="material-icons">add</i>
           </button>
@@ -130,6 +136,7 @@
 	        {{/valid}}
     {{/justification}}
   </div>
+  </form>
 </div>
 
 
