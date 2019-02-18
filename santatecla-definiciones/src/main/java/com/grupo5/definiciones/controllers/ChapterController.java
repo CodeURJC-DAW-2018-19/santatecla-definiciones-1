@@ -9,11 +9,13 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.grupo5.definiciones.model.Chapter;
 import com.grupo5.definiciones.repositories.ChapterRepository;
 import com.grupo5.definiciones.usersession.UserSessionInfoComponent;
+import com.grupo5.definiciones.usersession.UserSessionService;
 
 @Controller
 public class ChapterController {
@@ -23,7 +25,7 @@ public class ChapterController {
 	private final int DEFAULT_SIZE = 10;
 
 	@Autowired
-	private UserSessionInfoComponent userSession;
+	private UserSessionService userSession;
 
 	@PostConstruct
 	public void init() {

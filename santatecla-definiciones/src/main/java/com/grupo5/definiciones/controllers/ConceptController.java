@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +17,7 @@ import com.grupo5.definiciones.model.Concept;
 import com.grupo5.definiciones.repositories.ConceptRepository;
 import com.grupo5.definiciones.usersession.Tab;
 import com.grupo5.definiciones.usersession.UserSessionInfoComponent;
+import com.grupo5.definiciones.usersession.UserSessionService;
 
 @Controller
 public class ConceptController {
@@ -24,8 +26,9 @@ public class ConceptController {
 	private ConceptRepository conceptRepository;
 
 	@Autowired
-	private UserSessionInfoComponent userSession;
+	private UserSessionService userSession;
 
+	
 	@RequestMapping("/concept/{name}")
 	public String conceptPage(Model model, HttpServletRequest req, @PathVariable String name) {
 		Concept concept = conceptRepository.findByConceptName(name);

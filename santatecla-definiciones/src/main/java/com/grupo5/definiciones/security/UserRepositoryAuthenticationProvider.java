@@ -47,6 +47,7 @@ public class UserRepositoryAuthenticationProvider implements AuthenticationProvi
 		}
 		
 		userSession.resetTabs();
+		//userSession.setLoggedUser(user);
 
 		return new UsernamePasswordAuthenticationToken(user.getName(), password, roles);
 	}
