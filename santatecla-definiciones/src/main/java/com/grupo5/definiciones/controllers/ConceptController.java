@@ -3,6 +3,7 @@ package com.grupo5.definiciones.controllers;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -75,9 +76,10 @@ public class ConceptController {
 		return "home";
 	}
 	
+	@Transactional
 	@RequestMapping("/delete/{id}")
 	public String deleteAnswer (Model model, @PathVariable Long id) {
-		answerRepository.deleteById(id);;
+		answerRepository.deleteById(id);
 		return "home";
 	}
 	
