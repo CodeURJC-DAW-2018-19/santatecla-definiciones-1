@@ -17,4 +17,12 @@ public class ChapterService {
 	public Page<Chapter> findAll(Pageable page) {
 		return chapterRepository.findAll(page);
 	}
+
+	public void save(Chapter chap) {
+		chapterRepository.save(chap);
+	}
+
+	public Chapter findByChapterName(String conceptName) {
+		return chapterRepository.findByChapterName(conceptName);
+	}
 }
