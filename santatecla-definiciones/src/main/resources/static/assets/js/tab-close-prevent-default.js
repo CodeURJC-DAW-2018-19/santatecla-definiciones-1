@@ -4,6 +4,6 @@ $(document).ready(function(){
         var url = new URL(window.location.href.split('?')[0]);
         var tabToClose = event.target.parentElement.getAttribute("href").split("/")[2];
         url.searchParams.set("close", tabToClose);
-        window.location.href(url);
+        window.location.href = url.toString();
     });
 });
