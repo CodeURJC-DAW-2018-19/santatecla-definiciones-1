@@ -39,7 +39,15 @@ public class ConceptController {
 	}
 	
 	@RequestMapping("/concept/{name}")
-	public String conceptPage(Model model, HttpServletRequest req, @PathVariable String name) {
+	public String conceptPage(Model model, HttpServletRequest req, @PathVariable String name, @RequestParam(name="close", required=false) String closeTab) {
+		if(closeTab!=null) {
+			userSession.removeTab(closeTab);
+			if (name.equals(closeTab)) {
+				userSession.setActive("inicio");
+				model.addAttribute("tabs", userSession.getOpenTabs());
+				return "home";
+			}
+		}
 		Concept concept = conceptRepository.findByConceptName(name);
 		if (concept==null)
 			return null;

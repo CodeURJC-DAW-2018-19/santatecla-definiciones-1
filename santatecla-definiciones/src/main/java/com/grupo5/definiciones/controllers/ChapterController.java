@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.grupo5.definiciones.model.Chapter;
 import com.grupo5.definiciones.repositories.ChapterRepository;
@@ -42,8 +43,11 @@ public class ChapterController {
 		userSession.addUserToModel(model);
 	}
 	
-	@RequestMapping("/")
-	public String loadHome(Model model) {
+	@RequestMapping("")
+	public String loadHome(Model model, @RequestParam(name="close", required=false) String closeTab) {
+		if(closeTab!=null) {
+			userSession.removeTab(closeTab);
+		}
 		userSession.setActive("inicio");
 		model.addAttribute("tabs", userSession.getOpenTabs());
 		return "home";

@@ -2,6 +2,7 @@ package com.grupo5.definiciones.usersession;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
@@ -16,7 +17,7 @@ public class UserSessionInfoComponent {
 	private List<Tab> openTabs;
 
 	public UserSessionInfoComponent() {
-		openTabs = new ArrayList<>();
+		openTabs = new CopyOnWriteArrayList<>();
 		openTabs.add(new Tab("inicio", "/", false));
 	}
 

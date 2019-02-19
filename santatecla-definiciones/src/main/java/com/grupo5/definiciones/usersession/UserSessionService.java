@@ -31,4 +31,8 @@ public class UserSessionService {
 	public void addTab(Tab tab) {
 		userSession.addTab(tab);
 	}
+	
+	public void removeTab(String tabName) {
+		userSession.removeTab(tabName);
+	}
 }
