@@ -13,4 +13,6 @@ public interface ChapterRepository extends JpaRepository<Chapter, Long>{
 	
 	//@Query("SELECT DISTINCT ch FROM Chapter ch LEFT JOIN FETCH ch.concepts ORDER BY ch.chapterName")
 	//Page<Chapter> findChaptersOrderedByName(Pageable page);
+	
+	Chapter findByChapterName(String chapterName);
 }

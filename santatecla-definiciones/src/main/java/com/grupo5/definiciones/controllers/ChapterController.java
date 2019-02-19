@@ -10,10 +10,12 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.grupo5.definiciones.model.Chapter;
+import com.grupo5.definiciones.model.Concept;
 import com.grupo5.definiciones.repositories.ChapterRepository;
 import com.grupo5.definiciones.usersession.UserSessionInfoComponent;
 import com.grupo5.definiciones.usersession.UserSessionService;
@@ -44,12 +46,13 @@ public class ChapterController {
 	}
 	
 	@RequestMapping("")
-	public String loadHome(Model model, @RequestParam(name="close", required=false) String closeTab) {
+	public String loadHome(Model model, @RequestParam(name="close", required=false) String closeTab, HttpServletRequest req) {
 		if(closeTab!=null) {
 			userSession.removeTab(closeTab);
 		}
 		userSession.setActive("inicio");
 		model.addAttribute("tabs", userSession.getOpenTabs());
+		model.addAttribute("docente", req.isUserInRole("ROLE_DOCENTE"));
 		return "home";
 	}
 
@@ -66,6 +69,22 @@ public class ChapterController {
 	@RequestMapping("/login")
 	public String loginPage() {
 		return "loginPage";
+	}
+	
+	@RequestMapping("/addChapter")
+	public String addChapter(@RequestParam String chapterName) {
+		Chapter chap = new Chapter(chapterName);
+		chapterRepository.save(chap);
+		return "home";
+	}
+	
+	@RequestMapping("/addConcept/{chapterName}")
+	public String addConcept(@PathVariable String chapterName, @RequestParam String conceptName) {
+		Concept con = new Concept(conceptName);
+		Chapter chap = chapterRepository.findByChapterName(conceptName);
+		chap.getConcepts().add(con);
+		chapterRepository.save(chap);
+		return "home";
 	}
 
 }
