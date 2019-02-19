@@ -20,11 +20,12 @@ public class CustomErrorController implements ErrorController {
 	public String handleError(Model model, HttpServletRequest request) {
 		Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
 		Exception exception = (Exception) request.getAttribute("javax.servlet.error.exception");
-
+		String statusMessage = (String) request.getAttribute("javax.servlet.error.message");
 		model.addAttribute("statusCode", statusCode);
+		model.addAttribute("statusMessage", statusMessage);
 		String errorMessage;
 		if (exception == null)
-			errorMessage = "Error desconocido";
+			errorMessage = "";
 		else
 			errorMessage = exception.getMessage();
 		model.addAttribute("errorMessage", errorMessage);
