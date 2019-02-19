@@ -53,6 +53,7 @@ public class ConceptController {
 			return null;
 		List<Answer> answers = concept.getAnswers();
 		model.addAttribute("answers", answers);
+		model.addAttribute("conceptName",concept.getConceptName());
 		boolean noMarkedAnswers = true;
 		boolean noUnmarkedAnswers = true;
 		if (!answers.isEmpty()) {
@@ -100,6 +101,20 @@ public class ConceptController {
 	@RequestMapping("/delete/{id}")
 	public String deleteAnswer (Model model, @PathVariable Long id) {
 		answerRepository.deleteById(id);
+		return "home";
+	}
+	
+	@RequestMapping("/addAnswer/{conceptName}")
+	public String deleteAnswer (Model model,@PathVariable String conceptName, @RequestParam String answerText, @RequestParam(value = "correctAnswer", required = false) String cAnswer, @RequestParam(value = "incorrectAnswer", required = false) String iAnswer) {
+		Answer ans = new Answer(null,answerText,true);
+		if(cAnswer != null && iAnswer == null) {
+			ans.setCorrect(true);
+		} else if (cAnswer == null && iAnswer != null) {
+			ans.setCorrect(false);
+		}
+		Concept con = conceptRepository.findByConceptName(conceptName);
+		con.getAnswers().add(ans);
+		conceptRepository.save(con);
 		return "home";
 	}
 	
