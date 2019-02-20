@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.grupo5.definiciones.model.Answer;
 import com.grupo5.definiciones.model.Concept;
+import com.grupo5.definiciones.model.Justification;
 import com.grupo5.definiciones.services.AnswerService;
 import com.grupo5.definiciones.services.ConceptService;
 import com.grupo5.definiciones.usersession.Tab;
@@ -48,6 +49,7 @@ public class ConceptController {
 			}
 		}
 		Concept concept = conceptService.findByConceptName(name);
+		model.addAttribute("conceptName", concept.getConceptName());
 		if (concept==null)
 			return null;
 		List<Answer> answers = concept.getAnswers();
@@ -101,5 +103,24 @@ public class ConceptController {
 		answerService.deleteById(id);
 		return "home";
 	}
+	
+	@RequestMapping("/addAnswer/{conceptName}")
+	public String addAnswer(Model model,@PathVariable String conceptName, @RequestParam String justificationText, @RequestParam String answerText, @RequestParam(value = "correctAnswer", required = false) String cAnswer, @RequestParam(value = "incorrectAnswer", required = false) String iAnswer) {
+		Answer ans = new Answer(null,answerText,true);
+		if(cAnswer != null && iAnswer == null) {
+			ans.setCorrect(true);
+		} else if (cAnswer == null && iAnswer != null) {
+			ans.setCorrect(false);
+		}
+		if(justificationText != "") {
+			Justification just = new Justification (justificationText, true);
+			ans.setJustification(just);
+		}
+		Concept con = conceptService.findByConceptName(conceptName);
+		con.getAnswers().add(ans);
+		conceptService.save(con);
+		return "home";
+	}
+	
 	
 }

@@ -16,5 +16,9 @@ public class ConceptService {
 		return conceptRepository.findByConceptName(name);
 	}
 	
+	public void save(Concept con) {
+		conceptRepository.save(con);
+	}
+	
 	
 }
