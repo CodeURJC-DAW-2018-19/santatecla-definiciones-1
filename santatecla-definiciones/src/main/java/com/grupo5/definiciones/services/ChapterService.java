@@ -25,4 +25,8 @@ public class ChapterService {
 	public Chapter findByChapterName(String conceptName) {
 		return chapterRepository.findByChapterName(conceptName);
 	}
+	
+	public void deleteById(Long id) {
+		chapterRepository.deleteById(id);
+	}
 }

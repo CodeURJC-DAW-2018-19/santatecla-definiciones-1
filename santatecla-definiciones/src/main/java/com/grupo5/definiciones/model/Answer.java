@@ -6,7 +6,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 public class Answer {
@@ -20,6 +24,8 @@ public class Answer {
 	private boolean marked;
 	private boolean correct;
 	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="justification_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Justification justification;
 
 	protected Answer() {

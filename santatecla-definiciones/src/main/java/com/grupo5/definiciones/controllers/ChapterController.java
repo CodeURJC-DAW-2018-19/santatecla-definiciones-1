@@ -72,18 +72,27 @@ public class ChapterController {
 	}
 	
 	@RequestMapping("/addChapter")
-	public String addChapter(@RequestParam String chapterName) {
+	public String addChapter(Model model, @RequestParam String chapterName, HttpServletRequest req) {
 		Chapter chap = new Chapter(chapterName);
 		chapterService.save(chap);
+		model.addAttribute("docente", req.isUserInRole("ROLE_DOCENTE"));
+		return "home";
+	}
+	
+	@RequestMapping("/deleteChapter/{id}")
+	public String deleteChapter(Model model, @PathVariable Long id, HttpServletRequest req ) {
+		chapterService.deleteById(id);
+		model.addAttribute("docente", req.isUserInRole("ROLE_DOCENTE"));
 		return "home";
 	}
 	
 	@RequestMapping("/addConcept/{chapterName}")
-	public String addConcept(@PathVariable String chapterName, @RequestParam String conceptName) {
+	public String addConcept(Model model,HttpServletRequest req, @PathVariable String chapterName, @RequestParam String conceptName) {
 		Concept con = new Concept(conceptName);
 		Chapter chap = chapterService.findByChapterName(conceptName);
 		chap.getConcepts().add(con);
 		chapterService.save(chap);
+		model.addAttribute("docente", req.isUserInRole("ROLE_DOCENTE"));
 		return "home";
 	}
 
