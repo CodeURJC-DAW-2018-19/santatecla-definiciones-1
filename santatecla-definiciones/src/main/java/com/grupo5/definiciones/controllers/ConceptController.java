@@ -105,8 +105,8 @@ public class ConceptController {
 	}
 	
 	@RequestMapping("/addAnswer/{conceptName}")
-	public String addAnswer(Model model,@PathVariable String conceptName, @RequestParam String justificationText, @RequestParam String answerText, @RequestParam(value = "correctAnswer", required = false) String cAnswer, @RequestParam(value = "incorrectAnswer", required = false) String iAnswer) {
-		Answer ans = new Answer(null,answerText,true);
+	public String addAnswer(Model model,@PathVariable String conceptName, @RequestParam String questionText, @RequestParam String justificationText, @RequestParam String answerText, @RequestParam(value = "correctAnswer", required = false) String cAnswer, @RequestParam(value = "incorrectAnswer", required = false) String iAnswer) {
+		Answer ans = new Answer(questionText,answerText,true);
 		if(cAnswer != null && iAnswer == null) {
 			ans.setCorrect(true);
 		} else if (cAnswer == null && iAnswer != null) {

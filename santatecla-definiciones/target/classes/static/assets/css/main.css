@@ -75,17 +75,18 @@
 }
 
 .uncorrectedAnswersJ p {
-  width: 45%;
+  width: 40%;
   float: left;
+  text-align: center;
 }
 
 .correction {
-  width: 45%;
+  width: 15%;
   float: left;
 }
 
 .uncorrectedAnswersButton {
-  width: 10%;
+  width: 5%;
   float: left;
 }
 
@@ -103,13 +104,12 @@
 }
 
 .justification p {
-  width: 45%;
+  width: 40%;
   float: left;
-  padding-left: 3%;
 }
 
 .justification2 {
-  width: 45%;
+  width: 15%;
   float: left;
 }
 
