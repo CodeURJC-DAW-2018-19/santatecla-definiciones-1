@@ -105,7 +105,7 @@ public class ConceptController {
 	}
 	
 	@RequestMapping("/addAnswer/{conceptName}")
-	public String addAnswer(Model model,@PathVariable String conceptName, @RequestParam String questionText, @RequestParam String justificationText, @RequestParam String answerText, @RequestParam(value = "correctAnswer", required = false) String cAnswer, @RequestParam(value = "incorrectAnswer", required = false) String iAnswer) {
+	public String addAnswer(Model model, @PathVariable String conceptName, @RequestParam String questionText, @RequestParam String justificationText, @RequestParam String answerText, @RequestParam(value = "invalidJustification", required = false) String iJustification, @RequestParam(value = "validJustification", required = false) String vJustification, @RequestParam(value = "correctAnswer", required = false) String cAnswer, @RequestParam(value = "incorrectAnswer", required = false) String iAnswer) {
 		Answer ans = new Answer(questionText,answerText,true);
 		if(cAnswer != null && iAnswer == null) {
 			ans.setCorrect(true);
@@ -113,7 +113,13 @@ public class ConceptController {
 			ans.setCorrect(false);
 		}
 		if(justificationText != "") {
-			Justification just = new Justification (justificationText, true);
+			boolean valid = false;
+			if(vJustification != null && iJustification == null) {
+				valid = true;
+			} else if (vJustification == null && iJustification != null) {
+				valid = false;
+			} 
+			Justification just = new Justification (justificationText, valid);
 			ans.setJustification(just);
 		}
 		Concept con = conceptService.findByConceptName(conceptName);
