@@ -38,11 +38,11 @@ public void init() throws IOException {
 }
 
 @RequestMapping("/")
-public String index(Model model) {
+public String concept(Model model) {
 	
 	model.addAttribute("images", images.values());
 	
-	return "index";
+	return "concept.mustache";
 }
 
 @RequestMapping(value = "/image/upload", method = RequestMethod.POST)
@@ -61,19 +61,19 @@ public String handleFileUpload(Model model, @RequestParam("imageTitle") String i
 
 			images.put(id, new Image(id, imageTitle));
 
-			return "uploaded";
+			return "concept.mustache";
 
 		} catch (Exception e) {
 
 			model.addAttribute("error", e.getClass().getName() + ":" + e.getMessage());
 
-			return "uploaded";
+			return "concept.mustache";
 		}
 	} else {
 		
 		model.addAttribute("error", "The file is empty");
 
-		return "uploaded";
+		return "concept.mustache";
 	}
 }
 
