@@ -1,6 +1,6 @@
 <div class="correctedAnswers">
 	{{#marked}}
-  	<form action="/delete/{{id}}" method="post">
+  	<form action="/modifyAnswer/{{conceptName}}/{{id}}" method="post">
  	 {{/marked}}
   	 {{^marked}}
   	<form action="/mark/{{id}}" method="post">
@@ -74,8 +74,11 @@
 			</div>
 			{{#marked}}
 			<div class="uncorrectedAnswersButton">
-				<button type="submit" class="btn btn-primary btn-fab btn-fab-mini btn-round" data-toggle="modal" data-target="#deleteModal">
+				<button type="button" onclick="location.href='/delete/{{id}}'" name="deleteAnswer" class="btn btn-primary btn-fab btn-fab-mini btn-round" data-toggle="modal" data-target="#deleteModal">
 					<i class="material-icons">delete</i>
+				</button>
+				<button type="submit" name="modifyAnswer" class="btn btn-primary btn-fab btn-fab-mini btn-round" data-toggle="modal">
+						<i class="material-icons">build</i>
 				</button>
 			</div>
 			{{/marked}}

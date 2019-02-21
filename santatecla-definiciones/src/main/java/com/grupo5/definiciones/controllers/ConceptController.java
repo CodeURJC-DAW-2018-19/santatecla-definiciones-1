@@ -92,7 +92,7 @@ public class ConceptController {
 			ans.setCorrect(false);
 			answerService.save(ans);
 		} else {
-			//Error porque no podemos marcar ambas
+			//Error
 		}
 		return "home";
 	}
@@ -103,6 +103,40 @@ public class ConceptController {
 		answerService.deleteById(id);
 		return "home";
 	}
+	
+	@RequestMapping("/modifyAnswer/{conceptName}/{id}")
+	public String modifyAnswer (Model model, @PathVariable String conceptName, @PathVariable Long id) {
+		Answer ans = answerService.getOne(id);
+		model.addAttribute("answer", ans);
+		model.addAttribute("conceptName", conceptName);
+		return "modifyAnswer";
+	}
+	
+	@RequestMapping("/addModifiedAnswer/{conceptName}/{id}")
+	public String addModifiedAnswer (Model model, @PathVariable String conceptName, @PathVariable Long id, @RequestParam String justificationText, @RequestParam String answerText, @RequestParam(value = "invalidJustification", required = false) String iJustification, @RequestParam(value = "validJustification", required = false) String vJustification, @RequestParam(value = "correctAnswer", required = false) String cAnswer, @RequestParam(value = "incorrectAnswer", required = false) String iAnswer) {
+		Answer ans = answerService.getOne(id);
+		ans.setAnswerText(answerText);
+		if(cAnswer != null && iAnswer == null) {
+			ans.setCorrect(true);
+		} else if (cAnswer == null && iAnswer != null) {
+			ans.setCorrect(false);
+		}
+		if(justificationText != "") {
+			boolean valid = false;
+			if(vJustification != null && iJustification == null) {
+				valid = true;
+			} else if (vJustification == null && iJustification != null) {
+				valid = false;
+			} 
+			Justification just = new Justification (justificationText, valid);
+			ans.setJustification(just);
+		} else {
+			ans.setJustification(null);
+		}
+		answerService.save(ans);
+		return "home";
+	}
+	
 	
 	@RequestMapping("/addAnswer/{conceptName}")
 	public String addAnswer(Model model, @PathVariable String conceptName, @RequestParam String questionText, @RequestParam String justificationText, @RequestParam String answerText, @RequestParam(value = "invalidJustification", required = false) String iJustification, @RequestParam(value = "validJustification", required = false) String vJustification, @RequestParam(value = "correctAnswer", required = false) String cAnswer, @RequestParam(value = "incorrectAnswer", required = false) String iAnswer) {
