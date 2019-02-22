@@ -27,15 +27,18 @@ public class Answer {
 	@JoinColumn(name="justification_id")
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Justification justification;
-
+	@OneToOne
+	private User user; //User that created this answer 
+	
 	protected Answer() {
 	}
 
-	public Answer(String questionText, String answerText, boolean marked) {
+	public Answer(String questionText, String answerText, boolean marked, User user) {
 		super();
 		this.questionText = questionText;
 		this.answerText = answerText;
 		this.marked = marked;
+		this.user = user;
 	}
 
 	public long getId() {
@@ -86,17 +89,5 @@ public class Answer {
 		this.marked = marked;
 	}
 
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("Answer [id=" + id + ", questionText=" + questionText + ", answerText=" + answerText + ", marked="
-				+ marked);
-		if (marked)
-			sb.append(", correct=" + correct);
-		if (justification!=null)
-			sb.append(", justification=" + justification);
-		sb.append("]");
-		return sb.toString();
-	}
 
 }
