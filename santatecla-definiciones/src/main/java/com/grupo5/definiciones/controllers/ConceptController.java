@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.grupo5.definiciones.model.Answer;
+import com.grupo5.definiciones.model.Chapter;
 import com.grupo5.definiciones.model.Concept;
 import com.grupo5.definiciones.model.Justification;
 import com.grupo5.definiciones.services.AnswerService;
+import com.grupo5.definiciones.services.ChapterService;
 import com.grupo5.definiciones.services.ConceptService;
 import com.grupo5.definiciones.usersession.Tab;
 import com.grupo5.definiciones.usersession.UserSessionService;
@@ -24,6 +26,9 @@ import com.grupo5.definiciones.usersession.UserSessionService;
 @Controller
 public class ConceptController {
 
+	@Autowired
+	private ChapterService chapterService;
+	
 	@Autowired
 	private ConceptService conceptService;
 	
@@ -50,8 +55,6 @@ public class ConceptController {
 		}
 		Concept concept = conceptService.findByConceptName(name);
 		model.addAttribute("conceptName", concept.getConceptName());
-		if (concept==null)
-			return null;
 		List<Answer> answers = concept.getAnswers();
 		model.addAttribute("answers", answers);
 		boolean noMarkedAnswers = true;
@@ -75,9 +78,12 @@ public class ConceptController {
 		else
 			userSession.setActive(name);
 		model.addAttribute("tabs", userSession.getOpenTabs());
+		//if user is a teacher return the teacher template
 		if (req.isUserInRole("ROLE_DOCENTE")) {
 			return "teacher";
 		}
+		//else get the info for the diagram and return student template
+		model.addAttribute("diagramInfo", chapterService.generateDiagramInfo());
 		return "concept";
 	}
 	

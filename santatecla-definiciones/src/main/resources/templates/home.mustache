@@ -45,21 +45,6 @@
 				</div>
 			</div>
 		</div>
-	<div class="modal fade" id="diagramModal" tabindex="-1" role="dialog" aria-labelledby="diagramModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-diagram">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="diagramModalLabel">Diagrama de resultados</h5>
-				</div>
-				<div class="modal-body">
-					<div id="diagram" style="height:400px; width: 400px"></div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-				</div>
-			</div>
-		</div>
-	</div>
 	<div class="modal fade" id="addChapterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	  <form action="/addChapter" method="post">
 	  <div class="modal-dialog" role="document">
@@ -79,7 +64,9 @@
 		      </div>
 	      <input type="hidden" name="_csrf" value={{csrfToken}}>
 	    </div>
+	    </div>
+	    </div>
 	    </form>
 	  </div>
-	<script src="/assets/js/diagramdummy.js" type="text/javascript"></script>
+	  {{>diagram}}
 {{>footer}}
