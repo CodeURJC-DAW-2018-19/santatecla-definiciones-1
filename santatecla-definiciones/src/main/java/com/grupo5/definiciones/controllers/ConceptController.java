@@ -170,12 +170,11 @@ public class ConceptController {
 	
 	@RequestMapping("/saveAnswer/{conceptName}")
 	public String saveAnswer (Model model, @PathVariable String conceptName, @RequestParam String questionText, @RequestParam String answerText) {
-		Answer ans = new Answer(questionText,answerText,true);
-		if(ans!=null) {
+		Answer ans = new Answer(questionText,answerText,false);
+		ans.setAnswerText(questionText);
 		Concept con = conceptService.findByConceptName(conceptName);
 		con.getAnswers().add(ans);
 		answerService.save(ans);
-		}
 		return "home";
 	}
 	
