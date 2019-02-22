@@ -131,3 +131,17 @@
   width: 75%;
   margin: 0 auto;
 }
+
+.chapterTitle {
+  overflow: auto;
+}
+
+.chapterTitle a {
+  width: 90%;
+  float: left;
+}
+
+.chapterDeleteButton {
+  width: 10%;
+  float: left;
+}

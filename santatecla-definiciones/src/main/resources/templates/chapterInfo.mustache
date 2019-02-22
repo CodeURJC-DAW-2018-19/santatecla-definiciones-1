@@ -1,20 +1,22 @@
 {{#chapters}}
 <div class="card card-collapse">
     <div class="card-header card-header-warning" role="tab" id="{{ chapterName }}">
-        <h5 class="mb-0 card-title">
+        <h5 class="mb-0 card-title chapterTitle">
             <a class="collapsed title" data-toggle="collapse" href="#collapse{{ chapterName }}" aria-expanded="false" aria-controls="collapse{{ chapterName }}">
                 <i class="material-icons">keyboard_arrow_right</i>
                 {{ chapterName }}
             </a>
             {{#docente}}
-            <form class="deleteChapterForm" action="/deleteChapter/{{id}}" method="post">
-	        	<button type="submit" class=" btn btn-primary btn-fab btn-fab-mini btn-round deleteButtonChapter" data-toggle="modal" data-target="#deleteModal">
-					<i class="material-icons">delete</i>
-				</button>
-				<input type="hidden" name="_csrf" value={{csrfToken}}>
-			</form>
-			{{/docente}}
-        </h5>
+            <div class="chapterDeleteButton">
+              <form action="/deleteChapter/{{id}}" method="post">
+  	        	    <button type="submit" class=" btn btn-primary btn-fab btn-fab-mini btn-round deleteButtonChapter" data-toggle="modal" data-target="#deleteModal">
+  					             <i class="material-icons">delete</i>
+                  </button>
+  			          <input type="hidden" name="_csrf" value={{csrfToken}}>
+  			      </form>
+          </div>
+          {{/docente}}
+      </h5>
     </div>
     <div id="collapse{{ chapterName }}" class="collapse" role="tabpanel" aria-labelledby="{{ chapterName }}" data-parent="#accordion">
         <div class="card-body">
@@ -40,5 +42,3 @@
 {{^chapters}}
     <span>No más hay temas disponibles.</span>
 {{/chapters}}
-
-

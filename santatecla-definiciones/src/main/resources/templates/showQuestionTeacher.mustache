@@ -1,6 +1,6 @@
 <div class="correctedAnswers">
 	{{#marked}}
-  	<form action="/modifyAnswer/{{conceptName}}/{{id}}" method="post">
+  <form action="/modifyAnswer/{{conceptName}}/{{id}}" method="post">
  	 {{/marked}}
   	 {{^marked}}
   	<form action="/mark/{{id}}" method="post">
@@ -113,7 +113,6 @@
 							</span>
 						</label>
 					</div>
-				</div>
 				{{/valid}}
 				{{^valid}}
 				<div class="form-check form-check-inline">
@@ -134,11 +133,12 @@
 						</span>
 					</label>
 				</div>
-			</div>
-		</div>
 		{{/valid}}
+		</div>
+		</div>
 		{{/justification}}
-		<input type="hidden" name="_csrf" value={{csrfToken}}>
-		</form>
+	</div>
+	<input type="hidden" name="_csrf" value={{csrfToken}}>
+	</form>
 </div>
 <hr>
