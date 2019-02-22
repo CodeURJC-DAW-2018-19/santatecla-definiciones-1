@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.grupo5.definiciones.model.User;
 import com.grupo5.definiciones.usersession.Tab;
 import com.grupo5.definiciones.usersession.UserSessionInfoComponent;
 
@@ -34,5 +35,9 @@ public class UserSessionService {
 	
 	public void removeTab(String tabName) {
 		userSession.removeTab(tabName);
+	}
+
+	public User getLoggedUser() {
+		return userSession.getLoggedUser();
 	}
 }
