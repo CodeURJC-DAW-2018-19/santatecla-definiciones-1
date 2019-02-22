@@ -1,5 +1,9 @@
 package com.grupo5.definiciones.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,7 +21,7 @@ import com.grupo5.definiciones.model.Chapter;
 import com.grupo5.definiciones.model.Concept;
 
 import com.grupo5.definiciones.services.ChapterService;
-
+import com.grupo5.definiciones.services.DiagramChapterInfo;
 import com.grupo5.definiciones.usersession.UserSessionService;
 
 @Controller
@@ -53,6 +57,7 @@ public class ChapterController {
 		userSession.setActive("inicio");
 		model.addAttribute("tabs", userSession.getOpenTabs());
 		model.addAttribute("docente", req.isUserInRole("ROLE_DOCENTE"));
+		model.addAttribute("diagramInfo", chapterService.generateDiagramInfo());
 		return "home";
 	}
 
@@ -60,7 +65,6 @@ public class ChapterController {
 	public String getChapters(Model model, HttpServletRequest req,
 			@PageableDefault(size = DEFAULT_SIZE, sort = { "chapterName" }) Pageable page) {
 		Page<Chapter> chapters = chapterService.findAll(page);
-		model.addAttribute("empty", chapters.isEmpty());
 		model.addAttribute("chapters", chapters);
 		model.addAttribute("docente", req.isUserInRole("ROLE_DOCENTE"));
 		return "chapterInfo";

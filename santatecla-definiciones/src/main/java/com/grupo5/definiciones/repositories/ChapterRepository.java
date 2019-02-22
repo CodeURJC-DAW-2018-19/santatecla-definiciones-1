@@ -1,18 +1,13 @@
 package com.grupo5.definiciones.repositories;
 
-import java.util.List;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import com.grupo5.definiciones.model.Chapter;
 
 public interface ChapterRepository extends JpaRepository<Chapter, Long>{
 	
-	//@Query("SELECT DISTINCT ch FROM Chapter ch LEFT JOIN FETCH ch.concepts ORDER BY ch.chapterName")
-	//Page<Chapter> findChaptersOrderedByName(Pageable page);
-	
 	Chapter findByChapterName(String chapterName);
+	
+	long countByIdAndConcepts_Answers_Marked(long id, boolean marked);
+	long countByIdAndConcepts_Answers_MarkedAndConcepts_Answers_Correct(long id, boolean marked, boolean correct);
 }

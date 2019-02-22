@@ -1,5 +1,8 @@
 package com.grupo5.definiciones.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +20,10 @@ public class ChapterService {
 	public Page<Chapter> findAll(Pageable page) {
 		return chapterRepository.findAll(page);
 	}
+	
+	public List<Chapter> findAll() {
+		return chapterRepository.findAll();
+	}
 
 	public void save(Chapter chap) {
 		chapterRepository.save(chap);
@@ -28,5 +35,26 @@ public class ChapterService {
 	
 	public void deleteById(Long id) {
 		chapterRepository.deleteById(id);
+	}
+	
+	public long countUnmarked(long id) {
+		return chapterRepository.countByIdAndConcepts_Answers_Marked(id, false);
+	}
+	
+	public long countCorrect(long id) {
+		return chapterRepository.countByIdAndConcepts_Answers_MarkedAndConcepts_Answers_Correct(id, true, true);
+	}
+	
+	public long countIncorrect(long id) {
+		return chapterRepository.countByIdAndConcepts_Answers_MarkedAndConcepts_Answers_Correct(id, true, false);
+	}
+	
+	public List<DiagramChapterInfo> generateDiagramInfo() {
+		List<DiagramChapterInfo> diagramInfo = new ArrayList<>();
+		for (Chapter c : this.findAll()) {
+			long id = c.getId();
+			diagramInfo.add(new DiagramChapterInfo(c.getChapterName(), this.countUnmarked(id), this.countCorrect(id), this.countIncorrect(id)));
+		}
+		return diagramInfo;
 	}
 }
