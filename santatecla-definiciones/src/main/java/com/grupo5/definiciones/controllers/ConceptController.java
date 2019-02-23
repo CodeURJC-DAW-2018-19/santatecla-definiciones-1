@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -199,14 +200,22 @@ public class ConceptController {
 		return "home";
 	}
   
-	@RequestMapping("/saveAnswer/{conceptName}")
-	public String saveAnswer (Model model, @PathVariable String conceptName, @RequestParam String questionText, @RequestParam String answerText) {
-		Answer ans = new Answer(questionText,answerText,false,null);
+	@PostMapping("/saveAnswer/{conceptName}")
+	public String saveAnswer (Model model, @PathVariable String conceptName, @RequestParam String questionText, @RequestParam String answerText, HttpServletResponse httpServletResponse) {
+		Answer ans = new Answer(questionText,answerText,false,userSession.getLoggedUser());
 		ans.setAnswerText(answerText);
 		Concept con = conceptService.findByConceptName(conceptName);
+		ans.setConcept(con);
 		con.getAnswers().add(ans);
 		answerService.save(ans);
-		return "home";
+		try{
+			httpServletResponse.sendRedirect("/");
+		} catch (Exception e) {
+			model.addAttribute("error", "The file is empty");
+
+			return "error";
+		}
+		return null ;
 	}
   
 }
