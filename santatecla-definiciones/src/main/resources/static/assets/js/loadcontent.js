@@ -1,21 +1,40 @@
-var map = new Map();
-map.set("chapters", 0);
-map.set("concepts", 0);
-map.set("answers", 0);
-var executed = true;
+var chapters = 0;
+var conceptMap = new Map();
+var executedMap = new Map();
+var executedChapter = true;
 
 function loadChapters(){
-    $("#loadGif").html('<img src="assets/gifs/ajax-loader.gif" />');
-    var page = map.get("chapters");
-    var urlPage = "/loadChapters?page=" + map.get("chapters");
-    $.ajax({
-        url: urlPage
-    }).done(function(data){
-        $("#accordion").append(data);
-        $("#loadGif").html('');
-        page++;
-        map.set("chapters", page);
-    })
+	$(document).ready(function (){
+	    $("#loadGif").html('<img src="assets/gifs/ajax-loader.gif" />');
+	    var urlPage = "/loadChapters?page=" + chapters;
+	    $.ajax({
+	        url: urlPage
+	    }).done(function(data){
+	        $("#accordion").append(data);
+	        $("#loadGif").html('');
+	        chapters++;
+	    })
+	});
+}
+
+function loadConcepts(chapterId){    
+    $(document).ready(function (){
+    	if(!conceptMap.has(chapterId)){
+    		conceptMap.set(chapterId,0);
+    		executedMap.set(chapterId,true);
+    	}
+    	var page = conceptMap.get(chapterId);
+       	$("#loadGifConcept"+chapterId).html('<img src="assets/gifs/ajax-loader.gif" />');
+        var urlPage = "/loadConcepts?chapterId="+chapterId+"&page="+ page;
+        $.ajax({
+        	url: urlPage
+        }).done(function(data){
+        	$("#concepts"+chapterId).append(data);
+            $("#loadGifConcept"+chapterId).html('');
+            page++;
+            conceptMap.set(chapterId, page);
+        })
+	});
 }
 
 
@@ -36,30 +55,22 @@ function loadAnswers(concept){
     })
 }
 
-function loadConcepts(chapterName){
-    //$("#loadGifConcept"+chapterName).html('<img src="assets/gifs/ajax-loader.gif" />');
-    var page = map.get("concept");
-    var urlPage = "/loadConcepts?chapterName="+chapterName+"&page="+ map.get("concepts");
-    $.ajax({
-    	url: urlPage
-    }).done(function(data){
-    	$("#infos"+chapterName).hide();
-    	//$("#concepts"+chapterName).append(data);
-        //$("#loadGifConcept"+chapterName).html('');
-        page++;
-        map.set("concepts", page);
-    })
-}
 
-function triggerOnce(string){
-	if(executed){
-		executed = false;
-		if(!string.localeCompare("chapter")){
-			alert('No hay más temas disponibles');
-		}else if(!string.localeCompare("concept")){
-			alert('No hay más conceptos disponibles');
-		}else{
-			alert('No hay más respuestas disponibles');
-		}
-	};
-}
+
+function triggerOnce(string, id){
+	if(conceptMap.has(id)){
+		var conceptId = id;
+	}else{//for chapters as chapters doesnt have multiple pagination
+		var conceptId = 'abc';
+	}
+	if(executedChapter && !string.localeCompare("chapter")){
+		executedChapter = false;
+		alert('No hay más temas disponibles');
+	}else if(conceptMap.get(conceptId) && !string.localeCompare("concept")){
+		conceptMap.set(conceptId, false);
+		alert('No hay más conceptos disponibles');
+	}else if(!string.localeCompare("answers")){
+		alert('No hay más respuestas disponibles');
+	}
+};
+

@@ -29,6 +29,10 @@ public class ConceptService {
 	
 	public Page<Concept> findConceptByChapter(Chapter chapter, Pageable page){
 		return conceptRepository.findConceptByChapter(chapter, page);
+	}//migth delete
+
+	public Page<Concept> findByChapter_id(long chapterId, Pageable page) {
+		return conceptRepository.findByChapter_id(chapterId, page);
 	}
 	
 	

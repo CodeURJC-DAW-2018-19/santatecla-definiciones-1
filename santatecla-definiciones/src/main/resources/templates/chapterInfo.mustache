@@ -19,24 +19,8 @@
       	</h5>
     </div>
     <div id="collapse{{ chapterName }}" class="collapse" role="tabpanel" aria-labelledby="{{ chapterName }}" data-parent="#accordion">
-        <div class="card-body">
-            <script>loadConcepts("{{chapterName}}")</script>
-            <button type="button" class="btn btn-primary" id="showMoreBtnConcept" data-targetelement="infos{{chapterName}}">
-				Más resultados
-			</button>
-			<div id="loadGifConcept{{chapterName}"></div>
-			<script type="text/javascript">
-				var name = "{{chapterName}}";
-				$(document).ready(function (){
-					$("#showMoreBtnConcept").click(function (){
-						loadConcepts("{{chapterName}}");
-					});
-				});
-			</script>
-			
-			{{#conceptsEmpty}}
-				<script>triggerOnce("concepts")</script>
-			{{/conceptsEmpty}}
+        <div class="card-body" id="concepts{{id}}">
+            <script>loadConcepts("{{id}}")</script>
             {{#docente}}
             <div class="addQuestionSeeDiagram">
                 <button type="button" class="btn btn-primary btn-fab btn-fab-mini btn-round" data-toggle="modal" data-target="#addConceptModal">
@@ -45,10 +29,19 @@
             </div>
             {{/docente}}
         </div>
+        <button type="button" class="btn btn-primary" id="showMoreBtnConcept{{id}}">
+			Más resultados
+		</button>
+		<div id="loadGifConcept{{chapterId}"></div>
+		<script type="text/javascript">
+			$("#showMoreBtnConcept{{id}}").click(function (){
+				loadConcepts("{{id}}");
+			});
+		</script>
     </div>
 </div>
 <br />
 {{/chapters}}
 {{^chapters}}
-    <script>triggerOnce("chapter")</script>
+    <script>triggerOnce("chapter","abc")</script>
 {{/chapters}}
