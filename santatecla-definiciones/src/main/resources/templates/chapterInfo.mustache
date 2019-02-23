@@ -23,7 +23,8 @@
             {{#concepts}}
             <ul>
                 <li class="chapterInfo">
-                <a href="/concept/{{conceptName}}">{{ conceptName }}</a>
+                 <img src='/image/{{conceptName}}' class="conceptImage" />
+                 <a href="/concept/{{conceptName}}">{{ conceptName }}</a>
                 {{#docente}}
                 <div class="conceptDeleteButton">
                     <form action="/deleteConcept/{{id}}" method="post">
