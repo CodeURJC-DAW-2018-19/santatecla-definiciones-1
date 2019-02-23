@@ -69,6 +69,7 @@ public class ConceptController {
 				 * return "home";
 				 */
 				httpServletResponse.sendRedirect("/");
+				return null;
 			}
 		}
 
