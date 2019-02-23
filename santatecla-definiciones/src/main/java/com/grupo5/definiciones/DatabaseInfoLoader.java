@@ -1,7 +1,5 @@
 package com.grupo5.definiciones;
 
-import java.util.Arrays;
-
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +30,9 @@ public class DatabaseInfoLoader {
 	private void initDatabase() {
 		// Init placeholder data
 		User student = new User("user", "pass", "ROLE_ESTUDIANTE");
+		User admin = new User("admin", "adminpass", "ROLE_ESTUDIANTE", "ROLE_DOCENTE");
 		userRepository.save(student);
-		userRepository.save(new User("admin", "adminpass", "ROLE_ESTUDIANTE", "ROLE_DOCENTE"));
+		userRepository.save(admin);
 		Chapter chapter1 = new Chapter("Tema 1: Desarrollo web servidor");
 		Chapter chapter2 = new Chapter("Tema 2: Despliegue de webs");
 		Chapter chapter3 = new Chapter("Tema 3: Desarrollo web de cliente avanzado: SPA");
@@ -68,7 +67,7 @@ public class DatabaseInfoLoader {
 				"Un framework de " + "desarrollo de aplicaciones empresariales basado en" + " tecnologías Java.", false,
 				student);
 		answers[3] = new Answer("¿POR QUÉ NO ES CORRECTO AFIRMAR QUE " + "SPRING ES UN FRAMEWORK COMERCIAL?",
-				"Spring es un " + "framework de software libre.", false, null);
+				"Spring es un " + "framework de software libre.", false, admin);
 		
 		for (Answer a: answers) {
 			a.setConcept(c11);

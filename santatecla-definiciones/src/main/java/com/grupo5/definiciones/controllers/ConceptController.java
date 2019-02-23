@@ -1,8 +1,6 @@
 package com.grupo5.definiciones.controllers;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,7 +8,6 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -21,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.grupo5.definiciones.model.Answer;
-import com.grupo5.definiciones.model.Chapter;
 import com.grupo5.definiciones.model.Concept;
 import com.grupo5.definiciones.model.Justification;
 import com.grupo5.definiciones.model.User;
@@ -63,15 +59,10 @@ public class ConceptController {
 			userSession.removeTab(closeTab);
 			// If user is in the tab that is being closed, redirect to home page
 			if (name.equals(closeTab)) {
-				/*
-				 * userSession.setActive("inicio"); 
-				 * model.addAttribute("tabs", userSession.getOpenTabs()); 
-				 * return "home";
-				 */
 				httpServletResponse.sendRedirect("/");
+				return null;
 			}
 		}
-
 		// Open a new tab if it doesn't exist.
 		Tab tab = new Tab(name, "/concept/" + name, true);
 		if (!userSession.getOpenTabs().contains(tab))
@@ -113,8 +104,6 @@ public class ConceptController {
 		if (req.isUserInRole("ROLE_DOCENTE")) {
 			return "teacher";
 		}
-		model.addAttribute("noMarkedAnswers", noMarkedAnswers);
-		model.addAttribute("noUnmarkedAnswers", noUnmarkedAnswers);
 		return "concept";
 	}
 

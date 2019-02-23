@@ -32,7 +32,11 @@
 				</div>
 			</div>
 			{{#logged}}
-			<a class="btn btn-primary float-right" href="/logout">Logout</a>
+			<form class="float-right" action="/logout" method="post">
+				<button class="btn btn-primary navbar-btn" type="submit">Log Out</button>
+				<input type="hidden" name="_csrf" value="{{csrfToken}}" />
+			</form>
+			<!--<a class="btn btn-primary float-right" href="/logout">Logout</a>-->
 			{{/logged}}
 			{{^logged}}
 			<a class="btn btn-primary float-right" href="/login">Login
