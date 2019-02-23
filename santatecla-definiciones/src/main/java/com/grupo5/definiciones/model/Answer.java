@@ -6,11 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 public class Answer {
@@ -24,11 +21,12 @@ public class Answer {
 	private boolean marked;
 	private boolean correct;
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="justification_id")
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Justification justification;
 	@OneToOne
 	private User user; //User that created this answer 
+	
+	@ManyToOne
+	private Concept concept;
 	
 	protected Answer() {
 	}
@@ -87,6 +85,29 @@ public class Answer {
 
 	public void setMarked(boolean marked) {
 		this.marked = marked;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Concept getConcept() {
+		return concept;
+	}
+
+	public void setConcept(Concept concept) {
+		this.concept = concept;
+	}
+
+	@Override
+	public String toString() {
+		return "Answer [id=" + id + ", questionText=" + questionText + ", answerText=" + answerText + ", marked="
+				+ marked + ", correct=" + correct + ", justification=" + justification + ", user=" + user + ", concept="
+				+ concept + "]";
 	}
 
 

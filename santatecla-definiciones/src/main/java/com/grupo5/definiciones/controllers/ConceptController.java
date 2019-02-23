@@ -1,6 +1,7 @@
 package com.grupo5.definiciones.controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -40,6 +45,8 @@ public class ConceptController {
 
 	@Autowired
 	private UserSessionService userSession;
+	
+	private final int DEFAULT_SIZE = 10;
 
 	@ModelAttribute
 	public void addUserToModel(Model model) {
@@ -48,7 +55,8 @@ public class ConceptController {
 
 	@RequestMapping("/concept/{name}")
 	public String conceptPage(Model model, HttpServletRequest req, @PathVariable String name,
-			@RequestParam(name = "close", required = false) String closeTab, HttpServletResponse httpServletResponse)
+			@RequestParam(name = "close", required = false) String closeTab, HttpServletResponse httpServletResponse, 
+			@PageableDefault(size = DEFAULT_SIZE) Pageable page)
 			throws IOException {
 		// If close tab button was pressed, remove the tab
 		if (closeTab != null) {
@@ -73,15 +81,15 @@ public class ConceptController {
 		model.addAttribute("tabs", userSession.getOpenTabs());
 		Concept concept = conceptService.findByConceptName(name);
 		model.addAttribute("conceptName", name);
-		List<Answer> answers;
+		Page<Answer> answers;
 		// if user is a teacher get all answers and return the teacher template
 		User user;
 		if (req.isUserInRole("ROLE_DOCENTE")) {
-			answers = concept.getAnswers();
+			answers = answerService.findByConcept(concept, page);
 			model.addAttribute("diagramInfo", chapterService.generateDiagramInfo());
 		} else {
 			user = userSession.getLoggedUser();
-			answers = answerService.findByUser(user);
+			answers = answerService.findByConceptAndUser(concept, user, page);
 			model.addAttribute("diagramInfo", chapterService.generateDiagramInfo(user));
 		}
 		model.addAttribute("answers", answers);
@@ -98,6 +106,10 @@ public class ConceptController {
 				}
 			}
 		}
+		model.addAttribute("answers", answers);
+		model.addAttribute("conceptName", concept.getConceptName());
+		model.addAttribute("noMarkedAnswers", noMarkedAnswers);
+		model.addAttribute("noUnmarkedAnswers", noUnmarkedAnswers);
 		if (req.isUserInRole("ROLE_DOCENTE")) {
 			return "teacher";
 		}

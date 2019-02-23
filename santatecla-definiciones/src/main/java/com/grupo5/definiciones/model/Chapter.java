@@ -22,8 +22,6 @@ public class Chapter {
 	private long id;
 	private String chapterName;
 	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-	@JoinColumn(name="concept_id")
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<Concept> concepts = new ArrayList<>();
 	
 	protected Chapter() {}

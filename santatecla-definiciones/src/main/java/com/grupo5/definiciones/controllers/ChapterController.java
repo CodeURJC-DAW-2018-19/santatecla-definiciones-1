@@ -1,10 +1,5 @@
 package com.grupo5.definiciones.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +17,6 @@ import com.grupo5.definiciones.model.Concept;
 
 import com.grupo5.definiciones.services.ChapterService;
 import com.grupo5.definiciones.services.ConceptService;
-import com.grupo5.definiciones.services.DiagramChapterInfo;
 import com.grupo5.definiciones.usersession.UserSessionService;
 
 @Controller
@@ -37,16 +31,6 @@ public class ChapterController {
 
 	@Autowired
 	private UserSessionService userSession;
-
-	@PostConstruct
-	public void init() {
-		/* test code 
-		for (int i = 0; i < 20; i++) {
-			Chapter chapter = new Chapter("Tema " + (4 + i));
-			chapterService.save(chapter);
-		}
-		*/
-	}
 
 	@ModelAttribute
 	public void addUserToModel(Model model) {

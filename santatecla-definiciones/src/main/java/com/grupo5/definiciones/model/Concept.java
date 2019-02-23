@@ -22,9 +22,7 @@ public class Concept {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private String conceptName;
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name="answer_id")
-	@OnDelete(action = OnDeleteAction.CASCADE)
+	@OneToMany(mappedBy="concept", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Answer> answers = new ArrayList<>();
 	
 	protected Concept() {}

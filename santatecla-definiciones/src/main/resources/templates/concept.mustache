@@ -8,6 +8,7 @@
           <h4 class="card-title text-center">PREGUNTAS CORREGIDAS</h4>
         </div>
         <div class="card-body">
+          <script>loadAnswers('{{conceptName}}')</script>
 		  <!-- If there are no marked answers -->
           {{#noMarkedAnswers}}
           <p>No hay preguntas corregidas</p>
@@ -44,17 +45,19 @@
       </div>
     </div>
   </div>
-
-  <!-- Question button -->
+  <!-- Show more button -->
   <div class="addQuestionSeeDiagram">
-    <button
-      type="button"
-      class="btn btn-primary btn-fab btn-fab-mini btn-round"
-      data-toggle="modal"
-      data-target="#exampleModal"
-    >
-      <i class="material-icons">add</i>
-    </button>
+	  <button type="button" class="btn btn-primary" id="showMoreBtn"">
+	  	Más resultados
+	  </button>
+	  <div id="loadGif"></div>
+	  <script type="text/javascript">
+	  	$(document).ready(function (){
+	  		$('#showMoreBtn').click(function (){
+	  			loadAnswers('{{conceptName}}');
+	  		});
+	  	});
+	  </script>
   </div>
 
   <!-- Diagram button -->
@@ -67,6 +70,19 @@
       DIAGRAMA
     </button>
   </div>
+  
+  <!-- Question button -->
+  <div class="addQuestionSeeDiagram">
+    <button
+      type="button"
+      class="btn btn-primary btn-fab btn-fab-mini btn-round"
+      data-toggle="modal"
+      data-target="#exampleModal"
+    >
+      <i class="material-icons">add</i>
+    </button>
+  </div>
+  
 </div>
 
 <!-- Modal -->
