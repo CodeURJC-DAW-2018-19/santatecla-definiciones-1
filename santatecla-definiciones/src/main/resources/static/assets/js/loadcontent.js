@@ -1,20 +1,40 @@
-var map = new Map();
-map.set("chapters", 0);
-map.set("answersMarked", 0);
-map.set("answersUnmarked", 0);
+var chapters = 0;
+var conceptMap = new Map();
+var executedMap = new Map();
+var executedChapter = true;
 
 function loadChapters(){
-    $("#loadGif").html('<img src="assets/gifs/ajax-loader.gif" />');
-    var page = map.get("chapters");
-    var urlPage = "/loadChapters?page=" + map.get("chapters");
-    $.ajax({
-        url: urlPage
-    }).done(function(data){
-        $("#accordion").append(data);
-        $("#loadGif").html('');
-        page++;
-        map.set("chapters", page);
-    })
+	$(document).ready(function (){
+	    $("#loadGif").html('<img src="assets/gifs/ajax-loader.gif" />');
+	    var urlPage = "/loadChapters?page=" + chapters;
+	    $.ajax({
+	        url: urlPage
+	    }).done(function(data){
+	        $("#accordion").append(data);
+	        $("#loadGif").html('');
+	        chapters++;
+	    })
+	});
+}
+
+function loadConcepts(chapterId){    
+    $(document).ready(function (){
+    	if(!conceptMap.has(chapterId)){
+    		conceptMap.set(chapterId,0);
+    		executedMap.set(chapterId,true);
+    	}
+    	var page = conceptMap.get(chapterId);
+       	$("#loadGifConcept"+chapterId).html('<img src="assets/gifs/ajax-loader.gif" />');
+        var urlPage = "/loadConcepts?chapterId="+chapterId+"&page="+ page;
+        $.ajax({
+        	url: urlPage
+        }).done(function(data){
+        	$("#concepts"+chapterId).append(data);
+            $("#loadGifConcept"+chapterId).html('');
+            page++;
+            conceptMap.set(chapterId, page);
+        })
+	});
 }
 
 
@@ -33,6 +53,25 @@ function loadAnswersMarked(concept){
         map.set("answersMarked", page);
     })
 }
+
+
+
+function triggerOnce(string, id){
+	if(conceptMap.has(id)){
+		var conceptId = id;
+	}else{//for chapters as chapters doesnt have multiple pagination
+		var conceptId = 'abc';
+	}
+	if(executedChapter && !string.localeCompare("chapter")){
+		executedChapter = false;
+		alert('No hay más temas disponibles');
+	}else if(conceptMap.get(conceptId) && !string.localeCompare("concept")){
+		conceptMap.set(conceptId, false);
+		alert('No hay más conceptos disponibles');
+	}else if(!string.localeCompare("answers")){
+		alert('No hay más respuestas disponibles');
+	}
+};
 
 function loadAnswersUnmarked(concept){
 	//for some unknow reason we it gives an error in the console with GET gif
