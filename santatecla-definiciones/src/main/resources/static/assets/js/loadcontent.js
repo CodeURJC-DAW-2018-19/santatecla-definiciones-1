@@ -1,6 +1,7 @@
 var map = new Map();
 map.set("chapters", 0);
-map.set("answers", 0);
+map.set("answersMarked", 0);
+map.set("answersUnmarked", 0);
 
 function loadChapters(){
     $("#loadGif").html('<img src="assets/gifs/ajax-loader.gif" />');
@@ -18,18 +19,32 @@ function loadChapters(){
 
 
 
-function loadAnswers(concept){
+function loadAnswersMarked(concept){
 	//for some unknow reason we it gives an error in the console with GET gif
-    //$("#loadGif").html('<img src="assets/gifs/ajax-loader.gif" />');
-    var page = map.get("answers");
-    var urlPage = "/concept/"+concept+"?page=" + page;
+    //$("#loadGifMarked").html('<img src="assets/gifs/ajax-loader.gif" />');
+    var page = map.get("answersMarked");
+    var urlPage = "/concept/"+concept+"?page=" + page + "&page="+ map.get("answersUnmarked");
     $.ajax({
         url: urlPage
     }).done(function(data){
-    	console.log('hey');
-        $("#card-body").append(data);
-        //$("#loadGifMarked").html('');
+        $("#Marked").append(data);
+        //$("#loadGifMarkedMarked").html('');
         page++;
         map.set("answersMarked", page);
+    })
+}
+
+function loadAnswersUnmarked(concept){
+	//for some unknow reason we it gives an error in the console with GET gif
+    //$("#loadGifUnmarked").html('<img src="assets/gifs/ajax-loader.gif" />');
+    var page = map.get("answersUnmarked");
+    var urlPage = "/concept/"+concept+"?page="+map.get("answersMarked")+"&page=" + page;
+    $.ajax({
+        url: urlPage
+    }).done(function(data){
+        $("#Unmarked").append(data);
+        //$("#loadGifMarkedUnmarked").html('');
+        page++;
+        map.set("answersUnmarked", page);
     })
 }
