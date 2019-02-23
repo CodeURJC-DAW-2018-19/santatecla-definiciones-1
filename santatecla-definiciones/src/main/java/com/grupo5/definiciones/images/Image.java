@@ -2,19 +2,10 @@ package com.grupo5.definiciones.images;
 
 public class Image {
 	private int id;
-	private String title;
+	
 
-	public Image(int id, String title) {
+	public Image(int id) {
 		this.id = id;
-		this.title = title;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
 	}
 
 	public int getId() {
@@ -27,6 +18,6 @@ public class Image {
 
 	@Override
 	public String toString() {
-		return "Image [id=" + id + ", title=" + title + "]";
+		return "Image [id=" + id + "]";
 	}
 }
