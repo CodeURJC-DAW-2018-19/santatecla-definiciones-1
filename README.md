@@ -31,3 +31,11 @@
 
 <img align="left" height="250" width="350" src="https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/chrome_2019-02-04_11-39-54.png"/>
 <img align="left" height="250" width="350" src="https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/chrome_2019-02-04_11-40-10.png"/>
+
+## Development Environment
+
+For running tthe application we need to open a STS environment like Spring and import our project by Maven. To create a localhost we need to click on the boot dashboard and run our project into the local sercer. We have implemented the security into our project, so the way we open our web is using an explorer like firefox and type https :// localhost and the port 8443, like this: https://localhost:8443 and there is our web project.
+
+## Database Entities
+
+## Class Diagrams and Templates
