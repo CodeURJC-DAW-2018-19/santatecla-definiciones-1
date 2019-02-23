@@ -30,6 +30,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers("/addAnswer/**").hasAnyRole("DOCENTE");
 		http.authorizeRequests().antMatchers("/addChapter/**").hasAnyRole("DOCENTE");
 		http.authorizeRequests().antMatchers("/deleteChapter/**").hasAnyRole("DOCENTE");
+		http.authorizeRequests().antMatchers("/image/**").hasAnyRole("DOCENTE");
 		
 		
 		//Login form

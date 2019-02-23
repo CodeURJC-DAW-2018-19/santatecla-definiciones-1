@@ -1,21 +1,35 @@
 package com.grupo5.definiciones.controllers;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.grupo5.definiciones.images.Image;
 import com.grupo5.definiciones.model.Chapter;
 import com.grupo5.definiciones.model.Concept;
-
 import com.grupo5.definiciones.services.ChapterService;
 
 import com.grupo5.definiciones.usersession.UserSessionService;
@@ -26,18 +40,18 @@ public class ChapterController {
 	@Autowired
 	private ChapterService chapterService;
 	private final int DEFAULT_SIZE = 10;
+	private static final Path FILES_FOLDER = Paths.get(System.getProperty("user.dir"), "images");
+	private AtomicInteger imageId = new AtomicInteger();
+	private Map<Integer, Image> images = new ConcurrentHashMap<>();
 
 	@Autowired
 	private UserSessionService userSession;
 
 	@PostConstruct
-	public void init() {
-		/* test code 
-		for (int i = 0; i < 20; i++) {
-			Chapter chapter = new Chapter("Tema " + (4 + i));
-			chapterService.save(chapter);
-		}
-		*/
+	public void init() throws IOException {
+		if (!Files.exists(FILES_FOLDER)) {
+			Files.createDirectories(FILES_FOLDER);
+	}
 	}
 
 	@ModelAttribute
@@ -53,6 +67,7 @@ public class ChapterController {
 		userSession.setActive("inicio");
 		model.addAttribute("tabs", userSession.getOpenTabs());
 		model.addAttribute("docente", req.isUserInRole("ROLE_DOCENTE"));
+		model.addAttribute("images", images.values());
 		return "home";
 	}
 
@@ -95,28 +110,8 @@ public class ChapterController {
 		model.addAttribute("docente", req.isUserInRole("ROLE_DOCENTE"));
 		return "home";
 	}
-	private static final Path FILES_FOLDER = Paths.get(System.getProperty("user.dir"), "images");
-
-	private AtomicInteger imageId = new AtomicInteger();
-	private Map<Integer, Image> images = new ConcurrentHashMap<>();
-
-	@PostConstruct
 	
-	public void init() throws IOException {
-
-		if (!Files.exists(FILES_FOLDER)) {
-			Files.createDirectories(FILES_FOLDER);
-		}
-	}
-
-	@RequestMapping("/")
-	public String concept(Model model) {
-		
-		model.addAttribute("images", images.values());
-		
-		return "home";
-	}
-
+	
 	@RequestMapping(value = "/image/upload", method = RequestMethod.POST)
 	public String handleFileUpload(Model model, @RequestParam("imageTitle") String imageTitle,
 			@RequestParam("file") MultipartFile file) {
