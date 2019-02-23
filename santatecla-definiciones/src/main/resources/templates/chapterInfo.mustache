@@ -8,35 +8,35 @@
             </a>
             {{#docente}}
             <div class="chapterDeleteButton">
-              <form action="/deleteChapter/{{id}}" method="post">
+            	<form action="/deleteChapter/{{id}}" method="post">
   	        	    <button type="submit" class=" btn btn-primary btn-fab btn-fab-mini btn-round deleteButtonChapter" data-toggle="modal" data-target="#deleteModal">
-  					             <i class="material-icons">delete</i>
-                  </button>
-  			          <input type="hidden" name="_csrf" value={{csrfToken}}>
-  			      </form>
-          </div>
-          {{/docente}}
-      </h5>
+  						<i class="material-icons">delete</i>
+                  	</button>
+  			            <input type="hidden" name="_csrf" value={{csrfToken}}>
+  				</form>
+	        </div>
+	        {{/docente}}
+      	</h5>
     </div>
     <div id="collapse{{ chapterName }}" class="collapse" role="tabpanel" aria-labelledby="{{ chapterName }}" data-parent="#accordion">
         <div class="card-body">
-            {{#concepts}}
-            <ul>
-                <li class="chapterInfo">
-                <a href="/concept/{{conceptName}}">{{ conceptName }}</a>
-                {{#docente}}
-                <div class="conceptDeleteButton">
-                    <form action="/deleteConcept/{{id}}" method="post">
-        	        	    <button type="submit" class=" btn btn-primary btn-fab btn-fab-mini btn-round deleteButtonChapter" data-toggle="modal" data-target="#deleteModal">
-        					             <i class="material-icons">delete</i>
-                        </button>
-        			          <input type="hidden" name="_csrf" value={{csrfToken}}>
-        			      </form>
-                </div>
-                {{/docente}}
-                </li>
-            </ul>
-            {{/concepts}}
+            <script>loadConcepts("{{chapterName}}")</script>
+            <button type="button" class="btn btn-primary" id="showMoreBtnConcept" data-targetelement="infos{{chapterName}}">
+				Más resultados
+			</button>
+			<div id="loadGifConcept{{chapterName}"></div>
+			<script type="text/javascript">
+				var name = "{{chapterName}}";
+				$(document).ready(function (){
+					$("#showMoreBtnConcept").click(function (){
+						loadConcepts("{{chapterName}}");
+					});
+				});
+			</script>
+			
+			{{#conceptsEmpty}}
+				<script>triggerOnce("concepts")</script>
+			{{/conceptsEmpty}}
             {{#docente}}
             <div class="addQuestionSeeDiagram">
                 <button type="button" class="btn btn-primary btn-fab btn-fab-mini btn-round" data-toggle="modal" data-target="#addConceptModal">

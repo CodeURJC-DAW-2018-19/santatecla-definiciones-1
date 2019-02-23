@@ -1,6 +1,8 @@
 var map = new Map();
 map.set("chapters", 0);
+map.set("concepts", 0);
 map.set("answers", 0);
+var executed = true;
 
 function loadChapters(){
     $("#loadGif").html('<img src="assets/gifs/ajax-loader.gif" />');
@@ -32,4 +34,32 @@ function loadAnswers(concept){
         page++;
         map.set("answersMarked", page);
     })
+}
+
+function loadConcepts(chapterName){
+    //$("#loadGifConcept"+chapterName).html('<img src="assets/gifs/ajax-loader.gif" />');
+    var page = map.get("concept");
+    var urlPage = "/loadConcepts?chapterName="+chapterName+"&page="+ map.get("concepts");
+    $.ajax({
+    	url: urlPage
+    }).done(function(data){
+    	$("#infos"+chapterName).hide();
+    	//$("#concepts"+chapterName).append(data);
+        //$("#loadGifConcept"+chapterName).html('');
+        page++;
+        map.set("concepts", page);
+    })
+}
+
+function triggerOnce(string){
+	if(executed){
+		executed = false;
+		if(!string.localeCompare("chapter")){
+			alert('No hay más temas disponibles');
+		}else if(!string.localeCompare("concept")){
+			alert('No hay más conceptos disponibles');
+		}else{
+			alert('No hay más respuestas disponibles');
+		}
+	};
 }

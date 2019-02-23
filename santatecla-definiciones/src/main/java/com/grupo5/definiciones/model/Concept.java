@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.OnDelete;
@@ -22,14 +23,17 @@ public class Concept {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private String conceptName;
+	@ManyToOne
+	private Chapter chapter;
 	@OneToMany(mappedBy="concept", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Answer> answers = new ArrayList<>();
 	
 	protected Concept() {}
 
-	public Concept(String conceptName) {
+	public Concept(String conceptName, Chapter chapter) {
 		super();
 		this.conceptName = conceptName;
+		this.chapter = chapter;
 	}
 
 	public long getId() {

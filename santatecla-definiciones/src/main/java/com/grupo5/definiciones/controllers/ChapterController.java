@@ -57,6 +57,18 @@ public class ChapterController {
 		model.addAttribute("docente", req.isUserInRole("ROLE_DOCENTE"));
 		return "chapterInfo";
 	}
+	
+	
+	@RequestMapping("/loadConcepts")
+	public String getConcepts(Model model, HttpServletRequest req,
+			@PageableDefault(size = DEFAULT_SIZE, sort = { "conceptName" }) Pageable page, 
+			@RequestParam("chapterName") String chapterName){
+		Page<Concept> concepts = conceptService.findConceptByChapter(chapterService.findByChapterName(chapterName), page);
+		model.addAttribute("conceptsEmpty", concepts.isEmpty());
+		model.addAttribute("conceptsPage", concepts);
+		System.out.println(model);
+		return "conceptInfo";
+	}
 
 	@RequestMapping("/login")
 	public String loginPage() {
@@ -80,8 +92,8 @@ public class ChapterController {
 	
 	@RequestMapping("/addConcept/{chapterName}")
 	public String addConcept(Model model,HttpServletRequest req, @PathVariable String chapterName, @RequestParam String conceptName) {
-		Concept con = new Concept(conceptName);
-		Chapter chap = chapterService.findByChapterName(conceptName);
+		Chapter chap = chapterService.findByChapterName(chapterName);
+		Concept con = new Concept(conceptName, chap);
 		chap.getConcepts().add(con);
 		chapterService.save(chap);
 		model.addAttribute("docente", req.isUserInRole("ROLE_DOCENTE"));
