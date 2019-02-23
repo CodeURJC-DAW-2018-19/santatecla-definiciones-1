@@ -55,17 +55,18 @@ public class ChapterController {
 	public void init() throws IOException {
 		if (!Files.exists(FILES_FOLDER)) {
 			Files.createDirectories(FILES_FOLDER);
-	}
+		}
 	}
 
 	@ModelAttribute
 	public void addUserToModel(Model model) {
 		userSession.addUserToModel(model);
 	}
-	
+
 	@RequestMapping("")
-	public String loadHome(Model model, @RequestParam(name="close", required=false) String closeTab, HttpServletRequest req) {
-		if(closeTab!=null) {
+	public String loadHome(Model model, @RequestParam(name = "close", required = false) String closeTab,
+			HttpServletRequest req) {
+		if (closeTab != null) {
 			userSession.removeTab(closeTab);
 		}
 		userSession.setActive("inicio");
@@ -93,7 +94,7 @@ public class ChapterController {
 	public String loginPage() {
 		return "loginPage";
 	}
-	
+
 	@RequestMapping("/addChapter")
 	public String addChapter(Model model, @RequestParam String chapterName, HttpServletRequest req) {
 		Chapter chap = new Chapter(chapterName);
@@ -101,16 +102,17 @@ public class ChapterController {
 		model.addAttribute("docente", req.isUserInRole("ROLE_DOCENTE"));
 		return "home";
 	}
-	
+
 	@RequestMapping("/deleteChapter/{id}")
-	public String deleteChapter(Model model, @PathVariable Long id, HttpServletRequest req ) {
+	public String deleteChapter(Model model, @PathVariable Long id, HttpServletRequest req) {
 		chapterService.deleteById(id);
 		model.addAttribute("docente", req.isUserInRole("ROLE_DOCENTE"));
 		return "home";
 	}
-	
+
 	@RequestMapping("/addConcept/{chapterName}")
-	public String addConcept(Model model,HttpServletRequest req, @PathVariable String chapterName, @RequestParam String conceptName) {
+	public String addConcept(Model model, HttpServletRequest req, @PathVariable String chapterName,
+			@RequestParam String conceptName) {
 		Concept con = new Concept(conceptName);
 		Chapter chap = chapterService.findByChapterName(conceptName);
 		chap.getConcepts().add(con);
@@ -118,23 +120,21 @@ public class ChapterController {
 		model.addAttribute("docente", req.isUserInRole("ROLE_DOCENTE"));
 		return "home";
 	}
-	
 
 	@RequestMapping("/deleteConcept/{id}")
 	public String deleteConcept(Model model, @PathVariable Long id, HttpServletRequest req) {
 		conceptService.deleteById(id);
-		model.addAttribute("docente",req.isUserInRole("ROLE_DOCENTE"));
+		model.addAttribute("docente", req.isUserInRole("ROLE_DOCENTE"));
 		return "home";
 	}
 
-	
 	@RequestMapping(value = "/image/upload", method = RequestMethod.POST)
-	public String handleFileUpload(Model model, @RequestParam("imageTitle") String imageTitle,
+	public String handleFileUpload(Model model, @RequestParam("conceptName") String conceptName, HttpServletResponse httpServletResponse,
 			@RequestParam("file") MultipartFile file) {
 
 		int id = imageId.getAndIncrement();
-		
-		String fileName = "image-" + id + ".jpg";
+
+		String fileName = "image-" + conceptName + ".jpg";
 
 		if (!file.isEmpty()) {
 			try {
@@ -142,9 +142,9 @@ public class ChapterController {
 				File uploadedFile = new File(FILES_FOLDER.toFile(), fileName);
 				file.transferTo(uploadedFile);
 
-				images.put(id, new Image(id, imageTitle));
-
-				return "home";
+				images.put(id, new Image(id));
+				httpServletResponse.sendRedirect("/");
+				return null;
 
 			} catch (Exception e) {
 
@@ -153,31 +153,29 @@ public class ChapterController {
 				return "error";
 			}
 		} else {
-			
+
 			model.addAttribute("error", "The file is empty");
 
 			return "error";
 		}
 	}
 
-	@RequestMapping("/image/{id}")
-	public void handleFileDownload(@PathVariable String id, HttpServletResponse res)
+	@RequestMapping("/image/{conceptName}")
+	public void handleFileDownload(@PathVariable String conceptName, HttpServletResponse res)
 			throws FileNotFoundException, IOException {
 
-		String fileName = "image-" + id + ".jpg";
-		
+		String fileName = "image-" + conceptName + ".jpg";
+
 		Path image = FILES_FOLDER.resolve(fileName);
 
 		if (Files.exists(image)) {
-			res.setContentType("image/jpeg");
-			res.setContentLength((int) image.toFile().length());
-			FileCopyUtils.copy(Files.newInputStream(image), res.getOutputStream());
 
 		} else {
-			res.sendError(404, "File" + fileName + "(" + image.toAbsolutePath() + ") does not exist");
+			image = FILES_FOLDER.resolve("imagePlaceholder.png");
 		}
+		res.setContentType("image/jpeg");
+		res.setContentLength((int) image.toFile().length());
+		FileCopyUtils.copy(Files.newInputStream(image), res.getOutputStream());
 	}
-
-
 
 }
