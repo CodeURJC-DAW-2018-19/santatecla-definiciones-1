@@ -1,7 +1,5 @@
 package com.grupo5.definiciones;
 
-import java.util.Arrays;
-
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;

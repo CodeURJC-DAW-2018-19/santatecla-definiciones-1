@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.grupo5.definiciones.usersession.UserSessionInfoComponent;
 import com.grupo5.definiciones.usersession.UserSessionService;
 
 @Controller
