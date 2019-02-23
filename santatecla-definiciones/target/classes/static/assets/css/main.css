@@ -145,3 +145,17 @@
   width: 10%;
   float: left;
 }
+
+.chapterInfo {
+  overflow: auto;
+}
+
+.chapterInfo a {
+  width: 75%;
+  float: left;
+}
+
+.conceptDeleteButton {
+  width: 25%;
+  float: right;
+}

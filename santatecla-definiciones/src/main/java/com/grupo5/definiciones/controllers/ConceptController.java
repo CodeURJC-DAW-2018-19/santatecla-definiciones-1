@@ -200,7 +200,7 @@ public class ConceptController {
   
 	@RequestMapping("/saveAnswer/{conceptName}")
 	public String saveAnswer (Model model, @PathVariable String conceptName, @RequestParam String questionText, @RequestParam String answerText) {
-		Answer ans = new Answer(questionText,answerText,false);
+		Answer ans = new Answer(questionText,answerText,false,null);
 		ans.setAnswerText(answerText);
 		Concept con = conceptService.findByConceptName(conceptName);
 		con.getAnswers().add(ans);

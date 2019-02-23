@@ -21,6 +21,7 @@ import com.grupo5.definiciones.model.Chapter;
 import com.grupo5.definiciones.model.Concept;
 
 import com.grupo5.definiciones.services.ChapterService;
+import com.grupo5.definiciones.services.ConceptService;
 import com.grupo5.definiciones.services.DiagramChapterInfo;
 import com.grupo5.definiciones.usersession.UserSessionService;
 
@@ -30,6 +31,9 @@ public class ChapterController {
 	@Autowired
 	private ChapterService chapterService;
 	private final int DEFAULT_SIZE = 10;
+	
+	@Autowired
+	private ConceptService conceptService;
 
 	@Autowired
 	private UserSessionService userSession;
@@ -97,6 +101,13 @@ public class ChapterController {
 		chap.getConcepts().add(con);
 		chapterService.save(chap);
 		model.addAttribute("docente", req.isUserInRole("ROLE_DOCENTE"));
+		return "home";
+	}
+	
+	@RequestMapping("/deleteConcept/{id}")
+	public String deleteConcept(Model model, @PathVariable Long id, HttpServletRequest req) {
+		conceptService.deleteById(id);
+		model.addAttribute("docente",req.isUserInRole("ROLE_DOCENTE"));
 		return "home";
 	}
 

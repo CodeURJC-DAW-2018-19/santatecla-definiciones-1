@@ -20,5 +20,9 @@ public class ConceptService {
 		conceptRepository.save(con);
 	}
 	
+	public void deleteById(Long id) {
+		conceptRepository.deleteById(id);
+	}
+	
 	
 }
