@@ -6,16 +6,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.grupo5.definiciones.usersession.UserSessionInfoComponent;
+import com.grupo5.definiciones.usersession.UserSessionService;
 
 @Controller
 public class CustomErrorController implements ErrorController {
 
 	@Autowired
-	private UserSessionInfoComponent userSession;
+	private UserSessionService userSession;
 
+	@ModelAttribute
+	public void addUserToModel(Model model) {
+		userSession.addUserToModel(model);
+	}
+	
 	@RequestMapping("/error")
 	public String handleError(Model model, HttpServletRequest request) {
 		Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");

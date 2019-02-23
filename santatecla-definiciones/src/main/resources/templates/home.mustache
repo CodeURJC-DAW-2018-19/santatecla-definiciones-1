@@ -17,8 +17,7 @@
 						<div class="tab-content">
 							<div class="tab-pane active" id="home">
 								<div id="accordion" role="tablist">
-									<script src="/assets/js/loadchapters.js"></script>
-									<script>loadchapters()</script>
+									<script>loadChapters()</script>
 								</div>
 							</div>
 						</div>
@@ -29,14 +28,14 @@
 							</button>
 						</div>
 						{{/docente}}
-						<button type="button" class="btn btn-primary" id="showMoreBtn" data-target="#showMore">
+						<button type="button" class="btn btn-primary" id="showMoreBtnChapters" data-target="#showMore">
 							Más resultados
 						</button>
 						<div id="loadGif"></div>
 						<script type="text/javascript">
 							$(document).ready(function (){
-								$('#showMoreBtn').click(function (){
-									loadchapters();
+								$('#showMoreBtnChapters').click(function (){
+									loadChapters();
 								});
 							});
 						</script>

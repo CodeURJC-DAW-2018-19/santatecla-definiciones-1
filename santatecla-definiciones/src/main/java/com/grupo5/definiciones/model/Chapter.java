@@ -9,11 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 public class Chapter {
@@ -22,8 +18,6 @@ public class Chapter {
 	private long id;
 	private String chapterName;
 	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-	@JoinColumn(name="concept_id")
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<Concept> concepts = new ArrayList<>();
 	
 	protected Chapter() {}

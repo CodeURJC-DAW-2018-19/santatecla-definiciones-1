@@ -50,6 +50,18 @@
       </div>
     </div>
   </div>
+	<button type="button" class="btn btn-primary" id="showMoreBtnMarked" data-target="#showMore">
+   Más resultados
+  </button>
+  <div id="loadGif"></div>
+  <div id="loadGifMarked"></div>
+  <script type="text/javascript">
+  	$(document).ready(function (){
+  		$('#showMoreBtnAnswers').click(function (){
+    		loadAnswers('{{conceptName}}');
+   		});
+   	});
+  </script>
  <!-- Add answer Modal -->
 	<div class="modal fade" id="addAnswerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	  <form action="/addAnswer/{{conceptName}}" method="post">
@@ -114,5 +126,7 @@
 	  </div>
 	  </form>
 	</div>
-</div>
+</div>  
+</div>  
+
 {{>footer}}
