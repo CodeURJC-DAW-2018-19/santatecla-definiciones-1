@@ -22,7 +22,7 @@ public class Answer {
 	private String answerText;
 	private boolean marked;
 	private boolean correct;
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.REMOVE)
 	private List<Justification> justifications;
 	@OneToOne
 	private User user; //User that created this answer 

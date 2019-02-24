@@ -51,6 +51,9 @@ public class Chapter {
 		this.concepts = concepts;
 	}
 
+	public void removeConcept(Concept concept) {
+		this.concepts.remove(concept);
+	}
 	@Override
 	public String toString() {
 		return "Chapter [id=" + id + ", chapterName=" + chapterName + ", concepts=" + concepts + "]";

@@ -119,12 +119,13 @@ public class ChapterController {
 		return "home";
 	}
 
-	@RequestMapping("/addConcept/{chapterName}")
-	public String addConcept(Model model, HttpServletRequest req, @PathVariable String chapterName,
-			@RequestParam String conceptName) {
+	@PostMapping("/addConcept")
+	public String addConcept(Model model, HttpServletRequest req,
+			@RequestParam String conceptName, @RequestParam String chapterName) {
 		Concept con = new Concept(conceptName);
-		Chapter chap = chapterService.findByChapterName(conceptName);
+		Chapter chap = chapterService.findByChapterName(chapterName);
 		chap.getConcepts().add(con);
+		conceptService.save(con);
 		chapterService.save(chap);
 		addToModelHome(model, null, req);
 		return "home";
@@ -132,6 +133,7 @@ public class ChapterController {
 
 	@RequestMapping("/deleteConcept/{id}")
 	public String deleteConcept(Model model, @PathVariable Long id, HttpServletRequest req) {
+		Concept c = conceptService.findById(id);
 		conceptService.deleteById(id);
 		addToModelHome(model, null, req);
 		return "home";

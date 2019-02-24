@@ -23,6 +23,10 @@ public class ConceptService {
 	public void deleteById(Long id) {
 		conceptRepository.deleteById(id);
 	}
+
+	public Concept findById(Long id) {
+		return conceptRepository.findById(id).get();
+	}
 	
 	
 }

@@ -78,21 +78,24 @@ public class DatabaseInfoLoader {
 		j1.setValid(false);
 		j1.setError(
 				"SPRING PERMITE EL DESARROLLO DE DIVERSOS TIPOS DE APLICACIONES DE SERVIDOR: APLICACIONES WEB, SERVICIOS REST, ANÁLISIS DE DATOS BIG DATA...");
-		answers[1].addJustification(j1);
+
 		answers[2] = new Answer("UN FRAMEWORK DE DESARROLLO DE APLICACIONES EMPRESARIALES BASADO EN JAVA", false,
 				student, c11);
 		answers[3] = new Answer("UN FRAMEWORK COMERCIAL", true, admin, c11);
 		answers[3].setCorrect(false);
 		Justification j2 = new Justification("ES UN FRAMEWORK DE SOFTWARE LIBRE", true, student);
 		j2.setValid(true);
-		answers[3].addJustification(j2);
+
+
+		justificationRepository.save(j1);
+		justificationRepository.save(j2);
 		for (Answer a : answers) {
 			answerRepository.save(a);
 		}
+		answers[1].addJustification(j1);
+		answers[3].addJustification(j2);
 		j1.setAnswer(answers[1]);
 		j2.setAnswer(answers[3]);
-		justificationRepository.save(j1);
-		justificationRepository.save(j2);
 
 		Question[] questions = new Question[4];
 		questions[0] = new Question(
