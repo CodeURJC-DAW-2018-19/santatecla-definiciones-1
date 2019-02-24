@@ -14,4 +14,10 @@ public interface AnswerRepository extends JpaRepository<Answer, Long>{
 
 	public Page<Answer> findByConceptAndUser(Concept concept, User user, Pageable page);
 
+	public long countByMarkedAndCorrect(boolean marked, boolean correct);
+
+	public Page<Answer> findByMarkedAndCorrect(boolean marked, boolean correct, Pageable page);
+
+	public Answer findByAnswerText(String answerText);
+
 }

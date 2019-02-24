@@ -10,8 +10,8 @@ import com.grupo5.definiciones.model.User;
 
 public interface QuestionRepository extends JpaRepository<Question, Long>{
 
-	Page<Question> findByAnswer_Concept(Concept concept, Pageable page);
+	Page<Question> findByMarkedAndAnswer_Concept(boolean marked, Concept concept, Pageable page);
 
-	Page<Question> findByAnswer_ConceptAndAnswer_User(Concept concept, User user, Pageable page);
+	Page<Question> findByMarkedAndAnswer_ConceptAndUser(boolean marked, Concept concept, User user, Pageable page);
 
 }

@@ -33,13 +33,14 @@ public class Answer {
 	
 	protected Answer() {
 	}
-
-	public Answer(String answerText, boolean marked, User user) {
+	
+	public Answer(String answerText, boolean marked, User user, Concept concept) {
 		super();
 		this.justifications = new ArrayList<>();
 		this.answerText = answerText;
 		this.marked = marked;
 		this.user = user;
+		this.concept = concept;
 	}
 
 	public long getId() {

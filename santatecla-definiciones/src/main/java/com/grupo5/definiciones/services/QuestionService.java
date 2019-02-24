@@ -15,13 +15,18 @@ public class QuestionService {
 
 	@Autowired
 	private QuestionRepository questionRepository;
-	
-	public Page<Question> findByAnswer_Concept(Concept concept, Pageable page) {
-		return questionRepository.findByAnswer_Concept(concept, page);
+
+	public void save(Question question) {
+		questionRepository.save(question);
 	}
 
-	public Page<Question> findByAnswer_ConceptAndAnswer_User(Concept concept, User user, Pageable page) {
-		return questionRepository.findByAnswer_ConceptAndAnswer_User(concept, user, page);
+	public Page<Question> findByMarkedAndAnswer_Concept(boolean marked, Concept concept, Pageable page) {
+		return questionRepository.findByMarkedAndAnswer_Concept(marked, concept, page);
+	}
+
+	public Page<Question> findByMarkedAndAnswer_ConceptAndUser(boolean marked, Concept concept, User user, Pageable page) {
+		return questionRepository.findByMarkedAndAnswer_ConceptAndUser(marked, concept, user, page);
+
 	}
 
 }

@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -29,6 +30,8 @@ import com.grupo5.definiciones.services.ConceptService;
 import com.grupo5.definiciones.services.QuestionService;
 import com.grupo5.definiciones.usersession.Tab;
 import com.grupo5.definiciones.usersession.UserSessionService;
+import com.grupo5.definiciones.utilities.QuestionGenerator;
+import com.grupo5.definiciones.utilities.QuestionMarker;
 
 @Controller
 public class ConceptController {
@@ -41,13 +44,19 @@ public class ConceptController {
 
 	@Autowired
 	private AnswerService answerService;
-	
+
 	@Autowired
 	private QuestionService questionService;
-	
+
 	@Autowired
 	private UserSessionService userSession;
-	
+
+	@Autowired
+	private QuestionGenerator questionGenerator;
+
+	@Autowired
+	private QuestionMarker questionMarker;
+
 	private final int DEFAULT_SIZE = 10;
 
 	@ModelAttribute
@@ -57,9 +66,8 @@ public class ConceptController {
 
 	@RequestMapping("/concept/{name}")
 	public String conceptPage(Model model, HttpServletRequest req, @PathVariable String name,
-			@RequestParam(name = "close", required = false) String closeTab, HttpServletResponse httpServletResponse, 
-			@PageableDefault(size = DEFAULT_SIZE) Pageable page)
-			throws IOException {
+			@RequestParam(name = "close", required = false) String closeTab, HttpServletResponse httpServletResponse,
+			@PageableDefault(size = DEFAULT_SIZE) Pageable page) throws IOException {
 		// If close tab button was pressed, remove the tab
 		if (closeTab != null) {
 			userSession.removeTab(closeTab);
@@ -78,45 +86,49 @@ public class ConceptController {
 		model.addAttribute("tabs", userSession.getOpenTabs());
 		Concept concept = conceptService.findByConceptName(name);
 		model.addAttribute("conceptName", name);
-		Page<Question> questions;
+		Page<Question> markedQuestions;
+		Page<Question> unmarkedQuestions;
 		// if user is a teacher get all answers and return the teacher template
 		User user;
 		if (req.isUserInRole("ROLE_DOCENTE")) {
-			questions = questionService.findByAnswer_Concept(concept, page);
+			markedQuestions = questionService.findByMarkedAndAnswer_Concept(true, concept, page);
+			unmarkedQuestions = questionService.findByMarkedAndAnswer_Concept(false, concept, page);
 			model.addAttribute("diagramInfo", chapterService.generateDiagramInfo());
 		} else {
 			user = userSession.getLoggedUser();
-			questions = questionService.findByAnswer_ConceptAndAnswer_User(concept, user, page);
+			markedQuestions = questionService.findByMarkedAndAnswer_ConceptAndUser(true, concept, user, page);
+			unmarkedQuestions = questionService.findByMarkedAndAnswer_ConceptAndUser(false, concept, user, page);
 			model.addAttribute("diagramInfo", chapterService.generateDiagramInfo(user));
 		}
-		boolean noMarkedAnswers = true;
-		boolean noUnmarkedAnswers = true;
-		if (!questions.isEmpty()) {
-			for (Question q : questions) {
-				Answer a = q.getAnswer();
-				if (!noMarkedAnswers && !noUnmarkedAnswers)
-					break;
-				if (a.isMarked()) {
-					noMarkedAnswers = false;
-				} else {
-					noUnmarkedAnswers = false;
-				}
-			}
-		}
-		model.addAttribute("questions", questions);
-		model.addAttribute("conceptName", concept.getConceptName());
-		model.addAttribute("noMarkedAnswers", noMarkedAnswers);
-		model.addAttribute("noUnmarkedAnswers", noUnmarkedAnswers);
+		
+		model.addAttribute("markedQuestions", markedQuestions);
+		model.addAttribute("unmarkedQuestions", unmarkedQuestions);
+		addQuestionInfoToModel(model, concept);
+		model.addAttribute("conceptName", name);
 		if (req.isUserInRole("ROLE_DOCENTE")) {
 			return "teacher";
 		}
 		return "concept";
 	}
 
+	private void addQuestionInfoToModel(Model model, Concept concept) {
+		Question question = questionGenerator.generateQuestion(concept);
+		String answerText = question.getAnswer().getAnswerText();
+		Justification justification = question.getJustification();
+		if (answerText != null)
+			model.addAttribute("answerText", answerText);
+		if (justification != null)
+			model.addAttribute("justificationText", justification.getJustificationText());
+		model.addAttribute("questionText", question.getQuestionText());
+		model.addAttribute("openQuestion", !question.isYesNoQuestion());
+		model.addAttribute("questionType", question.getType());
+	}
+
 	@RequestMapping("/mark/{id}")
 	public String markAnswer(Model model, @PathVariable Long id,
 			@RequestParam(value = "correctAnswer", required = false) String cAnswer,
-			@RequestParam(value = "incorrectAnswer", required = false) String iAnswer) {
+			@RequestParam(value = "incorrectAnswer", required = false) String iAnswer,
+			HttpServletResponse httpServletResponse) throws IOException {
 		Answer ans = answerService.getOne(id);
 		ans.setMarked(true);
 		if (cAnswer != null && iAnswer == null) {
@@ -128,7 +140,8 @@ public class ConceptController {
 		} else {
 			// Error
 		}
-		return "home";
+		httpServletResponse.sendRedirect("/");
+		return null;
 	}
 
 	@Transactional
@@ -145,7 +158,7 @@ public class ConceptController {
 		model.addAttribute("conceptName", conceptName);
 		return "modifyAnswer";
 	}
-	//TODO: Fix with new Question model
+
 	@RequestMapping("/addModifiedAnswer/{conceptName}/{id}")
 	public String addModifiedAnswer(Model model, @PathVariable String conceptName, @PathVariable Long id,
 			@RequestParam String justificationText, @RequestParam String answerText,
@@ -167,11 +180,12 @@ public class ConceptController {
 			} else if (vJustification == null && iJustification != null) {
 				valid = false;
 			}
-			Justification just = new Justification(justificationText, valid);
+			Justification just = new Justification(justificationText, true, userSession.getLoggedUser());
+			just.setValid(valid);
 			ans.addJustification(just);
-		}/* else {
-			ans.setJustification(null);
-		}*/
+		} /*
+			 * else { ans.setJustification(null); }
+			 */
 		answerService.save(ans);
 		return "home";
 	}
@@ -182,8 +196,10 @@ public class ConceptController {
 			@RequestParam(value = "invalidJustification", required = false) String iJustification,
 			@RequestParam(value = "validJustification", required = false) String vJustification,
 			@RequestParam(value = "correctAnswer", required = false) String cAnswer,
-			@RequestParam(value = "incorrectAnswer", required = false) String iAnswer) {
-		Answer ans = new Answer(answerText, true, null);
+			@RequestParam(value = "incorrectAnswer", required = false) String iAnswer,
+			HttpServletResponse httpServletResponse) throws IOException {
+		Answer ans = new Answer(answerText, true, userSession.getLoggedUser(),
+				conceptService.findByConceptName(conceptName));
 		if (cAnswer != null && iAnswer == null) {
 			ans.setCorrect(true);
 		} else if (cAnswer == null && iAnswer != null) {
@@ -196,31 +212,30 @@ public class ConceptController {
 			} else if (vJustification == null && iJustification != null) {
 				valid = false;
 			}
-			Justification just = new Justification(justificationText, valid);
+			Justification just = new Justification(justificationText, true, userSession.getLoggedUser());
+			just.setValid(valid);
 			ans.addJustification(just);
 		}
 		Concept con = conceptService.findByConceptName(conceptName);
 		con.getAnswers().add(ans);
 		conceptService.save(con);
-		return "home";
+		httpServletResponse.sendRedirect("/concept/" + conceptName);
+		return null;
 	}
-  
-	@PostMapping("/saveAnswer/{conceptName}")
-	public String saveAnswer (Model model, @PathVariable String conceptName, @RequestParam String questionText, @RequestParam String answerText, HttpServletResponse httpServletResponse) {
-		Answer ans = new Answer(answerText,false,userSession.getLoggedUser());
-		ans.setAnswerText(answerText);
-		Concept con = conceptService.findByConceptName(conceptName);
-		ans.setConcept(con);
-		con.getAnswers().add(ans);
-		answerService.save(ans);
-		try{
-			httpServletResponse.sendRedirect("/");
-		} catch (Exception e) {
-			model.addAttribute("error", "The file is empty");
 
-			return "error";
-		}
-		return null ;
+	@PostMapping("/saveAnswer/{conceptName}")
+	public String saveAnswer(Model model, @PathVariable String conceptName, HttpServletResponse httpServletResponse,
+			@RequestParam String questionText, @RequestParam String questionType,
+			@RequestParam(required = false) String answerText, @RequestParam(required = false) String answerOption,
+			@RequestParam(required = false) String answerQuestionText,
+			@RequestParam(required = false) String justificationQuestionText) throws IOException {
+		boolean open = answerText != null;
+		String answerFinalText = open ? answerText : answerOption;
+		int parsedInt = Integer.parseInt(questionType);
+		questionMarker.saveQuestion(conceptService.findByConceptName(conceptName), answerFinalText, questionText,
+				parsedInt, answerQuestionText, justificationQuestionText);
+		httpServletResponse.sendRedirect("/concept/" + conceptName);
+		return null;
 	}
-  
+
 }

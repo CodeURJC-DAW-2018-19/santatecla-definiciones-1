@@ -15,19 +15,38 @@ public class Question {
 	private long id;
 	@Column(length = 10000)
 	private String questionText;
+	private int type;
+	//Only used in Yes/No questions
+	private boolean yesNoQuestion;
+	private boolean userResponse; //true for yes, false for no
+	private boolean marked;
+	private boolean correct;
 	@ManyToOne
 	private Answer answer;
+	@OneToOne
+	private Justification justification; //Justification related to the question (type 3)
+	@OneToOne
+	private User user;
 	
 	protected Question() {}
 	
-	public Question(String questionText) {
-		
-	}
-	
-	public Question(String questionText, Answer answer) {
+	public Question(String questionText, int type, Answer answer, boolean yesNoQuestion, User user) {
 		super();
+		this.yesNoQuestion = yesNoQuestion;
 		this.questionText = questionText;
+		this.type = type;
 		this.answer = answer;
+		this.user = user;
+	}
+
+	public Question(String questionText, int type, Answer answer, boolean yesNoQuestion, Justification justification, User user) {
+		super();
+		this.yesNoQuestion = yesNoQuestion;
+		this.questionText = questionText;
+		this.type = type;
+		this.answer = answer;
+		this.justification = justification;
+		this.user = user;
 	}
 
 	public long getId() {
@@ -54,10 +73,67 @@ public class Question {
 		this.answer = answer;
 	}
 
-	@Override
-	public String toString() {
-		return "Question [id=" + id + ", questionText=" + questionText + ", answer=" + answer + "]";
+	public int getType() {
+		return type;
 	}
 
-	
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public Justification getJustification() {
+		return justification;
+	}
+
+	public void setJustification(Justification justification) {
+		this.justification = justification;
+	}
+
+	public boolean isMarked() {
+		return marked;
+	}
+
+	public void setMarked(boolean marked) {
+		this.marked = marked;
+	}
+
+	public boolean isCorrect() {
+		return correct;
+	}
+
+	public void setCorrect(boolean correct) {
+		this.correct = correct;
+	}
+
+	public boolean isYesNoQuestion() {
+		return yesNoQuestion;
+	}
+
+	public void setYesNoQuestion(boolean yesNoQuestion) {
+		this.yesNoQuestion = yesNoQuestion;
+	}
+
+	public boolean isUserResponse() {
+		return userResponse;
+	}
+
+	public void setUserResponse(boolean userResponse) {
+		this.userResponse = userResponse;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	@Override
+	public String toString() {
+		return "Question [id=" + id + ", questionText=" + questionText + ", type=" + type + ", yesNoQuestion="
+				+ yesNoQuestion + ", userResponse=" + userResponse + ", marked=" + marked + ", correct=" + correct
+				+ ", answer=" + answer + ", justification=" + justification + ", user=" + user + "]";
+	}
+
 }

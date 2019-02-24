@@ -9,21 +9,13 @@
         </div>
         <div class="card-body">
           <script>loadAnswers('{{conceptName}}')</script>
-		  <!-- If there are no marked answers -->
-          {{#noMarkedAnswers}}
-          <p>No hay preguntas corregidas</p>
-		  {{/noMarkedAnswers}}
-		  <!-- Else -->
-		  {{^noMarkedAnswers}}
 		  <!-- Write all marked answers -->
-          {{#questions}}
-          	{{#answer}}
-		          {{#marked}}
+          {{#markedQuestions}}
 		          {{>showquestion}}
-		          {{/marked}}
-		    {{/answer}}
-          {{/questions}}
-          {{/noMarkedAnswers}}
+          {{/markedQuestions}}
+          {{^markedQuestions}}
+          <p>No hay preguntas corregidas</p>
+          {{/markedQuestions}}
         </div>
       </div>
     </div>
@@ -33,25 +25,16 @@
           <h4 class="card-title text-center">PREGUNTAS POR CORREGIR</h4>
         </div>
         <div class="card-body">
-          {{#noUnmarkedAnswers}}
-          <p>No hay preguntas por corregir</p>
-          {{/noUnmarkedAnswers}}
-          {{^noUnmarkedAnswers}}
-          {{#questions}}
-          	{{#answer}}
-		          {{^marked}}
+          {{#unmarkedQuestions}}
 		          {{>showquestion}}
-		          {{/marked}}
-		    {{/answer}}
-          {{/questions}}
-          {{/noUnmarkedAnswers}}
+          {{/unmarkedQuestions}}
         </div>
       </div>
     </div>
   </div>
   <!-- Show more button -->
   <div class="addQuestionSeeDiagram">
-	  <button type="button" class="btn btn-primary" id="showMoreBtn"">
+	  <button type="button" class="btn btn-primary" id="showMoreBtn">
 	  	Más resultados
 	  </button>
 	  <div id="loadGif"></div>
@@ -82,7 +65,7 @@
       type="button"
       class="btn btn-primary btn-fab btn-fab-mini btn-round"
       data-toggle="modal"
-      data-target="#exampleModal"
+      data-target="#questionModal"
     >
       <i class="material-icons">add</i>
     </button>
@@ -90,43 +73,58 @@
   
 </div>
 
-<!-- Modal -->
+<!-- Question Modal -->
 <div
   class="modal fade"
-  id="exampleModal"
+  id="questionModal"
   tabindex="-1"
   role="dialog"
-  aria-labelledby="exampleModalLabel"
+  aria-labelledby="questionModalLabel"
   aria-hidden="true"
 >
 
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">¿Qué es Spring?</h5>
+        <h5 class="modal-title" id="questionModalLabel">{{questionText}}</h5>
         <button
           type="button"
           class="close"
           data-dismiss="modal"
           aria-label="Close"
         >
-        <form action="/saveAnswer/{conceptName}" method="post" enctype="multipart/form-data">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <input
-          name=""
-          type="textarea"
-          class="form-control"
-          id="openQuestion"
-          placeholder="Escribe aqui tu respuesta"
-        />
-        <input type="hidden" name="_csrf" value={{csrfToken}}>
-      </div>
-      <div class="modal-footer">
-        <input type="submit" />
-      </div>
+      <form action="/saveAnswer/{{conceptName}}" method="post">
+        <div class="modal-body">
+            {{#openQuestion}}
+            <input
+              name="answerText"
+              type="textarea"
+              class="form-control"
+              id="openQuestion"
+              placeholder="Escribe aquí tu respuesta"
+            />
+            {{/openQuestion}}
+            {{^openQuestion}}
+            <div class="radio">
+              <label><input type="radio" name="answerOption" value="yes" onchange="enableButton()">Sí</label>
+            </div>
+            <div class="radio">
+              <label><input type="radio" name="answerOption" value="no" onchange="enableButton()">No</label>
+            </div>
+            {{/openQuestion}}
+        </div>
+        <div class="modal-footer">
+          <input type="submit" id="questionSubmit" class="btn btn-primary" value="Enviar">
+          <input type="hidden" name="questionText" value="{{questionText}}">
+          <input type="hidden" name="questionType" value="{{questionType}}">
+          <input type="hidden" name="answerQuestionText" value="{{#answerText}}{{answerText}}{{/answerText}}">
+          <input type="hidden" name="justificationQuestionText" value="{{#justificationText}}{{justificationText}}{{/justificationText}}">
+          <input type="hidden" name="_csrf" value={{csrfToken}}>
+        </div>
+      </form>
     </div>
   </div>
 </div>
