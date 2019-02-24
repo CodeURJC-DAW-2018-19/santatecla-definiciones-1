@@ -16,7 +16,7 @@
 					<div class="card-body">
 						<div class="tab-content">
 							<div class="tab-pane active" id="home">
-								<div id="accordion" role="tablist">
+								<div id="chapters" role="tablist">
 									<script>loadChapters()</script>
 								</div>
 							</div>
@@ -31,7 +31,7 @@
 						<button type="button" class="btn btn-primary" id="showMoreBtnChapters" data-target="#showMore">
 							Más resultados
 						</button>
-						<div id="loadGif"></div>
+						<div id="loadGifChapters"></div>
 						<script type="text/javascript">
 							$(document).ready(function (){
 								$('#showMoreBtnChapters').click(function (){
@@ -67,5 +67,5 @@
 	    </div>
 	    </form>
 	  </div>
-	  {{>diagram}}
+	{{>diagram}}
 {{>footer}}
