@@ -1,0 +1,21 @@
+{{#concepts}}
+            <ul>
+                <li class="chapterInfo">
+                    <img src='/image/{{conceptName}}' class="conceptImage" />
+                    <a href="/concept/{{conceptName}}">{{ conceptName }}</a>
+                    {{#docente}}
+                        <div class="conceptDeleteButton">
+                            <form action="/deleteConcept/{{id}}" method="post">
+                                <button type="submit" class=" btn btn-primary btn-fab btn-fab-mini btn-round deleteButtonChapter" data-toggle="modal" data-target="#deleteModal">
+                                    <i class="material-icons">delete</i>
+                                </button>
+                                <input type="hidden" name="_csrf" value={{csrfToken}}>
+                                </form>
+                        </div>
+                    {{/docente}}
+                </li>
+            </ul>
+            {{/concepts}}
+{{^concepts}}
+    <script>triggerOnce("concepts","{{id}}")</script>
+{{/concepts}}
