@@ -1,13 +1,15 @@
 <div class="question">
   <h6>{{questionText}}</h6>
-  <p>{{answerText}}</p>
-  {{#marked}}
-  {{#correct}}
-  <i class="material-icons">done</i>
-  {{/correct}}
-  {{^correct}}
-  <i class="material-icons">clear</i>
-  {{/correct}}
-  {{/marked}} 
+  {{#answer}}
+	  <p>{{answerText}}</p>
+	  {{#marked}}
+	  {{#correct}}
+	  <i class="material-icons">done</i>
+	  {{/correct}}
+	  {{^correct}}
+	  <i class="material-icons">clear</i>
+	  {{/correct}}
+	  {{/marked}} 
+  {{/answer}}
 </div>
 <hr/>

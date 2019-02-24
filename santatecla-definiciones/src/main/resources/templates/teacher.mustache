@@ -26,11 +26,13 @@
 		  <!-- Else -->
 		  {{^noMarkedAnswers}}
 		  <!-- Write all marked answers -->
-          {{#answers}}
-          {{#marked}}
-          {{>showQuestionTeacher}}
-          {{/marked}}
-          {{/answers}}
+          {{#questions}}
+						{{#answer}}
+							{{#marked}}
+							{{>showQuestionTeacher}}
+							{{/marked}}
+						{{/answer}}
+          {{/questions}}
           {{/noMarkedAnswers}}
           <button type="button" class="btn btn-primary btn-fab btn-fab-mini btn-round" data-toggle="modal" data-target="#addAnswerModal">
      		<i class="material-icons">add</i>
@@ -48,11 +50,13 @@
           <p>No hay preguntas por corregir</p>
           {{/noUnmarkedAnswers}}
           {{^noUnmarkedAnswers}}
-          {{#answers}}
-          {{^marked}}
-          {{>showQuestionTeacher}}
-          {{/marked}}
-          {{/answers}}
+					{{#questions}}
+ 						{{#answer}}
+							{{^marked}}
+							{{>showQuestionTeacher}}
+							{{/marked}}
+						{{/answer}}
+          {{/questions}}
           {{/noUnmarkedAnswers}}
 
       </div>
