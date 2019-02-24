@@ -17,7 +17,7 @@ public class Chapter {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private String chapterName;
-	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.REMOVE)
 	private List<Concept> concepts = new ArrayList<>();
 	
 	protected Chapter() {}

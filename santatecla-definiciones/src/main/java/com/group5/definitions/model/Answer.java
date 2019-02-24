@@ -28,7 +28,7 @@ public class Answer {
 	private User user; //User that created this answer 
 	@ManyToOne
 	private Concept concept;
-	@OneToMany(mappedBy="answer", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="answer", cascade = CascadeType.REMOVE)
 	private List<Question> questions;
 	
 	protected Answer() {

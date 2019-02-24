@@ -141,42 +141,26 @@ public class ConceptController {
 		return null;
 	}
 
-	@Transactional
-	@PostMapping("/delete/{id}")
-	public String deleteAnswer(Model model, @PathVariable Long id) {
+	@RequestMapping("/delete/{conceptName}/{id}")
+	public String deleteAnswer(Model model, @PathVariable String conceptName, @PathVariable Long id, HttpServletResponse httpServletResponse) throws IOException {
 		answerService.deleteById(id);
-		return "home";
+		httpServletResponse.sendRedirect("/concept/" + conceptName);
+		return null;
 	}
 
 	@PostMapping("/modifyAnswer/{conceptName}/{id}")
 	public String addModifiedAnswer(Model model, @PathVariable String conceptName, @PathVariable Long id,
-			@RequestParam String justificationText, @RequestParam String answerText,
-			@RequestParam(value = "invalidJustification", required = false) String iJustification,
-			@RequestParam(value = "validJustification", required = false) String vJustification,
-			@RequestParam(value = "correctAnswer", required = false) String cAnswer,
-			@RequestParam(value = "incorrectAnswer", required = false) String iAnswer) {
+			@RequestParam String answerText,
+			@RequestParam(value = "correct", required = false) String cAnswer,
+			HttpServletResponse httpServletResponse) throws IOException {
 		Answer ans = answerService.getOne(id);
 		ans.setAnswerText(answerText);
-		if (cAnswer != null && iAnswer == null) {
-			ans.setCorrect(true);
-		} else if (cAnswer == null && iAnswer != null) {
-			ans.setCorrect(false);
+		if(cAnswer!=null) {
+			ans.setCorrect(cAnswer.equals("yes"));
 		}
-		if (justificationText != "") {
-			boolean valid = false;
-			if (vJustification != null && iJustification == null) {
-				valid = true;
-			} else if (vJustification == null && iJustification != null) {
-				valid = false;
-			}
-			Justification just = new Justification(justificationText, true, userSession.getLoggedUser());
-			just.setValid(valid);
-			ans.addJustification(just);
-		} /*
-			 * else { ans.setJustification(null); }
-			 */
 		answerService.save(ans);
-		return "home";
+		httpServletResponse.sendRedirect("/concept/" + conceptName);
+		return null;
 	}
 
 	@RequestMapping("/addAnswer/{conceptName}")

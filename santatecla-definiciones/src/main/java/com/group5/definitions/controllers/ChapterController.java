@@ -23,6 +23,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,8 +32,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.group5.definitions.images.Image;
 import com.group5.definitions.model.Chapter;
 import com.group5.definitions.model.Concept;
+import com.group5.definitions.model.User;
 import com.group5.definitions.services.ChapterService;
 import com.group5.definitions.services.ConceptService;
+import com.group5.definitions.services.UserService;
 import com.group5.definitions.usersession.UserSessionService;
 
 @Controller
@@ -51,6 +54,9 @@ public class ChapterController {
 	@Autowired
 	private UserSessionService userSession;
 
+	@Autowired
+	private UserService userService;
+	
 	@PostConstruct
 	public void init() throws IOException {
 		if (!Files.exists(FILES_FOLDER)) {
@@ -66,6 +72,11 @@ public class ChapterController {
 	@RequestMapping("")
 	public String loadHome(Model model, @RequestParam(name = "close", required = false) String closeTab,
 			HttpServletRequest req) {
+		addToModelHome(model, closeTab, req);
+		return "home";
+	}
+	
+	private void addToModelHome(Model model, String closeTab, HttpServletRequest req) {
 		if (closeTab != null) {
 			userSession.removeTab(closeTab);
 		}
@@ -78,9 +89,7 @@ public class ChapterController {
 			model.addAttribute("diagramInfo", chapterService.generateDiagramInfo(userSession.getLoggedUser()));
 		}
 		model.addAttribute("images", images.values());
-		return "home";
 	}
-
 	@RequestMapping("/loadChapters")
 	public String getChapters(Model model, HttpServletRequest req,
 			@PageableDefault(size = DEFAULT_SIZE, sort = { "chapterName" }) Pageable page) {
@@ -99,14 +108,14 @@ public class ChapterController {
 	public String addChapter(Model model, @RequestParam String chapterName, HttpServletRequest req) {
 		Chapter chap = new Chapter(chapterName);
 		chapterService.save(chap);
-		model.addAttribute("teacher", req.isUserInRole("ROLE_TEACHER"));
+		addToModelHome(model, null, req);
 		return "home";
 	}
 
 	@RequestMapping("/deleteChapter/{id}")
 	public String deleteChapter(Model model, @PathVariable Long id, HttpServletRequest req) {
 		chapterService.deleteById(id);
-		model.addAttribute("teacher", req.isUserInRole("ROLE_TEACHER"));
+		addToModelHome(model, null, req);
 		return "home";
 	}
 
@@ -117,14 +126,14 @@ public class ChapterController {
 		Chapter chap = chapterService.findByChapterName(conceptName);
 		chap.getConcepts().add(con);
 		chapterService.save(chap);
-		model.addAttribute("teacher", req.isUserInRole("ROLE_TEACHER"));
+		addToModelHome(model, null, req);
 		return "home";
 	}
 
 	@RequestMapping("/deleteConcept/{id}")
 	public String deleteConcept(Model model, @PathVariable Long id, HttpServletRequest req) {
 		conceptService.deleteById(id);
-		model.addAttribute("teacher", req.isUserInRole("ROLE_TEACHER"));
+		addToModelHome(model, null, req);
 		return "home";
 	}
 
@@ -178,4 +187,15 @@ public class ChapterController {
 		FileCopyUtils.copy(Files.newInputStream(image), res.getOutputStream());
 	}
 
+	@RequestMapping("/register")
+	public String register(Model model) {
+		return "register";
+	}
+	
+	@PostMapping("/newUser")
+	public String newUser(Model model, HttpServletRequest req, @RequestParam String username, @RequestParam String password) {
+		userService.save(new User(username, password, "ROLE_STUDENT"));
+		addToModelHome(model, null, req);
+		return "loginPage";
+	}
 }

@@ -1,6 +1,6 @@
 <div class="correctedAnswers">
   {{#marked}}
-  <form action="/modifyAnswer/{{ conceptName }}/{{ id }}" method="post">
+  <form id="modifyForm{{id}}" action="/modifyAnswer/{{ conceptName }}/{{ id }}" method="post">
   {{/marked}}
   {{^marked}}
   <form action="/mark/{{id}}" method="post">
@@ -8,14 +8,15 @@
     <div class="uncorrectedAnswersJ">
       <input
         type="textarea"
-        name="answerText{{ id }}"
+        name="answerText"
         value="{{ answerText }}"
+		required
       />
       <div class="correction">
         {{#marked}}
         <div class="form-check form-check-radio">
           <label class="form-check-label">
-            <input class="form-check-input" type="radio" name="correct{{ id }}"
+            <input class="form-check-input" type="radio" name="correct"
             id="correct{{ id }}" value="yes" {{#correct}}checked{{/correct}} onclick="showJustification('incorrect{{ id }}', 'justificationAnswer{{id}}-0')">
             Correcta
             <span class="circle">
@@ -25,7 +26,7 @@
         </div>
         <div class="form-check form-check-radio">
           <label class="form-check-label">
-            <input class="form-check-input" type="radio" name="correct{{ id }}"
+            <input class="form-check-input" type="radio" name="correct"
             id="incorrect{{ id }}" value="no" {{^correct}}checked{{/correct}} onclick="showJustification('incorrect{{ id }}', 'justificationAnswer{{id}}-0')">
             Incorrecta
             <span class="circle">
@@ -36,23 +37,21 @@
       </div>
       <div class="uncorrectedAnswersButton">
         <button
-          type="submit"
           name="modifyAnswer"
           class="btn btn-primary btn-fab btn-fab-mini btn-round"
           data-toggle="modal"
+		  onclick="document.getElementById('modifyForm{{id}}').submit()"
         >
           <i class="material-icons">build</i>
         </button>
-        <button
+        <a
           type="button"
-          onclick="location.href='/delete/{{ id }}'"
+          href='/delete/{{conceptName}}/{{ id }}'
           name="deleteAnswer"
           class="btn btn-primary btn-fab btn-fab-mini btn-round"
-          data-toggle="modal"
-          data-target="#deleteModal"
         >
           <i class="material-icons">delete</i>
-        </button>
+        </a>
       </div>
       {{/marked}}
       {{^marked}}
@@ -105,6 +104,7 @@
         type="textarea"
         name="justificationText{{ id }}"
         value="{{ justificationText }}"
+		required
       />
       <div class="justification2">
         <div class="form-check form-check-radio">
@@ -127,7 +127,7 @@
             </span>
           </label>
         </div>
-        <input class="errorAnswer" {{#valid}}style="display: none"{{/valid}} type="textarea" value="{{#error}}{{ error }}{{/error}}" />
+        <input class="errorAnswer" {{#valid}}style="display: none"{{/valid}} type="textarea" value="{{#error}}{{ error }}{{/error}}" required/>
       </div>
     </div>
     {{/justifications}}
@@ -137,12 +137,13 @@
       <input
         type="textarea"
         name="justificationText{{id}}-0"
+		required
       />
       <div class="justification2">
         <div class="form-check form-check-radio">
           <label class="form-check-label">
             <input class="form-check-input" type="radio" name="valid{{id}}-0"
-            id="valid{{id}}-0" value="yes" {{#marked}}{{#valid}}checked{{/valid}}{{/marked}} onclick="showError('invalid{{id}}-0')"
+            id="valid{{id}}-0" value="yes" checked onclick="showError('invalid{{id}}-0')"
             /> Válida
             <span class="circle">
               <span class="check"></span>
@@ -152,14 +153,14 @@
         <div class="form-check form-check-radio">
           <label class="form-check-label">
             <input class="form-check-input" type="radio" name="valid{{id}}-0"
-            id="invalid{{id}}-0" value="no" {{#marked}}{{^valid}}checked{{/valid}}{{/marked}} onclick="showError('invalid{{id}}-0')"
+            id="invalid{{id}}-0" value="no" onclick="showError('invalid{{id}}-0')"
             /> Inválida
             <span class="circle">
               <span class="check"></span>
             </span>
           </label>
         </div>
-        <input class="errorAnswer" {{#valid}}style="display: none"{{/valid}} type="textarea" value="{{#error}}{{ error }}{{/error}}" />
+        <input class="errorAnswer" {{#valid}}style="display: none"{{/valid}} type="textarea" value="{{#error}}{{ error }}{{/error}}" required/>
       </div>
     </div>
 	{{/justifications}}
@@ -167,4 +168,3 @@
   </form>
 </div>
 </div>
-<hr />

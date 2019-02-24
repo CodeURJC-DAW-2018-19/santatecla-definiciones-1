@@ -13,6 +13,7 @@ import com.group5.definitions.model.Question;
 import com.group5.definitions.model.User;
 import com.group5.definitions.repositories.AnswerRepository;
 import com.group5.definitions.repositories.ChapterRepository;
+import com.group5.definitions.repositories.ConceptRepository;
 import com.group5.definitions.repositories.JustificationRepository;
 import com.group5.definitions.repositories.QuestionRepository;
 import com.group5.definitions.repositories.UserRepository;
@@ -22,7 +23,10 @@ public class DatabaseInfoLoader {
 
 	@Autowired
 	private ChapterRepository chapterRepository;
-
+	
+	@Autowired
+	private ConceptRepository conceptRepository;
+	
 	@Autowired
 	private UserRepository userRepository;
 
@@ -42,6 +46,7 @@ public class DatabaseInfoLoader {
 		User student2 = new User("user2", "pass2", "ROLE_STUDENT");
 		User admin = new User("admin", "adminpass", "ROLE_STUDENT", "ROLE_TEACHER");
 		userRepository.save(student);
+		userRepository.save(student2);
 		userRepository.save(admin);
 		Chapter chapter1 = new Chapter("Tema 1: Desarrollo web servidor");
 		Chapter chapter2 = new Chapter("Tema 2: Despliegue de webs");
@@ -54,7 +59,10 @@ public class DatabaseInfoLoader {
 		chapter2.getConcepts().add(c21);
 		Concept c31 = new Concept("Angular");
 		chapter3.getConcepts().add(c31);
-
+		conceptRepository.save(c11);
+		conceptRepository.save(c12);
+		conceptRepository.save(c21);
+		conceptRepository.save(c31);
 		chapterRepository.save(chapter1);
 		chapterRepository.save(chapter2);
 		chapterRepository.save(chapter3);
