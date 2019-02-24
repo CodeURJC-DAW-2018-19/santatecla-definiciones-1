@@ -38,7 +38,7 @@ For running tthe application we need to open a STS environment like Spring and i
 
 ## Database Entities
 
-<img src="https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/diagramaEntidadesBBDD.png"/>
+<img src="https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/diagramaEntidadesBBDD-completo.png"/>
 
 
 ## Class Diagrams and Templates
