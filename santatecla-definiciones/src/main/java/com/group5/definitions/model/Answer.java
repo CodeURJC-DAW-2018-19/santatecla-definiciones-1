@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,13 +23,13 @@ public class Answer {
 	private String answerText;
 	private boolean marked;
 	private boolean correct;
-	@OneToMany(cascade = CascadeType.REMOVE)
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<Justification> justifications;
 	@OneToOne
 	private User user; //User that created this answer 
 	@ManyToOne
 	private Concept concept;
-	@OneToMany(mappedBy="answer", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy="answer", cascade = CascadeType.ALL)
 	private List<Question> questions;
 	
 	protected Answer() {

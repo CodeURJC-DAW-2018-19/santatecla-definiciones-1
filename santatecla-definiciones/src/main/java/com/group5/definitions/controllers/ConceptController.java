@@ -27,6 +27,7 @@ import com.group5.definitions.model.User;
 import com.group5.definitions.services.AnswerService;
 import com.group5.definitions.services.ChapterService;
 import com.group5.definitions.services.ConceptService;
+import com.group5.definitions.services.JustificationService;
 import com.group5.definitions.services.QuestionService;
 import com.group5.definitions.usersession.Tab;
 import com.group5.definitions.usersession.UserSessionService;
@@ -57,6 +58,8 @@ public class ConceptController {
 	@Autowired
 	private QuestionMarker questionMarker;
 
+	@Autowired
+	private JustificationService justificationService;
 	private final int DEFAULT_SIZE = 10;
 
 	@ModelAttribute
@@ -152,13 +155,31 @@ public class ConceptController {
 	public String addModifiedAnswer(Model model, @PathVariable String conceptName, @PathVariable Long id,
 			@RequestParam String answerText,
 			@RequestParam(value = "correct", required = false) String cAnswer,
+			@RequestParam(value = "justificationTextNew", required = false) String justificationText,
+			@RequestParam(value = "validNew", required = false) String jValid,
+			@RequestParam(value = "errorNew", required = false) String error, 
 			HttpServletResponse httpServletResponse) throws IOException {
 		Answer ans = answerService.getOne(id);
 		ans.setAnswerText(answerText);
+		Justification newJ = null;
 		if(cAnswer!=null) {
 			ans.setCorrect(cAnswer.equals("yes"));
+			if (cAnswer.equals("yes")) {
+				ans.getJustifications().clear();
+			} else {
+				newJ = new Justification(justificationText, true, userSession.getLoggedUser());
+				newJ.setValid(jValid.equals("yes"));
+				if (jValid.equals("yes"))
+					newJ.setError(error);
+				ans.addJustification(newJ);
+				
+			}
 		}
 		answerService.save(ans);
+		if (newJ!=null) {
+			newJ.setAnswer(ans);
+			justificationService.save(newJ);
+		}
 		httpServletResponse.sendRedirect("/concept/" + conceptName);
 		return null;
 	}
@@ -210,5 +231,16 @@ public class ConceptController {
 		httpServletResponse.sendRedirect("/concept/" + conceptName);
 		return null;
 	}
-
+	
+	@PostMapping("/saveURL")
+	public void saveURL(Model model, @RequestParam String conceptName, @RequestParam String url, HttpServletResponse httpServletResponse) throws IOException {
+		conceptService.saveURL(conceptName, url);
+		httpServletResponse.sendRedirect("/concept/" + conceptName);
+	}
+	
+	@RequestMapping("/deleteJust/{conceptName}/{id}")
+	public void deleteJustification(Model model, @PathVariable String conceptName, @PathVariable long id, HttpServletResponse httpServletResponse) throws IOException {
+		justificationService.deleteById(id);
+		httpServletResponse.sendRedirect("/concept/" + conceptName);
+	}
 }

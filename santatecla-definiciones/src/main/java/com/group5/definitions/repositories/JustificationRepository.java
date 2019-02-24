@@ -15,5 +15,7 @@ public interface JustificationRepository extends JpaRepository<Justification, Lo
 	long countByAnswer(Answer answer);
 
 	Justification findByJustificationText(String justificationText);
-	
+
+	long countByAnswer_Id(long answerId);
+
 }

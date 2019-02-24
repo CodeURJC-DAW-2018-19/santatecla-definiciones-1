@@ -37,4 +37,12 @@ public class JustificationService {
 	public Justification findByJustificationText(String justificationText) {
 		return justificationRepository.findByJustificationText(justificationText);
 	}
+
+	public void deleteById(long id) {
+		justificationRepository.deleteById(id);
+	}
+
+	public long countByAnswer_Id(long answerId) {
+		return justificationRepository.countByAnswer_Id(answerId);
+	}
 }

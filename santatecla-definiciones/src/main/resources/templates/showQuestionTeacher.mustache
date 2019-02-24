@@ -53,6 +53,41 @@
           <i class="material-icons">delete</i>
         </a>
       </div>
+      	{{^justifications}}
+      <div class="justification justificationAnswer{{id}}-0" style="display:none">
+          <p>JUSTIFICACIÓN:</p>
+          <input
+            type="textarea"
+            name="justificationTextNew"
+        required
+          />
+          <div class="justification2">
+            <div class="form-check form-check-radio">
+              <label class="form-check-label">
+                <input class="form-check-input" type="radio" name="validNew"
+                id="valid{{id}}-0" value="yes" checked onclick="showError('invalid{{id}}-0')"
+                /> Válida
+                <span class="circle">
+                  <span class="check"></span>
+                </span>
+              </label>
+            </div>
+            <div class="form-check form-check-radio">
+              <label class="form-check-label">
+                <input class="form-check-input" type="radio" name="validNew"
+                id="invalid{{id}}-0" value="no" onclick="showError('invalid{{id}}-0')"
+                /> Inválida
+                <span class="circle">
+                  <span class="check"></span>
+                </span>
+              </label>
+            </div>
+            <input class="errorAnswer" {{#valid}}style="display: none"{{/valid}} type="textarea" value="{{#error}}{{ error }}{{/error}}" name="errorNew" required/>
+          </div>
+        </div>
+      {{/justifications}}
+      <input type="hidden" name="_csrf" value={{csrfToken}}>
+      </form>
       {{/marked}}
       {{^marked}}
       <div class="form-check form-check-radio">
@@ -98,18 +133,18 @@
     </div>
     {{/marked}}
     {{#justifications}}
-    <div class="justification justificationAnswer{{#answer}}{{id}}{{/answer}}-0">
+    <div class="justification" id="justificationAnswer{{#answer}}{{id}}{{/answer}}-0">
       <p>JUSTIFICACIÓN:</p>
       <input
         type="textarea"
-        name="justificationText{{ id }}"
+        name="justificationText"
         value="{{ justificationText }}"
 		required
       />
       <div class="justification2">
         <div class="form-check form-check-radio">
           <label class="form-check-label">
-            <input class="form-check-input" type="radio" name="valid{{ id }}"
+            <input class="form-check-input" type="radio" name="valid"
             id="valid{{ id }}" value="yes" {{#marked}}{{#valid}}checked{{/valid}}{{/marked}} onclick="showError('invalid{{ id }}')"
             /> Válida
             <span class="circle">
@@ -119,7 +154,7 @@
         </div>
         <div class="form-check form-check-radio">
           <label class="form-check-label">
-            <input class="form-check-input" type="radio" name="valid{{ id }}"
+            <input class="form-check-input" type="radio" name="valid"
             id="invalid{{ id }}" value="no" {{#marked}}{{^valid}}checked{{/valid}}{{/marked}} onclick="showError('invalid{{ id }}')"
             /> Inválida
             <span class="circle">
@@ -128,43 +163,22 @@
           </label>
         </div>
         <input class="errorAnswer" {{#valid}}style="display: none"{{/valid}} type="textarea" value="{{#error}}{{ error }}{{/error}}" required/>
+        <a
+          class="btn btn-primary btn-fab btn-fab-mini btn-round"
+          href="/modifyJust/{{conceptName}}/{{id}}?justificationText="
+        >
+          <i class="material-icons">build</i>
+        </a>
+        <a
+          type="button"
+          href='/deleteJust/{{conceptName}}/{{ id }}/{{#answer}}{{id}}{{/answer}}'
+          name="deleteJustification"
+          class="btn btn-primary btn-fab btn-fab-mini btn-round"
+        >
+          <i class="material-icons">delete</i>
+        </a>
       </div>
     </div>
     {{/justifications}}
-	{{^justifications}}
-	<div class="justification justificationAnswer{{id}}-0" style="display:none">
-      <p>JUSTIFICACIÓN:</p>
-      <input
-        type="textarea"
-        name="justificationText{{id}}-0"
-		required
-      />
-      <div class="justification2">
-        <div class="form-check form-check-radio">
-          <label class="form-check-label">
-            <input class="form-check-input" type="radio" name="valid{{id}}-0"
-            id="valid{{id}}-0" value="yes" checked onclick="showError('invalid{{id}}-0')"
-            /> Válida
-            <span class="circle">
-              <span class="check"></span>
-            </span>
-          </label>
-        </div>
-        <div class="form-check form-check-radio">
-          <label class="form-check-label">
-            <input class="form-check-input" type="radio" name="valid{{id}}-0"
-            id="invalid{{id}}-0" value="no" onclick="showError('invalid{{id}}-0')"
-            /> Inválida
-            <span class="circle">
-              <span class="check"></span>
-            </span>
-          </label>
-        </div>
-        <input class="errorAnswer" {{#valid}}style="display: none"{{/valid}} type="textarea" value="{{#error}}{{ error }}{{/error}}" required/>
-      </div>
-    </div>
-	{{/justifications}}
-	<input type="hidden" name="_csrf" value={{csrfToken}}>
-  </form>
 </div>
 </div>

@@ -20,6 +20,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		//Public pages
 		http.authorizeRequests().antMatchers("/").permitAll();
 		http.authorizeRequests().antMatchers("/login").permitAll();
+		http.authorizeRequests().antMatchers("/logout").permitAll();
+		http.authorizeRequests().antMatchers("/register").permitAll();
+		http.authorizeRequests().antMatchers("/newUser").permitAll();
 		http.authorizeRequests().antMatchers("/loadChapters").permitAll();
 		http.authorizeRequests().antMatchers("/assets/**").permitAll();
 		
@@ -32,9 +35,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers("/deleteChapter/**").hasAnyRole("TEACHER");
 		http.authorizeRequests().antMatchers("/saveURL/**").hasAnyRole("TEACHER");
 		
-		http.authorizeRequests().antMatchers("/modifyAnswer/**/**").hasAnyRole("TEACHER");
-		http.authorizeRequests().antMatchers("/addModifiedAnswer/**").hasAnyRole("TEACHER");
+		http.authorizeRequests().antMatchers("/modifyAnswer/**").hasAnyRole("TEACHER");
+		http.authorizeRequests().antMatchers("/modifyJust/**").hasAnyRole("TEACHER");
+		http.authorizeRequests().antMatchers("/deleteJust/**").hasAnyRole("TEACHER");
 		http.authorizeRequests().antMatchers("/saveAnswer/**").hasAnyRole("STUDENT");
+		http.authorizeRequests().antMatchers("/addConcept/**").hasAnyRole("TEACHER");
 		http.authorizeRequests().antMatchers("/deleteConcept/**").hasAnyRole("TEACHER");
 		http.authorizeRequests().antMatchers("/image/upload").hasAnyRole("TEACHER");
 		http.authorizeRequests().antMatchers("/image/{conceptName}").permitAll();

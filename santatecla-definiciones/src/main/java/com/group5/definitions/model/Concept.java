@@ -19,7 +19,7 @@ public class Concept {
 	private long id;
 	private String conceptName;
 	private String URL = "http://www.urldelconcepto.com";
-	@OneToMany(mappedBy="concept", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy="concept", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Answer> answers = new ArrayList<>();
 	
 	protected Concept() {}

@@ -27,6 +27,10 @@ public class ConceptService {
 	public Concept findById(Long id) {
 		return conceptRepository.findById(id).get();
 	}
+
+	public void saveURL(String name, String url) {
+		conceptRepository.findByConceptName(name);
+	}
 	
 	
 }
