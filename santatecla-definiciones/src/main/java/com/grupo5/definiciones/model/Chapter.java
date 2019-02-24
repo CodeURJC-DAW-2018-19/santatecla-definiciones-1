@@ -11,6 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -20,7 +23,8 @@ public class Chapter {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private String chapterName;
-	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL) //, mappedBy="chapter"
+	@OneToMany(cascade=CascadeType.ALL) 
+	@LazyCollection(LazyCollectionOption.FALSE)//cannot uses fetch type eager
 	@JoinColumn(name="concept_id")
 	@OnDelete(action=OnDeleteAction.CASCADE)
 	private List<Concept> concepts = new ArrayList();

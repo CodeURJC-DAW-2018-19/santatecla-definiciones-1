@@ -15,7 +15,7 @@
                     {{/docente}}
                 </li>
             </ul>
-            {{/concepts}}
+{{/concepts}}
 {{^concepts}}
-    <script>triggerOnce("concepts","{{id}}")</script>
+    <script>triggerOnceConcept()</script>
 {{/concepts}}

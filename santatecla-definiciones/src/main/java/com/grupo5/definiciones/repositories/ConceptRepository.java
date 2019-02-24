@@ -11,8 +11,8 @@ public interface ConceptRepository extends JpaRepository<Concept, Long>{
 	
 	Concept	findByConceptName(String name);
 	
-	Page<Concept> findConceptByChapter(Chapter chapter, Pageable page);
+	//Page<Concept> findConceptByChapter(Chapter chapter, Pageable page);
 
-	Page<Concept> findByChapter_id(long chapterId, Pageable page);
+	Page<Concept> findByChapterConcept_id(long chapterId, Pageable page);
 	
 }
