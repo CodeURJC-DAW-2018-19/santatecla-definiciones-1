@@ -1,5 +1,8 @@
 package com.grupo5.definiciones.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -14,26 +18,25 @@ public class Answer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	@Column(length = 50000)
-	private String questionText;
-	//Answers with Yes/No questions have "Sí" for yes and "No" for no in the String
+	@Column(length = 10000)
 	private String answerText;
 	private boolean marked;
 	private boolean correct;
-	@OneToOne(cascade = CascadeType.ALL)
-	private Justification justification;
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<Justification> justifications;
 	@OneToOne
 	private User user; //User that created this answer 
-	
 	@ManyToOne
 	private Concept concept;
+	@OneToMany(mappedBy="answer", cascade = CascadeType.ALL)
+	private List<Question> questions;
 	
 	protected Answer() {
 	}
 
-	public Answer(String questionText, String answerText, boolean marked, User user) {
+	public Answer(String answerText, boolean marked, User user) {
 		super();
-		this.questionText = questionText;
+		this.justifications = new ArrayList<>();
 		this.answerText = answerText;
 		this.marked = marked;
 		this.user = user;
@@ -63,21 +66,6 @@ public class Answer {
 		this.correct = correct;
 	}
 
-	public String getQuestionText() {
-		return questionText;
-	}
-
-	public void setQuestionText(String questionText) {
-		this.questionText = questionText;
-	}
-
-	public Justification getJustification() {
-		return justification;
-	}
-
-	public void setJustification(Justification justification) {
-		this.justification = justification;
-	}
 
 	public boolean isMarked() {
 		return marked;
@@ -102,12 +90,36 @@ public class Answer {
 	public void setConcept(Concept concept) {
 		this.concept = concept;
 	}
+	
+	public List<Justification> getJustifications() {
+		return justifications;
+	}
+
+	public void setJustifications(List<Justification> justifications) {
+		this.justifications = justifications;
+	}
+
+	public void addJustification(Justification justification) {
+		this.justifications.add(justification);
+	}
+
+	public List<Question> getQuestions() {
+		return questions;
+	}
+
+	public void setQuestions(List<Question> questions) {
+		this.questions = questions;
+	}
+
+	public void addQuestion(Question question) {
+		this.questions.add(question);
+	}
 
 	@Override
 	public String toString() {
-		return "Answer [id=" + id + ", questionText=" + questionText + ", answerText=" + answerText + ", marked="
-				+ marked + ", correct=" + correct + ", justification=" + justification + ", user=" + user + ", concept="
-				+ concept + "]";
+		return "Answer [id=" + id + ", answerText=" + answerText + ", marked=" + marked + ", correct=" + correct
+				+ ", justifications=" + justifications + ", user=" + user + ", concept=" + concept + ", questions="
+				+ questions + "]";
 	}
 
 

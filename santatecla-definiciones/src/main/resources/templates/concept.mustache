@@ -16,11 +16,13 @@
 		  <!-- Else -->
 		  {{^noMarkedAnswers}}
 		  <!-- Write all marked answers -->
-          {{#answers}}
-          {{#marked}}
-          {{>showquestion}}
-          {{/marked}}
-          {{/answers}}
+          {{#questions}}
+          	{{#answer}}
+		          {{#marked}}
+		          {{>showquestion}}
+		          {{/marked}}
+		    {{/answer}}
+          {{/questions}}
           {{/noMarkedAnswers}}
         </div>
       </div>
@@ -35,11 +37,13 @@
           <p>No hay preguntas por corregir</p>
           {{/noUnmarkedAnswers}}
           {{^noUnmarkedAnswers}}
-          {{#answers}}
-          {{^marked}}
-          {{>showquestion}}
-          {{/marked}}
-          {{/answers}}
+          {{#questions}}
+          	{{#answer}}
+		          {{^marked}}
+		          {{>showquestion}}
+		          {{/marked}}
+		    {{/answer}}
+          {{/questions}}
           {{/noUnmarkedAnswers}}
         </div>
       </div>

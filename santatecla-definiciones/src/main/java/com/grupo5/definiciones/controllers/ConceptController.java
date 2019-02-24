@@ -21,10 +21,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.grupo5.definiciones.model.Answer;
 import com.grupo5.definiciones.model.Concept;
 import com.grupo5.definiciones.model.Justification;
+import com.grupo5.definiciones.model.Question;
 import com.grupo5.definiciones.model.User;
 import com.grupo5.definiciones.services.AnswerService;
 import com.grupo5.definiciones.services.ChapterService;
 import com.grupo5.definiciones.services.ConceptService;
+import com.grupo5.definiciones.services.QuestionService;
 import com.grupo5.definiciones.usersession.Tab;
 import com.grupo5.definiciones.usersession.UserSessionService;
 
@@ -39,7 +41,10 @@ public class ConceptController {
 
 	@Autowired
 	private AnswerService answerService;
-
+	
+	@Autowired
+	private QuestionService questionService;
+	
 	@Autowired
 	private UserSessionService userSession;
 	
@@ -73,22 +78,22 @@ public class ConceptController {
 		model.addAttribute("tabs", userSession.getOpenTabs());
 		Concept concept = conceptService.findByConceptName(name);
 		model.addAttribute("conceptName", name);
-		Page<Answer> answers;
+		Page<Question> questions;
 		// if user is a teacher get all answers and return the teacher template
 		User user;
 		if (req.isUserInRole("ROLE_DOCENTE")) {
-			answers = answerService.findByConcept(concept, page);
+			questions = questionService.findByAnswer_Concept(concept, page);
 			model.addAttribute("diagramInfo", chapterService.generateDiagramInfo());
 		} else {
 			user = userSession.getLoggedUser();
-			answers = answerService.findByConceptAndUser(concept, user, page);
+			questions = questionService.findByAnswer_ConceptAndAnswer_User(concept, user, page);
 			model.addAttribute("diagramInfo", chapterService.generateDiagramInfo(user));
 		}
-		model.addAttribute("answers", answers);
 		boolean noMarkedAnswers = true;
 		boolean noUnmarkedAnswers = true;
-		if (!answers.isEmpty()) {
-			for (Answer a : answers) {
+		if (!questions.isEmpty()) {
+			for (Question q : questions) {
+				Answer a = q.getAnswer();
 				if (!noMarkedAnswers && !noUnmarkedAnswers)
 					break;
 				if (a.isMarked()) {
@@ -98,7 +103,7 @@ public class ConceptController {
 				}
 			}
 		}
-		model.addAttribute("answers", answers);
+		model.addAttribute("questions", questions);
 		model.addAttribute("conceptName", concept.getConceptName());
 		model.addAttribute("noMarkedAnswers", noMarkedAnswers);
 		model.addAttribute("noUnmarkedAnswers", noUnmarkedAnswers);
@@ -140,7 +145,7 @@ public class ConceptController {
 		model.addAttribute("conceptName", conceptName);
 		return "modifyAnswer";
 	}
-
+	//TODO: Fix with new Question model
 	@RequestMapping("/addModifiedAnswer/{conceptName}/{id}")
 	public String addModifiedAnswer(Model model, @PathVariable String conceptName, @PathVariable Long id,
 			@RequestParam String justificationText, @RequestParam String answerText,
@@ -163,10 +168,10 @@ public class ConceptController {
 				valid = false;
 			}
 			Justification just = new Justification(justificationText, valid);
-			ans.setJustification(just);
-		} else {
+			ans.addJustification(just);
+		}/* else {
 			ans.setJustification(null);
-		}
+		}*/
 		answerService.save(ans);
 		return "home";
 	}
@@ -178,7 +183,7 @@ public class ConceptController {
 			@RequestParam(value = "validJustification", required = false) String vJustification,
 			@RequestParam(value = "correctAnswer", required = false) String cAnswer,
 			@RequestParam(value = "incorrectAnswer", required = false) String iAnswer) {
-		Answer ans = new Answer(questionText, answerText, true, null);
+		Answer ans = new Answer(answerText, true, null);
 		if (cAnswer != null && iAnswer == null) {
 			ans.setCorrect(true);
 		} else if (cAnswer == null && iAnswer != null) {
@@ -192,7 +197,7 @@ public class ConceptController {
 				valid = false;
 			}
 			Justification just = new Justification(justificationText, valid);
-			ans.setJustification(just);
+			ans.addJustification(just);
 		}
 		Concept con = conceptService.findByConceptName(conceptName);
 		con.getAnswers().add(ans);
@@ -202,7 +207,7 @@ public class ConceptController {
   
 	@PostMapping("/saveAnswer/{conceptName}")
 	public String saveAnswer (Model model, @PathVariable String conceptName, @RequestParam String questionText, @RequestParam String answerText, HttpServletResponse httpServletResponse) {
-		Answer ans = new Answer(questionText,answerText,false,userSession.getLoggedUser());
+		Answer ans = new Answer(answerText,false,userSession.getLoggedUser());
 		ans.setAnswerText(answerText);
 		Concept con = conceptService.findByConceptName(conceptName);
 		ans.setConcept(con);
