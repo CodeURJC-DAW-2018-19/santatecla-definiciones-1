@@ -40,7 +40,7 @@ public class ChapterController {
 
 	@Autowired
 	private ChapterService chapterService;
-	private final int DEFAULT_SIZE = 10;
+	private final int DEFAULT_SIZE = 1;
 	@Autowired
 	private ConceptService conceptService;
 
@@ -97,6 +97,7 @@ public class ChapterController {
 			@RequestParam("chapterId") String chapterId){
 		Page<Concept> concepts = conceptService.findByChapter_id(Long.parseLong(chapterId), page);
 		model.addAttribute("concepts", concepts);
+		model.addAttribute("max", concepts.getTotalPages());
 		model.addAttribute("chapterId", chapterId);
 		System.out.println(model);
 		return "conceptInfo";

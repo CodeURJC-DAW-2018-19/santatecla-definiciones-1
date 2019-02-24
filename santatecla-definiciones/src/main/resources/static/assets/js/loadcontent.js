@@ -2,7 +2,6 @@ var chapters = 0;
 var conceptMap = new Map();
 var executedMap = new Map();
 var executedChapter = true;
-var executedConcept = true;
 
 function loadGif(contentType){
 	$("#loadGif"+contentType).html('<img src="assets/gifs/ajax-loader.gif" />');
@@ -23,7 +22,7 @@ function ajax(urlPage, contentType){
 function newId(chapterId){
 	if(!conceptMap.has(chapterId)){
 		conceptMap.set(chapterId,0);
-		//executedMap.set(chapterId,true);
+		executedMap.set(chapterId,true);
 	}
 }
 
@@ -91,9 +90,9 @@ function triggerOnceChapter(){
 	}
 }
 
-function triggerOnceConcept(){
-	if(executedConcept){
-		executedConcept = false;
+function triggerOnceConcept(id){
+	if(executedMap.get(id)){
+		executedMap.set(id, false);
 		alert('No hay más conceptos disponibles');
 	}
 };
