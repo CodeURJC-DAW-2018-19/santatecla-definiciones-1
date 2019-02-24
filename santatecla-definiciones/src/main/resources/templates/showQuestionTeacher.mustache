@@ -1,144 +1,170 @@
 <div class="correctedAnswers">
-	{{#marked}}
-  <form action="/modifyAnswer/{{conceptName}}/{{id}}" method="post">
- 	 {{/marked}}
-  	 {{^marked}}
-  	<form action="/mark/{{id}}" method="post">
- 	 {{/marked}}
-		<div class="uncorrectedAnswersJ">
-			<p>{{questionText}}</p>
-			<p>{{answerText}}</p>
-			<div class="correction">
-				{{#marked}}
-				{{#correct}}
-				<div class="form-check form-check-inline">
-					<label class="form-check-label">
-						<input class="form-check-input" type="checkbox" checked>
-						Correcta
-						<span class="form-check-sign">
-							<span class="check"></span>
-						</span>
-					</label>
-				</div>
-				<div class="form-check  form-check-inline">
-					<label class="form-check-label">
-						<input class="form-check-input" type="checkbox" ">
+  {{#marked}}
+  <form action="/modifyAnswer/{{ conceptName }}/{{ id }}" method="post">
+  {{/marked}}
+  {{^marked}}
+  <form action="/mark/{{id}}" method="post">
+  {{/marked}}
+    <div class="uncorrectedAnswersJ">
+      <input
+        type="textarea"
+        name="answerText{{ id }}"
+        value="{{ answerText }}"
+      />
+      <div class="correction">
+        {{#marked}}
+        <div class="form-check form-check-radio">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="correct{{ id }}"
+            id="correct{{ id }}" value="yes" {{#correct}}checked{{/correct}} onclick="showJustification('incorrect{{ id }}', 'justificationAnswer{{id}}-0')">
+            Correcta
+            <span class="circle">
+              <span class="check"></span>
+            </span>
+          </label>
+        </div>
+        <div class="form-check form-check-radio">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="correct{{ id }}"
+            id="incorrect{{ id }}" value="no" {{^correct}}checked{{/correct}} onclick="showJustification('incorrect{{ id }}', 'justificationAnswer{{id}}-0')">
+            Incorrecta
+            <span class="circle">
+              <span class="check"></span>
+            </span>
+          </label>
+        </div>
+      </div>
+      <div class="uncorrectedAnswersButton">
+        <button
+          type="submit"
+          name="modifyAnswer"
+          class="btn btn-primary btn-fab btn-fab-mini btn-round"
+          data-toggle="modal"
+        >
+          <i class="material-icons">build</i>
+        </button>
+        <button
+          type="button"
+          onclick="location.href='/delete/{{ id }}'"
+          name="deleteAnswer"
+          class="btn btn-primary btn-fab btn-fab-mini btn-round"
+          data-toggle="modal"
+          data-target="#deleteModal"
+        >
+          <i class="material-icons">delete</i>
+        </button>
+      </div>
+      {{/marked}}
+      {{^marked}}
+      <div class="form-check form-check-radio">
+        <label class="form-check-label">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="correct{{ id }}"
+            id="correct{{ id }}"
+            value="yes" onclick="showJustification('incorrect{{ id }}', 'justificationAnswer{{id}}-0')"
+          />
+          Correcta
+          <span class="circle">
+            <span class="check"></span>
+          </span>
+        </label>
+      </div>
+      <div class="form-check form-check-radio">
+        <label class="form-check-label">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="correct{{ id }}"
+            id="incorrect{{ id }}"
+            value="no" onclick="showJustification('incorrect{{ id }}', 'justificationAnswer{{id}}-0')"
+          />
           Incorrecta
-          <span class=" form-check-sign">
-						<span class="check"></span>
-						</span>
-					</label>
-				</div>
-				{{/correct}}
-				{{^correct}}
-				<div class="form-check form-check-inline">
-					<label class="form-check-label">
-						<input class="form-check-input" type="checkbox">
-						Correcta
-						<span class="form-check-sign">
-							<span class="check"></span>
-						</span>
-					</label>
-				</div>
-				<div class="form-check  form-check-inline">
-					<label class="form-check-label">
-						<input class="form-check-input" type="checkbox" checked>
-						Incorrecta
-						<span class="form-check-sign">
-							<span class="check"></span>
-						</span>
-					</label>
-				</div>
-				{{/correct}}
-				{{/marked}}
-				{{^marked}}
-				<div class="form-check form-check-inline">
-					<label class="form-check-label">
-						<input class="form-check-input" type="checkbox" name="correctAnswer">
-						Correcta
-						<span class="form-check-sign">
-							<span class="check"></span>
-						</span>
-					</label>
-				</div>
-				<div class="form-check  form-check-inline">
-					<label class="form-check-label">
-						<input class="form-check-input" type="checkbox" name="incorrectAnswer">
-						Incorrecta
-						<span class="form-check-sign">
-							<span class="check"></span>
-						</span>
-					</label>
-				</div>
-				{{/marked}}
-			</div>
-			{{#marked}}
-			<div class="uncorrectedAnswersButton">
-				<button type="button" onclick="location.href='/delete/{{id}}'" name="deleteAnswer" class="btn btn-primary btn-fab btn-fab-mini btn-round" data-toggle="modal" data-target="#deleteModal">
-					<i class="material-icons">delete</i>
-				</button>
-				<button type="submit" name="modifyAnswer" class="btn btn-primary btn-fab btn-fab-mini btn-round" data-toggle="modal">
-						<i class="material-icons">build</i>
-				</button>
-			</div>
-			{{/marked}}
-			{{^marked}}
-			<div class="uncorrectedAnswersButton">
-				<button type="submit" class="btn btn-primary btn-fab btn-fab-mini btn-round" data-toggle="modal" data-target="#exampleModal">
-					<i class="material-icons">add</i>
-				</button>
-			</div>
-			{{/marked}}
-			{{#justification}}
-			<div class="justification">
-				<p>Justificacion: </p>
-				<p>{{justificationText}}</p>
-				<div class="justification2">
-					{{#valid}}
-					<div class="form-check form-check-inline">
-						<label class="form-check-label">
-							<input class="form-check-input" type="checkbox" checked>
-							Valida
-							<span class="form-check-sign">
-								<span class="check"></span>
-							</span>
-						</label>
-					</div>
-					<div class="form-check form-check-inline">
-						<label class="form-check-label">
-							<input class="form-check-input" type="checkbox">
-							Invalida
-							<span class="form-check-sign">
-								<span class="check"></span>
-							</span>
-						</label>
-					</div>
-				{{/valid}}
-				{{^valid}}
-				<div class="form-check form-check-inline">
-					<label class="form-check-label">
-						<input class="form-check-input" type="checkbox">
-						Valida
-						<span class="form-check-sign">
-							<span class="check"></span>
-						</span>
-					</label>
-				</div>
-				<div class="form-check form-check-inline">
-					<label class="form-check-label">
-						<input class="form-check-input" type="checkbox" checked>
-						Invalida
-						<span class="form-check-sign">
-							<span class="check"></span>
-						</span>
-					</label>
-				</div>
-		{{/valid}}
-		</div>
-		</div>
-		{{/justification}}
-	</div>
+          <span class="circle">
+            <span class="check"></span>
+          </span>
+        </label>
+      </div>
+    </div>
+    <div class="uncorrectedAnswersButton">
+      <button
+        type="submit"
+        class="btn btn-primary btn-fab btn-fab-mini btn-round"
+        data-toggle="modal"
+        data-target="#addAnswerModal"
+      >
+        <i class="material-icons">add</i>
+      </button>
+    </div>
+    {{/marked}}
+    {{#justifications}}
+    <div class="justification justificationAnswer{{#answer}}{{id}}{{/answer}}-0">
+      <p>JUSTIFICACIÓN:</p>
+      <input
+        type="textarea"
+        name="justificationText{{ id }}"
+        value="{{ justificationText }}"
+      />
+      <div class="justification2">
+        <div class="form-check form-check-radio">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="valid{{ id }}"
+            id="valid{{ id }}" value="yes" {{#marked}}{{#valid}}checked{{/valid}}{{/marked}} onclick="showError('invalid{{ id }}')"
+            /> Válida
+            <span class="circle">
+              <span class="check"></span>
+            </span>
+          </label>
+        </div>
+        <div class="form-check form-check-radio">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="valid{{ id }}"
+            id="invalid{{ id }}" value="no" {{#marked}}{{^valid}}checked{{/valid}}{{/marked}} onclick="showError('invalid{{ id }}')"
+            /> Inválida
+            <span class="circle">
+              <span class="check"></span>
+            </span>
+          </label>
+        </div>
+        <input class="errorAnswer" {{#valid}}style="display: none"{{/valid}} type="textarea" value="{{#error}}{{ error }}{{/error}}" />
+      </div>
+    </div>
+    {{/justifications}}
+	{{^justifications}}
+	<div class="justification justificationAnswer{{id}}-0" style="display:none">
+      <p>JUSTIFICACIÓN:</p>
+      <input
+        type="textarea"
+        name="justificationText{{id}}-0"
+      />
+      <div class="justification2">
+        <div class="form-check form-check-radio">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="valid{{id}}-0"
+            id="valid{{id}}-0" value="yes" {{#marked}}{{#valid}}checked{{/valid}}{{/marked}} onclick="showError('invalid{{id}}-0')"
+            /> Válida
+            <span class="circle">
+              <span class="check"></span>
+            </span>
+          </label>
+        </div>
+        <div class="form-check form-check-radio">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="valid{{id}}-0"
+            id="invalid{{id}}-0" value="no" {{#marked}}{{^valid}}checked{{/valid}}{{/marked}} onclick="showError('invalid{{id}}-0')"
+            /> Inválida
+            <span class="circle">
+              <span class="check"></span>
+            </span>
+          </label>
+        </div>
+        <input class="errorAnswer" {{#valid}}style="display: none"{{/valid}} type="textarea" value="{{#error}}{{ error }}{{/error}}" />
+      </div>
+    </div>
+	{{/justifications}}
 	<input type="hidden" name="_csrf" value={{csrfToken}}>
-	</form>
+  </form>
 </div>
-<hr>
+</div>
+<hr />

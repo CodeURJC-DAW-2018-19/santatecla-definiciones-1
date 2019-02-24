@@ -6,7 +6,7 @@
                 <i class="material-icons">keyboard_arrow_right</i>
                 {{ chapterName }}
             </a>
-            {{#docente}}
+            {{#teacher}}
             <div class="chapterDeleteButton">
               <form action="/deleteChapter/{{id}}" method="post">
   	        	    <button type="submit" class=" btn btn-primary btn-fab btn-fab-mini btn-round deleteButtonChapter" data-toggle="modal" data-target="#deleteModal">
@@ -15,7 +15,7 @@
   			          <input type="hidden" name="_csrf" value={{csrfToken}}>
   			      </form>
           </div>
-          {{/docente}}
+          {{/teacher}}
       </h5>
     </div>
     <div id="collapse{{ chapterName }}" class="collapse" role="tabpanel" aria-labelledby="{{ chapterName }}" data-parent="#accordion">
@@ -25,7 +25,7 @@
                 <li class="chapterInfo">
                  <img src='/image/{{conceptName}}' class="conceptImage" />
                  <a href="/concept/{{conceptName}}">{{ conceptName }}</a>
-                {{#docente}}
+                {{#teacher}}
                 <div class="conceptDeleteButton">
                     <form action="/deleteConcept/{{id}}" method="post">
         	        	    <button type="submit" class=" btn btn-primary btn-fab btn-fab-mini btn-round deleteButtonChapter" data-toggle="modal" data-target="#deleteModal">
@@ -34,17 +34,17 @@
         			          <input type="hidden" name="_csrf" value={{csrfToken}}>
         			      </form>
                 </div>
-                {{/docente}}
+                {{/teacher}}
                 </li>
             </ul>
             {{/concepts}}
-            {{#docente}}
+            {{#teacher}}
             <div class="addQuestionSeeDiagram">
                 <button type="button" class="btn btn-primary btn-fab btn-fab-mini btn-round" data-toggle="modal" data-target="#addConceptModal">
                     <i class="material-icons">add</i>
                 </button>
             </div>
-            {{/docente}}
+            {{/teacher}}
         </div>
     </div>
 </div>
