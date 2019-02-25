@@ -27,7 +27,7 @@
 
 ## Diagram
 
-![Diagram screenshot](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/Captura.PNG)
+![Diagram screenshot](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/Diagrama%20navegación.png)
 
 <img align="left" height="250" width="350" src="https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/chrome_2019-02-04_11-39-54.png"/>
 <img align="left" height="250" width="350" src="https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/chrome_2019-02-04_11-40-10.png"/>
@@ -38,11 +38,4 @@ For running tthe application we need to open a STS environment like Spring and i
 
 ## Database Entities
 
-<img src="https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/diagramaEntidadesBBDD.png"/>
-
-
 ## Class Diagrams and Templates
-
-<img src="https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/DiagramaClases1.PNG"/>
-
-<img src="https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/DiagramaClases2.PNG"/>

@@ -10,14 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-import javax.persistence.ManyToOne;
 
 @Entity
 public class Concept {
@@ -28,20 +21,16 @@ public class Concept {
 	private String conceptName;
 	private String URL = "http://www.urldelconcepto.com";
 	@ManyToOne
-	private Chapter chapterConcept;
-	
-	@OneToMany(cascade=CascadeType.ALL)
-	@LazyCollection(LazyCollectionOption.FALSE) //cannot uses fetch type eager
-	@JoinColumn(name="answer_id")
-	@OnDelete(action=OnDeleteAction.CASCADE)
-	private List<Answer> answers = new ArrayList();
+	private Chapter chapter;
+	@OneToMany(mappedBy="concept", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<Answer> answers = new ArrayList<>();
 	
 	protected Concept() {}
 
 	public Concept(String conceptName, Chapter chapter) {
 		super();
 		this.conceptName = conceptName;
-		this.chapterConcept = chapter;
+		this.chapter = chapter;
 	}
 
 	public long getId() {
