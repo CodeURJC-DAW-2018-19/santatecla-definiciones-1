@@ -133,10 +133,11 @@
     </div>
     {{/marked}}
     {{#justifications}}
-    <div class="justification" id="justificationAnswer{{#answer}}{{id}}{{/answer}}-0">
+    <div class="justification">
       <p>JUSTIFICACIÓN:</p>
       <input
         type="textarea"
+        id="justificationText{{id}}"
         name="justificationText"
         value="{{ justificationText }}"
 		required
@@ -144,7 +145,7 @@
       <div class="justification2">
         <div class="form-check form-check-radio">
           <label class="form-check-label">
-            <input class="form-check-input" type="radio" name="valid"
+            <input class="form-check-input" type="radio" name="valid{{id}}"
             id="valid{{ id }}" value="yes" {{#marked}}{{#valid}}checked{{/valid}}{{/marked}} onclick="showError('invalid{{ id }}')"
             /> Válida
             <span class="circle">
@@ -155,6 +156,7 @@
         <div class="form-check form-check-radio">
           <label class="form-check-label">
             <input class="form-check-input" type="radio" name="valid"
+            <input class="form-check-input" type="radio" name="valid{{id}}"
             id="invalid{{ id }}" value="no" {{#marked}}{{^valid}}checked{{/valid}}{{/marked}} onclick="showError('invalid{{ id }}')"
             /> Inválida
             <span class="circle">
@@ -162,16 +164,38 @@
             </span>
           </label>
         </div>
-        <input class="errorAnswer" {{#valid}}style="display: none"{{/valid}} type="textarea" value="{{#error}}{{ error }}{{/error}}" required/>
-        <a
+        <input class="errorAnswer" id="error{{id}}" {{#valid}}style="display: none"{{/valid}} type="textarea" value="{{#error}}{{ error }}{{/error}}" required/>
+        <button
           class="btn btn-primary btn-fab btn-fab-mini btn-round"
-          href="/modifyJust/{{conceptName}}/{{id}}?justificationText="
+          id="modifyButton{{id}}"
         >
+        <script>
+          $("#modifyButton{{id}}").click(function(e){
+            e.preventDefault();
+            var text = document.getElementById("justificationText{{id}}").value;
+            var radios = document.getElementsByName("valid{{id}}");
+            var valid;
+            for (var i = 0; i < radios.length; i++) {
+              if (radios[i].checked){
+                valid = radios[i].value;
+                break;
+              }
+            }
+            var error = null;
+            if (valid=="no")
+              error = document.getElementById("error{{id}}").value;
+            if(error){
+              window.location.href = "/modifyJust/{{conceptName}}/{{id}}?jText=" + text + "&valid=" + valid + "&error="+error;
+            } else {
+              window.location.href = "/modifyJust/{{conceptName}}/{{id}}?jText=" + text + "&valid=" + valid;
+            }
+          })
+        </script>
           <i class="material-icons">build</i>
-        </a>
+        </button>
         <a
           type="button"
-          href='/deleteJust/{{conceptName}}/{{ id }}/{{#answer}}{{id}}{{/answer}}'
+          href='/deleteJust/{{conceptName}}/{{ id }}'
           name="deleteJustification"
           class="btn btn-primary btn-fab btn-fab-mini btn-round"
         >

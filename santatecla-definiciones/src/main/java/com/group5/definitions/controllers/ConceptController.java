@@ -101,8 +101,10 @@ public class ConceptController {
 			return "teacher";
 		} else {
 			user = userSession.getLoggedUser();
-			Page<Question> markedQuestions = questionService.findByMarkedAndAnswer_ConceptAndUser(true, concept, user, page);
-			Page<Question> unmarkedQuestions = questionService.findByMarkedAndAnswer_ConceptAndUser(false, concept, user, page);
+			Page<Question> markedQuestions = questionService.findByMarkedAndAnswer_ConceptAndUser(true, concept, user,
+					page);
+			Page<Question> unmarkedQuestions = questionService.findByMarkedAndAnswer_ConceptAndUser(false, concept,
+					user, page);
 			model.addAttribute("diagramInfo", chapterService.generateDiagramInfo(user));
 			model.addAttribute("markedQuestions", markedQuestions);
 			model.addAttribute("unmarkedQuestions", unmarkedQuestions);
@@ -145,7 +147,8 @@ public class ConceptController {
 	}
 
 	@RequestMapping("/delete/{conceptName}/{id}")
-	public String deleteAnswer(Model model, @PathVariable String conceptName, @PathVariable Long id, HttpServletResponse httpServletResponse) throws IOException {
+	public String deleteAnswer(Model model, @PathVariable String conceptName, @PathVariable Long id,
+			HttpServletResponse httpServletResponse) throws IOException {
 		answerService.deleteById(id);
 		httpServletResponse.sendRedirect("/concept/" + conceptName);
 		return null;
@@ -153,16 +156,15 @@ public class ConceptController {
 
 	@PostMapping("/modifyAnswer/{conceptName}/{id}")
 	public String addModifiedAnswer(Model model, @PathVariable String conceptName, @PathVariable Long id,
-			@RequestParam String answerText,
-			@RequestParam(value = "correct", required = false) String cAnswer,
+			@RequestParam String answerText, @RequestParam(value = "correct", required = false) String cAnswer,
 			@RequestParam(value = "justificationTextNew", required = false) String justificationText,
 			@RequestParam(value = "validNew", required = false) String jValid,
-			@RequestParam(value = "errorNew", required = false) String error, 
-			HttpServletResponse httpServletResponse) throws IOException {
+			@RequestParam(value = "errorNew", required = false) String error, HttpServletResponse httpServletResponse)
+			throws IOException {
 		Answer ans = answerService.getOne(id);
 		ans.setAnswerText(answerText);
 		Justification newJ = null;
-		if(cAnswer!=null) {
+		if (cAnswer != null) {
 			ans.setCorrect(cAnswer.equals("yes"));
 			if (cAnswer.equals("yes")) {
 				ans.getJustifications().clear();
@@ -172,11 +174,11 @@ public class ConceptController {
 				if (jValid.equals("yes"))
 					newJ.setError(error);
 				ans.addJustification(newJ);
-				
+
 			}
 		}
 		answerService.save(ans);
-		if (newJ!=null) {
+		if (newJ != null) {
 			newJ.setAnswer(ans);
 			justificationService.save(newJ);
 		}
@@ -231,16 +233,30 @@ public class ConceptController {
 		httpServletResponse.sendRedirect("/concept/" + conceptName);
 		return null;
 	}
-	
+
 	@PostMapping("/saveURL")
-	public void saveURL(Model model, @RequestParam String conceptName, @RequestParam String url, HttpServletResponse httpServletResponse) throws IOException {
+	public void saveURL(Model model, @RequestParam String conceptName, @RequestParam String url,
+			HttpServletResponse httpServletResponse) throws IOException {
 		conceptService.saveURL(conceptName, url);
 		httpServletResponse.sendRedirect("/concept/" + conceptName);
 	}
-	
+
 	@RequestMapping("/deleteJust/{conceptName}/{id}")
-	public void deleteJustification(Model model, @PathVariable String conceptName, @PathVariable long id, HttpServletResponse httpServletResponse) throws IOException {
+	public void deleteJustification(Model model, @PathVariable String conceptName, @PathVariable long id,
+			HttpServletResponse httpServletResponse) throws IOException {
 		justificationService.deleteById(id);
+		httpServletResponse.sendRedirect("/concept/" + conceptName);
+	}
+
+	@RequestMapping("/modifyJust/{conceptName}/{id}")
+	public void modifyJustification(Model model, @PathVariable String conceptName, @PathVariable long id,
+			@RequestParam String jText, @RequestParam String valid, @RequestParam(required = false) String error,
+			HttpServletResponse httpServletResponse) throws IOException {
+		Justification j = justificationService.findById(id);
+		j.setJustificationText(jText);
+		j.setValid(valid.equals("yes"));
+		if (error!=null)
+			j.setError(error);
 		httpServletResponse.sendRedirect("/concept/" + conceptName);
 	}
 }

@@ -45,4 +45,8 @@ public class JustificationService {
 	public long countByAnswer_Id(long answerId) {
 		return justificationRepository.countByAnswer_Id(answerId);
 	}
+
+	public Justification findById(long id) {
+		return justificationRepository.findById(id).get();
+	}
 }
