@@ -8,7 +8,7 @@
             </a>
             {{#teacher}}
             <div class="chapterDeleteButton">
-              <form action="/deleteChapter/{{id}}" method="post">
+            	<form action="/deleteChapter/{{id}}" method="post">
   	        	    <button type="submit" class=" btn btn-primary btn-fab btn-fab-mini btn-round deleteButtonChapter" data-toggle="modal" data-target="#deleteModal">
   					             <i class="material-icons">delete</i>
                   </button>
@@ -39,6 +39,18 @@
             </ul>
             {{/concepts}}
             {{#teacher}}
+  						<i class="material-icons">delete</i>
+                  	</button>
+  			            <input type="hidden" name="_csrf" value={{csrfToken}}>
+  				</form>
+	        </div>
+	        {{/docente}}
+      	</h5>
+    </div>
+    <div id="collapse{{ chapterName }}" class="collapse" role="tabpanel" aria-labelledby="{{ chapterName }}" data-parent="#accordion">
+        <div class="card-body" id="concepts{{id}}">
+            <script>loadConcepts("{{id}}")</script>
+            {{#docente}}
             <div class="addQuestionSeeDiagram">
                 <button type="button" class="btn btn-primary btn-fab btn-fab-mini btn-round" data-toggle="modal" data-target="#addConceptModal{{id}}">
                     <i class="material-icons">add</i>
@@ -46,6 +58,15 @@
             </div>
             {{/teacher}}
         </div>
+        <button type="button" class="btn btn-primary" id="showMoreBtnConcept{{id}}">
+			Más resultados
+		</button>
+		<div id="loadGifConcept{{chapterId}"></div>
+		<script type="text/javascript">
+			$("#showMoreBtnConcept{{id}}").click(function (){
+				loadConcepts("{{id}}");
+			});
+		</script>
     </div>
 </div>
 <div class="modal fade" id="addConceptModal{{id}}" tabindex="-1" role="dialog" aria-labelledby="conceptModalLabel{{id}}" aria-hidden="true">
@@ -75,5 +96,5 @@
 <br />
 {{/chapters}}
 {{^chapters}}
-    <span>No más hay temas disponibles.</span>
+    <script>triggerOnceChapter()</script>
 {{/chapters}}

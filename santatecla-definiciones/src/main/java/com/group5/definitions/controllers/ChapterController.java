@@ -43,7 +43,7 @@ public class ChapterController {
 
 	@Autowired
 	private ChapterService chapterService;
-	private final int DEFAULT_SIZE = 10;
+	private final int DEFAULT_SIZE = 1;
 	@Autowired
 	private ConceptService conceptService;
 
@@ -98,6 +98,19 @@ public class ChapterController {
 		model.addAttribute("teacher", req.isUserInRole("ROLE_TEACHER"));
 		return "chapterInfo";
 	}
+	
+	
+	@RequestMapping("/loadConcepts")
+	public String getConcepts(Model model, HttpServletRequest req,
+			@PageableDefault(size = DEFAULT_SIZE, sort = { "conceptName" }) Pageable page, 
+			@RequestParam("chapterId") String chapterId){
+		Page<Concept> concepts = conceptService.findByChapter_id(Long.parseLong(chapterId), page);
+		model.addAttribute("concepts", concepts);
+		model.addAttribute("max", concepts.getTotalPages());
+		model.addAttribute("chapterId", chapterId);
+		System.out.println(model);
+		return "conceptInfo";
+	}
 
 	@RequestMapping("/login")
 	public String loginPage() {
@@ -119,9 +132,10 @@ public class ChapterController {
 		return "home";
 	}
 
-	@PostMapping("/addConcept")
-	public String addConcept(Model model, HttpServletRequest req,
-			@RequestParam String conceptName, @RequestParam String chapterName) {
+	@RequestMapping("/addConcept/{chapterName}")
+	public String addConcept(Model model,HttpServletRequest req, 
+	@PathVariable String chapterName, 
+	@RequestParam String conceptName) {
 		Chapter chap = chapterService.findByChapterName(chapterName);
 		Concept con = new Concept(conceptName, chap);
 		chap.getConcepts().add(con);

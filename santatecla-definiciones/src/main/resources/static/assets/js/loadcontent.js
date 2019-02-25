@@ -1,35 +1,98 @@
-var map = new Map();
-map.set("chapters", 0);
-map.set("answers", 0);
+var chapters = 0;
+var conceptMap = new Map();
+var executedMap = new Map();
+var executedChapter = true;
 
-function loadChapters(){
-    $("#loadGif").html('<img src="assets/gifs/ajax-loader.gif" />');
-    var page = map.get("chapters");
-    var urlPage = "/loadChapters?page=" + map.get("chapters");
-    $.ajax({
+function loadGif(contentType){
+	$("#loadGif"+contentType).html('<img src="assets/gifs/ajax-loader.gif" />');
+}
+
+function unloadGif(contentType){
+	$("#loadGif"+contentType).html('');
+}
+function ajax(urlPage, contentType){
+	$.ajax({
         url: urlPage
     }).done(function(data){
-        $("#accordion").append(data);
-        $("#loadGif").html('');
-        page++;
-        map.set("chapters", page);
+    	$("#"+contentType).append(data);
     })
 }
 
 
+function newId(chapterId){
+	if(!conceptMap.has(chapterId)){
+		conceptMap.set(chapterId,0);
+		executedMap.set(chapterId,true);
+	}
+}
 
-function loadAnswers(concept){
+
+function loadChapters(){
+	$(document).ready(function (){
+	    loadGif("Chapters"); 
+	    var urlPage = "/loadChapters?page=" + chapters;
+	    ajax(urlPage, "chapters");
+	    unloadGif("Chapters");
+	    chapters++;
+	});
+}
+
+function loadConcepts(chapterId){    
+    $(document).ready(function (){
+    	loadGif("Concept"+chapterId)
+    	newId(chapterId);
+    	var page = conceptMap.get(chapterId);
+        var urlPage = "/loadConcepts?chapterId="+chapterId+"&page="+ page;
+        ajax(urlPage, "concepts"+chapterId);
+        unloadGif("Concept"+chapterId);
+        page++;
+        conceptMap.set(chapterId, page);
+	});
+}
+
+
+
+function loadAnswersMarked(concept){
 	//for some unknow reason we it gives an error in the console with GET gif
-    //$("#loadGif").html('<img src="assets/gifs/ajax-loader.gif" />');
-    var page = map.get("answers");
-    var urlPage = "/concept/"+concept+"?page=" + page;
+    //$("#loadGifMarked").html('<img src="assets/gifs/ajax-loader.gif" />');
+    var page = map.get("answersMarked");
+    var urlPage = "/concept/"+concept+"?page=" + page + "&page="+ map.get("answersUnmarked");
     $.ajax({
         url: urlPage
     }).done(function(data){
-    	console.log('hey');
-        $("#card-body").append(data);
-        //$("#loadGifMarked").html('');
+        $("#Marked").append(data);
+        //$("#loadGifMarkedMarked").html('');
         page++;
         map.set("answersMarked", page);
     })
 }
+
+
+
+function loadAnswersUnmarked(concept){
+	//for some unknow reason we it gives an error in the console with GET gif
+    //$("#loadGifUnmarked").html('<img src="assets/gifs/ajax-loader.gif" />');
+    var page = map.get("answersUnmarked");
+    var urlPage = "/concept/"+concept+"?page="+map.get("answersMarked")+"&page=" + page;
+    $.ajax({
+        url: urlPage
+    }).done(function(data){
+        $("#Unmarked").append(data);
+        //$("#loadGifMarkedUnmarked").html('');
+        page++;
+        map.set("answersUnmarked", page);
+    })
+}
+function triggerOnceChapter(){
+	if(executedChapter){
+		executedChapter = false;
+		alert('No hay más temas disponibles');
+	}
+}
+
+function triggerOnceConcept(id){
+	if(executedMap.get(id)){
+		executedMap.set(id, false);
+		alert('No hay más conceptos disponibles');
+	}
+};
