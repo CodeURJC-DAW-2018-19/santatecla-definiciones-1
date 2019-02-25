@@ -74,10 +74,11 @@
   overflow: auto;
 }
 
-.uncorrectedAnswersJ p {
+.uncorrectedAnswersJ input {
   width: 37%;
   float: left;
   text-align: center;
+  margin-right:10px;
 }
 
 .correction {
@@ -103,13 +104,13 @@
 	overflow: auto;
 }
 
-.justification p {
+.justification input {
   width: 37%;
   float: left;
 }
 
 .justification2 {
-  width: 15%;
+  width: 37%;
   float: left;
 }
 

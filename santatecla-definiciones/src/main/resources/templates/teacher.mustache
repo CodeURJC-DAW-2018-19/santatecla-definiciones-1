@@ -1,39 +1,76 @@
 {{>header}}
 <div class="content">
   <div class="url">
-    <h3>URL:</h3>
-    <input type="text" class="form-control" placeholder="www.urldelconcepto.com">
-    <input type="hidden" name="_csrf" value={{csrfToken}}>
+		<form action="/saveURL" method="post">
+			<div class="form-group">
+			 <h3>URL:</h3>
+				<input type="url" name="url" class="form-control float-left" placeholder="{{conceptURL}}">
+				<input type="submit" class="btn btn-primary" value="Guardar">
+				<input type="hidden" name="conceptName" value={{conceptName}}>
+				<input type="hidden" name="_csrf" value={{csrfToken}}>
+			</div>
+		</form>
   </div>
   <br>
   <!-- Image Upload -->
+	<h3>Subir imagen</h3>
  	<form action="/image/upload" method="post" enctype="multipart/form-data">
  	<input type="hidden" name="conceptName" value="{{conceptName}}">
  	<input name="file" onchange="this.form.submit()" type="file" class="form-control-file" id="imageUpload">
  	<input type="hidden" name="_csrf" value={{csrfToken}}>
   	</form>
-  	
+  <script>
+	function showJustification(incorrectId, defaultJustificationClass) {
+		if (document.getElementById(incorrectId).checked) {
+        var justifications = document.getElementsByClassName(defaultJustificationClass);
+				for (var i = 0; i < justifications.length; i++){
+					justifications[i].style.display = 'block';
+				}
+    }
+    else {
+			var justifications = document.getElementsByClassName(defaultJustificationClass);
+				for (var i = 0; i < justifications.length; i++){
+					justifications[i].style.display = 'none';
+				}
+		}
+	}
+	function showError(invalidId){
+		if (document.getElementById(invalidId).checked) {
+			var z = $("#"+invalidId)
+			var a = z.parent().parent()
+			var b = a.siblings(".errorAnswer");
+			b.show();
+    }
+    else {
+			var z = $("#"+invalidId)
+			var a = z.parent().parent()
+			var b = a.siblings(".errorAnswer")
+			b.hide();
+		}
+	}
+</script>
   <div class="row">
     <div class="card">
       <div class="card-header card-header-danger">
-        <h4 class="card-title text-center">PREGUNTAS CORREGIDAS</h4>
+        <h4 class="card-title text-center">RESPUESTAS CORREGIDAS</h4>
       </div>
       <div class="card-body">
-        <!-- If there are no marked answers -->
-		  {{#noMarkedAnswers}}
-          <p>No hay preguntas corregidas</p>
-		  {{/noMarkedAnswers}}
-		  <!-- Else -->
-		  {{^noMarkedAnswers}}
-		  <!-- Write all marked answers -->
-          {{#questions}}
-						{{#answer}}
-							{{#marked}}
-							{{>showQuestionTeacher}}
-							{{/marked}}
-						{{/answer}}
-          {{/questions}}
-          {{/noMarkedAnswers}}
+				{{#markedAnswers}}
+				{{>showQuestionTeacher}}
+				{{^correct}}
+					<button type="button" class="btn btn-primary" id="showMoreBtnMarked" data-target="#showMore">
+						Más resultados
+						</button>
+				{{/correct}}
+				<hr>
+				{{/markedAnswers}}
+				{{^markedAnswers}}
+					<p>No hay respuestas corregidas</p>
+				{{/markedAnswers}}
+					<button type="button" class="btn btn-primary" id="showMoreBtnMarked" data-target="#showMore">
+						Más resultados
+						</button>
+						<br>
           <button type="button" class="btn btn-primary btn-fab btn-fab-mini btn-round" data-toggle="modal" data-target="#addAnswerModal">
      		<i class="material-icons">add</i>
  		  </button>
@@ -43,28 +80,21 @@
   <div class="row">
     <div class="card">
       <div class="card-header card-header-danger">
-        <h4 class="card-title text-center">PREGUNTAS POR CORREGIR</h4>
+        <h4 class="card-title text-center">RESPUESTAS POR CORREGIR</h4>
       </div>
       <div class="card-body">
-		  {{#noUnmarkedAnswers}}
-          <p>No hay preguntas por corregir</p>
-          {{/noUnmarkedAnswers}}
-          {{^noUnmarkedAnswers}}
-					{{#questions}}
- 						{{#answer}}
-							{{^marked}}
-							{{>showQuestionTeacher}}
-							{{/marked}}
-						{{/answer}}
-          {{/questions}}
-          {{/noUnmarkedAnswers}}
-
+		  	{{#unmarkedAnswers}}
+				{{>showQuestionTeacher}}
+				{{/unmarkedAnswers}}
+				{{^unmarkedAnswers}}
+					<p>No hay respuestas por corregir</p>
+				{{/unmarkedAnswers}}
+				<button type="button" class="btn btn-primary" id="showMoreBtnMarked" data-target="#showMore">
+				Más resultados
+				</button>
       </div>
     </div>
   </div>
-	<button type="button" class="btn btn-primary" id="showMoreBtnMarked" data-target="#showMore">
-   Más resultados
-  </button>
   <div id="loadGif"></div>
   <div id="loadGifMarked"></div>
   <script type="text/javascript">
@@ -87,28 +117,26 @@
 	        </button>
 	      </div>
 	      <div class="modal-body">
-	      	<p>Pregunta: </p>
-	        <input type="text" name="questionText" class="inputTextModal">
 	      	<p>Respuesta: </p>
 	        <input type="text" name="answerText" class="inputTextModal">
-	        <div class="form-check form-check-inline">
-	            <label class="form-check-label">
-	              <input class="form-check-input" type="checkbox" name="correctAnswer">
-	              Correcta
-	              <span class="form-check-sign">
-	                <span class="check"></span>
-	              </span>
-	            </label>
-	         </div>
-	         <div class="form-check form-check-inline">
-	            <label class="form-check-label">
-	              <input class="form-check-input" type="checkbox" name="incorrectAnswer">
-	              Incorrecta
-	              <span class="form-check-sign">
-	                <span class="check"></span>
-	              </span>
-	            </label>
-	          </div>
+					<div class="form-check form-check-radio">
+						<label class="form-check-label">
+							<input class="form-check-input" type="radio" name="correct" id="correct" value="yes">
+							Correcta
+							<span class="circle">
+								<span class="check"></span>
+							</span>
+						</label>
+					</div>
+					<div class="form-check form-check-radio">
+						<label class="form-check-label">
+							<input class="form-check-input" type="radio" name="correct" id="correct" value="no">
+							Incorrecta
+							<span class="circle">
+								<span class="check"></span>
+							</span>
+						</label>
+					</div>
 	          <p class="justificationModal">Justificacion: </p>
 	          <input type="text" name="justificationText" class="inputTextModal" placeholder="Dejar en blanco en caso de que no haya">
 	          <div class="form-check form-check-inline">

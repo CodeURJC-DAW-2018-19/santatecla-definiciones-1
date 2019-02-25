@@ -1,7 +1,23 @@
 <div class="question">
   <h6>{{questionText}}</h6>
-  {{#answer}}
-	  <p>{{answerText}}</p>
+	{{#yesNoQuestion}}
+		{{#userResponse}}
+		<p>Sí</p>
+		{{/userResponse}}
+		{{^userResponse}}
+		<p>No</p>
+		{{/userResponse}}
+	{{/yesNoQuestion}}
+	{{^yesNoQuestion}}
+		{{#justification}}
+		<p>{{justificationText}}</p>
+		{{/justification}}
+		{{^justification}}
+		{{#answer}}
+		<p>{{answerText}}</p>
+		{{/answer}}
+		{{/justification}}
+	{{/yesNoQuestion}}
 	  {{#marked}}
 	  {{#correct}}
 	  <i class="material-icons">done</i>
@@ -10,6 +26,5 @@
 	  <i class="material-icons">clear</i>
 	  {{/correct}}
 	  {{/marked}} 
-  {{/answer}}
 </div>
 <hr/>
