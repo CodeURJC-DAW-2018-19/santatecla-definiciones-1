@@ -51,13 +51,14 @@ public class DatabaseInfoLoader {
 		Chapter chapter1 = new Chapter("Tema 1: Desarrollo web servidor");
 		Chapter chapter2 = new Chapter("Tema 2: Despliegue de webs");
 		Chapter chapter3 = new Chapter("Tema 3: Desarrollo web de cliente avanzado: SPA");
-		Concept c11 = new Concept("Spring");
-		Concept c12 = new Concept("APIs REST");
+		
+		Concept c11 = new Concept("Spring", chapter1);
+		Concept c12 = new Concept("APIs REST", chapter1);
 		chapter1.getConcepts().add(c11);
 		chapter1.getConcepts().add(c12);
-		Concept c21 = new Concept("Docker");
+		Concept c21 = new Concept("Docker", chapter2);
 		chapter2.getConcepts().add(c21);
-		Concept c31 = new Concept("Angular");
+		Concept c31 = new Concept("Angular", chapter3);
 		chapter3.getConcepts().add(c31);
 		chapterRepository.save(chapter1);
 		chapterRepository.save(chapter2);

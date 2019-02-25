@@ -122,8 +122,8 @@ public class ChapterController {
 	@PostMapping("/addConcept")
 	public String addConcept(Model model, HttpServletRequest req,
 			@RequestParam String conceptName, @RequestParam String chapterName) {
-		Concept con = new Concept(conceptName);
 		Chapter chap = chapterService.findByChapterName(chapterName);
+		Concept con = new Concept(conceptName, chap);
 		chap.getConcepts().add(con);
 		conceptService.save(con);
 		chapterService.save(chap);
