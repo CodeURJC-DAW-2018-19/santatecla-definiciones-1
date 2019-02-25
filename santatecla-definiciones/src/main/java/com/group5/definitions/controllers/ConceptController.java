@@ -67,11 +67,13 @@ public class ConceptController {
 		userSession.addUserToModel(model);
 	}
 
-	@RequestMapping("/concept/{name}")
-	public String conceptPage(Model model, HttpServletRequest req, @PathVariable String name,
+	@RequestMapping("/concept/{id}")
+	public String conceptPage(Model model, HttpServletRequest req, @PathVariable String id,
 			@RequestParam(name = "close", required = false) String closeTab, HttpServletResponse httpServletResponse,
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page) throws IOException {
 		// If close tab button was pressed, remove the tab
+		Concept concept = conceptService.findById(Long.parseLong(id));
+		String name = concept.getConceptName();
 		if (closeTab != null) {
 			userSession.removeTab(closeTab);
 			// If user is in the tab that is being closed, redirect to home page
@@ -87,7 +89,6 @@ public class ConceptController {
 		else
 			userSession.setActive(name);
 		model.addAttribute("tabs", userSession.getOpenTabs());
-		Concept concept = conceptService.findByConceptName(name);
 		model.addAttribute("conceptName", name);
 		// if user is a teacher get all answers and return the teacher template
 		User user;

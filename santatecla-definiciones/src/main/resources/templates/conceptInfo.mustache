@@ -2,7 +2,7 @@
             <ul>
                 <li class="chapterInfo">
                     <img src='/image/{{conceptName}}' class="conceptImage" />
-                    <a href="/concept/{{conceptName}}">{{ conceptName }}</a>
+                    <a href="/concept/{{id}}">{{conceptName}}</a>
                     {{#docente}}
                         <div class="conceptDeleteButton">
                             <form action="/deleteConcept/{{id}}" method="post">
@@ -19,3 +19,4 @@
 {{^concepts}}
     <script>triggerOnceConcept("{{chapterId}}")</script>
 {{/concepts}}
+

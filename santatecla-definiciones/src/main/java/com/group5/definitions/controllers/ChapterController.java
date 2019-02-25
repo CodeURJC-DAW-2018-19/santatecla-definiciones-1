@@ -108,7 +108,6 @@ public class ChapterController {
 		model.addAttribute("concepts", concepts);
 		model.addAttribute("max", concepts.getTotalPages());
 		model.addAttribute("chapterId", chapterId);
-		System.out.println(model);
 		return "conceptInfo";
 	}
 

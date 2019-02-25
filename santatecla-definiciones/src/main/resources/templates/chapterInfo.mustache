@@ -20,37 +20,19 @@
     </div>
     <div id="collapse{{ chapterName }}" class="collapse" role="tabpanel" aria-labelledby="{{ chapterName }}" data-parent="#accordion">
         <div class="card-body">
-            {{#concepts}}
-            <ul>
-                <li class="chapterInfo">
-                 <img src='/image/{{conceptName}}' class="conceptImage" />
-                 <a href="/concept/{{conceptName}}">{{ conceptName }}</a>
-                {{#teacher}}
-                <div class="conceptDeleteButton">
-                    <form action="/deleteConcept/{{id}}" method="post">
-        	        	    <button type="submit" class=" btn btn-primary btn-fab btn-fab-mini btn-round deleteButtonChapter" data-toggle="modal" data-target="#deleteModal">
-        					             <i class="material-icons">delete</i>
-                        </button>
-        			          <input type="hidden" name="_csrf" value={{csrfToken}}>
-        			      </form>
-                </div>
-                {{/teacher}}
-                </li>
-            </ul>
-            {{/concepts}}
             {{#teacher}}
   						<i class="material-icons">delete</i>
                   	</button>
   			            <input type="hidden" name="_csrf" value={{csrfToken}}>
   				</form>
 	        </div>
-	        {{/docente}}
+	        {{/teacher}}
       	</h5>
     </div>
     <div id="collapse{{ chapterName }}" class="collapse" role="tabpanel" aria-labelledby="{{ chapterName }}" data-parent="#accordion">
         <div class="card-body" id="concepts{{id}}">
             <script>loadConcepts("{{id}}")</script>
-            {{#docente}}
+            {{#teacher}}
             <div class="addQuestionSeeDiagram">
                 <button type="button" class="btn btn-primary btn-fab btn-fab-mini btn-round" data-toggle="modal" data-target="#addConceptModal{{id}}">
                     <i class="material-icons">add</i>

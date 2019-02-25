@@ -28,6 +28,7 @@ public class Concept {
 	private String conceptName;
 	private String URL = "http://www.urldelconcepto.com";
 	@ManyToOne
+	@JoinColumn(name = "chapter_id")
 	private Chapter chapterConcept;
 	
 	@OneToMany(cascade=CascadeType.ALL)
