@@ -7,7 +7,7 @@
         <div class="card-header card-header-danger">
           <h4 class="card-title text-center">PREGUNTAS CORREGIDAS</h4>
         </div>
-        <div class="card-body" id="Marked">
+        <div class="card-body">
           <script>loadAnswers('{{conceptName}}')</script>
 		  <!-- Write all marked answers -->
           {{#markedQuestions}}
@@ -19,48 +19,33 @@
         </div>
       </div>
     </div>
-    <button type="button" class="btn btn-primary" id="showMoreBtn"">
-	  	Más resultados
-	  </button>
-	  <div id="loadGif"></div>
-	  <script type="text/javascript">
-	  	$(document).ready(function (){
-	  		$('#showMoreBtnMarked').click(function (){
-	  			loadAnswersMarked('{{conceptName}}');
-	  		});
-	  	});
-	  </script>
     <div class="col-md-6">
       <div class="card">
         <div class="card-header card-header-danger">
           <h4 class="card-title text-center">PREGUNTAS POR CORREGIR</h4>
         </div>
-        <div class="card-body" id="Unmarked">
-          {{#noUnmarkedAnswers}}
-          <p>No hay preguntas por corregir</p>
-          {{/noUnmarkedAnswers}}
-          {{^noUnmarkedAnswers}}
-          {{#questions}}
-          	{{#answer}}
-		          {{^marked}}
+        <div class="card-body">
+          {{#unmarkedQuestions}}
 		          {{>showquestion}}
           {{/unmarkedQuestions}}
         </div>
       </div>
     </div>
-    <button type="button" class="btn btn-primary" id="showMoreBtnUnmarked">
+  </div>
+  <!-- Show more button -->
+  <div class="addQuestionSeeDiagram">
+	  <button type="button" class="btn btn-primary" id="showMoreBtn">
 	  	Más resultados
 	  </button>
 	  <div id="loadGif"></div>
 	  <script type="text/javascript">
 	  	$(document).ready(function (){
-	  		$('#showMoreBtnUnmarked').click(function (){
-	  			loadAnswersUnmarked('{{conceptName}}');
+	  		$('#showMoreBtn').click(function (){
+	  			loadAnswers('{{conceptName}}');
 	  		});
 	  	});
 	  </script>
   </div>
-  <!-- Show more button -->
 
   <!-- Diagram button -->
   <div class="addQuestionSeeDiagram">
