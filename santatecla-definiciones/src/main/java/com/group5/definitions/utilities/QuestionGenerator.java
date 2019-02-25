@@ -68,10 +68,8 @@ public class QuestionGenerator {
 		case 3:
 			Answer wrongAnswer3 = answerService.getRandomAnswer(false);
 			Justification justification = justificationService.getRandomJustification(wrongAnswer3);
-			String name = concept.getConceptName();
-			String ans3 = wrongAnswer3.getAnswerText();
-			String jus = justification.getJustificationText();
-			questionText = buildQuestion(type, name, ans3, jus);
+			questionText = buildQuestion(type, concept.getConceptName(), wrongAnswer3.getAnswerText(),
+					justification.getJustificationText());
 			question = new Question(questionText.toUpperCase(), 3, wrongAnswer3, true, justification, userSession.getLoggedUser());
 			break;
 		}

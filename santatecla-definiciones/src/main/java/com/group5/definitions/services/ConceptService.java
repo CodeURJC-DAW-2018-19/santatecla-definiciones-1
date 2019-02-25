@@ -5,8 +5,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.group5.definitions.model.Concept;
-import com.group5.definitions.repositories.ConceptRepository;
+import com.grupo5.definiciones.model.Chapter;
+import com.grupo5.definiciones.model.Concept;
+import com.grupo5.definiciones.repositories.ConceptRepository;
 
 @Service
 public class ConceptService {
@@ -37,8 +38,5 @@ public class ConceptService {
 		return conceptRepository.findByChapterConcept_id(chapterId, page);
 	}
 	
-	public Concept findById(long id) {
-		return conceptRepository.findById(id);
-	}
 	
 }

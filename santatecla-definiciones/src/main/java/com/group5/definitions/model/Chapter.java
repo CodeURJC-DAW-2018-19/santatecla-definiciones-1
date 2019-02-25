@@ -23,8 +23,9 @@ public class Chapter {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private String chapterName;
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="chapterConcept") 
+	@OneToMany(cascade=CascadeType.ALL) 
 	@LazyCollection(LazyCollectionOption.FALSE)//cannot uses fetch type eager
+	@JoinColumn(name="concept_id")
 	@OnDelete(action=OnDeleteAction.CASCADE)
 	private List<Concept> concepts = new ArrayList();
 	protected Chapter() {}
