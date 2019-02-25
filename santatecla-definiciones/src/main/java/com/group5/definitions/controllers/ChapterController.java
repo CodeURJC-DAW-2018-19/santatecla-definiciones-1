@@ -43,7 +43,7 @@ public class ChapterController {
 
 	@Autowired
 	private ChapterService chapterService;
-	private final int DEFAULT_SIZE = 1;
+	private final int DEFAULT_SIZE = 10;
 	@Autowired
 	private ConceptService conceptService;
 
