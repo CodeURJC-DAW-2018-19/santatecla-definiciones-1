@@ -55,11 +55,11 @@ public class QuestionMarker {
 			break;
 		}
 		answerService.save(answer);
-		questionService.save(question);
 		if (justification != null) {
 			justification.setAnswer(answer);
 			justificationService.save(justification);
 			answer.addJustification(justification);
 		}
+		questionService.save(question);
 	}
 }
