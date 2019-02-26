@@ -63,4 +63,8 @@ public class AnswerService {
 	public Page<Answer> findByMarkedAndConcept(boolean marked, Concept concept, Pageable page) {
 		return answerRepository.findByMarkedAndConcept(marked, concept, page);
 	}
+
+	public Answer findByJustifications_Id(long id) {
+		return answerRepository.findByJustifications_Id(id);
+	}
 }

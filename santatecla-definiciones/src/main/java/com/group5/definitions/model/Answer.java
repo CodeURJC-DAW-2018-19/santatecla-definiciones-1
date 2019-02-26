@@ -25,6 +25,7 @@ public class Answer {
 	private boolean correct;
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Justification> justifications;
+	private int numJustifications;
 	@OneToOne
 	private User user; //User that created this answer 
 	@ManyToOne
@@ -38,6 +39,7 @@ public class Answer {
 	public Answer(String answerText, boolean marked, User user, Concept concept) {
 		super();
 		this.justifications = new ArrayList<>();
+		this.numJustifications = this.justifications.size();
 		this.answerText = answerText;
 		this.marked = marked;
 		this.user = user;
@@ -99,10 +101,12 @@ public class Answer {
 
 	public void setJustifications(List<Justification> justifications) {
 		this.justifications = justifications;
+		this.numJustifications = this.justifications.size();
 	}
 
 	public void addJustification(Justification justification) {
 		this.justifications.add(justification);
+		this.numJustifications = this.justifications.size();
 	}
 
 	public List<Question> getQuestions() {

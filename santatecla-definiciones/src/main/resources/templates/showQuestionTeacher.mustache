@@ -40,7 +40,7 @@
           name="modifyAnswer"
           class="btn btn-primary btn-fab btn-fab-mini btn-round"
           data-toggle="modal"
-		  onclick="document.getElementById('modifyForm{{id}}').submit()"
+		      onclick="document.getElementById('modifyForm{{id}}').submit()"
         >
           <i class="material-icons">build</i>
         </button>
@@ -167,7 +167,7 @@
         <input class="errorAnswer" id="error{{id}}" {{#valid}}style="display: none"{{/valid}} type="textarea" value="{{#error}}{{ error }}{{/error}}" required/>
         <button
           class="btn btn-primary btn-fab btn-fab-mini btn-round"
-          id="modifyButton{{id}}"
+          id="modifyJustButton{{id}}"
         >
         <script>
           $("#modifyButton{{id}}").click(function(e){
@@ -194,12 +194,12 @@
           <i class="material-icons">build</i>
         </button>
         <a
-          type="button"
-          href='/deleteJust/concept/{{conceptId}}/justification/{{ id }}'
-          name="deleteJustification"
-          class="btn btn-primary btn-fab btn-fab-mini btn-round"
-        >
-          <i class="material-icons">delete</i>
+            type="button"
+            href='/deleteJust/concept/{{conceptId}}/justification/{{ id }}'
+            name="deleteJustification"
+            class="btn btn-primary btn-fab btn-fab-mini btn-round"
+          >
+            <i class="material-icons">delete</i>
         </a>
       </div>
     </div>
