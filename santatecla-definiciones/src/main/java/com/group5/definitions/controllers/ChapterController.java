@@ -83,6 +83,7 @@ public class ChapterController {
 		userSession.setActive("inicio");
 		model.addAttribute("tabs", userSession.getOpenTabs());
 		model.addAttribute("teacher", req.isUserInRole("ROLE_TEACHER"));
+		model.addAttribute("seeDiagram", req.isUserInRole("ROLE_TEACHER") || req.isUserInRole("ROLE_STUDENT"));
 		if (req.isUserInRole("ROLE_TEACHER")) {
 			model.addAttribute("diagramInfo", chapterService.generateDiagramInfo());
 		} else {
