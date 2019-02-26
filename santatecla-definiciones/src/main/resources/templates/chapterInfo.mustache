@@ -19,7 +19,8 @@
       </h5>
     </div>
     <div id="collapse{{ id }}" class="collapse" role="tabpanel" aria-labelledby="{{ id }}" data-parent="#accordion">
-        <div class="card-body" id="concepts{{id}}">
+        <div class="card-body">
+					<ul id="concepts{{id}}"></ul>
             <script> loadConcepts("{{id}}") </script>
             {{#teacher}}
             <div class="addQuestionSeeDiagram">

@@ -106,6 +106,7 @@ public class ChapterController {
 		Page<Concept> concepts = conceptService.findByChapter_id(Long.parseLong(chapterId), page);
 		model.addAttribute("concepts", concepts);
 		model.addAttribute("chapterId", chapterId);
+		model.addAttribute("teacher", req.isUserInRole("ROLE_TEACHER"));
 		return "conceptInfo";
 	}
 

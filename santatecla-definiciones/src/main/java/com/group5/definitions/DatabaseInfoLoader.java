@@ -63,7 +63,11 @@ public class DatabaseInfoLoader {
 		chapterRepository.save(chapter1);
 		chapterRepository.save(chapter2);
 		chapterRepository.save(chapter3);
-
+		conceptRepository.save(c11);
+		conceptRepository.save(c12);
+		conceptRepository.save(c21);
+		conceptRepository.save(c31);
+		
 		Answer[] answers = new Answer[4];
 		answers[0] = new Answer(
 				"UN FRAMEWORK QUE PERMITE A UNA APLICACIÓN EJECUTARSE TANTO EN UN SERVIDOR DE APLICACIONES COMO EN UN SERVIDOR WEB",
