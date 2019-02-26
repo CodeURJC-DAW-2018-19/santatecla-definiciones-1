@@ -68,8 +68,10 @@ public class QuestionGenerator {
 		case 3:
 			Answer wrongAnswer3 = answerService.getRandomAnswer(false);
 			Justification justification = justificationService.getRandomJustification(wrongAnswer3);
+			//here there was an error NullPointerExc in justification.getJustificationText()
+			String text = "abc justification bug check class QuestionGenerator";
 			questionText = buildQuestion(type, concept.getConceptName(), wrongAnswer3.getAnswerText(),
-					justification.getJustificationText());
+					text /*justification.getJustificationText()*/);
 			question = new Question(questionText.toUpperCase(), 3, wrongAnswer3, true, justification, userSession.getLoggedUser());
 			break;
 		}

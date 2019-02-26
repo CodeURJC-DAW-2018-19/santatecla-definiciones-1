@@ -43,7 +43,7 @@ public class ChapterController {
 
 	@Autowired
 	private ChapterService chapterService;
-	private final int DEFAULT_SIZE = 10;
+	private final int DEFAULT_SIZE = 1;
 	@Autowired
 	private ConceptService conceptService;
 
@@ -98,6 +98,16 @@ public class ChapterController {
 		model.addAttribute("teacher", req.isUserInRole("ROLE_TEACHER"));
 		return "chapterInfo";
 	}
+	
+	@RequestMapping("/loadConcepts")
+	public String getConcepts(Model model, HttpServletRequest req,
+			@PageableDefault(size = DEFAULT_SIZE, sort = { "conceptName" }) Pageable page, 
+			@RequestParam("chapterId") String chapterId){
+		Page<Concept> concepts = conceptService.findByChapter_id(Long.parseLong(chapterId), page);
+		model.addAttribute("concepts", concepts);
+		model.addAttribute("chapterId", chapterId);
+		return "conceptInfo";
+	}
 
 	@RequestMapping("/login")
 	public String loginPage() {
@@ -112,7 +122,7 @@ public class ChapterController {
 		return "home";
 	}
 
-	@RequestMapping("/deleteChapter/{id}")
+	@RequestMapping("/deleteChapter/chapter/{id}")
 	public String deleteChapter(Model model, @PathVariable Long id, HttpServletRequest req) {
 		chapterService.deleteById(id);
 		addToModelHome(model, null, req);
@@ -121,8 +131,9 @@ public class ChapterController {
 
 	@PostMapping("/addConcept")
 	public String addConcept(Model model, HttpServletRequest req,
-			@RequestParam String conceptName, @RequestParam String chapterName) {
-		Chapter chap = chapterService.findByChapterName(chapterName);
+			@RequestParam String conceptName, 
+			@RequestParam String chapterName) {
+		Chapter chap = chapterService.findById(Long.parseLong(chapterName));
 		Concept con = new Concept(conceptName, chap);
 		chap.getConcepts().add(con);
 		conceptService.save(con);
@@ -131,7 +142,7 @@ public class ChapterController {
 		return "home";
 	}
 
-	@RequestMapping("/deleteConcept/{id}")
+	@RequestMapping("/deleteConcept/concept/{id}")
 	public String deleteConcept(Model model, @PathVariable Long id, HttpServletRequest req) {
 		Concept c = conceptService.findById(id);
 		conceptService.deleteById(id);
@@ -140,12 +151,12 @@ public class ChapterController {
 	}
 
 	@RequestMapping(value = "/image/upload", method = RequestMethod.POST)
-	public String handleFileUpload(Model model, @RequestParam("conceptName") String conceptName, HttpServletResponse httpServletResponse,
+	public String handleFileUpload(Model model, @RequestParam("conceptId") String conceptId, HttpServletResponse httpServletResponse,
 			@RequestParam("file") MultipartFile file) {
 
 		int id = imageId.getAndIncrement();
 
-		String fileName = "image-" + conceptName + ".jpg";
+		String fileName = "image-" + conceptId + ".jpg";
 
 		if (!file.isEmpty()) {
 			try {
@@ -171,11 +182,11 @@ public class ChapterController {
 		}
 	}
 
-	@RequestMapping("/image/{conceptName}")
-	public void handleFileDownload(@PathVariable String conceptName, HttpServletResponse res)
+	@RequestMapping("/image/concept/{conceptId}")
+	public void handleFileDownload(@PathVariable String conceptId, HttpServletResponse res)
 			throws FileNotFoundException, IOException {
 
-		String fileName = "image-" + conceptName + ".jpg";
+		String fileName = "image-" + conceptId + ".jpg";
 
 		Path image = FILES_FOLDER.resolve(fileName);
 

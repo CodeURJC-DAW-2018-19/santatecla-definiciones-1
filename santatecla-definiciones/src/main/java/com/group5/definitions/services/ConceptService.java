@@ -1,6 +1,8 @@
 package com.group5.definitions.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.group5.definitions.model.Concept;
@@ -30,6 +32,10 @@ public class ConceptService {
 
 	public void saveURL(String name, String url) {
 		conceptRepository.findByConceptName(name);
+	}
+
+	public Page<Concept> findByChapter_id(long id, Pageable page) {
+		return conceptRepository.findByChapter_id(id, page);
 	}
 	
 	

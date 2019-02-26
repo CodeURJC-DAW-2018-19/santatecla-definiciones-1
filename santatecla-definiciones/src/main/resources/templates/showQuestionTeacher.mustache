@@ -1,6 +1,6 @@
 <div class="correctedAnswers">
   {{#marked}}
-  <form id="modifyForm{{id}}" action="/modifyAnswer/{{ conceptName }}/{{ id }}" method="post">
+  <form id="modifyForm{{id}}" action="/modifyAnswer/concept/{{ conceptId }}/answer/{{ id }}" method="post">
   {{/marked}}
   {{^marked}}
   <form action="/mark/{{id}}" method="post">
@@ -46,7 +46,7 @@
         </button>
         <a
           type="button"
-          href='/delete/{{conceptName}}/{{ id }}'
+          href='/delete/concept/{{conceptId}}/answer/{{ id }}'
           name="deleteAnswer"
           class="btn btn-primary btn-fab btn-fab-mini btn-round"
         >
@@ -185,9 +185,9 @@
             if (valid=="no")
               error = document.getElementById("error{{id}}").value;
             if(error){
-              window.location.href = "/modifyJust/{{conceptName}}/{{id}}?jText=" + text + "&valid=" + valid + "&error="+error;
+              window.location.href = "/modifyJust/concept/{{conceptId}}/justification/{{id}}?jText=" + text + "&valid=" + valid + "&error="+error;
             } else {
-              window.location.href = "/modifyJust/{{conceptName}}/{{id}}?jText=" + text + "&valid=" + valid;
+              window.location.href = "/modifyJust/concept/{{conceptId}}/justification/{{id}}?jText=" + text + "&valid=" + valid;
             }
           })
         </script>
@@ -195,7 +195,7 @@
         </button>
         <a
           type="button"
-          href='/deleteJust/{{conceptName}}/{{ id }}'
+          href='/deleteJust/concept/{{conceptId}}/justification/{{ id }}'
           name="deleteJustification"
           class="btn btn-primary btn-fab btn-fab-mini btn-round"
         >

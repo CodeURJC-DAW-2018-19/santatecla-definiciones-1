@@ -8,7 +8,7 @@
           <h4 class="card-title text-center">PREGUNTAS CORREGIDAS</h4>
         </div>
         <div class="card-body">
-          <script>loadAnswers('{{conceptName}}')</script>
+          <script>loadAnswers('{{conceptId}}')</script>
 		  <!-- Write all marked answers -->
           {{#markedQuestions}}
 		          {{>showquestion}}
@@ -41,7 +41,7 @@
 	  <script type="text/javascript">
 	  	$(document).ready(function (){
 	  		$('#showMoreBtn').click(function (){
-	  			loadAnswers('{{conceptName}}');
+	  			loadAnswers('{{conceptId}}');
 	  		});
 	  	});
 	  </script>
@@ -96,7 +96,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action="/saveAnswer/{{conceptName}}" method="post">
+      <form action="/saveAnswer/concept/{{conceptId}}" method="post">
         <div class="modal-body">
             {{#openQuestion}}
             <input

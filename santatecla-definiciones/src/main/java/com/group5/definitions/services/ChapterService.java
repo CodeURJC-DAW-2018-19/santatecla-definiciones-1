@@ -79,4 +79,8 @@ public class ChapterService {
 		}
 		return diagramInfo;
 	}
+
+	public Chapter findById(long id) {
+		return chapterRepository.findById(id);
+	}
 }

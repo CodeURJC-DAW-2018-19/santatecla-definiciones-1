@@ -1,12 +1,12 @@
 {{>header}}
 <div class="content">
   <div class="url">
-		<form action="/saveURL" method="post">
+		<form action="/concept/{{conceptId}}/saveURL" method="post">
 			<div class="form-group">
 			 <h3>URL:</h3>
 				<input type="url" name="url" class="form-control float-left" placeholder="{{conceptURL}}">
 				<input type="submit" class="btn btn-primary" value="Guardar">
-				<input type="hidden" name="conceptName" value={{conceptName}}>
+				<input type="hidden" name="id" value={{conceptURL}}>
 				<input type="hidden" name="_csrf" value={{csrfToken}}>
 			</div>
 		</form>
@@ -15,7 +15,7 @@
   <!-- Image Upload -->
 	<h3>Subir imagen</h3>
  	<form action="/image/upload" method="post" enctype="multipart/form-data">
- 	<input type="hidden" name="conceptName" value="{{conceptName}}">
+ 	<input type="hidden" name="id" value="{{conceptId}}">
  	<input name="file" onchange="this.form.submit()" type="file" class="form-control-file" id="imageUpload">
  	<input type="hidden" name="_csrf" value={{csrfToken}}>
   	</form>
@@ -100,14 +100,14 @@
   <script type="text/javascript">
   	$(document).ready(function (){
   		$('#showMoreBtnAnswers').click(function (){
-    		loadAnswers('{{conceptName}}');
+    		loadAnswers('{{conceptId}}');
    		});
    	});
   </script>
  
  <!-- Add answer Modal -->
 	<div class="modal fade" id="addAnswerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	  <form action="/addAnswer/{{conceptName}}" method="post">
+	  <form action="/addAnswer/concept/{{conceptId}}" method="post">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
