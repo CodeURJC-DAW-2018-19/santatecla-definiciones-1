@@ -70,13 +70,13 @@ public class ChapterController {
 	}
 
 	@RequestMapping("")
-	public String loadHome(Model model, @RequestParam(name = "close", required = false) String closeTab,
+	public String loadHome(Model model, @RequestParam(name = "close", required = false) Long closeTab,
 			HttpServletRequest req) {
 		addToModelHome(model, closeTab, req);
 		return "home";
 	}
 	
-	private void addToModelHome(Model model, String closeTab, HttpServletRequest req) {
+	private void addToModelHome(Model model, Long closeTab, HttpServletRequest req) {
 		if (closeTab != null) {
 			userSession.removeTab(closeTab);
 		}
@@ -126,6 +126,9 @@ public class ChapterController {
 
 	@RequestMapping("/deleteChapter/chapter/{id}")
 	public String deleteChapter(Model model, @PathVariable Long id, HttpServletRequest req) {
+		for (Concept c : chapterService.findById(id).getConcepts()) {
+			userSession.removeTab(c.getId());
+		}
 		chapterService.deleteById(id);
 		addToModelHome(model, null, req);
 		return "home";
@@ -134,8 +137,8 @@ public class ChapterController {
 	@PostMapping("/addConcept")
 	public String addConcept(Model model, HttpServletRequest req,
 			@RequestParam String conceptName, 
-			@RequestParam String chapterName) {
-		Chapter chap = chapterService.findById(Long.parseLong(chapterName));
+			@RequestParam String chapterId) {
+		Chapter chap = chapterService.findById(Long.parseLong(chapterId));
 		Concept con = new Concept(conceptName, chap);
 		chap.getConcepts().add(con);
 		conceptService.save(con);
@@ -146,7 +149,7 @@ public class ChapterController {
 
 	@RequestMapping("/deleteConcept/concept/{id}")
 	public String deleteConcept(Model model, @PathVariable Long id, HttpServletRequest req) {
-		Concept c = conceptService.findById(id);
+		userSession.removeTab(id);
 		conceptService.deleteById(id);
 		addToModelHome(model, null, req);
 		return "home";

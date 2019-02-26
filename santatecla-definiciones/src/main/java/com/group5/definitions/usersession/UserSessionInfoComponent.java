@@ -18,7 +18,7 @@ public class UserSessionInfoComponent {
 
 	public UserSessionInfoComponent() {
 		openTabs = new CopyOnWriteArrayList<>();
-		openTabs.add(new Tab("inicio", "/", false));
+		openTabs.add(new Tab(0, "inicio", "/", false));
 	}
 
 	public List<Tab> getOpenTabs() {
@@ -41,14 +41,14 @@ public class UserSessionInfoComponent {
 		}
 	}
 
-	public void removeTab(String name) {
-		openTabs.remove(new Tab(name, null, false));
+	public void removeTab(long id) {
+		openTabs.remove(new Tab(id, null, null, false));
 		
 	}
 	
 	public void resetTabs() {
 		openTabs = new ArrayList<>();
-		openTabs.add(new Tab("inicio", "/", false));
+		openTabs.add(new Tab(0, "inicio", "/", false));
 	}
 	
 	public User getLoggedUser() {

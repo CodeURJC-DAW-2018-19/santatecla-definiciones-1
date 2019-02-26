@@ -1,11 +1,13 @@
 package com.group5.definitions.usersession;
 
 public class Tab {
+	private long id;
 	private String tabName, tabURL;
 	private boolean closable, active;
 	
-	public Tab(String tabName, String tabURL, boolean closable) {
+	public Tab(long id, String tabName, String tabURL, boolean closable) {
 		super();
+		this.id = id;
 		this.tabName = tabName;
 		this.tabURL = tabURL;
 		this.closable = closable;
@@ -44,16 +46,42 @@ public class Tab {
 		this.active = active;
 	}
 
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
 	@Override
 	public String toString() {
-		return "Tab [tabName=" + tabName + ", tabURL=" + tabURL + ", closable=" + closable + ", active=" + active + "]";
+		return "Tab [id=" + id + ", tabName=" + tabName + ", tabURL=" + tabURL + ", closable=" + closable + ", active="
+				+ active + "]";
 	}
-	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (id ^ (id >>> 32));
+		return result;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof Tab) {
-			return ((Tab) obj).tabName.equals(this.tabName);
-		} else return false;
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Tab other = (Tab) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}
+
+
 	
 }

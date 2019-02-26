@@ -58,7 +58,7 @@
 		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
 		        <button type="submit" class="btn btn-primary">Guardar</button>
 		      </div>
-            <input type="hidden" name="chapterName" value="{{id}}">
+            <input type="hidden" name="chapterId" value="{{id}}">
 	      <input type="hidden" name="_csrf" value={{csrfToken}}>
 	    </div>
 	    </div>
@@ -68,5 +68,5 @@
 <br />
 {{/chapters}}
 {{^chapters}}
-    <span>No más hay temas disponibles.</span>
+    <span>No hay más conceptos disponibles.</span>
 {{/chapters}}

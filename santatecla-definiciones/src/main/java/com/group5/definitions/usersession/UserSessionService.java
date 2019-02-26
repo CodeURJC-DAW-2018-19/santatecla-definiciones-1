@@ -33,8 +33,8 @@ public class UserSessionService {
 		userSession.addTab(tab);
 	}
 	
-	public void removeTab(String tabName) {
-		userSession.removeTab(tabName);
+	public void removeTab(long tabId) {
+		userSession.removeTab(tabId);
 	}
 
 	public User getLoggedUser() {

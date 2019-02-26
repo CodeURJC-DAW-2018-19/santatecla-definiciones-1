@@ -66,23 +66,23 @@ public class ConceptController {
 	}
 
 	@RequestMapping("/concept/{id}")
-	public String conceptPage(Model model, HttpServletRequest req, @PathVariable String id,
-			@RequestParam(name = "close", required = false) String closeTab, HttpServletResponse httpServletResponse,
+	public String conceptPage(Model model, HttpServletRequest req, @PathVariable Long id,
+			@RequestParam(name = "close", required = false) Long closeTab, HttpServletResponse httpServletResponse,
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page) throws IOException {
 		
-		Concept concept = conceptService.findById(Long.parseLong(id));
+		Concept concept = conceptService.findById(id);
 		String name = concept.getConceptName();
 		// If close tab button was pressed, remove the tab
 		if (closeTab != null) {
 			userSession.removeTab(closeTab);
 			// If user is in the tab that is being closed, redirect to home page
-			if (name.equals(closeTab)) {
+			if (id.equals(closeTab)) {
 				httpServletResponse.sendRedirect("/");
 				return null;
 			}
 		}
 		// Open a new tab if it doesn't exist.
-		Tab tab = new Tab(name, "/concept/" + id, true);
+		Tab tab = new Tab(id, name, "/concept/" + id, true);
 		if (!userSession.getOpenTabs().contains(tab))
 			userSession.addTab(tab);
 		else
