@@ -112,7 +112,8 @@ public class ChapterController {
 	}
 
 	@RequestMapping("/login")
-	public String loginPage() {
+	public String loginPage(Model model) {
+		model.addAttribute("loginPage", true);
 		return "loginPage";
 	}
 
