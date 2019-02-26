@@ -12,3 +12,6 @@
         {{/teacher}}
     </li>
 {{/concepts}}
+{{^concepts}}
+    <script>triggerOnceConcept("{{chapterId}}")</script>
+{{/concepts}}
