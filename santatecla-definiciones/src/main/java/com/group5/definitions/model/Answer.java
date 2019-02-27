@@ -23,13 +23,13 @@ public class Answer {
 	private String answerText;
 	private boolean marked;
 	private boolean correct;
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="answer", cascade = CascadeType.REMOVE)
 	private List<Justification> justifications;
 	@OneToOne
 	private User user; //User that created this answer 
 	@ManyToOne
 	private Concept concept;
-	@OneToMany(mappedBy="answer", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="answer", cascade = CascadeType.REMOVE)
 	private List<Question> questions;
 	
 	protected Answer() {

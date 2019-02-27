@@ -22,7 +22,7 @@ public class Concept {
 	private String URL = "http://www.urldelconcepto.com";
 	@ManyToOne
 	private Chapter chapter;
-	@OneToMany(mappedBy="concept", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="concept", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	private List<Answer> answers = new ArrayList<>();
 	
 	protected Concept() {}

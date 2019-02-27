@@ -75,24 +75,29 @@ public class DatabaseInfoLoader {
 		answers[0].setCorrect(true);
 		answers[1] = new Answer("UN FRAMEWORK DE DESARROLLO DE APLICACIONES WEB", true, student, c11);
 		answers[1].setCorrect(false);
-		Justification j1 = new Justification("SÓLO SE PUEDE UTILIZAR PARA DESARROLLAR SERVICIOS REST", true, student);
-		j1.setValid(false);
-		j1.setError(
-				"SPRING PERMITE EL DESARROLLO DE DIVERSOS TIPOS DE APLICACIONES DE SERVIDOR: APLICACIONES WEB, SERVICIOS REST, ANÁLISIS DE DATOS BIG DATA...");
-		answers[1].addJustification(j1);
+
 		answers[2] = new Answer("UN FRAMEWORK DE DESARROLLO DE APLICACIONES EMPRESARIALES BASADO EN JAVA", false,
 				student, c11);
 		answers[3] = new Answer("UN FRAMEWORK COMERCIAL", true, admin, c11);
 		answers[3].setCorrect(false);
-		Justification j2 = new Justification("ES UN FRAMEWORK DE SOFTWARE LIBRE", true, student);
-		j2.setValid(true);
-		answers[3].addJustification(j2);
+
 		for (Answer a : answers) {
 			answerRepository.save(a);
 		}
+		Justification j1 = new Justification("SÓLO SE PUEDE UTILIZAR PARA DESARROLLAR SERVICIOS REST", true, student);
+		j1.setValid(false);
+		j1.setError(
+				"SPRING PERMITE EL DESARROLLO DE DIVERSOS TIPOS DE APLICACIONES DE SERVIDOR: APLICACIONES WEB, SERVICIOS REST, ANÁLISIS DE DATOS BIG DATA...");
+
+		Justification j2 = new Justification("ES UN FRAMEWORK DE SOFTWARE LIBRE", true, student);
+		j2.setValid(true);
+
 		j1.setAnswer(answers[1]);
 		j2.setAnswer(answers[3]);
-
+		
+		justificationRepository.save(j1);
+		justificationRepository.save(j2);
+		
 		Question[] questions = new Question[4];
 		questions[0] = new Question(
 				"¿ES CORRECTO AFIRMAR QUE SPRING ES UN FRAMEWORK QUE PERMITE A UNA APLICACIÓN EJECUTARSE TANTO EN UN SERVIDOR DE APLICACIONES COMO EN UN SERVIDOR WEB?",
