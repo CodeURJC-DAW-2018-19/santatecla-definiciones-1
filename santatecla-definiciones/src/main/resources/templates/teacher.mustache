@@ -4,7 +4,7 @@
 		<form action="/concept/{{conceptId}}/saveURL" method="post">
 			<div class="form-group">
 			 <h3>URL:</h3>
-				<input type="url" name="url" class="form-control float-left" placeholder="{{conceptURL}}">
+				<input type="url" name="url" class="form-control float-left" placeholder="{{conceptURL}}" required>
 				<input type="submit" class="btn btn-primary" value="Guardar">
 				<input type="hidden" name="id" value={{conceptURL}}>
 				<input type="hidden" name="_csrf" value={{csrfToken}}>
@@ -118,7 +118,7 @@
 	      </div>
 	      <div class="modal-body">
 	      	<p>Respuesta: </p>
-	        <input type="text" name="answerText" class="inputTextModal">
+	        <input type="text" name="answerText" class="inputTextModal" required>
 					<div class="form-check form-check-radio">
 						<label class="form-check-label">
 							<input class="form-check-input" type="radio" name="correct" id="correct" value="yes">
