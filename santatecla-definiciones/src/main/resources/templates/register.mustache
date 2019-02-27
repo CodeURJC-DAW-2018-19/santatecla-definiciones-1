@@ -7,7 +7,7 @@
 			</div>
 		</div>
 		<div class="card-body">
-			<form action="/newUser" method="POST">
+			<form name="form" action="/newUser" onsubmit="return validatePass()" method="POST">
 				<div class="form-group">
 					<label for="usernameInput">Nombre de usuario</label>
 					<input type="text" class="form-control" id="usernameInput" aria-describedby="usernameHelp" name="username"
@@ -19,8 +19,9 @@
 				</div>
 				<button type="submit" class="btn btn-primary">Comenzar</button>
 				<input type="hidden" name="_csrf" value={{csrfToken}}>
+				<a class="btn btn-primary" href="/login">Login</a>
 			</form>
-			<a href="/login">Login</a>
+			
 		</div>
 	</div>
 </div>
