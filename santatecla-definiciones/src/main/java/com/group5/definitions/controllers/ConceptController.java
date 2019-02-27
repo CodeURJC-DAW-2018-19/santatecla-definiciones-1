@@ -102,7 +102,7 @@ public class ConceptController {
 			return "teacher";
 		} else {
 			user = userSession.getLoggedUser();
-			model.addAttribute("diagramInfo", chapterService.generateDiagramInfo(user));
+			model.addAttribute("diagramInfo", chapterService.generateDiagramInfoStudent(user));
 			addQuestionInfoToModel(model, concept);
 			return "concept";
 		}

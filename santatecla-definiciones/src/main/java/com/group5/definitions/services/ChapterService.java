@@ -38,44 +38,44 @@ public class ChapterService {
 		chapterRepository.deleteById(id);
 	}
 	
-	public long countUnmarked(long id) {
+	public long countUnmarkedTeacher(long id) {
 		return chapterRepository.countByIdAndConcepts_Answers_Marked(id, false);
 	}
 	
-	public long countCorrect(long id) {
+	public long countCorrectTeacher(long id) {
 		return chapterRepository.countByIdAndConcepts_Answers_MarkedAndConcepts_Answers_Correct(id, true, true);
 	}
 	
-	public long countIncorrect(long id) {
+	public long countIncorrectTeacher(long id) {
 		return chapterRepository.countByIdAndConcepts_Answers_MarkedAndConcepts_Answers_Correct(id, true, false);
 	}
 	
-	public long countUnmarked(long id, User user) {
-		return chapterRepository.countByIdAndConcepts_Answers_MarkedAndConcepts_Answers_User(id, false, user);
+	public long countUnmarkedStudent(long id, User user) {
+		return chapterRepository.countByIdAndConcepts_Answers_Questions_MarkedAndConcepts_Answers_Questions_User(id, false, user);
 	}
 	
-	public long countCorrect(long id, User user) {
-		return chapterRepository.countByIdAndConcepts_Answers_MarkedAndConcepts_Answers_CorrectAndConcepts_Answers_User(id, true, true, user);
+	public long countCorrectStudent(long id, User user) {
+		return chapterRepository.countByIdAndConcepts_Answers_Questions_MarkedAndConcepts_Answers_Questions_CorrectAndConcepts_Answers_Questions_User(id, true, true, user);
 	}
 	
-	public long countIncorrect(long id, User user) {
-		return chapterRepository.countByIdAndConcepts_Answers_MarkedAndConcepts_Answers_CorrectAndConcepts_Answers_User(id, true, false, user);
+	public long countIncorrectStudent(long id, User user) {
+		return chapterRepository.countByIdAndConcepts_Answers_Questions_MarkedAndConcepts_Answers_Questions_CorrectAndConcepts_Answers_Questions_User(id, true, false, user);
 	}
 	
-	public List<DiagramChapterInfo> generateDiagramInfo() {
+	public List<DiagramChapterInfo> generateDiagramInfoTeacher() {
 		List<DiagramChapterInfo> diagramInfo = new ArrayList<>();
 		for (Chapter c : this.findAll()) {
 			long id = c.getId();
-			diagramInfo.add(new DiagramChapterInfo(c.getChapterName(), this.countUnmarked(id), this.countCorrect(id), this.countIncorrect(id)));
+			diagramInfo.add(new DiagramChapterInfo(c.getChapterName(), this.countUnmarkedTeacher(id), this.countCorrectTeacher(id), this.countIncorrectTeacher(id)));
 		}
 		return diagramInfo;
 	}
 	
-	public List<DiagramChapterInfo> generateDiagramInfo(User user) {
+	public List<DiagramChapterInfo> generateDiagramInfoStudent(User user) {
 		List<DiagramChapterInfo> diagramInfo = new ArrayList<>();
 		for (Chapter c : this.findAll()) {
 			long id = c.getId();
-			diagramInfo.add(new DiagramChapterInfo(c.getChapterName(), this.countUnmarked(id, user), this.countCorrect(id, user), this.countIncorrect(id, user)));
+			diagramInfo.add(new DiagramChapterInfo(c.getChapterName(), this.countUnmarkedStudent(id, user), this.countCorrectStudent(id, user), this.countIncorrectStudent(id, user)));
 		}
 		return diagramInfo;
 	}

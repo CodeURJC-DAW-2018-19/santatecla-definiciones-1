@@ -85,9 +85,9 @@ public class ChapterController {
 		model.addAttribute("teacher", req.isUserInRole("ROLE_TEACHER"));
 		model.addAttribute("seeDiagram", req.isUserInRole("ROLE_TEACHER") || req.isUserInRole("ROLE_STUDENT"));
 		if (req.isUserInRole("ROLE_TEACHER")) {
-			model.addAttribute("diagramInfo", chapterService.generateDiagramInfo());
-		} else {
-			model.addAttribute("diagramInfo", chapterService.generateDiagramInfo(userSession.getLoggedUser()));
+			model.addAttribute("diagramInfo", chapterService.generateDiagramInfoTeacher());
+		} else if (req.isUserInRole("ROLE_STUDENT")){
+			model.addAttribute("diagramInfo", chapterService.generateDiagramInfoStudent(userSession.getLoggedUser()));
 		}
 		model.addAttribute("images", images.values());
 	}

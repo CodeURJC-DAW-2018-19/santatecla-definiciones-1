@@ -14,8 +14,8 @@ public interface ChapterRepository extends JpaRepository<Chapter, Long>{
 	long countByIdAndConcepts_Answers_Marked(long id, boolean marked);
 	long countByIdAndConcepts_Answers_MarkedAndConcepts_Answers_Correct(long id, boolean marked, boolean correct);
 
-	long countByIdAndConcepts_Answers_MarkedAndConcepts_Answers_User(long id, boolean b, User user);
+	long countByIdAndConcepts_Answers_Questions_MarkedAndConcepts_Answers_Questions_User(long id, boolean marked, User user);
 
-	long countByIdAndConcepts_Answers_MarkedAndConcepts_Answers_CorrectAndConcepts_Answers_User(long id, boolean b,
-			boolean c, User user);
+	long countByIdAndConcepts_Answers_Questions_MarkedAndConcepts_Answers_Questions_CorrectAndConcepts_Answers_Questions_User(
+			long id, boolean marked, boolean correct, User user);
 }
