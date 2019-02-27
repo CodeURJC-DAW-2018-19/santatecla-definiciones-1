@@ -39,10 +39,10 @@ public class AnswerService {
 		return answerRepository.findByConceptAndUser(concept, user, page);
 	}
 
-	public Answer getRandomAnswer(boolean correct) {
-		long n = answerRepository.countByMarkedAndCorrect(true, correct);
+	public Answer getRandomAnswer(boolean correct, Concept c) {
+		long n = answerRepository.countByMarkedAndCorrectAndConcept(true, correct, c);
 		int index = (int) (Math.random() * n);
-		Page<Answer> answerPage = answerRepository.findByMarkedAndCorrect(true, correct, PageRequest.of(index, 1));
+		Page<Answer> answerPage = answerRepository.findByMarkedAndCorrectAndConcept(true, correct, c, PageRequest.of(index, 1));
 		Answer a = null;
 		if (answerPage.hasContent()) {
 			a = answerPage.getContent().get(0);
@@ -50,10 +50,10 @@ public class AnswerService {
 		return a;
 	}
 
-	public Answer getRandomAnswer() {
+	public Answer getRandomAnswer(Concept c) {
 		Random r = new Random();
 		boolean correct = r.nextInt(2)==0;
-		return getRandomAnswer(correct);
+		return getRandomAnswer(correct, c);
 	}
 
 	public Answer findByAnswerText(String answerText) {
