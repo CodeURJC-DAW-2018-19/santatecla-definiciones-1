@@ -1,5 +1,4 @@
 var chapters = 0;
-var executedChapter = true;
 
 function loadChapters(){
     console.log('chapters');
@@ -10,12 +9,5 @@ function loadChapters(){
         unloadGif("Chapters");
         chapters++;
     });
-}
-
-function triggerOnceChapter(){
-	if(executedChapter){
-		executedChapter = false;
-		alert('No hay más temas disponibles');
-	}
 }
 

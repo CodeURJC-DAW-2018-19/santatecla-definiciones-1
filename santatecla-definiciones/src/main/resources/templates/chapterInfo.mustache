@@ -30,15 +30,10 @@
             </div>
             {{/teacher}}
         </div>
-        <button type="button" class="btn btn-primary" id="showMoreBtnConcept{{id}}">
+        <button type="button" class="btn btn-primary" id="showMoreBtnConcept{{id}}" onclick="loadConcepts('{{id}}');">
 			Más resultados
 		</button>
 		<div id="loadGifConcept{{id}}"></div>
-		<script type="text/javascript">
-			$("#showMoreBtnConcept{{id}}").click(function (){
-				loadConcepts("{{id}}");
-			});
-		</script>
     </div>
 </div>
 <div class="modal fade" id="addConceptModal{{id}}" tabindex="-1" role="dialog" aria-labelledby="conceptModalLabel{{id}}" aria-hidden="true">
@@ -68,5 +63,5 @@
 <br />
 {{/chapters}}
 {{^chapters}}
-    <script>triggerOnceChapter()</script>
+    <p class="noMore">No hay más temas disponibles.</p>
 {{/chapters}}

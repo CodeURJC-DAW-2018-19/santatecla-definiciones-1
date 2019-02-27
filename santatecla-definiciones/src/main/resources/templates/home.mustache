@@ -10,6 +10,8 @@
 				</div>
 			</div>
 		</div>-->
+		<script src="/assets/js/loadFunctions/loadChapter.js"></script>
+		<script src="/assets/js/loadFunctions/loadConcepts.js"></script>
 		<div class="row">
 			<div class="col-lg">
 				<div class="card">
@@ -28,17 +30,10 @@
 							</button>
 						</div>
 						{{/teacher}}
-						<button type="button" class="btn btn-primary" id="showMoreBtnChapters" data-target="#showMore">
+						<button type="button" class="btn btn-primary" id="showMoreBtnChapters" data-target="#showMore" onclick="loadChapters();">
 							Más resultados
 						</button>
 						<div id="loadGifChapters"></div>
-						<script type="text/javascript">
-							$(document).ready(function (){
-								$('#showMoreBtnChapters').click(function (){
-									loadChapters();
-								});
-							});
-						</script>
 						{{#seeDiagram}}
 						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#diagramModal">Diagrama</button>
 						{{/seeDiagram}}

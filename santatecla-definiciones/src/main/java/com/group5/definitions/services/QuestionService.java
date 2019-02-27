@@ -24,9 +24,9 @@ public class QuestionService {
 		return questionRepository.findByMarkedAndAnswer_Concept(marked, concept, page);
 	}
 
-	public Page<Question> findByMarkedAndAnswer_ConceptAndUser(boolean marked, Concept concept, User user, Pageable page) {
-		return questionRepository.findByMarkedAndAnswer_ConceptAndUser(marked, concept, user, page);
-
+	public Page<Question> findByMarkedAndAnswer_Concept_IdAndUser(boolean marked, long conceptId, User loggedUser,
+			Pageable page) {
+		return questionRepository.findByMarkedAndAnswer_Concept_IdAndUser(marked, conceptId, loggedUser, page);
 	}
 
 }
