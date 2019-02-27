@@ -188,7 +188,8 @@ public class ConceptController {
 	}
 
 	@RequestMapping("/addAnswer/concept/{conceptId}")
-	public String addAnswer(Model model, @PathVariable String conceptId,
+	public String addAnswer(Model model, @PathVariable String conceptId, 
+			/*@RequestParam String questionText,*/ //idk what this is for
 			@RequestParam String justificationText, 
 			@RequestParam String answerText,
 			@RequestParam(value = "invalidJustification", required = false) String iJustification,
@@ -247,14 +248,8 @@ public class ConceptController {
 	@RequestMapping("/deleteJust/concept/{conceptId}/justification/{id}")
 	public void deleteJustification(Model model, @PathVariable String conceptId, @PathVariable long id,
 			HttpServletResponse httpServletResponse) throws IOException {
-		Answer ans = answerService.findByJustifications_Id(id);
-		System.out.println("prueba");
-		if((ans.getJustifications().size() == 1) && ans.isCorrect()) {
-			httpServletResponse.sendError(113, "prueba error");
-		}else {
-			justificationService.deleteById(id);
-			httpServletResponse.sendRedirect("/concept/" + conceptId);
-		}
+		justificationService.deleteById(id);
+		httpServletResponse.sendRedirect("/concept/" + conceptId);
 	}
 
 	@RequestMapping("/modifyJust/concept/{conceptId}/justificacion/{id}")

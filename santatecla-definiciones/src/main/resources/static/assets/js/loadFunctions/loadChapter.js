@@ -2,6 +2,7 @@ var chapters = 0;
 var executedChapter = true;
 
 function loadChapters(){
+    console.log('chapters');
 	$(document).ready(function (){
     	loadGif("Chapters");
         var urlPage = "/loadChapters?page="+ chapters;
