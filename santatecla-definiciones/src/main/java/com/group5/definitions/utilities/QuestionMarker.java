@@ -51,6 +51,7 @@ public class QuestionMarker {
 			justification = justificationService.findByJustificationText(justificationQuestionText.toUpperCase());
 			question = new Question(questionText.toUpperCase(), 2, answer, true, justification, userSession.getLoggedUser());
 			question.setMarked(true);
+			question.setUserResponse(answerText.equals("yes"));
 			question.setCorrect((answer.isCorrect() && answerText.equals("yes") || (!answer.isCorrect() && answerText.equals("no"))));
 			break;
 		}

@@ -49,8 +49,7 @@ public class QuestionGenerator {
 		Random r = new Random();
 		int type = r.nextInt(questionTypes.size());
 		// Debug purposes
-		// TODO: Remove when done
-		type = 3;
+		//type = 3;
 		String questionText = null;
 		Question question = null;
 		switch (type) {
