@@ -48,8 +48,8 @@ public class QuestionGenerator {
 		// but serves to be a record for holding info to pass to the model
 		Random r = new Random();
 		int type = r.nextInt(questionTypes.size());
-		// Debug purposes TODO
-		type = 3;
+		// Debug purposes
+		//type = 3;
 		String questionText = null;
 		Question question = null;
 		switch (type) {
