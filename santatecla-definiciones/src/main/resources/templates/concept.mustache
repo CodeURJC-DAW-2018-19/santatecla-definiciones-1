@@ -100,6 +100,7 @@
               class="form-control"
               id="openQuestion"
               placeholder="Escribe aquí tu respuesta"
+              required
             />
             {{/openQuestion}}
             {{^openQuestion}}
@@ -115,8 +116,8 @@
           <input type="submit" id="questionSubmit" class="btn btn-primary" value="Enviar">
           <input type="hidden" name="questionText" value="{{questionText}}">
           <input type="hidden" name="questionType" value="{{questionType}}">
-          <input type="hidden" name="answerQuestionText" value="{{#answerText}}{{answerText}}{{/answerText}}">
-          <input type="hidden" name="justificationQuestionText" value="{{#justificationText}}{{justificationText}}{{/justificationText}}">
+          <input type="hidden" name="answerQuestionId" value="{{#answerId}}{{answerId}}{{/answerId}}">
+          <input type="hidden" name="justificationQuestionId" value="{{#justificationId}}{{justificationId}}{{/justificationId}}">
           <input type="hidden" name="_csrf" value={{csrfToken}}>
         </div>
       </form>

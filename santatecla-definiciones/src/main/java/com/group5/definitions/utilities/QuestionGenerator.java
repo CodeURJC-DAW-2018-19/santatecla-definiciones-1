@@ -48,14 +48,14 @@ public class QuestionGenerator {
 		// but serves to be a record for holding info to pass to the model
 		Random r = new Random();
 		int type = r.nextInt(questionTypes.size());
-		// Debug purposes
-		//type = 3;
+		// Debug purposes TODO
+		type = 3;
 		String questionText = null;
 		Question question = null;
 		switch (type) {
 		case 0:
 			questionText = buildQuestion(type, concept.getConceptName());
-			question = new Question(questionText.toUpperCase(), 0, new Answer(null, false, null, null), false, userSession.getLoggedUser());
+			question = new Question(questionText.toUpperCase(), 0, null, false, userSession.getLoggedUser());
 			break;
 		case 1:
 			Answer wrongAnswer1 = answerService.getRandomAnswer(false, concept);
@@ -70,8 +70,6 @@ public class QuestionGenerator {
 		case 3:
 			Answer wrongAnswer3 = answerService.getRandomAnswer(false, concept); //Assuming every wrong answer has a justification
 			Justification justification = justificationService.getRandomJustification(wrongAnswer3);
-			//here there was an error NullPointerExc in justification.getJustificationText()
-			//String text = "abc justification bug check class QuestionGenerator";
 			questionText = buildQuestion(type, concept.getConceptName(), wrongAnswer3.getAnswerText(),
 					justification.getJustificationText());
 			question = new Question(questionText.toUpperCase(), 3, wrongAnswer3, true, justification, userSession.getLoggedUser());

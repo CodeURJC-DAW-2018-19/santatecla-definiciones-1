@@ -66,7 +66,7 @@ public class ConceptController {
 	}
 
 	@RequestMapping("/concept/{id}")
-	public String conceptPage(Model model, HttpServletRequest req, @PathVariable Long id,
+	public String conceptPage(Model model, HttpServletRequest req, @PathVariable long id,
 			@RequestParam(name = "close", required = false) Long closeTab, HttpServletResponse httpServletResponse,
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page) throws IOException {
 		
@@ -76,7 +76,7 @@ public class ConceptController {
 		if (closeTab != null) {
 			userSession.removeTab(closeTab);
 			// If user is in the tab that is being closed, redirect to home page
-			if (id.equals(closeTab)) {
+			if (closeTab.equals(id)) {
 				httpServletResponse.sendRedirect("/");
 				return null;
 			}
@@ -110,12 +110,12 @@ public class ConceptController {
 
 	private void addQuestionInfoToModel(Model model, Concept concept) {
 		Question question = questionGenerator.generateQuestion(concept);
-		String answerText = question.getAnswer().getAnswerText();
+		Answer answer = question.getAnswer();
 		Justification justification = question.getJustification();
-		if (answerText != null)
-			model.addAttribute("answerText", answerText);
+		if (answer != null)
+			model.addAttribute("answerId", answer.getId());
 		if (justification != null)
-			model.addAttribute("justificationText", justification.getJustificationText());
+			model.addAttribute("justificationId", justification.getId());
 		model.addAttribute("questionText", question.getQuestionText());
 		model.addAttribute("openQuestion", !question.isYesNoQuestion());
 		model.addAttribute("questionType", question.getType());
@@ -140,7 +140,7 @@ public class ConceptController {
 	}
 	
 	@PostMapping("/mark/{id}")
-	public String markAnswer(Model model, @PathVariable Long id,
+	public String markAnswer(Model model, @PathVariable long id,
 			@RequestParam(value = "correctAnswer", required = false) String cAnswer,
 			@RequestParam(value = "incorrectAnswer", required = false) String iAnswer,
 			HttpServletResponse httpServletResponse) throws IOException {
@@ -160,7 +160,7 @@ public class ConceptController {
 	}
 
 	@RequestMapping("/delete/concept/{conceptId}/answer/{id}")
-	public String deleteAnswer(Model model, @PathVariable String conceptId, @PathVariable Long id,
+	public String deleteAnswer(Model model, @PathVariable String conceptId, @PathVariable long id,
 			HttpServletResponse httpServletResponse) throws IOException {
 		answerService.deleteById(id);
 		httpServletResponse.sendRedirect("/concept/" + conceptId);
@@ -168,7 +168,7 @@ public class ConceptController {
 	}
 
 	@PostMapping("/modifyAnswer/concept/{conceptId}/answer/{id}")
-	public String addModifiedAnswer(Model model, @PathVariable String conceptId, @PathVariable Long id,
+	public String addModifiedAnswer(Model model, @PathVariable String conceptId, @PathVariable long id,
 			@RequestParam String answerText, @RequestParam(value = "correct", required = false) String cAnswer,
 			@RequestParam(value = "justificationTextNew", required = false) String justificationText,
 			@RequestParam(value = "validNew", required = false) String jValid,
@@ -200,7 +200,7 @@ public class ConceptController {
 	}
 
 	@RequestMapping("/addAnswer/concept/{conceptId}")
-	public String addAnswer(Model model, @PathVariable String conceptId, 
+	public String addAnswer(Model model, @PathVariable long conceptId, 
 			/*@RequestParam String questionText,*/ //idk what this is for
 			@RequestParam String justificationText, 
 			@RequestParam String answerText,
@@ -210,7 +210,7 @@ public class ConceptController {
 			@RequestParam(value = "incorrectAnswer", required = false) String iAnswer,
 			HttpServletResponse httpServletResponse) throws IOException {
 		Answer ans = new Answer(answerText, true, userSession.getLoggedUser(),
-				conceptService.findById(Long.parseLong(conceptId)));
+				conceptService.findById(conceptId));
 		if (cAnswer != null && iAnswer == null) {
 			ans.setCorrect(true);
 		} else if (cAnswer == null && iAnswer != null) {
@@ -227,7 +227,7 @@ public class ConceptController {
 			just.setValid(valid);
 			ans.addJustification(just);
 		}
-		Concept con = conceptService.findById(Long.parseLong(conceptId));
+		Concept con = conceptService.findById(conceptId);
 		con.getAnswers().add(ans);
 		conceptService.save(con);
 		httpServletResponse.sendRedirect("/concept/" + conceptId);
@@ -235,16 +235,15 @@ public class ConceptController {
 	}
 
 	@PostMapping("/saveAnswer/concept/{conceptId}")
-	public String saveAnswer(Model model, @PathVariable String conceptId, HttpServletResponse httpServletResponse,
-			@RequestParam String questionText, @RequestParam String questionType,
+	public String saveAnswer(Model model, @PathVariable long conceptId, HttpServletResponse httpServletResponse,
+			@RequestParam String questionText, @RequestParam int questionType,
 			@RequestParam(required = false) String answerText, @RequestParam(required = false) String answerOption,
-			@RequestParam(required = false) String answerQuestionText,
-			@RequestParam(required = false) String justificationQuestionText) throws IOException {
+			@RequestParam(required = false) Long answerQuestionId,
+			@RequestParam(required = false) Long justificationQuestionId) throws IOException {
 		boolean open = answerText != null;
 		String answerFinalText = open ? answerText : answerOption;
-		int parsedInt = Integer.parseInt(questionType);
-		questionMarker.saveQuestion(conceptService.findById(Long.parseLong(conceptId)), answerFinalText, questionText,
-				parsedInt, answerQuestionText, justificationQuestionText);
+		questionMarker.saveQuestion(conceptService.findById(conceptId), answerFinalText, questionText,
+				questionType, answerQuestionId, justificationQuestionId);
 		httpServletResponse.sendRedirect("/concept/" + conceptId);
 		return null;
 	}
