@@ -12,6 +12,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long>{
 
 	Page<Question> findByMarkedAndAnswer_Concept(boolean marked, Concept concept, Pageable page);
 
-	Page<Question> findByMarkedAndAnswer_ConceptAndUser(boolean marked, Concept concept, User user, Pageable page);
+	Page<Question> findByMarkedAndAnswer_Concept_IdAndUser(boolean marked, long conceptId, User loggedUser,
+			Pageable page);
 
 }

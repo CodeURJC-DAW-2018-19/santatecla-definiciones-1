@@ -1,3 +1,4 @@
+{{#questions}}
 <div class="question">
   <h6>{{questionText}}</h6>
 	{{#yesNoQuestion}}
@@ -28,3 +29,7 @@
 	  {{/marked}} 
 </div>
 <hr/>
+{{/questions}}
+{{^questions}}
+	<p class="noMore">No hay más preguntas disponibles.</p>
+{{/questions}}

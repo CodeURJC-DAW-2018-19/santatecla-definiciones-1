@@ -102,13 +102,7 @@ public class ConceptController {
 			return "teacher";
 		} else {
 			user = userSession.getLoggedUser();
-			Page<Question> markedQuestions = questionService.findByMarkedAndAnswer_ConceptAndUser(true, concept, user,
-					page);
-			Page<Question> unmarkedQuestions = questionService.findByMarkedAndAnswer_ConceptAndUser(false, concept,
-					user, page);
 			model.addAttribute("diagramInfo", chapterService.generateDiagramInfo(user));
-			model.addAttribute("markedQuestions", markedQuestions);
-			model.addAttribute("unmarkedQuestions", unmarkedQuestions);
 			addQuestionInfoToModel(model, concept);
 			return "concept";
 		}
@@ -127,6 +121,24 @@ public class ConceptController {
 		model.addAttribute("questionType", question.getType());
 	}
 
+	@RequestMapping("/concept/{conceptId}/loadUnmarkedQuestions")
+	public String loadUnmarkedQuestions(Model model, HttpServletRequest req,
+			@PageableDefault(size = DEFAULT_SIZE) Pageable page, @PathVariable long conceptId) {
+		Page<Question> unmarkedQuestions = questionService.findByMarkedAndAnswer_Concept_IdAndUser(false, conceptId,
+				userSession.getLoggedUser(), page);
+		model.addAttribute("questions", unmarkedQuestions);
+		return "showquestion";
+	}
+	
+	@RequestMapping("/concept/{conceptId}/loadMarkedQuestions")
+	public String loadMarkedQuestions(Model model, HttpServletRequest req,
+			@PageableDefault(size = DEFAULT_SIZE) Pageable page, @PathVariable long conceptId) {
+		Page<Question> markedQuestions = questionService.findByMarkedAndAnswer_Concept_IdAndUser(true, conceptId,
+				userSession.getLoggedUser(), page);
+		model.addAttribute("questions", markedQuestions);
+		return "showquestion";
+	}
+	
 	@PostMapping("/mark/{id}")
 	public String markAnswer(Model model, @PathVariable Long id,
 			@RequestParam(value = "correctAnswer", required = false) String cAnswer,

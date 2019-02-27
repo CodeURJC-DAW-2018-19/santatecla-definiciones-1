@@ -1,4 +1,5 @@
 {{>header}}
+<script src="/assets/js/loadFunctions/loadQuestions.js"></script>
 <div class="content">
   <!-- Question cards -->
   <div class="row">
@@ -7,15 +8,17 @@
         <div class="card-header card-header-danger">
           <h4 class="card-title text-center">PREGUNTAS CORREGIDAS</h4>
         </div>
-        <div class="card-body">
-          <script>loadAnswers('{{conceptId}}')</script>
-		  <!-- Write all marked answers -->
-          {{#markedQuestions}}
-		          {{>showquestion}}
-          {{/markedQuestions}}
-          {{^markedQuestions}}
-          <p>No hay preguntas corregidas</p>
-          {{/markedQuestions}}
+        <div class="card-body" id="markedQuestionsBody">
+          <script>loadMarkedQuestions({{conceptId}})</script>
+        </div>
+        <div class="card-footer">
+          <!-- Show more button -->
+          <div class="addQuestionSeeDiagram">
+            <button type="button" class="btn btn-primary" id="showMoreBtnMarked" onclick="loadMarkedQuestions({{conceptId}});">
+              Más resultados
+            </button>
+            <div id="loadGifMarked"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -24,29 +27,21 @@
         <div class="card-header card-header-danger">
           <h4 class="card-title text-center">PREGUNTAS POR CORREGIR</h4>
         </div>
-        <div class="card-body">
-          {{#unmarkedQuestions}}
-		          {{>showquestion}}
-          {{/unmarkedQuestions}}
+        <div class="card-body" id="unmarkedQuestionsBody">
+          <script>loadUnmarkedQuestions({{conceptId}})</script>
+        </div>
+        <div class="card-footer">
+          <!-- Show more button -->
+          <div class="addQuestionSeeDiagram">
+            <button type="button" class="btn btn-primary" id="showMoreBtnUnmarked" onclick="loadUnmarkedQuestions({{conceptId}});">
+              Más resultados
+            </button>
+            <div id="loadGifUnmarked"></div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  <!-- Show more button -->
-  <div class="addQuestionSeeDiagram">
-	  <button type="button" class="btn btn-primary" id="showMoreBtn">
-	  	Más resultados
-	  </button>
-	  <div id="loadGif"></div>
-	  <script type="text/javascript">
-	  	$(document).ready(function (){
-	  		$('#showMoreBtn').click(function (){
-	  			loadAnswers('{{conceptId}}');
-	  		});
-	  	});
-	  </script>
-  </div>
-
   <!-- Diagram button -->
   <div class="addQuestionSeeDiagram">
     <button
