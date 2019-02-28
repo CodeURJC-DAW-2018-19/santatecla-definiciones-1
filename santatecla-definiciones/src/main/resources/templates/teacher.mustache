@@ -1,79 +1,77 @@
 {{>header}}
 <div class="content">
   <div class="url">
-		<form action="/concept/{{conceptId}}/saveURL" method="post">
-			<div class="form-group">
-			 <h3>URL:</h3>
-				<input type="url" name="url" class="form-control float-left" placeholder="{{conceptURL}}" required>
-				<input type="submit" class="btn btn-primary" value="Guardar">
-				<input type="hidden" name="id" value={{conceptURL}}>
-				<input type="hidden" name="_csrf" value={{csrfToken}}>
-			</div>
-		</form>
+    <form action="/concept/{{ conceptId }}/saveURL" method="post">
+      <div class="form-group">
+        <h3>URL:</h3>
+        <input
+          type="url"
+          name="url"
+          class="form-control float-left"
+          placeholder="{{ conceptURL }}"
+          required
+        />
+        <input type="submit" class="btn btn-primary" value="Guardar" />
+        <input type="hidden" name="id" value="{{ conceptURL }}" />
+        <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+      </div>
+    </form>
   </div>
-  <br>
+  <br />
   <!-- Image Upload -->
-	<h3>Subir imagen</h3>
- 	<form action="/image/upload" method="post" enctype="multipart/form-data">
- 	<input type="hidden" name="id" value="{{conceptId}}">
- 	<input name="file" onchange="this.form.submit()" type="file" class="form-control-file" id="imageUpload">
- 	<input type="hidden" name="_csrf" value={{csrfToken}}>
-  	</form>
-  <script>
-	function showJustification(incorrectId, defaultJustificationClass) {
-		if (document.getElementById(incorrectId).checked) {
-        var justifications = document.getElementsByClassName(defaultJustificationClass);
-				for (var i = 0; i < justifications.length; i++){
-					justifications[i].style.display = 'block';
-				}
-    }
-    else {
-			var justifications = document.getElementsByClassName(defaultJustificationClass);
-				for (var i = 0; i < justifications.length; i++){
-					justifications[i].style.display = 'none';
-				}
-		}
-	}
-	function showError(invalidId){
-		if (document.getElementById(invalidId).checked) {
-			var z = $("#"+invalidId)
-			var a = z.parent().parent()
-			var b = a.siblings(".errorAnswer");
-			b.show();
-    }
-    else {
-			var z = $("#"+invalidId)
-			var a = z.parent().parent()
-			var b = a.siblings(".errorAnswer")
-			b.hide();
-		}
-	}
-</script>
+  <h3>Subir imagen</h3>
+  <form action="/image/upload" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="{{ conceptId }}" />
+    <input
+      name="file"
+      onchange="this.form.submit()"
+      type="file"
+      class="form-control-file"
+      id="imageUpload"
+    />
+    <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+  </form>
+  <script src="/assets/js/showHideTeacher.js"></script>
   <div class="row">
     <div class="card">
       <div class="card-header card-header-danger">
         <h4 class="card-title text-center">RESPUESTAS CORREGIDAS</h4>
       </div>
       <div class="card-body">
-				{{#markedAnswers}}
-				{{>showQuestionTeacher}}
-				{{^correct}}
-					<button type="button" class="btn btn-primary" id="showMoreBtnMarked" data-target="#showMore">
-						Más resultados
-						</button>
-				{{/correct}}
-				<hr>
-				{{/markedAnswers}}
-				{{^markedAnswers}}
-					<p>No hay respuestas corregidas</p>
-				{{/markedAnswers}}
-					<button type="button" class="btn btn-primary" id="showMoreBtnMarked" data-target="#showMore">
-						Más resultados
-						</button>
-						<br>
-          <button type="button" class="btn btn-primary btn-fab btn-fab-mini btn-round" data-toggle="modal" data-target="#addAnswerModal">
-     		<i class="material-icons">add</i>
- 		  </button>
+        {{#markedAnswers}}
+        {{>showQuestionTeacherMarked}}
+        {{^correct}}
+        <button
+          type="button"
+          class="btn btn-primary"
+          id="showMoreBtnJustMarked{{ id }}"
+          data-target="#showMore"
+        >
+          Más resultados
+        </button>
+        {{/correct}}
+        <hr />
+        {{/markedAnswers}}
+        {{^markedAnswers}}
+        <p>No hay respuestas corregidas</p>
+        {{/markedAnswers}}
+        <button
+          type="button"
+          class="btn btn-primary"
+          id="showMoreBtnMarked"
+          data-target="#showMore"
+        >
+          Más resultados
+        </button>
+        <br />
+        <button
+          type="button"
+          class="btn btn-primary btn-fab btn-fab-mini btn-round"
+          data-toggle="modal"
+          data-target="#addAnswerModal"
+        >
+          <i class="material-icons">add</i>
+        </button>
       </div>
     </div>
   </div>
@@ -83,92 +81,139 @@
         <h4 class="card-title text-center">RESPUESTAS POR CORREGIR</h4>
       </div>
       <div class="card-body">
-		  	{{#unmarkedAnswers}}
-				{{>showQuestionTeacher}}
-				{{/unmarkedAnswers}}
-				{{^unmarkedAnswers}}
-					<p>No hay respuestas por corregir</p>
-				{{/unmarkedAnswers}}
-				<button type="button" class="btn btn-primary" id="showMoreBtnMarked" data-target="#showMore">
-				Más resultados
-				</button>
+        {{#unmarkedAnswers}}
+        {{>showQuestionTeacherUnmarked}}
+        {{/unmarkedAnswers}}
+        {{^unmarkedAnswers}}
+        <p>No hay respuestas por corregir</p>
+        {{/unmarkedAnswers}}
+        <button
+          type="button"
+          class="btn btn-primary"
+          id="showMoreBtnJustUnmarked"
+          data-target="#showMore"
+        >
+          Más resultados
+        </button>
       </div>
     </div>
   </div>
-  <div id="loadGif"></div>
-  <div id="loadGifMarked"></div>
-  <script type="text/javascript">
-  	$(document).ready(function (){
-  		$('#showMoreBtnAnswers').click(function (){
-    		loadAnswers('{{conceptId}}');
-   		});
-   	});
-  </script>
- 
- <!-- Add answer Modal -->
-	<div class="modal fade" id="addAnswerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	  <form action="/addAnswer/concept/{{conceptId}}" method="post">
-	  <div class="modal-dialog" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">Inserte una nueva respuesta</h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	      </div>
-	      <div class="modal-body">
-	      	<p>Respuesta: </p>
-	        <input type="text" name="answerText" class="inputTextModal" required>
-					<div class="form-check form-check-radio">
-						<label class="form-check-label">
-							<input class="form-check-input" type="radio" name="correct" id="correct" value="yes">
-							Correcta
-							<span class="circle">
-								<span class="check"></span>
-							</span>
-						</label>
-					</div>
-					<div class="form-check form-check-radio">
-						<label class="form-check-label">
-							<input class="form-check-input" type="radio" name="correct" id="correct" value="no">
-							Incorrecta
-							<span class="circle">
-								<span class="check"></span>
-							</span>
-						</label>
-					</div>
-	          <p class="justificationModal">Justificacion: </p>
-	          <input type="text" name="justificationText" class="inputTextModal" placeholder="Dejar en blanco en caso de que no haya">
-						<div class="form-check form-check-radio">
-						<label class="form-check-label">
-							<input class="form-check-input" type="radio" name="validity" id="valid" value="yes">
-							Valida
-							<span class="circle">
-								<span class="check"></span>
-							</span>
-						</label>
-					</div>
-					<div class="form-check form-check-radio">
-						<label class="form-check-label">
-							<input class="form-check-input" type="radio" name="validity" id="invalid" value="no">
-							Invalida
-							<span class="circle">
-								<span class="check"></span>
-							</span>
-						</label>
-					</div>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-	        <button type="submit" class="btn btn-primary">Guardar</button>
-	      </div>
-	      <input type="hidden" name="_csrf" value={{csrfToken}}>
-	    </div>
-	  </div>
-	  </form>
-	</div>
-</div>  
-</div>  
-
-
+  <!-- TODO: Add load gif div -->
+</div>
+<!-- Add answer Modal -->
+  <div
+    class="modal fade"
+    id="addAnswerModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <form action="/addAnswer/concept/{{ conceptId }}" method="post">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Inserte una nueva respuesta
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Respuesta:</p>
+            <input
+              type="text"
+              name="answerText"
+              class="inputTextModal"
+              required
+            />
+            <div class="form-check form-check-radio">
+              <label class="form-check-label">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="correct"
+                  id="correct"
+                  value="yes"
+                />
+                Correcta
+                <span class="circle">
+                  <span class="check"></span>
+                </span>
+              </label>
+            </div>
+            <div class="form-check form-check-radio">
+              <label class="form-check-label">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="correct"
+                  id="correct"
+                  value="no"
+                />
+                Incorrecta
+                <span class="circle">
+                  <span class="check"></span>
+                </span>
+              </label>
+            </div>
+            <p class="justificationModal">Justificacion:</p>
+            <input
+              type="text"
+              name="justificationText"
+              class="inputTextModal"
+              placeholder="Dejar en blanco en caso de que no haya"
+            />
+            <div class="form-check form-check-radio">
+              <label class="form-check-label">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="validity"
+                  id="valid"
+                  value="yes"
+                />
+                Valida
+                <span class="circle">
+                  <span class="check"></span>
+                </span>
+              </label>
+            </div>
+            <div class="form-check form-check-radio">
+              <label class="form-check-label">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="validity"
+                  id="invalid"
+                  value="no"
+                />
+                Invalida
+                <span class="circle">
+                  <span class="check"></span>
+                </span>
+              </label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+          </div>
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+        </div>
+      </div>
+    </form>
+  </div>
 {{>footer}}
