@@ -135,11 +135,10 @@
           </div>
           <input class="errorAnswer" id="error{{ id }}"
           {{#valid}}style="display: none"{{/valid}} type="textarea" value="{{#error}}{{ error }}{{/error}}" required/>
-                    <button
-              class="btn btn-primary btn-fab btn-fab-mini btn-round"
-              id="modifyButton{{id}}"
-            >
-            <script>
+          <button class="btn btn-primary btn-fab btn-fab-mini btn-round"id="modifyButton{{id}}" >
+            <i class="material-icons">build</i>
+          </button>
+          <script>
               $("#modifyButton{{id}}").click(function(e){
                 e.preventDefault();
                 var text = document.getElementById("justificationText{{id}}").value;
@@ -160,9 +159,7 @@
                   window.location.href = "/modifyJust/concept/{{conceptId}}/justification/{{id}}?jText=" + text + "&valid=" + valid;
                 }
               })
-            </script>
-              <i class="material-icons">build</i>
-            </button>
+          </script>
             <a
               type="button"
               href='/deleteJust/concept/{{conceptId}}/justification/{{ id }}'

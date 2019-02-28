@@ -180,14 +180,19 @@ public class ConceptController {
 		if (cAnswer != null) {
 			ans.setCorrect(cAnswer.equals("yes"));
 			if (cAnswer.equals("yes")) {
+				for(Justification j: ans.getJustifications()) {
+					justificationService.deleteById(j.getId());
+				}
 				ans.getJustifications().clear();
+				
 			} else {
-				newJ = new Justification(justificationText, true, userSession.getLoggedUser());
-				newJ.setValid(jValid.equals("yes"));
-				if (jValid.equals("yes"))
-					newJ.setError(error);
-				ans.addJustification(newJ);
-
+				if(ans.getJustifications().size() == 0) {
+					newJ = new Justification(justificationText, true, userSession.getLoggedUser());
+					newJ.setValid(jValid.equals("yes"));
+					if (jValid.equals("yes"))
+						newJ.setError(error);
+					ans.addJustification(newJ);
+				}
 			}
 		}
 		answerService.save(ans);
@@ -268,10 +273,10 @@ public class ConceptController {
 			@RequestParam String jText, @RequestParam String valid, @RequestParam(required = false) String error,
 			HttpServletResponse httpServletResponse) throws IOException {
 		Justification j = justificationService.findById(id);
-		j.setJustificationText(jText);
-		j.setValid(valid.equals("yes"));
-		if (error!=null)
-			j.setError(error);
-		httpServletResponse.sendRedirect("/concept/" + conceptId);
+//		j.setJustificationText(jText);
+//		j.setValid(valid.equals("yes"));
+//		if (error!=null)
+//			j.setError(error);
+//		httpServletResponse.sendRedirect("/concept/" + conceptId);
 	}
 }
