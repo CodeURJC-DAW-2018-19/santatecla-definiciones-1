@@ -106,14 +106,13 @@
     id="addAnswerModal"
     tabindex="-1"
     role="dialog"
-    aria-labelledby="exampleModalLabel"
+    aria-labelledby="addModalLabel"
     aria-hidden="true"
   >
-    <form action="/addAnswer/concept/{{ conceptId }}" method="post">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">
+            <h5 class="modal-title" id="addModalLabel">
               Inserte una nueva respuesta
             </h5>
             <button
@@ -125,95 +124,116 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
-            <p>Respuesta:</p>
-            <input
-              type="text"
-              name="answerText"
-              class="inputTextModal"
-              required
-            />
-            <div class="form-check form-check-radio">
-              <label class="form-check-label">
+          <form id="addAnswerForm" action="/concept/{{ conceptId }}/addAnswer" method="post">
+            <div class="modal-body">
+              <p>Respuesta:</p>
+              <input
+                type="text"
+                name="answerText"
+                class="inputTextModal"
+                required
+              />
+              <div class="form-check form-check-radio">
+                <label class="form-check-label">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="correct"
+                    id="correctAddModal"
+                    value="yes"
+                    checked
+                    onclick="showJustificationFieldAddModal()"
+                  />
+                  Correcta
+                  <span class="circle">
+                    <span class="check"></span>
+                  </span>
+                </label>
+              </div>
+              <div class="form-check form-check-radio">
+                <label class="form-check-label">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="correct"
+                    id="incorrectAddModal"
+                    value="no"
+                    onclick="showJustificationFieldAddModal()"
+                  />
+                  Incorrecta
+                  <span class="circle">
+                    <span class="check"></span>
+                  </span>
+                </label>
+              </div>
+              <div id="addJustificationInModal" style="display: none;">
+                <p class="justificationModal">Justificacion:</p>
                 <input
-                  class="form-check-input"
-                  type="radio"
-                  name="correct"
-                  id="correct"
-                  value="yes"
+                  type="text"
+                  name="justificationText"
+                  class="inputTextModal"
+                  required
                 />
-                Correcta
-                <span class="circle">
-                  <span class="check"></span>
-                </span>
-              </label>
+                <div class="form-check form-check-radio">
+                  <label class="form-check-label">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="validity"
+                      id="validAddModal"
+                      value="yes"
+                      onclick="showJustificationErrorFieldAddModal()"
+                    />
+                    Valida
+                    <span class="circle">
+                      <span class="check"></span>
+                    </span>
+                  </label>
+                </div>
+                <div class="form-check form-check-radio">
+                  <label class="form-check-label">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="validity"
+                      id="invalidAddModal"
+                      value="no"
+                      onclick="showJustificationErrorFieldAddModal()"
+                      checked
+                    />
+                    Invalida
+                    <span class="circle">
+                      <span class="check"></span>
+                    </span>
+                  </label>
+                </div>
+                <div id="errorAddModal">
+                  <p class="justificationModal">Error:</p>
+                  <input type="text" name="error">
+                </div>
+              </div>
             </div>
-            <div class="form-check form-check-radio">
-              <label class="form-check-label">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="correct"
-                  id="correct"
-                  value="no"
-                />
-                Incorrecta
-                <span class="circle">
-                  <span class="check"></span>
-                </span>
-              </label>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Cancelar
+              </button>
+              <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+              <input type="submit" class="btn btn-primary" id="submitAddModal" value="Guardar">
+              <script>
+                $(document).ready(function(){
+                  $("#submitAddModal").click(function(e){
+                    e.preventDefault();
+                    $("#addAnswerForm").submit();
+                  })
+                })
+              </script>
             </div>
-            <p class="justificationModal">Justificacion:</p>
-            <input
-              type="text"
-              name="justificationText"
-              class="inputTextModal"
-              placeholder="Dejar en blanco en caso de que no haya"
-            />
-            <div class="form-check form-check-radio">
-              <label class="form-check-label">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="validity"
-                  id="valid"
-                  value="yes"
-                />
-                Valida
-                <span class="circle">
-                  <span class="check"></span>
-                </span>
-              </label>
-            </div>
-            <div class="form-check form-check-radio">
-              <label class="form-check-label">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="validity"
-                  id="invalid"
-                  value="no"
-                />
-                Invalida
-                <span class="circle">
-                  <span class="check"></span>
-                </span>
-              </label>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal"
-            >
-              Cancelar
-            </button>
-            <button type="submit" class="btn btn-primary">Guardar</button>
-          </div>
-          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+          </form>
         </div>
       </div>
-    </form>
   </div>
 {{>footer}}
