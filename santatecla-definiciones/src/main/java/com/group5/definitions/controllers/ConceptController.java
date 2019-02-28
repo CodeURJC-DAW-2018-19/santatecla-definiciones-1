@@ -204,37 +204,28 @@ public class ConceptController {
 		return null;
 	}
 
-	@RequestMapping("/addAnswer/concept/{conceptId}")
-	public String addAnswer(Model model, @PathVariable long conceptId, 
-			/*@RequestParam String questionText,*/ //idk what this is for
-			@RequestParam String justificationText, 
+	@PostMapping("/concept/{conceptId}/addAnswer")
+	public String addAnswer(Model model, @PathVariable long conceptId,
 			@RequestParam String answerText,
-			@RequestParam(value = "invalidJustification", required = false) String iJustification,
-			@RequestParam(value = "validJustification", required = false) String vJustification,
-			@RequestParam(value = "correctAnswer", required = false) String cAnswer,
-			@RequestParam(value = "incorrectAnswer", required = false) String iAnswer,
+			@RequestParam String correct,
+			@RequestParam(required = false) String justificationText,
+			@RequestParam(required = false) String validity,
+			@RequestParam(required = false) String error,
 			HttpServletResponse httpServletResponse) throws IOException {
-		Answer ans = new Answer(answerText, true, userSession.getLoggedUser(),
-				conceptService.findById(conceptId));
-		if (cAnswer != null && iAnswer == null) {
-			ans.setCorrect(true);
-		} else if (cAnswer == null && iAnswer != null) {
-			ans.setCorrect(false);
-		}
-		if (justificationText != "") {
-			boolean valid = false;
-			if (vJustification != null && iJustification == null) {
-				valid = true;
-			} else if (vJustification == null && iJustification != null) {
-				valid = false;
+		Concept c = conceptService.findById(conceptId);
+		User user = userSession.getLoggedUser();
+		Answer answer = new Answer(answerText.toUpperCase(), true, user, c);
+		answer.setCorrect(correct.equals("yes"));
+		answerService.save(answer);
+		if ((justificationText!=null) && (correct.equals("no"))) {
+			Justification justification = new Justification(justificationText.toUpperCase(), true, user);
+			justification.setValid(validity.equals("yes"));
+			if ((error!=null) && (validity.equals("no"))) {
+				justification.setError(error.toUpperCase());
 			}
-			Justification just = new Justification(justificationText, true, userSession.getLoggedUser());
-			just.setValid(valid);
-			ans.addJustification(just);
+			justification.setAnswer(answer);
+			justificationService.save(justification);
 		}
-		Concept con = conceptService.findById(conceptId);
-		con.getAnswers().add(ans);
-		conceptService.save(con);
 		httpServletResponse.sendRedirect("/concept/" + conceptId);
 		return null;
 	}
