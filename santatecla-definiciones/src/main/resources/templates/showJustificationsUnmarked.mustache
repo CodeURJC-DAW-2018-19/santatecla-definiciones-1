@@ -1,3 +1,4 @@
+{{#unmarkedJustifications}}
 <div class="correctedAnswers">
   <div class="uncorrectedAnswersJ">
       <input
@@ -100,3 +101,7 @@
         {{/justifications}}
   </div>
 </div>
+{{/unmarkedJustifications}}
+{{^unmarkedJustifications}}
+    <p class="noMore">No hay justificaciones por corregir</p>
+{{/unmarkedJustifications}}
