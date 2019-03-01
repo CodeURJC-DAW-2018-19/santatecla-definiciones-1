@@ -1,0 +1,20 @@
+{{#answers}}
+<div class="answer">
+	{{#marked}}
+		{{>showQuestionTeacherMarked}}
+		{{^correct}}
+			<button class="btn btn-primary" id="showMoreBtnJustMarked{{ id }}" >
+				Más resultados
+			</button>
+		{{/correct}}
+		<hr />
+	{{/marked}}
+	{{^marked}} 
+		{{>showQuestionTeacherUnmarked}} 
+	{{/marked}} 
+</div>
+<hr/>
+{{/answers}}
+{{^answers}}
+	<p class="noMore">No hay más respuestas disponibles.</p>
+{{/answers}}

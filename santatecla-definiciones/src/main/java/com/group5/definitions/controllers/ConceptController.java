@@ -97,8 +97,8 @@ public class ConceptController {
 			Page<Answer> unmarkedAnswers = answerService.findByMarkedAndConceptId(false, id, page);
 			String url = concept.getURL();
 			model.addAttribute("conceptURL", url);
-			model.addAttribute("markedAnswers", markedAnswers);
-			model.addAttribute("unmarkedAnswers", unmarkedAnswers);
+			//model.addAttribute("markedAnswers", markedAnswers);
+			//model.addAttribute("unmarkedAnswers", unmarkedAnswers);
 			return "teacher";
 		} else {
 			user = userSession.getLoggedUser();
@@ -143,16 +143,16 @@ public class ConceptController {
 	public String loadUnmarkedAnswers(Model model, HttpServletRequest req,
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page, @PathVariable long conceptId) {
 		Page<Answer> unmarkedAnswers = answerService.findByMarkedAndConceptId(false, conceptId, page);
-		model.addAttribute("unmarkedAnswers", unmarkedAnswers);
-		return "showAnswerUnmarked";
+		model.addAttribute("answers", unmarkedAnswers);
+		return "showanswer";
 	}
 	
 	@RequestMapping("/concept/{conceptId}/loadMarkedAnswers")
 	public String loadMarkedAnswers(Model model, HttpServletRequest req,
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page, @PathVariable long conceptId) {
 		Page<Answer> markedAnswers = answerService.findByMarkedAndConceptId(true, conceptId, page);
-		model.addAttribute("markedAnswers", markedAnswers);
-		return "showAnswerMarked";
+		model.addAttribute("answers", markedAnswers);
+		return "showanswer";
 	}
 	
 	@PostMapping("/concept/{conceptId}/mark/{answerId}")
