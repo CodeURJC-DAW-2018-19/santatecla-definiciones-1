@@ -180,11 +180,11 @@ public class ConceptController {
 		if (cAnswer != null) {
 			ans.setCorrect(cAnswer.equals("yes"));
 			if (cAnswer.equals("yes")) {
+				//It is needed to delete the justifications from the DB
 				for(Justification j: ans.getJustifications()) {
 					justificationService.deleteById(j.getId());
 				}
-				ans.getJustifications().clear();
-				
+				ans.getJustifications().clear(); //In case, we clear the answer justifications
 			} else {
 				if(ans.getJustifications().size() == 0) {
 					newJ = new Justification(justificationText, true, userSession.getLoggedUser());
@@ -258,16 +258,20 @@ public class ConceptController {
 		justificationService.deleteById(id);
 		httpServletResponse.sendRedirect("/concept/" + conceptId);
 	}
-
-	@RequestMapping("/modifyJust/concept/{conceptId}/justificacion/{id}")
-	public void modifyJustification(Model model, @PathVariable String conceptId, @PathVariable long id,
+	
+	@RequestMapping("/modifyJust/concept/{conceptId}/justification/{id}")
+	public void modifyJustification(Model model, @PathVariable String conceptId, @PathVariable String id,
 			@RequestParam String jText, @RequestParam String valid, @RequestParam(required = false) String error,
-			HttpServletResponse httpServletResponse) throws IOException {
-		Justification j = justificationService.findById(id);
-//		j.setJustificationText(jText);
-//		j.setValid(valid.equals("yes"));
-//		if (error!=null)
-//			j.setError(error);
-//		httpServletResponse.sendRedirect("/concept/" + conceptId);
+			HttpServletResponse httpServletResponse) throws IOException{
+		Justification j = justificationService.findById(Long.parseLong(id));
+		j.setJustificationText(jText);
+		if(valid.equals("yes")) {
+			j.setValid(true);
+		}else {
+			j.setValid(false);
+			j.setError(error);
+		}
+		justificationService.save(j);
+		httpServletResponse.sendRedirect("/concept/" + conceptId);
 	}
 }
