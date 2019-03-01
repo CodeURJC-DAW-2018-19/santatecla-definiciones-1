@@ -177,4 +177,45 @@
       <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
       </form>
   </div>
+  <div
+    class="modal fade"
+    id="addJustification"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="addModalLabel"
+  >
+  	<div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addModalLabel">
+              Inserte una nueva Justificación
+            <form id="addJustification" action="/addJustification/" method="post">
+            <div class="modal-body">
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >	
+             <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+            <input
+                type="text"
+                name="answerText"
+                class="inputTextModal"
+                required
+              />
+     	 <input type="submit" class="btn btn-primary" id="submitAddModal" value="Guardar">
+              <script>
+                $(document).ready(function(){
+                  $("#submitAddModal").click(function(e){
+                    e.preventDefault();
+                    $("#addJustification").submit();
+                  })
+                })
+              </script>
+              </div>
+          </form>
+	</div>
 </div>
