@@ -1,5 +1,6 @@
 {{>header}}
 <script src="/assets/js/loadFunctions/loadAnswers.js"></script>
+<script src="/assets/js/loadFunctions/loadUnmarkedJustifications.js"></script>
 <div class="content">
   <div class="url">
     <form action="/concept/{{ conceptId }}/saveURL" method="post">
@@ -69,6 +70,32 @@
     </div>
   </div>
 </div>
+<div class="row">
+    <div class="card">
+      <div class="card-header card-header-danger">
+        <h4 class="card-title text-center">JUSTIFICACIONES POR CORREGIR</h4>
+      </div>
+      <div class="card-body" id="unmarkedJustificationsBody">
+        <script>
+          loadUnmarkedJustifications("loadGifUnmarkedJustifications", 
+            "/concept/{{id}}/loadUnmarkedJustifications", "unmarkedJustificationsBody")
+        </script>
+      </div>
+      <div class="card-footer">
+        <button
+          type="button"
+          class="btn btn-primary"
+          id="showMoreBtnJustUnmarked"
+          data-target="#showMore"
+          onclick='loadUnmarkedJustifications("loadGifUnmarkedJustifications", 
+            "/concept/{{id}}/loadUnmarkedJustifications", "unmarkedJustificationsBody")'
+        >
+          Más resultados
+        </button>
+        <div id="loadGifUnmarkedJustifications"></div>
+      </div>
+    </div>
+  </div>
 <!-- Add answer Modal -->
   <div
     class="modal fade"
