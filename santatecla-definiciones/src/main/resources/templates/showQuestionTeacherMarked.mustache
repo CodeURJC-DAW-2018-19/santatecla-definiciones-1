@@ -101,6 +101,7 @@
         </div>
         {{/justifications}}
         {{#justifications}}
+        {{#marked}}
       <div
         class="justification justificationAnswer{{#answer}}{{id}}{{/answer}}-0"
       >
@@ -171,6 +172,7 @@
         </div>
         
       </div>
+      {{/marked}}
       {{/justifications}}
       <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
       </form>

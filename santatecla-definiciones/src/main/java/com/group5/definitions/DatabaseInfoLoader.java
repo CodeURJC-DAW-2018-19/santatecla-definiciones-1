@@ -112,8 +112,11 @@ public class DatabaseInfoLoader {
 		questions[1].setUserResponse(true);
 		questions[1].setCorrect(false);
 		questions[2] = new Question("¿QUÉ ES SPRING?", 0, answers[2], false, student);
+		Justification j3 = new Justification("ES UNA IMPLEMENTACIÓN DE JPA", false, student);
+		j3.setAnswer(answers[3]);
+		justificationRepository.save(j3);
 		questions[3] = new Question("¿POR QUÉ NO ES CORRECTO AFIRMAR QUE SPRING ES UN FRAMEWORK COMERCIAL?", 1,
-				answers[3], false, j2, student);
+				answers[3], false, j3, student);
 		for (Question q : questions) {
 			questionRepository.save(q);
 		}
