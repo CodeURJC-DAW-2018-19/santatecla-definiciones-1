@@ -69,7 +69,7 @@ public class ConceptController {
 	public String conceptPage(Model model, HttpServletRequest req, @PathVariable long id,
 			@RequestParam(name = "close", required = false) Long closeTab, HttpServletResponse httpServletResponse,
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page) throws IOException {
-		
+
 		Concept concept = conceptService.findById(id);
 		String name = concept.getConceptName();
 		// If close tab button was pressed, remove the tab
@@ -95,10 +95,13 @@ public class ConceptController {
 		if (req.isUserInRole("ROLE_TEACHER")) {
 			Page<Answer> markedAnswers = answerService.findByMarkedAndConcept(true, concept, page);
 			Page<Answer> unmarkedAnswers = answerService.findByMarkedAndConcept(false, concept, page);
+			Page<Answer> unmarkedJustifications = answerService.findByConceptAndJustifications_Marked(concept, false,
+					page);
 			String url = concept.getURL();
 			model.addAttribute("conceptURL", url);
 			model.addAttribute("markedAnswers", markedAnswers);
 			model.addAttribute("unmarkedAnswers", unmarkedAnswers);
+			model.addAttribute("unmarkedJustifications", unmarkedJustifications);
 			return "teacher";
 		} else {
 			user = userSession.getLoggedUser();
@@ -129,7 +132,7 @@ public class ConceptController {
 		model.addAttribute("questions", unmarkedQuestions);
 		return "showquestion";
 	}
-	
+
 	@RequestMapping("/concept/{conceptId}/loadMarkedQuestions")
 	public String loadMarkedQuestions(Model model, HttpServletRequest req,
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page, @PathVariable long conceptId) {
@@ -138,24 +141,24 @@ public class ConceptController {
 		model.addAttribute("questions", markedQuestions);
 		return "showquestion";
 	}
-	
+
 	@PostMapping("/concept/{conceptId}/mark/{answerId}")
 	public String markAnswer(Model model, @PathVariable long conceptId, @PathVariable long answerId,
-			@RequestParam String correct,
-			@RequestParam(required=false) String justificationTextNew,
+			@RequestParam String correct, @RequestParam(required = false) String justificationTextNew,
 			HttpServletResponse httpServletResponse) throws IOException {
 		Answer ans = answerService.getOne(answerId);
 		ans.setMarked(true);
 		ans.setCorrect(correct.equals("yes"));
 		answerService.save(ans);
-		if ((justificationTextNew!=null) && (correct.equals("no"))) {
-			Justification justification = new Justification(justificationTextNew.toUpperCase(), true, userSession.getLoggedUser());
+		if ((justificationTextNew != null) && (correct.equals("no"))) {
+			Justification justification = new Justification(justificationTextNew.toUpperCase(), true,
+					userSession.getLoggedUser());
 			justification.setValid(true);
 			justification.setAnswer(ans);
 			justificationService.save(justification);
 		}
 		for (Question q : ans.getQuestions()) {
-			if (!q.isMarked() && (q.getType()==0)) {
+			if (!q.isMarked() && (q.getType() == 0)) {
 				q.setMarked(true);
 				q.setCorrect(correct.equals("yes"));
 				questionService.save(q);
@@ -186,13 +189,13 @@ public class ConceptController {
 		if (cAnswer != null) {
 			ans.setCorrect(cAnswer.equals("yes"));
 			if (cAnswer.equals("yes")) {
-				//It is needed to delete the justifications from the DB
-				for(Justification j: ans.getJustifications()) {
+				// It is needed to delete the justifications from the DB
+				for (Justification j : ans.getJustifications()) {
 					justificationService.deleteById(j.getId());
 				}
-				ans.getJustifications().clear(); //In case, we clear the answer justifications
+				ans.getJustifications().clear(); // In case, we clear the answer justifications
 			} else {
-				if(ans.getJustifications().size() == 0) {
+				if (ans.getJustifications().size() == 0) {
 					newJ = new Justification(justificationText, true, userSession.getLoggedUser());
 					newJ.setValid(jValid.equals("yes"));
 					if (jValid.equals("yes"))
@@ -211,27 +214,40 @@ public class ConceptController {
 	}
 
 	@PostMapping("/concept/{conceptId}/addAnswer")
-	public String addAnswer(Model model, @PathVariable long conceptId,
-			@RequestParam String answerText,
-			@RequestParam String correct,
-			@RequestParam(required = false) String justificationText,
-			@RequestParam(required = false) String validity,
-			@RequestParam(required = false) String error,
+	public String addAnswer(Model model, @PathVariable long conceptId, @RequestParam String answerText,
+			@RequestParam String correct, @RequestParam(required = false) String justificationText,
+			@RequestParam(required = false) String validity, @RequestParam(required = false) String error,
 			HttpServletResponse httpServletResponse) throws IOException {
 		Concept c = conceptService.findById(conceptId);
 		User user = userSession.getLoggedUser();
 		Answer answer = new Answer(answerText.toUpperCase(), true, user, c);
 		answer.setCorrect(correct.equals("yes"));
 		answerService.save(answer);
-		if ((justificationText!=null) && (correct.equals("no"))) {
+		if ((justificationText != null) && (correct.equals("no"))) {
 			Justification justification = new Justification(justificationText.toUpperCase(), true, user);
 			justification.setValid(validity.equals("yes"));
-			if ((error!=null) && (validity.equals("no"))) {
+			if ((error != null) && (validity.equals("no"))) {
 				justification.setError(error.toUpperCase());
 			}
 			justification.setAnswer(answer);
 			justificationService.save(justification);
 		}
+		httpServletResponse.sendRedirect("/concept/" + conceptId);
+		return null;
+	}
+
+	@PostMapping("/concept/{conceptId}/markJust/{justId}")
+	public String addJustification(Model mode, @PathVariable long conceptId, @PathVariable long justId,
+			@RequestParam String validUnmarked,
+			@RequestParam(required=false) String errorUnmarked,
+			HttpServletResponse httpServletResponse) throws IOException {
+		Justification just = justificationService.findById(justId);
+		just.setMarked(true);
+		just.setValid(validUnmarked.equals("yes"));
+		if((errorUnmarked!=null) && (validUnmarked.equals("no"))) {
+			just.setError(errorUnmarked);
+		}
+		justificationService.save(just);
 		httpServletResponse.sendRedirect("/concept/" + conceptId);
 		return null;
 	}
@@ -244,8 +260,8 @@ public class ConceptController {
 			@RequestParam(required = false) Long justificationQuestionId) throws IOException {
 		boolean open = answerText != null;
 		String answerFinalText = open ? answerText : answerOption;
-		questionMarker.saveQuestion(conceptService.findById(conceptId), answerFinalText, questionText,
-				questionType, answerQuestionId, justificationQuestionId);
+		questionMarker.saveQuestion(conceptService.findById(conceptId), answerFinalText, questionText, questionType,
+				answerQuestionId, justificationQuestionId);
 		httpServletResponse.sendRedirect("/concept/" + conceptId);
 		return null;
 	}
@@ -263,16 +279,16 @@ public class ConceptController {
 		justificationService.deleteById(id);
 		httpServletResponse.sendRedirect("/concept/" + conceptId);
 	}
-	
+
 	@RequestMapping("/modifyJust/concept/{conceptId}/justification/{id}")
 	public void modifyJustification(Model model, @PathVariable String conceptId, @PathVariable String id,
 			@RequestParam String jText, @RequestParam String valid, @RequestParam(required = false) String error,
-			HttpServletResponse httpServletResponse) throws IOException{
+			HttpServletResponse httpServletResponse) throws IOException {
 		Justification j = justificationService.findById(Long.parseLong(id));
 		j.setJustificationText(jText);
-		if(valid.equals("yes")) {
+		if (valid.equals("yes")) {
 			j.setValid(true);
-		}else {
+		} else {
 			j.setValid(false);
 			j.setError(error);
 		}
