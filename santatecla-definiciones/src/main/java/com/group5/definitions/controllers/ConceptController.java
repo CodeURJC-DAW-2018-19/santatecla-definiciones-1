@@ -95,13 +95,10 @@ public class ConceptController {
 		if (req.isUserInRole("ROLE_TEACHER")) {
 			Page<Answer> markedAnswers = answerService.findByMarkedAndConcept(true, concept, page);
 			Page<Answer> unmarkedAnswers = answerService.findByMarkedAndConcept(false, concept, page);
-			Page<Answer> unmarkedJustifications = answerService.findByConceptAndJustifications_Marked(concept, false,
-					page);
 			String url = concept.getURL();
 			model.addAttribute("conceptURL", url);
 			model.addAttribute("markedAnswers", markedAnswers);
 			model.addAttribute("unmarkedAnswers", unmarkedAnswers);
-			model.addAttribute("unmarkedJustifications", unmarkedJustifications);
 			return "teacher";
 		} else {
 			user = userSession.getLoggedUser();
@@ -124,6 +121,15 @@ public class ConceptController {
 		model.addAttribute("questionType", question.getType());
 	}
 
+	@RequestMapping("/concept/{id}/loadUnmarkedJustifications")
+	public String loadUnmarkedJustifications(Model model, HttpServletRequest req, @PathVariable long id,
+			@PageableDefault(size = DEFAULT_SIZE) Pageable page) {
+		Page<Answer> unmarkedJustifications = answerService.findByConceptAndJustifications_Marked(conceptService.findById(id), false,
+				page);
+		model.addAttribute("unmarkedJustifications", unmarkedJustifications);
+		return "showJustificationsUnmarked";
+	}
+	
 	@RequestMapping("/concept/{conceptId}/loadUnmarkedQuestions")
 	public String loadUnmarkedQuestions(Model model, HttpServletRequest req,
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page, @PathVariable long conceptId) {
