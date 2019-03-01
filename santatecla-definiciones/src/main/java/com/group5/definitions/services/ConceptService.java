@@ -30,8 +30,10 @@ public class ConceptService {
 		return conceptRepository.findById(id).get();
 	}
 
-	public void saveURL(String name, String url) {
-		conceptRepository.findByConceptName(name);
+	public void saveURL(Long id, String url) {
+		Concept con = findById(id);
+		con.setURL(url);
+		conceptRepository.save(con);
 	}
 
 	public Page<Concept> findByChapter_id(long id, Pageable page) {

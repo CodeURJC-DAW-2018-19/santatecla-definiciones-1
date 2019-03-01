@@ -245,9 +245,8 @@ public class ConceptController {
 	}
 
 	@PostMapping("/concept/{conceptId}/saveURL")
-	public void saveURL(Model model, @RequestParam String conceptId, @RequestParam String url,
+	public void saveURL(Model model, @PathVariable Long conceptId, @RequestParam String url,
 			HttpServletResponse httpServletResponse) throws IOException {
-		String id = url.split("/")[url.split("/").length-1];
 		conceptService.saveURL(conceptId, url);
 		httpServletResponse.sendRedirect("/concept/" + conceptId);
 	}

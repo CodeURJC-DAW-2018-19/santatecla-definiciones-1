@@ -91,6 +91,7 @@ public class ChapterController {
 		}
 		model.addAttribute("images", images.values());
 	}
+	
 	@RequestMapping("/loadChapters")
 	public String getChapters(Model model, HttpServletRequest req,
 			@PageableDefault(size = DEFAULT_SIZE, sort = { "chapterName" }) Pageable page) {
