@@ -7,10 +7,10 @@
                 {{ chapterName }}
             </a>
             {{#teacher}}
-            <div class="chapterDeleteButton">
-              <form action="/deleteChapter/chapter/{{id}}" method="post">
+            <div  class="chapterDeleteButton">
+              <form action="/deleteChapter/chapter/{{id}}" onclick="return confirmation()" method="post">
   	        	    <button type="submit" class=" btn btn-primary btn-fab btn-fab-mini btn-round deleteButtonChapter" data-toggle="modal" data-target="#deleteModal">
-  					             <i class="material-icons">delete</i>
+  					<i class="material-icons">delete</i>
                   </button>
   			          <input type="hidden" name="_csrf" value={{csrfToken}}>
   			      </form>

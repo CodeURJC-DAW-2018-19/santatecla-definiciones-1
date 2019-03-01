@@ -45,7 +45,7 @@
             <i class="material-icons">build</i>
           </button>
           <a
-            type="button"
+            type="button" onclick="return confirmation()"
             href="/delete/concept/{{ conceptId }}/answer/{{ id }}"
             name="deleteAnswer"
             class="btn btn-primary btn-fab btn-fab-mini btn-round"
@@ -161,7 +161,7 @@
               })
           </script>
             <a
-              type="button"
+              type="button" onclick="return confirmation()"
               href='/deleteJust/concept/{{conceptId}}/justification/{{ id }}'
               name="deleteJustification"
               class="btn btn-primary btn-fab btn-fab-mini btn-round"
