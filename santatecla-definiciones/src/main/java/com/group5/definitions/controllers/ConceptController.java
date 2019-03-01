@@ -139,23 +139,29 @@ public class ConceptController {
 		return "showquestion";
 	}
 	
-	@PostMapping("/mark/{id}")
-	public String markAnswer(Model model, @PathVariable long id,
-			@RequestParam(value = "correctAnswer", required = false) String cAnswer,
-			@RequestParam(value = "incorrectAnswer", required = false) String iAnswer,
+	@PostMapping("/concept/{conceptId}/mark/{answerId}")
+	public String markAnswer(Model model, @PathVariable long conceptId, @PathVariable long answerId,
+			@RequestParam String correct,
+			@RequestParam(required=false) String justificationTextNew,
 			HttpServletResponse httpServletResponse) throws IOException {
-		Answer ans = answerService.getOne(id);
+		Answer ans = answerService.getOne(answerId);
 		ans.setMarked(true);
-		if (cAnswer != null && iAnswer == null) {
-			ans.setCorrect(true);
-			answerService.save(ans);
-		} else if (cAnswer == null && iAnswer != null) {
-			ans.setCorrect(false);
-			answerService.save(ans);
-		} else {
-			// Error
+		ans.setCorrect(correct.equals("yes"));
+		answerService.save(ans);
+		if ((justificationTextNew!=null) && (correct.equals("no"))) {
+			Justification justification = new Justification(justificationTextNew.toUpperCase(), true, userSession.getLoggedUser());
+			justification.setValid(true);
+			justification.setAnswer(ans);
+			justificationService.save(justification);
 		}
-		httpServletResponse.sendRedirect("/");
+		for (Question q : ans.getQuestions()) {
+			if (!q.isMarked() && (q.getType()==0)) {
+				q.setMarked(true);
+				q.setCorrect(correct.equals("yes"));
+				questionService.save(q);
+			}
+		}
+		httpServletResponse.sendRedirect("/concept/" + conceptId);
 		return null;
 	}
 
