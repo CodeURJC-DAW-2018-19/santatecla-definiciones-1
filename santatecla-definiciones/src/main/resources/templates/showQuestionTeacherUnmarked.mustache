@@ -1,10 +1,11 @@
 <div class="correctedAnswers">
   <div class="uncorrectedAnswersJ">
-    <form id="correctUnmarked{{id}}" action="/mark/{{ id }}" method="post">
+    <form id="correctUnmarked{{id}}" action="/concept/{{#concept}}{{id}}{{/concept}}/mark/{{id}}" method="post">
       <input
         type="textarea"
         name="answerText"
         value="{{ answerText }}"
+        disabled
 		    required
       />
       <div class="correction">
@@ -13,10 +14,11 @@
             <input
               class="form-check-input"
               type="radio"
-              name="correct{{ id }}"
+              name="correct"
               id="correct{{ id }}"
               value="yes"
               onclick="showJustification('incorrect{{id}}', 'justificationAnswer{{ id }}', false)"
+              required
             />
             Correcta
             <span class="circle">
@@ -29,7 +31,7 @@
             <input
               class="form-check-input"
               type="radio"
-              name="correct{{ id }}"
+              name="correct"
               id="incorrect{{ id }}"
               value="no"
               onclick="showJustification('incorrect{{id}}', 'justificationAnswer{{ id }}', false)"
@@ -54,8 +56,10 @@
           style="display:none"
         >
           <p>JUSTIFICACIÓN:</p>
-          <input type="textarea" name="justificationTextNew" required />
-          <div class="justification2">
+          <input type="textarea" name="justificationTextNew" />
+          <!-- At the moment, when adding a new justification, it needs to be valid -->
+          <!-- This commented code is here in case we need to change this -->
+          <!--<div class="justification2">
             <div class="form-check form-check-radio">
               <label class="form-check-label">
                 <input
@@ -89,11 +93,11 @@
                 </span>
               </label>
             </div>
-            <input class="errorAnswer" {{#valid}}style="display: none"{{/valid}}
-            type="textarea" value="{{#error}}{{ error }}{{/error}}"
-            name="errorNew" required/>
+            <input class="errorAnswer"
+            type="textarea"
+            name="errorNew"/>
           </div>
-        </div>
+        </div>-->
         <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
       </form>
   </div>
