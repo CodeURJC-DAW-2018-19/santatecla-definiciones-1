@@ -23,7 +23,7 @@ public class Question {
 	private boolean correct;
 	@ManyToOne
 	private Answer answer;
-	@OneToOne(mappedBy="question")
+	@OneToOne
 	private Justification justification; //Justification related to the question (type 1, 3)
 	@OneToOne
 	private User user;

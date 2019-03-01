@@ -20,8 +20,6 @@ public class Justification {
 	private Answer answer;
 	@OneToOne
 	private User user;
-	@OneToOne
-	private Question question;
 	
 	protected Justification() {}
 	
