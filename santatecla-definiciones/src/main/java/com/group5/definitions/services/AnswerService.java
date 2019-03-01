@@ -60,8 +60,8 @@ public class AnswerService {
 		return answerRepository.findByAnswerText(answerText);
 	}
 
-	public Page<Answer> findByMarkedAndConcept(boolean marked, Concept concept, Pageable page) {
-		return answerRepository.findByMarkedAndConcept(marked, concept, page);
+	public Page<Answer> findByMarkedAndConceptId(boolean marked, long id, Pageable page) {
+		return answerRepository.findByMarkedAndConceptId(marked, id, page);
 	}
 
 	public Page<Answer> findByConceptAndJustifications_Marked(Concept concept, boolean justMarked,

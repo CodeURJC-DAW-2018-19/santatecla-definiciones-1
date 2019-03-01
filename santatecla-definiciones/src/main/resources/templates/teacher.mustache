@@ -1,4 +1,5 @@
 {{>header}}
+<script src="/assets/js/loadFunctions/loadAnswers.js"></script>
 <script src="/assets/js/loadFunctions/loadUnmarkedJustifications.js"></script>
 <div class="content">
   <div class="url">
@@ -38,36 +39,14 @@
       <div class="card-header card-header-danger">
         <h4 class="card-title text-center">RESPUESTAS CORREGIDAS</h4>
       </div>
-      <div class="card-body">
-        {{#markedAnswers}}
-        {{>showQuestionTeacherMarked}}
-        {{^correct}}
-        <button
-          type="button"
-          class="btn btn-primary"
-          id="showMoreBtnJustMarked{{ id }}"
-          data-target="#showMore"
-        >
+      <div class="card-body" id="markedAnswerBody">
+        <script>loadMarkedAnswers({{conceptId}})</script>
+        <button class="btn btn-primary" id="showMoreBtnMarked" onclick="loadMarkedAnswers({{conceptId}});">
           Más resultados
         </button>
-        {{/correct}}
-        <hr />
-        {{/markedAnswers}}
-        {{^markedAnswers}}
-        <p>No hay respuestas corregidas</p>
-        {{/markedAnswers}}
-        <button
-          type="button"
-          class="btn btn-primary"
-          id="showMoreBtnMarked"
-          data-target="#showMore"
-        >
-          Más resultados
-        </button>
+        <div id="loadGifMarked"></div>
         <br />
-        <button
-          type="button"
-          class="btn btn-primary btn-fab btn-fab-mini btn-round"
+        <button class="btn btn-primary btn-fab btn-fab-mini btn-round" 
           data-toggle="modal"
           data-target="#addAnswerModal"
         >
@@ -81,25 +60,15 @@
       <div class="card-header card-header-danger">
         <h4 class="card-title text-center">RESPUESTAS POR CORREGIR</h4>
       </div>
-      <div class="card-body">
-        {{#unmarkedAnswers}}
-        {{>showQuestionTeacherUnmarked}}
-        {{/unmarkedAnswers}}
-        {{^unmarkedAnswers}}
-        <p>No hay respuestas por corregir</p>
-        {{/unmarkedAnswers}}
-        <button
-          type="button"
-          class="btn btn-primary"
-          id="showMoreBtnUnmarked"
-          data-target="#showMore"
-        >
+      <div class="card-body" id="unmarkedAnswerBody">
+        <script>loadUnmarkedAnswers({{conceptId}})</script>
+        <button class="btn btn-primary" id="showMoreBtnUnmarked" onclick="loadUnmarkedAnswers({{conceptId}});">
           Más resultados
         </button>
+        <div id="loadGifUnmarked"></div>
       </div>
     </div>
   </div>
-  <!-- TODO: Add load gif div -->
 </div>
 <div class="row">
     <div class="card">
