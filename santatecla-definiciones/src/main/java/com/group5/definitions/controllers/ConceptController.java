@@ -58,7 +58,7 @@ public class ConceptController {
 
 	@Autowired
 	private JustificationService justificationService;
-	private final int DEFAULT_SIZE = 10;
+	private final int DEFAULT_SIZE = 1;
 
 	@ModelAttribute
 	public void addUserToModel(Model model) {
@@ -68,7 +68,7 @@ public class ConceptController {
 	@RequestMapping("/concept/{id}")
 	public String conceptPage(Model model, HttpServletRequest req, @PathVariable long id,
 			@RequestParam(name = "close", required = false) Long closeTab, HttpServletResponse httpServletResponse,
-			@PageableDefault(size = DEFAULT_SIZE) Pageable page) throws IOException {
+			@PageableDefault(size = DEFAULT_SIZE, sort = {"id"}) Pageable page) throws IOException {
 		
 		Concept concept = conceptService.findById(id);
 		String name = concept.getConceptName();
@@ -93,8 +93,8 @@ public class ConceptController {
 		// if user is a teacher get all answers and return the teacher template
 		User user;
 		if (req.isUserInRole("ROLE_TEACHER")) {
-			Page<Answer> markedAnswers = answerService.findByMarkedAndConcept(true, concept, page);
-			Page<Answer> unmarkedAnswers = answerService.findByMarkedAndConcept(false, concept, page);
+			Page<Answer> markedAnswers = answerService.findByMarkedAndConceptId(true, id, page);
+			Page<Answer> unmarkedAnswers = answerService.findByMarkedAndConceptId(false, id, page);
 			String url = concept.getURL();
 			model.addAttribute("conceptURL", url);
 			model.addAttribute("markedAnswers", markedAnswers);
@@ -137,6 +137,22 @@ public class ConceptController {
 				userSession.getLoggedUser(), page);
 		model.addAttribute("questions", markedQuestions);
 		return "showquestion";
+	}
+	
+	@RequestMapping("/concept/{conceptId}/loadUnmarkedAnswers")
+	public String loadUnmarkedAnswers(Model model, HttpServletRequest req,
+			@PageableDefault(size = DEFAULT_SIZE) Pageable page, @PathVariable long conceptId) {
+		Page<Answer> unmarkedAnswers = answerService.findByMarkedAndConceptId(false, conceptId, page);
+		model.addAttribute("unmarkedAnswers", unmarkedAnswers);
+		return "showAnswerUnmarked";
+	}
+	
+	@RequestMapping("/concept/{conceptId}/loadMarkedAnswers")
+	public String loadMarkedAnswers(Model model, HttpServletRequest req,
+			@PageableDefault(size = DEFAULT_SIZE) Pageable page, @PathVariable long conceptId) {
+		Page<Answer> markedAnswers = answerService.findByMarkedAndConceptId(true, conceptId, page);
+		model.addAttribute("markedAnswers", markedAnswers);
+		return "showAnswerMarked";
 	}
 	
 	@PostMapping("/concept/{conceptId}/mark/{answerId}")

@@ -1,0 +1,12 @@
+{{#markedAnswers}}
+{{>showQuestionTeacherMarked}}
+{{^correct}}
+	<button class="btn btn-primary" id="showMoreBtnJustMarked{{ id }}" >
+		Más resultados
+	</button>
+{{/correct}}
+	<hr />
+{{/markedAnswers}}
+{{^markedAnswers}}
+	<p class="noMore">No hay respuestas corregidas</p>
+{{/markedAnswers}}

@@ -20,6 +20,6 @@ public interface AnswerRepository extends JpaRepository<Answer, Long>{
 
 	public Answer findByAnswerText(String answerText);
 
-	public Page<Answer> findByMarkedAndConcept(boolean marked, Concept concept, Pageable page);
+	public Page<Answer> findByMarkedAndConceptId(boolean marked, long id, Pageable page);
 
 }
