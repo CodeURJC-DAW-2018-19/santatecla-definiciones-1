@@ -30,6 +30,7 @@ function loadCorrectJust(conceptId, answerId){
 	var page = justMap.get(answerId);
 	var urlPage = "/concept/"+conceptId+"/loadJust?answerId="+answerId+"&page="+ page;
 	ajax(urlPage , "correctJust"+answerId);
+	
 	unloadGif("Just");
 	page++;
 	justMap.set(answerId, page);

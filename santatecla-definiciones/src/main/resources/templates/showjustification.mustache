@@ -70,53 +70,58 @@
         </div>
         
       </div>
-      {{/marked}}
-      {{/justifications}}
+    {{/marked}}
+{{/justifications}}
 {{^justifications}}
-        <div
-          class="justification justificationAnswer{{ id }}-0"
-          style="display:none"
-        >
-          <p>JUSTIFICACIÓN:</p>
-          <input type="textarea" name="justificationTextNew" required />
-          <div class="justification2">
-            <div class="form-check form-check-radio">
-              <label class="form-check-label">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="validNew"
-                  id="valid{{ id }}-0"
-                  value="yes"
-                  onclick="showError('invalid{{ id }}-0')"
-                />
-                Válida
-                <span class="circle">
-                  <span class="check"></span>
-                </span>
-              </label>
+	{{^nothingMore}}
+	<div
+    	class="justification justificationAnswer{{ id }}-0"
+        style="display:none"
+    >
+    	<p>JUSTIFICACIÓN:</p>
+        <input type="textarea" name="justificationTextNew" required />
+        <div class="justification2">
+        	<div class="form-check form-check-radio">
+            	<label class="form-check-label">
+                	<input
+                  		class="form-check-input"
+                  		type="radio"
+                  		name="validNew"
+                  		id="valid{{ id }}-0"
+                  		value="yes"
+                  		onclick="showError('invalid{{ id }}-0')"
+                	/>
+                	Válida
+                	<span class="circle">
+                  		<span class="check"></span>
+                	</span>
+              	</label>
             </div>
             <div class="form-check form-check-radio">
-              <label class="form-check-label">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="validNew"
-                  id="invalid{{ id }}-0"
-                  value="no"
-                  checked
-                  onclick="showError('invalid{{ id }}-0')"
-                />
-                Inválida
-                <span class="circle">
-                  <span class="check"></span>
-                </span>
-              </label>
+              	<label class="form-check-label">
+	                <input
+	                  class="form-check-input"
+	                  type="radio"
+	                  name="validNew"
+	                  id="invalid{{ id }}-0"
+	                  value="no"
+	                  checked
+	                  onclick="showError('invalid{{ id }}-0')"
+	                />
+	                Inválida
+	                <span class="circle">
+	                  	<span class="check"></span>
+	                </span>
+              	</label>
             </div>
-            <input class="errorAnswer" {{#valid}}style="display: none"{{/valid}}
+        <input class="errorAnswer" {{#valid}}style="display: none"{{/valid}}
             type="textarea" value="{{#error}}{{ error }}{{/error}}"
-            name="errorNew" required/>
-          </div>
-        </div>
-        {{/justifications}}
-        
+        	name="errorNew" required
+        />
+    	</div>
+	</div>
+	{{/nothingMore}}
+	{{#nothingMore}}
+		<p class="noMore">No hay más justificaciones disponibles.</p>
+	{{/nothingMore}}
+{{/justifications}}

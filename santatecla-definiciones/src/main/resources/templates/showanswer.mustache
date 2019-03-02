@@ -2,20 +2,11 @@
 <div class="answer">
 	{{#marked}}
 		{{>showQuestionTeacherMarked}}
-		<!--{{^correct}}
-			<div class="card-body" id="correctJust">
-				{{>showjustification}}
-				<script> loadCorrectJust({{conceptId}}, {{id}}) </script>
-				<button class="btn btn-primary" id="showMoreBtnJust{{ id }}" onclick="loadCorrectJust({{conceptId}}, {{id}});">
-					Más resultados
-				</button>
-				<div id="loadGifJust"></div>
-			</div>
-		{{/correct}}-->
 		<hr />
 	{{/marked}}
 	{{^marked}} 
-		{{>showQuestionTeacherUnmarked}} 
+		{{>showQuestionTeacherUnmarked}}
+		<hr />
 	{{/marked}} 
 </div>
 <hr/>

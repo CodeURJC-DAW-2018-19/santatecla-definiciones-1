@@ -167,9 +167,11 @@ public class ConceptController {
 	public String loadCorrectJust(Model model, HttpServletRequest req,
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page, @PathVariable long conceptId,
 			@RequestParam("answerId") String answerId) {
-		Page<Justification> correctJust = justificationService.findByAnswer_Id(Long.parseLong(answerId), page);
+		Page<Justification> correctJust = justificationService.findByAnswer_Id(Long.parseLong(answerId), page);		
 		model.addAttribute("justifications", correctJust);
 		model.addAttribute("id", answerId);
+		if( (page.getPageNumber() == correctJust.getTotalPages()) && (correctJust.getTotalPages() != 0)) 
+			model.addAttribute("nothingMore", true);
 		return "showjustification";
 	}
 	
