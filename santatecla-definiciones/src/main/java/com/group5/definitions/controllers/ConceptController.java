@@ -221,12 +221,17 @@ public class ConceptController {
 	
 	@RequestMapping("/extraJustification/concept/{conceptId}/answer/{answerId}")
 	public String extraJustification(Model model, @RequestParam String justificationText,
+			@RequestParam boolean valid, @RequestParam(required = false) String error,
 			@PathVariable String conceptId, @PathVariable long id,
 			HttpServletResponse httpServletResponse) throws IOException {
-		
 		Justification justification = new Justification(justificationText, true, userSession.getLoggedUser());
-		justification.setId(id);
-		justificationService.save(justification);
+		if(valid==false) {
+			justification.setError(error);
+			justificationService.save(justification);
+		}
+		else {
+			justificationService.save(justification);
+		}
 		httpServletResponse.sendRedirect("/concept/" + conceptId);
 		return null;
 	}

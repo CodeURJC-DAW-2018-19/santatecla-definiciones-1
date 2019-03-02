@@ -181,27 +181,60 @@
         <div>
         <input
           type="textarea"
-          id="justificationText{{ id }}"
+          id="justificationText{{id}}"
           name="justificationText"
           value=""
           required
          />
-        </div>
-        <button onclick="extraJustification()" id="extraJustif" class="btn btn-primary btn-fab btn-fab-mini btn-round"><i class="material-icons">exposure_plus_1</i>        
+         </div>
+          <div class="form-check form-check-radio">
+                  <label class="form-check-label">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="validity"
+                      id="validAddModal"
+                      value="yes"
+                      onclick="showJustificationErrorFieldAddModal()"
+                    />
+                    Valida
+                    <span class="circle">
+                      <span class="check"></span>
+                    </span>
+                  </label>
+                </div>
+                <div class="form-check form-check-radio">
+                  <label class="form-check-label">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="validity"
+                      id="validAddModal"
+                      value="no"
+                      onclick="showJustificationErrorFieldAddModal()"
+                      checked
+                    />
+                    Invalida
+                    <span class="circle">
+                      <span class="check"></span>
+                    </span>
+                  </label>
+        
+        <button id="extraJustif{{id}}" class="btn btn-primary btn-fab btn-fab-mini btn-round"><i class="material-icons">exposure_plus_1</i>        
         </button>
 		<script>
-		extraJustification("/concept/{conceptId}/answer/{answerId}, extraJust)
 		 $(document).ready(function(){
-                  $("#extraJustif").click(function(e){
+                  $("#extraJustif{{id}}").click(function(e){
                     e.preventDefault();
                		var text = document.getElementById("justificationText{{id}}").value;
                 	var radios = document.getElementsByName("valid{{id}}");
                 	var valid;
                 	for (var i = 0; i < radios.length; i++) {
-                  	if (radios[i].checked){
-                    valid = radios[i].value;
-                    break;
-                  }
+                  		if (radios[i].checked){
+                   		 valid = radios[i].value;
+                    	 break;
+                  		}
+                  	}	console.log(valid);
                   var error = null;
                   if (valid=="no")
                   error = document.getElementById("error{{id}}").value;
@@ -210,7 +243,7 @@
                 	} else {
                  		 window.location.href = "extraJustification/concept/{conceptId}/answer/{answerId}?jText=" + text + "&valid=" + valid;
                 	}
-                	}
+                	
                   })
                 })
 		</script>
