@@ -9,12 +9,16 @@ import com.group5.definitions.model.Justification;
 
 public interface JustificationRepository extends JpaRepository<Justification, Long> {
 
-	Page<Justification> findByAnswer(Answer answer, Pageable page);
+	//Page<Justification> findByAnswer(Answer answer, Pageable page);
 
 	long countByAnswer(Answer answer);
 
 	Justification findByJustificationText(String justificationText);
 
 	long countByAnswer_Id(long answerId);
+
+	Page<Justification> findByAnswer_Id(long id, Pageable page);
+	
+	Page<Justification> findByAnswer(Answer ans, Pageable page);
 
 }

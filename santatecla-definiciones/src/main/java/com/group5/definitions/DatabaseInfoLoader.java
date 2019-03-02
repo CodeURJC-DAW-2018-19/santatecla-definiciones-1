@@ -91,12 +91,16 @@ public class DatabaseInfoLoader {
 
 		Justification j2 = new Justification("ES UN FRAMEWORK DE SOFTWARE LIBRE", true, student);
 		j2.setValid(true);
-
+		Justification j4 = new Justification("testing pagination", true, student);
+		j4.setValid(true);
+		
 		j1.setAnswer(answers[1]);
 		j2.setAnswer(answers[3]);
+		j4.setAnswer(answers[3]);
 		
 		justificationRepository.save(j1);
 		justificationRepository.save(j2);
+		justificationRepository.save(j4);
 		
 		Question[] questions = new Question[4];
 		questions[0] = new Question(
