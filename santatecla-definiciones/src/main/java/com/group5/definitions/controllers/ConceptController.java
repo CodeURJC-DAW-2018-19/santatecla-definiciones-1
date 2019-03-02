@@ -67,8 +67,9 @@ public class ConceptController {
 
 	@RequestMapping("/concept/{id}")
 	public String conceptPage(Model model, HttpServletRequest req, @PathVariable long id,
-			@RequestParam(name = "close", required = false) Long closeTab, HttpServletResponse httpServletResponse,
-			@PageableDefault(size = DEFAULT_SIZE, sort = {"id"}) Pageable page) throws IOException {
+			@RequestParam(name = "close", required = false) Long closeTab,
+			@RequestParam(name = "justerror", required = false) String errorJust, HttpServletResponse httpServletResponse,
+			@PageableDefault(size = DEFAULT_SIZE, sort = { "id" }) Pageable page) throws IOException {
 		Concept concept = conceptService.findById(id);
 		String name = concept.getConceptName();
 		// If close tab button was pressed, remove the tab
@@ -92,12 +93,17 @@ public class ConceptController {
 		// if user is a teacher get all answers and return the teacher template
 		User user;
 		if (req.isUserInRole("ROLE_TEACHER")) {
-			Page<Answer> markedAnswers = answerService.findByMarkedAndConceptId(true, id, page);
-			Page<Answer> unmarkedAnswers = answerService.findByMarkedAndConceptId(false, id, page);
+			// Page<Answer> markedAnswers = answerService.findByMarkedAndConceptId(true, id,
+			// page);
+			// Page<Answer> unmarkedAnswers = answerService.findByMarkedAndConceptId(false,
+			// id, page);
 			String url = concept.getURL();
 			model.addAttribute("conceptURL", url);
-			//model.addAttribute("markedAnswers", markedAnswers);
-			//model.addAttribute("unmarkedAnswers", unmarkedAnswers);
+			// model.addAttribute("markedAnswers", markedAnswers);
+			// model.addAttribute("unmarkedAnswers", unmarkedAnswers);
+			if	(errorJust!=null) {
+				model.addAttribute("deleteError", true);
+			}
 			return "teacher";
 		} else {
 			user = userSession.getLoggedUser();
@@ -123,12 +129,12 @@ public class ConceptController {
 	@RequestMapping("/concept/{id}/loadUnmarkedJustifications")
 	public String loadUnmarkedJustifications(Model model, HttpServletRequest req, @PathVariable long id,
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page) {
-		Page<Answer> unmarkedJustifications = answerService.findByConceptAndJustifications_Marked(conceptService.findById(id), false,
-				page);
+		Page<Answer> unmarkedJustifications = answerService
+				.findByConceptAndJustifications_Marked(conceptService.findById(id), false, page);
 		model.addAttribute("unmarkedJustifications", unmarkedJustifications);
 		return "showJustificationsUnmarked";
 	}
-	
+
 	@RequestMapping("/concept/{conceptId}/loadUnmarkedQuestions")
 	public String loadUnmarkedQuestions(Model model, HttpServletRequest req,
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page, @PathVariable long conceptId) {
@@ -146,7 +152,7 @@ public class ConceptController {
 		model.addAttribute("questions", markedQuestions);
 		return "showquestion";
 	}
-  
+
 	@RequestMapping("/concept/{conceptId}/loadUnmarkedAnswers")
 	public String loadUnmarkedAnswers(Model model, HttpServletRequest req,
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page, @PathVariable long conceptId) {
@@ -154,7 +160,7 @@ public class ConceptController {
 		model.addAttribute("answers", unmarkedAnswers);
 		return "showanswer";
 	}
-	
+
 	@RequestMapping("/concept/{conceptId}/loadMarkedAnswers")
 	public String loadMarkedAnswers(Model model, HttpServletRequest req,
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page, @PathVariable long conceptId) {
@@ -162,6 +168,7 @@ public class ConceptController {
 		model.addAttribute("answers", markedAnswers);
 		return "showanswer";
 	}
+
 	@PostMapping("/concept/{conceptId}/mark/{answerId}")
 	public String markAnswer(Model model, @PathVariable long conceptId, @PathVariable long answerId,
 			@RequestParam String correct, @RequestParam(required = false) String justificationTextNew,
@@ -258,13 +265,12 @@ public class ConceptController {
 
 	@PostMapping("/concept/{conceptId}/markJust/{justId}")
 	public String addJustification(Model mode, @PathVariable long conceptId, @PathVariable long justId,
-			@RequestParam String validUnmarked,
-			@RequestParam(required=false) String errorUnmarked,
+			@RequestParam String validUnmarked, @RequestParam(required = false) String errorUnmarked,
 			HttpServletResponse httpServletResponse) throws IOException {
 		Justification just = justificationService.findById(justId);
 		just.setMarked(true);
 		just.setValid(validUnmarked.equals("yes"));
-		if((errorUnmarked!=null) && (validUnmarked.equals("no"))) {
+		if ((errorUnmarked != null) && (validUnmarked.equals("no"))) {
 			just.setError(errorUnmarked);
 		}
 		justificationService.save(just);
@@ -296,8 +302,14 @@ public class ConceptController {
 	@RequestMapping("/deleteJust/concept/{conceptId}/justification/{id}")
 	public void deleteJustification(Model model, @PathVariable String conceptId, @PathVariable long id,
 			HttpServletResponse httpServletResponse) throws IOException {
-		justificationService.deleteById(id);
-		httpServletResponse.sendRedirect("/concept/" + conceptId);
+		Justification j = justificationService.findById(id);
+		String error = "";
+		if (j.getAnswer().getJustifications().size() > 1) {
+			justificationService.deleteById(id);
+		} else {
+			error = "?justerror=true";
+		}
+		httpServletResponse.sendRedirect("/concept/" + conceptId + error);
 	}
 
 	@RequestMapping("/modifyJust/concept/{conceptId}/justification/{id}")
