@@ -24,6 +24,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers("/register").permitAll();
 		http.authorizeRequests().antMatchers("/newUser").permitAll();
 		http.authorizeRequests().antMatchers("/loadChapters").permitAll();
+		http.authorizeRequests().antMatchers("/loadConcepts").permitAll();
 		http.authorizeRequests().antMatchers("/assets/**").permitAll();
 		
 		//Private pages
@@ -31,12 +32,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers("/concept/*/addAnswer").hasAnyRole("TEACHER");
 		http.authorizeRequests().antMatchers("/concept/*/loadUnmarkedQuestions").hasAnyRole("STUDENT");
 		http.authorizeRequests().antMatchers("/concept/*/loadMarkedQuestions").hasAnyRole("STUDENT");
-		http.authorizeRequests().antMatchers("/mark/**").hasAnyRole("TEACHER");
+		http.authorizeRequests().antMatchers("/concept/*/loadUnmarkedJustifications").hasAnyRole("TEACHER");
+		http.authorizeRequests().antMatchers("/concept/*/loadUnmarkedAnswers").hasAnyRole("TEACHER");
+		http.authorizeRequests().antMatchers("/concept/*/loadMarkedAnswers").hasAnyRole("TEACHER");
+		http.authorizeRequests().antMatchers("/concept/*/mark/**").hasAnyRole("TEACHER");
 		http.authorizeRequests().antMatchers("/delete/**").hasAnyRole("TEACHER");
-		http.authorizeRequests().antMatchers("/addAnswer/**").hasAnyRole("TEACHER");
+		http.authorizeRequests().antMatchers("/concept/*/addAnswer/**").hasAnyRole("TEACHER");
 		http.authorizeRequests().antMatchers("/addChapter/**").hasAnyRole("TEACHER");
 		http.authorizeRequests().antMatchers("/deleteChapter/**").hasAnyRole("TEACHER");
-		http.authorizeRequests().antMatchers("/saveURL/**").hasAnyRole("TEACHER");
+		http.authorizeRequests().antMatchers("/concept/*/saveURL/**").hasAnyRole("TEACHER");
+		http.authorizeRequests().antMatchers("/concept/*/markJust/**").hasAnyRole("TEACHER");
 		
 		http.authorizeRequests().antMatchers("/modifyAnswer/**").hasAnyRole("TEACHER");
 		http.authorizeRequests().antMatchers("/modifyJust/**").hasAnyRole("TEACHER");
