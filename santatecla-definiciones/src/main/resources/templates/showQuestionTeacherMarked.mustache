@@ -177,45 +177,42 @@
       <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
       </form>
   </div>
-  <div
-    class="modal fade"
-    id="addJustification"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="addModalLabel"
-  >
-  	<div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="addModalLabel">
-              Inserte una nueva Justificación
-            <form id="addJustification" action="/addJustification/" method="post">
-            <div class="modal-body">
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >	
-             <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-            <input
-                type="text"
-                name="answerText"
-                class="inputTextModal"
-                required
-              />
-     	 <input type="submit" class="btn btn-primary" id="submitAddModal" value="Guardar">
-              <script>
-                $(document).ready(function(){
-                  $("#submitAddModal").click(function(e){
+		{{^correct}}
+        <div>
+        <input
+          type="textarea"
+          id="justificationText{{ id }}"
+          name="justificationText"
+          value=""
+          required
+         />
+        </div>
+        <button onclick="extraJustification()" id="extraJustif" class="btn btn-primary btn-fab btn-fab-mini btn-round"><i class="material-icons">exposure_plus_1</i>        
+        </button>
+		<script>
+		extraJustification("/concept/{conceptId}/answer/{answerId}, extraJust)
+		 $(document).ready(function(){
+                  $("#extraJustif").click(function(e){
                     e.preventDefault();
-                    $("#addJustification").submit();
+               		var text = document.getElementById("justificationText{{id}}").value;
+                	var radios = document.getElementsByName("valid{{id}}");
+                	var valid;
+                	for (var i = 0; i < radios.length; i++) {
+                  	if (radios[i].checked){
+                    valid = radios[i].value;
+                    break;
+                  }
+                  var error = null;
+                  if (valid=="no")
+                  error = document.getElementById("error{{id}}").value;
+                	if(error){
+                  		 window.location.href = "extraJustification/concept/{conceptId}/answer/{answerId}?jText=" + text + "&valid=" + valid + "&error="+error;
+                	} else {
+                 		 window.location.href = "extraJustification/concept/{conceptId}/answer/{answerId}?jText=" + text + "&valid=" + valid;
+                	}
+                	}
                   })
                 })
-              </script>
-              </div>
-          </form>
-	</div>
+		</script>
+	{{/correct}}
 </div>

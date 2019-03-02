@@ -219,19 +219,14 @@ public class ConceptController {
 		return null;
 	}
 	
-	@RequestMapping("/addJustification/")
-	public String addJustification(Model model, @RequestParam String justificationText,
+	@RequestMapping("/extraJustification/concept/{conceptId}/answer/{answerId}")
+	public String extraJustification(Model model, @RequestParam String justificationText,
 			@PathVariable String conceptId, @PathVariable long id,
-			@RequestParam(required = false) String error,
-			@RequestParam String answerText, HttpServletResponse httpServletResponse) throws IOException {
+			HttpServletResponse httpServletResponse) throws IOException {
 		
-		Answer ans = answerService.getOne(id);
-		Justification newJ = null;
-		if(ans.getJustifications().size() == 0) {
-			newJ = new Justification(justificationText, true, userSession.getLoggedUser());
-			justificationService.save(newJ);
-		}
-		model.addAttribute("addJustification", true);
+		Justification justification = new Justification(justificationText, true, userSession.getLoggedUser());
+		justification.setId(id);
+		justificationService.save(justification);
 		httpServletResponse.sendRedirect("/concept/" + conceptId);
 		return null;
 	}
