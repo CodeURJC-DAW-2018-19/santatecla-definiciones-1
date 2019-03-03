@@ -94,7 +94,7 @@ public class ChapterController {
 	
 	@RequestMapping("/loadChapters")
 	public String getChapters(Model model, HttpServletRequest req,
-			@PageableDefault(size = DEFAULT_SIZE, sort = { "chapterName" }) Pageable page) {
+			@PageableDefault(size = DEFAULT_SIZE) Pageable page) {
 		Page<Chapter> chapters = chapterService.findAll(page);
 		model.addAttribute("chapters", chapters);
 		model.addAttribute("teacher", req.isUserInRole("ROLE_TEACHER"));
@@ -103,7 +103,7 @@ public class ChapterController {
 	
 	@RequestMapping("/loadConcepts")
 	public String getConcepts(Model model, HttpServletRequest req,
-			@PageableDefault(size = DEFAULT_SIZE, sort = { "conceptName" }) Pageable page, 
+			@PageableDefault(size = DEFAULT_SIZE) Pageable page, 
 			@RequestParam("chapterId") String chapterId){
 		Page<Concept> concepts = conceptService.findByChapter_id(Long.parseLong(chapterId), page);
 		model.addAttribute("concepts", concepts);
