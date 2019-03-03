@@ -2,6 +2,7 @@ package com.group5.definitions.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -81,6 +82,10 @@ public class ChapterService {
 	}
 
 	public Chapter findById(long id) {
-		return chapterRepository.findById(id);
+		Optional<Chapter> chapter = chapterRepository.findById(id);
+		if (chapter.isPresent())
+			return chapter.get();
+		else
+			return null;
 	}
 }
