@@ -25,25 +25,29 @@
 ![Concept student](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/insideConceptStudent.PNG)
 *Now we get into the students view and we can see some questions about the topic and their answer respectively*
 
-![Answer open question](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/modalQuestionOpen.PNG)
-![Answer close question](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/modalQuestionClose.PNG)
+<img align="left" height="250" width="350" src="https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/modalQuestionOpen.PNG" />
+<img align="left" height="250" width="350" src="https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/modalQuestionClose.PNG" />
+<br />
 *Students can answer questions by pressing the button and a random one will be displayed*
 
 ![Home teacher](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/previewTeacher.PNG)
 *This is the teacher view of the home page. He can do the same as the student, and also add or delete concepts and chapters*
 
-![Add new concept](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/modalNewConcept.PNG)
-![Add new chapter](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/modalNewChapter.PNG)
+<img align="left" height="250" width="350" src="https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/modalNewConcept.PNG" />
+<img align="left" height="250" width="350" src="https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/modalNewChapter.PNG" />
+<br />
 *Each chapter has a button to add a concept and the page has one to add a chapter*
 
 ![Delete notification](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/deleteNotice.PNG)
-*It also notices us everytime we try to delete something, no matter if it's a concept, chapter, justification nor an answer*
+*It also notifies us everytime we try to delete something, no matter if it's a concept, chapter, justification nor an answer*
 
 ![Concept teacher 1](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/insideConcept1.PNG)
 ![Concept teacher 2](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/insideConcept2.PNG)
 ![Concept teacher 3](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/insideConcept3.PNG)
 *The teacher view of the concept page is much different from the student one. He cannot answer questions as in the other view, but it corrects the answers and justifications, modify, add or delete them, as well as upload images to it*
-![Add new answer](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/modalNewAnswer.PNG)
+
+<img src="https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/modalNewAnswer.PNG" />
+*Here is how it looks when you want to add a new answer*
 
 ![Login](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/login.PNG)
 ![Register](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/register.PNG)
