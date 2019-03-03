@@ -23,7 +23,7 @@
   <!-- Image Upload -->
   <h3>Subir imagen</h3>
   <form action="/image/upload" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="id" value="{{ conceptId }}" />
+    <input type="hidden" name="conceptId" value="{{conceptId}}" />
     <input
       name="file"
       onchange="this.form.submit()"
@@ -31,7 +31,7 @@
       class="form-control-file"
       id="imageUpload"
     />
-    <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+    <input type="hidden" name="_csrf" value="{{csrfToken}}" />
   </form>
   <script src="/assets/js/showHideTeacher.js"></script>
   <div class="row">
