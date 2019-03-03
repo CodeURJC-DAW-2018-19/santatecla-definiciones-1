@@ -49,3 +49,11 @@ function showJustificationErrorFieldAddModal() {
     document.getElementById("errorAddModal").style.display = "none";
   }
 }
+
+function showJustificationErrorNewJust(id) {
+  if (document.getElementById("invalidAddNewJustification"+id).checked) {
+    document.getElementById("errorNewJust"+id).style.display = "block";
+  } else {
+    document.getElementById("errorNewJust"+id).style.display = "none";
+  }
+}
