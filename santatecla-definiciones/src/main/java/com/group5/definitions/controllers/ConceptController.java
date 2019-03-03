@@ -58,7 +58,7 @@ public class ConceptController {
 
 	@Autowired
 	private JustificationService justificationService;
-	private final int DEFAULT_SIZE = 1;
+	private final int DEFAULT_SIZE = 10;
 
 	@ModelAttribute
 	public void addUserToModel(Model model) {
