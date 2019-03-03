@@ -223,7 +223,7 @@ public class ConceptController {
 			@RequestParam(value = "errorNew", required = false) String error, HttpServletResponse httpServletResponse)
 			throws IOException {
 		Answer ans = answerService.getOne(id);
-		ans.setAnswerText(answerText);
+		ans.setAnswerText(answerText.toUpperCase());
 		Justification newJ = null;
 		if (cAnswer != null) {
 			ans.setCorrect(cAnswer.equals("yes"));
@@ -235,10 +235,10 @@ public class ConceptController {
 				ans.getJustifications().clear(); // In case, we clear the answer justifications
 			} else {
 				if (ans.getJustifications().size() == 0) {
-					newJ = new Justification(justificationText, true, userSession.getLoggedUser());
+					newJ = new Justification(justificationText.toUpperCase(), true, userSession.getLoggedUser());
 					newJ.setValid(jValid.equals("yes"));
 					if (jValid.equals("yes"))
-						newJ.setError(error);
+						newJ.setError(error.toUpperCase());
 					ans.addJustification(newJ);
 				}
 			}
@@ -251,6 +251,23 @@ public class ConceptController {
 		httpServletResponse.sendRedirect("/concept/" + conceptId);
 		return null;
 	}
+	
+	@RequestMapping("/extraJustification/concept/{conceptId}/answer/{answerId}")
+	public String extraJustification(Model model, @RequestParam String jText,
+			@RequestParam String valid, @RequestParam(required = false) String error,
+			@PathVariable String conceptId, @PathVariable long answerId,
+			HttpServletResponse httpServletResponse) throws IOException {
+		Justification justification = new Justification(jText.toUpperCase(), true, userSession.getLoggedUser());
+		justification.setValid(valid.equals("yes"));
+		justification.setAnswer(answerService.getOne(answerId));
+		if(valid.equals("no")) {
+			justification.setError(error.toUpperCase());
+		}
+		justificationService.save(justification);
+		httpServletResponse.sendRedirect("/concept/" + conceptId);
+		return null;
+	}
+	
 
 	@PostMapping("/concept/{conceptId}/addAnswer")
 	public String addAnswer(Model model, @PathVariable long conceptId, @RequestParam String answerText,
@@ -282,8 +299,8 @@ public class ConceptController {
 		Justification just = justificationService.findById(justId);
 		just.setMarked(true);
 		just.setValid(validUnmarked.equals("yes"));
-		if ((errorUnmarked != null) && (validUnmarked.equals("no"))) {
-			just.setError(errorUnmarked);
+		if((errorUnmarked!=null) && (validUnmarked.equals("no"))) {
+			just.setError(errorUnmarked.toUpperCase());
 		}
 		justificationService.save(just);
 		httpServletResponse.sendRedirect("/concept/" + conceptId);
@@ -329,12 +346,12 @@ public class ConceptController {
 			@RequestParam String jText, @RequestParam String valid, @RequestParam(required = false) String error,
 			HttpServletResponse httpServletResponse) throws IOException {
 		Justification j = justificationService.findById(Long.parseLong(id));
-		j.setJustificationText(jText);
+		j.setJustificationText(jText.toUpperCase());
 		if (valid.equals("yes")) {
 			j.setValid(true);
 		} else {
 			j.setValid(false);
-			j.setError(error);
+			j.setError(error.toUpperCase());
 		}
 		justificationService.save(j);
 		httpServletResponse.sendRedirect("/concept/" + conceptId);
