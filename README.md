@@ -19,18 +19,41 @@
 
 ## Screenshots
 
-![Home screenshot](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/chrome_2019-02-04_11-39-48.png)
+![Home general](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/previewGeneral.PNG)
 *Here we can see the home preview of our website, we can remark the topics and concepts, this ones are linked with the next screenshot that is the student view*
 
-![Concept screenshot](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/chrome_2019-02-04_11-40-18.png)
+![Concept student](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/insideConceptStudent.PNG)
 *Now we get into the students view and we can see some questions about the topic and their answer respectively*
+
+![Answer open question](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/modalQuestionOpen.PNG)
+![Answer close question](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/modalQuestionClose.PNG)
+*Students can answer questions by pressing the button and a random one will be displayed*
+
+![Home teacher](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/previewTeacher.PNG)
+*This is the teacher view of the home page. He can do the same as the student, and also add or delete concepts and chapters*
+
+![Add new concept](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/modalNewConcept.PNG)
+![Add new chapter](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/modalNewChapter.PNG)
+*Each chapter has a button to add a concept and the page has one to add a chapter*
+
+![Delete notification](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/deleteNotice.PNG)
+*It also notices us everytime we try to delete something, no matter if it's a concept, chapter, justification nor an answer*
+
+![Concept teacher 1](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/insideConcept1.PNG)
+![Concept teacher 2](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/insideConcept2.PNG)
+![Concept teacher 3](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/insideConcept3.PNG)
+*The teacher view of the concept page is much different from the student one. He cannot answer questions as in the other view, but it corrects the answers and justifications, modify, add or delete them, as well as upload images to it*
+![Add new answer](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/modalNewAnswer.PNG)
+
+![Login](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/login.PNG)
+![Register](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/register.PNG)
+*To split the student and teacher views a login and register is needed*
 
 ## Diagram
 
 ![Diagram screenshot](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/Captura.PNG)
 
-<img align="left" height="250" width="350" src="https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/chrome_2019-02-04_11-39-54.png"/>
-<img align="left" height="250" width="350" src="https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/chrome_2019-02-04_11-40-10.png"/>
+![Diagram show](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/modalDiagram.PNG)
 
 ## Development Environment
 
