@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+    db:
+        image: mysql
+        command: --default-authentication-plugin=mysql_native_password
+        restart: always
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: test
+            MYSQL_DATABASE: santatecla-definiciones
+    app:
+        build: ./app
+        restart: always
+        depends_on:
+            - db
+        ports:
+            - "8080:8443"
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+            - "9000:8080"
