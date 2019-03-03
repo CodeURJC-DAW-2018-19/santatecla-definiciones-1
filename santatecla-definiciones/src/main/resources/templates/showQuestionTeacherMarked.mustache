@@ -177,6 +177,7 @@
       <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
       </form>
   </div>
+  
 		{{^correct}}
         <div>
         <input
@@ -212,6 +213,7 @@
                       id="validAddModal"
                       value="no"
                       onclick="showJustificationErrorFieldAddModal()"
+                      <!-- Should appear extra textarea -->
                       checked
                     />
                     Invalida
@@ -243,6 +245,7 @@
                 	} else {
                  		 window.location.href = "extraJustification/concept/{conceptId}/answer/{answerId}?jText=" + text + "&valid=" + valid;
                 	}
+                	<!-- Maybe bad URL? -->
                 	
                   })
                 })
