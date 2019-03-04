@@ -16,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.group5.definitions.model.Chapter;
 import com.group5.definitions.model.Concept;
 import com.group5.definitions.services.ChapterService;
+import com.group5.definitions.services.ConceptService;
 
 @RestController
 @RequestMapping("/api")
@@ -23,6 +24,10 @@ public class RestChapterController {
 	
 	@Autowired
 	private ChapterService chapterService;
+	
+	@Autowired
+	private ConceptService conceptService;
+	
 	private final int DEFAULT_SIZE = 10;
 	
 	@JsonView(Chapter.Basic.class)
@@ -50,6 +55,18 @@ public class RestChapterController {
 		chapterService.deleteById(id);
 		if(chapter != null) {
 			return new ResponseEntity<>(chapter,HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@JsonView(Concept.Basic.class)
+	@RequestMapping(value="/deleteConcept/concept/{id}", method=RequestMethod.DELETE)
+	public ResponseEntity<Concept> deleteConcept(@PathVariable Long id){
+		Concept concept = conceptService.findById(id);
+		conceptService.deleteById(id);
+		if(concept != null) {
+			return new ResponseEntity<>(concept,HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
