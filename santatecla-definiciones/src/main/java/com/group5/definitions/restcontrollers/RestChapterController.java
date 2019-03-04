@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
@@ -41,4 +42,18 @@ public class RestChapterController {
 		else
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
+	
+	@JsonView(ChapterConcept.class)
+	@RequestMapping(value="/deleteChapter/chapter/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Chapter> deleteChapter(@PathVariable Long id){
+		Chapter chapter = chapterService.findById(id);
+		chapterService.deleteById(id);
+		if(chapter != null) {
+			return new ResponseEntity<>(chapter,HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	
 }
