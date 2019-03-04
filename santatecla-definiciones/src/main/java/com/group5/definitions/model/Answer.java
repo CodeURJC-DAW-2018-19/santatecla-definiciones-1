@@ -18,7 +18,7 @@ public class Answer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	@Column(length = 10000)
+	@Column(length = 1000)
 	private String answerText;
 	private boolean marked;
 	private boolean correct;

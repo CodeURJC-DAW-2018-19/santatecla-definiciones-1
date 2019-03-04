@@ -13,7 +13,7 @@ public class Question {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	@Column(length = 10000)
+	@Column(length = 1000)
 	private String questionText;
 	private int type;
 	//Only used in Yes/No questions
