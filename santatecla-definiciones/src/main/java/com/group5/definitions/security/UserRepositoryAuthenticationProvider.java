@@ -37,7 +37,7 @@ public class UserRepositoryAuthenticationProvider implements AuthenticationProvi
 		}
 
 		String password = (String) auth.getCredentials();
-		if (!new BCryptPasswordEncoder().matches(password, user.getPasswordHash())) {
+		if (!new BCryptPasswordEncoder().matches(password, user.getPassword())) {
 			throw new BadCredentialsException("Contraseña incorrecta");
 		}
 

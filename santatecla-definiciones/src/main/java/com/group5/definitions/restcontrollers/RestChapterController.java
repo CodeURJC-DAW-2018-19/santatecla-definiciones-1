@@ -25,7 +25,7 @@ public class RestChapterController {
 	private final int DEFAULT_SIZE = 10;
 	
 	@JsonView(Chapter.Basic.class)
-	@GetMapping("/chapters")
+	@GetMapping(value = {"", "/chapters"})
 	public Page<Chapter> getChapters(@PageableDefault(size = DEFAULT_SIZE) Pageable page) {
 		Page<Chapter> chapters = chapterService.findAll(page);
 		return chapters;
