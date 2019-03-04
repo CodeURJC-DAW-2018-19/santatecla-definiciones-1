@@ -56,6 +56,14 @@ public class RestChapterController {
 	}
 	
 	@JsonView(ChapterConcept.class)
+	@RequestMapping(value="/addChapter" , method = RequestMethod.POST)
+	public ResponseEntity<Chapter> addChapter(@PathVariable String chapterName){
+		Chapter chapter = new Chapter(chapterName);
+		chapterService.save(chapter);
+		return new ResponseEntity<>(chapter,HttpStatus.OK);
+	}
+	
+	@JsonView(ChapterConcept.class)
 	@RequestMapping(value="/deleteChapter/chapter/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Chapter> deleteChapter(@PathVariable Long id){
 		Chapter chapter = chapterService.findById(id);
