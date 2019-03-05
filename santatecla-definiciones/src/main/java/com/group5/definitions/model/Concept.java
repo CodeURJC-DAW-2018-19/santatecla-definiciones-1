@@ -79,6 +79,14 @@ public class Concept {
 		URL = uRL;
 	}
 
+	public Chapter getChapter() {
+		return chapter;
+	}
+
+	public void setChapter(Chapter chapter) {
+		this.chapter = chapter;
+	}
+
 	@Override
 	public String toString() {
 		return "Concept [id=" + id + ", conceptName=" + conceptName + ", URL=" + URL + ", answers=" + answers + "]";
