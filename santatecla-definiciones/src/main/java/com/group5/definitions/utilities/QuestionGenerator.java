@@ -8,18 +8,23 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.group5.definitions.model.Answer;
 import com.group5.definitions.model.Concept;
 import com.group5.definitions.model.Justification;
 import com.group5.definitions.model.Question;
 import com.group5.definitions.services.AnswerService;
+import com.group5.definitions.services.ConceptService;
 import com.group5.definitions.services.JustificationService;
 import com.group5.definitions.usersession.UserSessionService;
 
-@Component
+@Service
 public class QuestionGenerator {
 
+	@Autowired
+	private ConceptService conceptService;
+	
 	@Autowired
 	private AnswerService answerService;
 
@@ -43,6 +48,9 @@ public class QuestionGenerator {
 		questionTypes.put(3, type3);
 	}
 
+	public Question generateQuestion(long conceptId) {
+		return generateQuestion(conceptService.findById(conceptId));
+	}
 	public Question generateQuestion(Concept concept) {
 		Random r = new Random();
 		int type = r.nextInt(questionTypes.size());

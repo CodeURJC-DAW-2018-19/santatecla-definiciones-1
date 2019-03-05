@@ -25,15 +25,21 @@ public class User {
 	@Column(unique=true)
 	private String name;
 	
-	private String passwordHash;
+	private String password;
 	
 	@ElementCollection(fetch = FetchType.EAGER)
 	private List<String> roles;
 
 	public User(String name, String password, String... roles) {
 		this.name = name;
-		this.passwordHash = new BCryptPasswordEncoder().encode(password);;
+		this.password = new BCryptPasswordEncoder().encode(password);
 		this.roles = new ArrayList<>(Arrays.asList(roles));
+	}
+	
+	public User(String name, String password, List<String> roles) {
+		this.name = name;
+		this.password = new BCryptPasswordEncoder().encode(password);
+		this.roles = roles;
 	}
 	
 	public User() {
@@ -56,12 +62,12 @@ public class User {
 		this.name = name;
 	}
 
-	public String getPasswordHash() {
-		return passwordHash;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setPasswordHash(String passwordHash) {
-		this.passwordHash = passwordHash;
+	public void setPassword(String passwordHash) {
+		this.password = passwordHash;
 	}
 
 	public List<String> getRoles() {
