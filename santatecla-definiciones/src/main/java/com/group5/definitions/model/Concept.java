@@ -12,16 +12,26 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 @Entity
 public class Concept {
+	public interface Basic{}
+	public interface Answers{}
+	public interface Chapters{}
 	
+	@JsonView(Basic.class)
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	@JsonView(Basic.class)
 	private String conceptName;
+	@JsonView(Basic.class)
 	private String URL = "http://www.urldelconcepto.com";
+	@JsonView(Chapters.class)
 	@ManyToOne
 	private Chapter chapter;
+	@JsonView(Answers.class)
 	@OneToMany(mappedBy="concept", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	private List<Answer> answers = new ArrayList<>();
 	
@@ -67,6 +77,14 @@ public class Concept {
 
 	public void setURL(String uRL) {
 		URL = uRL;
+	}
+
+	public Chapter getChapter() {
+		return chapter;
+	}
+
+	public void setChapter(Chapter chapter) {
+		this.chapter = chapter;
 	}
 
 	@Override

@@ -1,5 +1,5 @@
 var myChart = echarts.init(document.getElementById("diagram"));
-function generateDiagram(chapterName, unmarked, correct, incorrect){
+function generateDiagram(chapterNames, unmarked, correct, incorrect){
 	var option = {
 	  color: ["#27A1EE", "#F05050", "#43C472"],
 	  tooltip: {},

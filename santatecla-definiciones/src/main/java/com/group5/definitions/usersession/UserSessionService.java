@@ -40,4 +40,8 @@ public class UserSessionService {
 	public User getLoggedUser() {
 		return userSession.getLoggedUser();
 	}
+
+	public boolean isLoggedUser() {
+		return userSession.isLoggedUser();
+	}
 }

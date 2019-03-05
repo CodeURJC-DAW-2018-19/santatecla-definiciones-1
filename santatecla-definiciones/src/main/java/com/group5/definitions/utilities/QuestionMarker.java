@@ -2,6 +2,7 @@ package com.group5.definitions.utilities;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.group5.definitions.model.Answer;
 import com.group5.definitions.model.Concept;
@@ -12,7 +13,7 @@ import com.group5.definitions.services.JustificationService;
 import com.group5.definitions.services.QuestionService;
 import com.group5.definitions.usersession.UserSessionService;
 
-@Component
+@Service
 public class QuestionMarker {
 
 	@Autowired

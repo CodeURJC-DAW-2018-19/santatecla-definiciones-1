@@ -8,18 +8,29 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 @Entity
 public class Question {
+	public interface Basic {}
+	
+	@JsonView(Basic.class)
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	@Column(length = 1000)
+	@JsonView(Basic.class)
 	private String questionText;
+	@JsonView(Basic.class)	
 	private int type;
 	//Only used in Yes/No questions
+	@JsonView(Basic.class)
 	private boolean yesNoQuestion;
+	@JsonView(Basic.class)
 	private boolean userResponse; //true for yes, false for no
+	@JsonView(Basic.class)
 	private boolean marked;
+	@JsonView(Basic.class)
 	private boolean correct;
 	@ManyToOne
 	private Answer answer;

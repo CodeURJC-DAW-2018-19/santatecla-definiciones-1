@@ -2,6 +2,8 @@ package com.group5.definitions.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -13,11 +15,17 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class Chapter {
+	public interface Basic {}
+	public interface Concepts {}
+	
+	@JsonView(Basic.class)
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	@JsonView(Basic.class)
 	private String chapterName;
-	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.REMOVE, mappedBy="chapter")
+	@JsonView(Concepts.class)
+	@OneToMany(cascade=CascadeType.REMOVE, mappedBy="chapter")
 	private List<Concept> concepts = new ArrayList<>();
 	
 	protected Chapter() {}
