@@ -1,5 +1,7 @@
 package com.group5.definitions.restcontrollers;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,9 +18,12 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.group5.definitions.model.Answer;
 import com.group5.definitions.model.Concept;
 import com.group5.definitions.model.Justification;
+import com.group5.definitions.model.Question;
 import com.group5.definitions.services.AnswerService;
 import com.group5.definitions.services.ConceptService;
 import com.group5.definitions.services.JustificationService;
+import com.group5.definitions.services.QuestionService;
+import com.group5.definitions.usersession.UserSessionService;
 
 @RestController
 @RequestMapping("/api")
@@ -27,6 +33,8 @@ public class RestConceptControllerTeacher {
 	private ConceptService conceptService;
 	private JustificationService justificationService;
 	private AnswerService answerService;
+	private QuestionService questionService;
+	private UserSessionService userSession;
 	
 	@JsonView(Concept.Basic.class)
 	@PutMapping("/concept/{id}")
@@ -67,5 +75,34 @@ public class RestConceptControllerTeacher {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	@PutMapping("/concept/{conceptId}/mark/{answerId}")
+	public ResponseEntity<Answer> markAnswer(@PathVariable long conceptId, @PathVariable long answerId, 
+			@RequestParam String correct, @RequestParam(required = false) String justificationTextNew, 
+			@RequestBody Answer answer) {
+		if(answerId == answer.getId()) {
+			answer.setMarked(true);
+			answer.setCorrect(correct.equals("yes"));
+			answerService.save(answer);
+			if ((justificationTextNew != null) && (correct.equals("no"))) {
+				Justification justification = new Justification(justificationTextNew.toUpperCase(), true,
+						userSession.getLoggedUser());
+				justification.setValid(true);
+				justification.setAnswer(answer);
+				justificationService.save(justification);
+			}
+			for (Question q : answer.getQuestions()) {
+				if (!q.isMarked() && (q.getType() == 0)) {
+					q.setMarked(true);
+					q.setCorrect(correct.equals("yes"));
+					questionService.save(q);
+				}
+			}
+			return new ResponseEntity<>(answer, HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
 	
 }
