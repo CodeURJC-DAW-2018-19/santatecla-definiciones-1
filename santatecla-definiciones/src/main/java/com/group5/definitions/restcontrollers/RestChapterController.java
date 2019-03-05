@@ -8,8 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
@@ -90,15 +92,15 @@ public class RestChapterController {
 	}
 	
 	@JsonView(Concept.Basic.class)
-	@RequestMapping(value="/addConcept", method=RequestMethod.POST)
-	public ResponseEntity<Concept> addConcept(@PathVariable Long id, @PathVariable String conceptName, 
-			@PathVariable String chapterId){
-		Chapter chapter = chapterService.findById(Long.parseLong(chapterId));
-		Concept concept = new Concept(conceptName, chapter);
+	@RequestMapping(value="/chapters/{id}", method=RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public Concept addConcept(@RequestBody Concept concept, @PathVariable long id){
+		Chapter chapter = chapterService.findById(id);
 		chapter.getConcepts().add(concept);
+		concept.setChapter(chapter);
 		conceptService.save(concept);
 		chapterService.save(chapter);
-			return new ResponseEntity<>(concept,HttpStatus.OK);
+			return concept;
 	}
 	
 	@JsonView(Concept.Basic.class)
@@ -112,15 +114,6 @@ public class RestChapterController {
 		return new ResponseEntity<>(justification,HttpStatus.OK);
 	}
 	
-	@JsonView(Concept.Basic.class)
-	@RequestMapping(value="/deleteJust/concept/{conceptId}/justification/{id}", method=RequestMethod.DELETE)
-	public ResponseEntity<Justification> deleteJustification(@PathVariable String conceptId, @PathVariable long id){
-		Justification justification = justificationService.findById(id);
-		if (justification.getAnswer().getJustifications().size() > 1) {
-			justificationService.deleteById(id);
-			return new ResponseEntity<>(justification,HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-	}
+	
+	
 }

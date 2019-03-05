@@ -60,6 +60,19 @@ public class RestConceptControllerTeacher {
 		return new ResponseEntity<>(justification, HttpStatus.OK);
 	}
 	
+	@JsonView(Concept.Basic.class)
+	@RequestMapping(value="/concept/{conceptId}/justification/{id}", method=RequestMethod.DELETE)
+	public ResponseEntity<Justification> deleteJustification(@PathVariable String conceptId, @PathVariable long id){
+	Justification justification = justificationService.findById(id);
+	if (justification.getAnswer().getJustifications().size() > 1) {
+		justificationService.deleteById(id);
+		return new ResponseEntity<>(justification,HttpStatus.OK);
+	} else {
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+	}
+	
+
 	@JsonView(Answer.class)
 	@PutMapping(value="/answer/{id}")
 	public ResponseEntity<Answer> modifyAnswer (@PathVariable Long id, @RequestBody Answer updatedAnswer){
