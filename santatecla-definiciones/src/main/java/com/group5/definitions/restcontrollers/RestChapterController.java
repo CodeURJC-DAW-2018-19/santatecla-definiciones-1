@@ -21,6 +21,7 @@ import com.group5.definitions.model.Justification;
 import com.group5.definitions.services.ChapterService;
 import com.group5.definitions.services.ConceptService;
 import com.group5.definitions.services.JustificationService;
+import com.group5.definitions.usersession.UserSessionService;
 
 @RestController
 @RequestMapping("/api")
@@ -34,6 +35,9 @@ public class RestChapterController {
 	
 	@Autowired
 	private JustificationService justificationService;
+	
+	@Autowired
+	private UserSessionService userSessionService;
 	
 	private final int DEFAULT_SIZE = 10;
 	
@@ -100,16 +104,25 @@ public class RestChapterController {
 	}
 	
 	@JsonView(Concept.Basic.class)
+	@RequestMapping(value="/justification/{justificationId}")
+	public ResponseEntity<Justification> addJustification(@PathVariable Long justificationId,
+			@PathVariable String conceptId, @PathVariable String justificationText, @PathVariable Boolean marked ){
+		Concept concept=conceptService.findById(Long.parseLong(conceptId));
+		Justification justification=new Justification(justificationText, marked, userSessionService.getLoggedUser());
+		justificationService.save(justification);
+		conceptService.save(concept);
+		return new ResponseEntity<>(justification,HttpStatus.OK);
+	}
+	
+	@JsonView(Concept.Basic.class)
 	@RequestMapping(value="/deleteJust/concept/{conceptId}/justification/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Justification> deleteJustification(@PathVariable String conceptId, @PathVariable long id){
-	Justification justification = justificationService.findById(id);
-	if (justification.getAnswer().getJustifications().size() > 1) {
-		justificationService.deleteById(id);
-		return new ResponseEntity<>(justification,HttpStatus.OK);
-	} else {
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		Justification justification = justificationService.findById(id);
+		if (justification.getAnswer().getJustifications().size() > 1) {
+			justificationService.deleteById(id);
+			return new ResponseEntity<>(justification,HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
-	}
-	
-	
 }
