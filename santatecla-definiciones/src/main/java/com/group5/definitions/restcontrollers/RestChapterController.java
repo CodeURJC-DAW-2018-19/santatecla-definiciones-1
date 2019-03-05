@@ -8,10 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
@@ -56,7 +54,7 @@ public class RestChapterController {
 	}
 	
 	@JsonView(ChapterConcept.class)
-	@RequestMapping(value="/addChapter" , method = RequestMethod.POST)
+	@RequestMapping(value="" , method = RequestMethod.POST)
 	public ResponseEntity<Chapter> addChapter(@PathVariable String chapterName){
 		Chapter chapter = new Chapter(chapterName);
 		chapterService.save(chapter);
@@ -64,7 +62,7 @@ public class RestChapterController {
 	}
 	
 	@JsonView(ChapterConcept.class)
-	@RequestMapping(value="/deleteChapter/chapter/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value="/chapters/{id}/deleteChapter", method = RequestMethod.DELETE)
 	public ResponseEntity<Chapter> deleteChapter(@PathVariable Long id){
 		Chapter chapter = chapterService.findById(id);
 		chapterService.deleteById(id);
@@ -76,7 +74,7 @@ public class RestChapterController {
 	}
 	
 	@JsonView(Concept.Basic.class)
-	@RequestMapping(value="/deleteConcept/concept/{id}", method=RequestMethod.DELETE)
+	@RequestMapping(value="/concept/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Concept> deleteConcept(@PathVariable Long id){
 		Concept concept = conceptService.findById(id);
 		conceptService.deleteById(id);

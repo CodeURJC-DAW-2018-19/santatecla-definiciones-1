@@ -18,7 +18,7 @@ public class RestConceptControllerStudent {
 	private QuestionGenerator questionGenerator;
 	
 	@JsonView(Question.Basic.class)
-	@GetMapping("/concept/{id}/questionGenerate")
+	@GetMapping("/concept/{id}/generateQuestion")
 	public Question generateQuestion(@PathVariable long id) {
 		return questionGenerator.generateQuestion(id);
 	}
