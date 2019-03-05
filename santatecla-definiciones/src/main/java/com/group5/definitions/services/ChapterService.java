@@ -81,10 +81,6 @@ public class ChapterService {
 		}
 		return diagramInfo;
 	}
-
-	public Page<DiagramChapterInfo> generateDiagramInfoPage(Pageable page) {
-		return new PageImpl<>(generateDiagramInfoTeacher());
-	}
 	
 	public Chapter findById(long id) {
 		Optional<Chapter> chapter = chapterRepository.findById(id);
@@ -92,5 +88,13 @@ public class ChapterService {
 			return chapter.get();
 		else
 			return null;
+	}
+
+	public Page<DiagramChapterInfo> generateDiagramInfoTeacherPage(Pageable page) {
+		return new PageImpl<>(generateDiagramInfoTeacher());
+	}
+	
+	public Page<DiagramChapterInfo> generateDiagramInfoStudentPage(Pageable page, User user) {
+		return new PageImpl<>(generateDiagramInfoStudent(user));
 	}
 }

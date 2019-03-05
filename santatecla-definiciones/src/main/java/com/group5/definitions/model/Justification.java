@@ -7,14 +7,23 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 @Entity
 public class Justification {
+	public interface Basic {}
+	
+	@JsonView(Basic.class)
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	@JsonView(Basic.class)
 	private String justificationText;
+	@JsonView(Basic.class)
 	private boolean marked;
+	@JsonView(Basic.class)
 	private boolean valid;
+	@JsonView(Basic.class)
 	private String error;
 	@ManyToOne
 	private Answer answer;

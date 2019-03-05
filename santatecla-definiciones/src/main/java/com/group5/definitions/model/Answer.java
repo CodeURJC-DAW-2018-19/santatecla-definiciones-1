@@ -13,14 +13,22 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 @Entity
 public class Answer {
+	public interface Basic {}
+	
+	@JsonView(Basic.class)
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	@Column(length = 10000)
+	@JsonView(Basic.class)
 	private String answerText;
+	@JsonView(Basic.class)
 	private boolean marked;
+	@JsonView(Basic.class)
 	private boolean correct;
 	@OneToMany(mappedBy="answer", cascade = CascadeType.REMOVE)
 	private List<Justification> justifications;
@@ -121,6 +129,15 @@ public class Answer {
 		return "Answer [id=" + id + ", answerText=" + answerText + ", marked=" + marked + ", correct=" + correct
 				+ ", justifications=" + justifications + ", user=" + user + ", concept=" + concept + ", questions="
 				+ questions + "]";
+	}
+
+	public long countMarkedJustifications() {
+		long i = 0;
+		for (Justification j : justifications) {
+			if (j.isMarked())
+				i++;
+		}
+		return i;
 	}
 
 

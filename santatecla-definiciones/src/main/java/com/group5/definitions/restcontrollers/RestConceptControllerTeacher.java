@@ -1,17 +1,15 @@
 package com.group5.definitions.restcontrollers;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
@@ -31,11 +29,15 @@ public class RestConceptControllerTeacher {
 
 	@Autowired
 	private ConceptService conceptService;
+	@Autowired
 	private JustificationService justificationService;
+	@Autowired
 	private AnswerService answerService;
+	@Autowired
 	private QuestionService questionService;
+	@Autowired
 	private UserSessionService userSession;
-	
+
 	@JsonView(Concept.Basic.class)
 	@PutMapping("/concept/{id}")
 	public ResponseEntity<Concept> updateConcept(@PathVariable long id, @RequestBody Concept concept) {
@@ -43,39 +45,48 @@ public class RestConceptControllerTeacher {
 		if (oldConcept == null)
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		concept.setId(id);
-		if (concept.getChapter()==null)
+		if (concept.getChapter() == null)
 			concept.setChapter(oldConcept.getChapter());
 		conceptService.save(concept);
 		return new ResponseEntity<>(concept, HttpStatus.OK);
 	}
-	
+
+	@JsonView(Justification.Basic.class)
 	@PutMapping("/justification/{justId}")
-	public ResponseEntity<Justification> updateJustification(@PathVariable long justId, @RequestBody Justification justification) {
+	public ResponseEntity<Justification> updateJustification(@PathVariable long justId,
+			@RequestBody Justification justification) {
 		Justification oldJust = justificationService.findById(justId);
-		if (oldJust==null)
+		if (oldJust == null)
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		if (justification.isMarked() && !justification.isValid() && (justification.getError()==null))
+		if (!oldJust.isMarked())
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		if (!justification.isValid() && (justification.getError() == null))
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		if (justification.isValid())
+			justification.setError("");
+		justification.setId(justId);
+		justification.setMarked(true);
+		justification.setAnswer(oldJust.getAnswer());
+		justification.setUser(oldJust.getUser());
 		justificationService.save(justification);
 		return new ResponseEntity<>(justification, HttpStatus.OK);
 	}
-	
-	@JsonView(Concept.Basic.class)
-	@RequestMapping(value="/concept/{conceptId}/justification/{id}", method=RequestMethod.DELETE)
-	public ResponseEntity<Justification> deleteJustification(@PathVariable String conceptId, @PathVariable long id){
-	Justification justification = justificationService.findById(id);
-	if (justification.getAnswer().getJustifications().size() > 1) {
-		justificationService.deleteById(id);
-		return new ResponseEntity<>(justification,HttpStatus.OK);
-	} else {
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	}
-	}
-	
 
-	@JsonView(Answer.class)
-	@PutMapping(value="/answer/{id}")
-	public ResponseEntity<Answer> modifyAnswer (@PathVariable Long id, @RequestBody Answer updatedAnswer){
+	@JsonView(Justification.Basic.class)
+	@RequestMapping(value = "/justification/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Justification> deleteJustification(@PathVariable long id) {
+		Justification justification = justificationService.findById(id);
+		if (justification.isMarked() && justification.getAnswer().countMarkedJustifications() > 1) {
+			justificationService.deleteById(id);
+			return new ResponseEntity<>(justification, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@JsonView(Answer.Basic.class)
+	@PutMapping(value = "/answer/{id}")
+	public ResponseEntity<Answer> modifyAnswer(@PathVariable Long id, @RequestBody Answer updatedAnswer) {
 		Answer oldAnswer = answerService.getOne(id);
 		if (oldAnswer != null) {
 			updatedAnswer.setId(id);
@@ -83,21 +94,23 @@ public class RestConceptControllerTeacher {
 				updatedAnswer.setConcept(oldAnswer.getConcept());
 			}
 			answerService.save(updatedAnswer);
-			return new ResponseEntity<>(updatedAnswer,HttpStatus.OK);
+			// Needs more work (if answer is wrong, it needs a valid justification)
+			return new ResponseEntity<>(updatedAnswer, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
+
+	// No need to test, this isn't going to work
 	@PutMapping("/concept/{conceptId}/mark/{answerId}")
-	public ResponseEntity<Answer> markAnswer(@PathVariable long conceptId, @PathVariable long answerId, 
-			@RequestParam String correct, @RequestParam(required = false) String justificationTextNew, 
+	public ResponseEntity<Answer> markAnswer(@PathVariable long conceptId, @PathVariable long answerId,
+			@RequestParam boolean correct, @RequestParam(required = false) String justificationTextNew,
 			@RequestBody Answer answer) {
-		if(answerId == answer.getId()) {
+		if (answerId == answer.getId()) {
 			answer.setMarked(true);
-			answer.setCorrect(correct.equals("yes"));
+			answer.setCorrect(correct);
 			answerService.save(answer);
-			if ((justificationTextNew != null) && (correct.equals("no"))) {
+			if ((justificationTextNew != null) && (correct)) {
 				Justification justification = new Justification(justificationTextNew.toUpperCase(), true,
 						userSession.getLoggedUser());
 				justification.setValid(true);
@@ -107,15 +120,14 @@ public class RestConceptControllerTeacher {
 			for (Question q : answer.getQuestions()) {
 				if (!q.isMarked() && (q.getType() == 0)) {
 					q.setMarked(true);
-					q.setCorrect(correct.equals("yes"));
+					q.setCorrect(correct);
 					questionService.save(q);
 				}
 			}
 			return new ResponseEntity<>(answer, HttpStatus.OK);
-		}else {
+		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
-	
+
 }

@@ -192,7 +192,7 @@ public class TeacherController {
 			HttpServletResponse httpServletResponse) throws IOException {
 		Justification j = justificationService.findById(id);
 		String error = "";
-		if (j.getAnswer().getJustifications().size() > 1) {
+		if (j.getAnswer().countMarkedJustifications() > 1) {
 			justificationService.deleteById(id);
 		} else {
 			error = "?justerror=true";

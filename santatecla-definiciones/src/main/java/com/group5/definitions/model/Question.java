@@ -13,8 +13,9 @@ import com.fasterxml.jackson.annotation.JsonView;
 @Entity
 public class Question {
 	public interface Basic {}
+	public interface Saved extends Basic{}
 	
-	@JsonView(Basic.class)
+	@JsonView(Saved.class)
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
@@ -26,11 +27,11 @@ public class Question {
 	//Only used in Yes/No questions
 	@JsonView(Basic.class)
 	private boolean yesNoQuestion;
-	@JsonView(Basic.class)
+	@JsonView(Saved.class)
 	private boolean userResponse; //true for yes, false for no
-	@JsonView(Basic.class)
+	@JsonView(Saved.class)
 	private boolean marked;
-	@JsonView(Basic.class)
+	@JsonView(Saved.class)
 	private boolean correct;
 	@ManyToOne
 	private Answer answer;

@@ -18,37 +18,39 @@ import com.group5.definitions.utilities.QuestionGenerator;
 @RestController
 @RequestMapping("/api")
 public class RestConceptControllerStudent {
-	
+
 	@Autowired
 	private QuestionGenerator questionGenerator;
-	
+
 	@Autowired
 	private UserSessionService userSession;
-	
+
 	@Autowired
 	private QuestionService questionService;
-	
+
 	private final int DEFAULT_SIZE = 10;
-	
+
 	@JsonView(Question.Basic.class)
 	@GetMapping("/concept/{id}/generateQuestion")
 	public Question generateQuestion(@PathVariable long id) {
 		return questionGenerator.generateQuestion(id);
 	}
-	
-	@JsonView(Question.Basic.class)
+
+	// No sense in having 2 different methods, do GET /concept/{id} and get all the questions by user (add more methods to service if needed)
+	// Also not working
+	@JsonView(Question.Saved.class)
 	@GetMapping("/concept/{id}/loadMarkedQuestions")
 	public Page<Question> getMarkedQuestions(@PathVariable long id,
-			@PageableDefault(size = DEFAULT_SIZE) Pageable page){
+			@PageableDefault(size = DEFAULT_SIZE) Pageable page) {
 		Page<Question> markedQuestions = questionService.findByMarkedAndAnswer_Concept_IdAndUser(true, id,
 				userSession.getLoggedUser(), page);
 		return markedQuestions;
 	}
-	
-	@JsonView(Question.Basic.class)
+
+	@JsonView(Question.Saved.class)
 	@GetMapping("/concept/{id}/loadUnmarkedQuestions")
 	public Page<Question> getUnmarkedQuestions(@PathVariable long id,
-			@PageableDefault(size = DEFAULT_SIZE) Pageable page){
+			@PageableDefault(size = DEFAULT_SIZE) Pageable page) {
 		Page<Question> unmarkedQuestions = questionService.findByMarkedAndAnswer_Concept_IdAndUser(false, id,
 				userSession.getLoggedUser(), page);
 		return unmarkedQuestions;
