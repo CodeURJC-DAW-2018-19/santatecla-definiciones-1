@@ -4,4 +4,4 @@ do
   echo "Waiting for database connection..."
   sleep 5
 done
-java -jar /app/santatecla-definitions-0.0.1-SNAPSHOT.jar
+java -jar /app/santatecla-definitions-3.0.jar
