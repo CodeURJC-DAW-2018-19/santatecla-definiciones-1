@@ -3,6 +3,7 @@ package com.group5.definitions.restcontrollers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -39,7 +40,7 @@ public class RestConceptControllerTeacher {
 	private UserSessionService userSession;
 
 	@JsonView(Concept.Basic.class)
-	@PutMapping("/concept/{id}")
+	@PutMapping("/concepts/{id}")
 	public ResponseEntity<Concept> updateConcept(@PathVariable long id, @RequestBody Concept concept) {
 		Concept oldConcept = conceptService.findById(id);
 		if (oldConcept == null)
@@ -52,7 +53,7 @@ public class RestConceptControllerTeacher {
 	}
 
 	@JsonView(Justification.Basic.class)
-	@PutMapping("/justification/{justId}")
+	@PutMapping("/justifications/{justId}")
 	public ResponseEntity<Justification> updateJustification(@PathVariable long justId,
 			@RequestBody Justification justification) {
 		Justification oldJust = justificationService.findById(justId);
@@ -73,7 +74,7 @@ public class RestConceptControllerTeacher {
 	}
 
 	@JsonView(Justification.Basic.class)
-	@RequestMapping(value = "/justification/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/justifications/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Justification> deleteJustification(@PathVariable long id) {
 		Justification justification = justificationService.findById(id);
 		if (justification.isMarked() && justification.getAnswer().countMarkedJustifications() > 1) {
@@ -85,7 +86,7 @@ public class RestConceptControllerTeacher {
 	}
 
 	@JsonView(Answer.Basic.class)
-	@PutMapping(value = "/answer/{id}")
+	@PutMapping(value = "/answers/{id}")
 	public ResponseEntity<Answer> modifyAnswer(@PathVariable Long id, @RequestBody Answer updatedAnswer) {
 		Answer oldAnswer = answerService.getOne(id);
 		if (oldAnswer != null) {
@@ -102,32 +103,31 @@ public class RestConceptControllerTeacher {
 	}
 
 	// No need to test, this isn't going to work
-	@PutMapping("/concept/{conceptId}/mark/{answerId}")
+	interface AnswerJustification extends Answer.Basic, Justification.Basic{}
+	@JsonView(AnswerJustification.class)
+	@DeleteMapping("/concepts/{conceptId}/mark/{answerId}")
 	public ResponseEntity<Answer> markAnswer(@PathVariable long conceptId, @PathVariable long answerId,
 			@RequestParam boolean correct, @RequestParam(required = false) String justificationTextNew,
 			@RequestBody Answer answer) {
-		if (answerId == answer.getId()) {
-			answer.setMarked(true);
-			answer.setCorrect(correct);
-			answerService.save(answer);
-			if ((justificationTextNew != null) && (correct)) {
-				Justification justification = new Justification(justificationTextNew.toUpperCase(), true,
-						userSession.getLoggedUser());
-				justification.setValid(true);
-				justification.setAnswer(answer);
-				justificationService.save(justification);
-			}
-			for (Question q : answer.getQuestions()) {
-				if (!q.isMarked() && (q.getType() == 0)) {
-					q.setMarked(true);
-					q.setCorrect(correct);
-					questionService.save(q);
-				}
-			}
-			return new ResponseEntity<>(answer, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		answer.setMarked(true);
+		answer.setCorrect(correct);
+		answerService.save(answer);
+		
+		if ((justificationTextNew != null) && (correct)) {
+			Justification justification = new Justification(justificationTextNew.toUpperCase(), true,
+				userSession.getLoggedUser());
+			justification.setValid(true);
+			justification.setAnswer(answer);
+			justificationService.save(justification);
 		}
+		for (Question q : answer.getQuestions()) {
+			if (!q.isMarked() && (q.getType() == 0)) {
+				q.setMarked(true);
+				q.setCorrect(correct);
+				questionService.save(q);
+			}
+		}
+		return new ResponseEntity<>(answer, HttpStatus.OK);
 	}
 
 }

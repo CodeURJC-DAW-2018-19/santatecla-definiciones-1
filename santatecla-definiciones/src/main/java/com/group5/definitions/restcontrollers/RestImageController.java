@@ -26,7 +26,7 @@ public class RestImageController {
 	@Autowired
 	private ImageService imageService;
 
-	@GetMapping("/concept/{id}/image")
+	@GetMapping("/concepts/{id}/image")
 	public ResponseEntity<byte[]> getImage(@PathVariable long id) {
 		try {
 			Path image = imageService.handleFileDownload(id);
@@ -38,7 +38,7 @@ public class RestImageController {
 		}
 	}
 	
-	@PostMapping(value = "/concept/{id}/image", consumes = "multipart/form-data")
+	@PostMapping(value = "/concepts/{id}/image", consumes = "multipart/form-data")
 	public ResponseEntity<byte[]> getImage(@PathVariable long id, @RequestParam("file") MultipartFile file) {
 		try {
 			imageService.handleFileUpload(id, file);

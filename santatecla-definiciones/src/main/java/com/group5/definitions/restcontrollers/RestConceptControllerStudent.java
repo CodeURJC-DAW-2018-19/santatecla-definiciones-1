@@ -1,11 +1,17 @@
 package com.group5.definitions.restcontrollers;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,11 +53,13 @@ public class RestConceptControllerStudent {
 	@GetMapping("/concepts/{id}/markedquestions")
 	public Page<Question> getMarkedQuestions(@PathVariable long id,
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page) {
+		User user = userSession.getLoggedUser();
 		//Page<Question> questions = questionService.findByMarkedAndAnswer_Concept_Id(true, id, page);
-		Page<Question> questions = questionService.findByMarkedAndAnswer_Concept_IdAndUser(true, id, userSession.getLoggedUser(), page);
+		Page<Question> questions = questionService.findByMarkedAndAnswer_Concept_IdAndUser(true, id, user, page);
 		return questions;
 	}
 	
+	@JsonView(QuestionAnswerConcept.class)
 	@GetMapping("/concepts/{id}/unmarkedquestions")
 	public Page<Question> getUnmarkedQuestions(@PathVariable long id,
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page) {
