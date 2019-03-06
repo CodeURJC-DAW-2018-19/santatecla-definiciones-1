@@ -1,14 +1,20 @@
 package com.group5.definitions.restcontrollers;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +27,7 @@ import com.group5.definitions.model.Answer;
 import com.group5.definitions.model.Concept;
 import com.group5.definitions.model.Justification;
 import com.group5.definitions.model.Question;
+import com.group5.definitions.model.User;
 import com.group5.definitions.services.AnswerService;
 import com.group5.definitions.services.ConceptService;
 import com.group5.definitions.services.JustificationService;
@@ -88,10 +95,11 @@ public class RestConceptControllerTeacher {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
+	
 
 	@JsonView(Answer.Basic.class)
-	@PutMapping(value = "/answers/{id}")
-	public ResponseEntity<Answer> modifyAnswer(@PathVariable Long id, @RequestBody Answer updatedAnswer) {
+	@PutMapping(value = "concepts/{conceptId}/answers/{id}")
+	public ResponseEntity<Answer> modifyAnswer(@PathVariable Long conceptId, @PathVariable Long id, @RequestBody Answer updatedAnswer) {
 		Answer oldAnswer = answerService.getOne(id);
 		if (oldAnswer != null) {
 			updatedAnswer.setId(id);
@@ -106,44 +114,50 @@ public class RestConceptControllerTeacher {
 		}
 	}
 
-	// No need to test, this isn't going to work
+	@JsonView(AnswerJustification.class)
+	@DeleteMapping("/concepts/{conceptId}/answers/{answerId}")
+	public ResponseEntity<Answer> deleteCorrectAnswer(@PathVariable long conceptId, 
+			@PathVariable long answerId, @RequestBody Answer answer) {
+		answerService.deleteById(answerId);
+		return new ResponseEntity<>(answer, HttpStatus.OK);
+	}
+	
 	interface AnswerJustification extends Answer.Basic, Justification.Basic{}
 	@JsonView(AnswerJustification.class)
-	@DeleteMapping("/concepts/{conceptId}/mark/{answerId}")
-	public ResponseEntity<Answer> markAnswer(@PathVariable long conceptId, @PathVariable long answerId,
-			@RequestParam boolean correct, @RequestParam(required = false) String justificationTextNew,
-			@RequestBody Answer answer) {
-		answer.setMarked(true);
-		answer.setCorrect(correct);
-		answerService.save(answer);
-		
-		if ((justificationTextNew != null) && (correct)) {
-			Justification justification = new Justification(justificationTextNew.toUpperCase(), true,
-				userSession.getLoggedUser());
-			justification.setValid(true);
-			justification.setAnswer(answer);
-			justificationService.save(justification);
-		}
-		for (Question q : answer.getQuestions()) {
-			if (!q.isMarked() && (q.getType() == 0)) {
-				q.setMarked(true);
-				q.setCorrect(correct);
-				questionService.save(q);
+	@PostMapping("/concepts/{conceptId}/answers/{answerId}")
+	public ResponseEntity<Answer> addCorrectAnswer(@PathVariable long conceptId, @PathVariable long answerId,
+			@RequestBody Answer answer){
+		Concept con = conceptService.findById(conceptId);
+		if(!answer.isCorrect()) {
+			for(Justification j : answer.getJustifications()) {
+				justificationService.save(j);
 			}
 		}
+		answerService.save(answer);
 		return new ResponseEntity<>(answer, HttpStatus.OK);
+	}
+	
+	@JsonView(AnswerJustification.class)
+	@PutMapping("/concepts/{conceptId}/answers/{answerId}")
+	public ResponseEntity<Answer> updateCorrectAnswer(@PathVariable long conceptId, @PathVariable long answerId,
+			@RequestBody Answer updatedAnswer){
+		Answer oldAnswer = answerService.findById
+		
+		return new ResponseEntity<>(updatedAnswer, HttpStatus.OK);
 	}
 	
 	interface AnswerMarked extends Answer.Marked, Answer.Justifications, Justification.Basic {}
 	@JsonView(AnswerMarked.class)
-	@GetMapping("/concept/{conceptId}/markedanswers")
+	@GetMapping("/concepts/{conceptId}/markedanswers")
 	public Page<Answer> getMarked(@PathVariable long conceptId, @PageableDefault(size = DEFAULT_SIZE) Pageable page) {
 		return answerService.findByMarkedAndConceptId(true, conceptId, page);
 	}
 	
 	@JsonView(Answer.Basic.class)
-	@GetMapping("/concept/{conceptId}/unmarkedanswers")
+	@GetMapping("/concepts/{conceptId}/unmarkedanswers")
 	public Page<Answer> getUnmarked(@PathVariable long conceptId, @PageableDefault(size = DEFAULT_SIZE) Pageable page) {
 		return answerService.findByMarkedAndConceptId(false, conceptId, page);
 	}
+	
+	
 }
