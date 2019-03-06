@@ -35,7 +35,7 @@ public class RestConceptControllerStudent {
 	private final int DEFAULT_SIZE = 10;
 
 	@JsonView(Question.Basic.class)
-	@GetMapping("/concept/{id}/newquestion")
+	@GetMapping("/concepts/{id}/newquestion")
 	public Question generateQuestion(@PathVariable long id) {
 		return questionGenerator.generateQuestion(id);
 	}
@@ -44,7 +44,7 @@ public class RestConceptControllerStudent {
 	// in Postman but I guess I'm misssing something out, the commented methods are just in case and to test that they work.
 	interface QuestionAnswerConcept extends Question.Saved, Concept.Basic{}
 	@JsonView(QuestionAnswerConcept.class)
-	@GetMapping("/concept/{id}/markedquestions")
+	@GetMapping("/concepts/{id}/markedquestions")
 	public Page<Question> getMarkedQuestions(@PathVariable long id,
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page) {
 		//Page<Question> questions = questionService.findByMarkedAndAnswer_Concept_Id(true, id, page);
@@ -52,7 +52,7 @@ public class RestConceptControllerStudent {
 		return questions;
 	}
 	
-	@GetMapping("/concept/{id}/unmarkedquestions")
+	@GetMapping("/concepts/{id}/unmarkedquestions")
 	public Page<Question> getUnmarkedQuestions(@PathVariable long id,
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page) {
 		//Page<Question> questions = questionService.findByMarkedAndAnswer_Concept_Id(false, id, page);
