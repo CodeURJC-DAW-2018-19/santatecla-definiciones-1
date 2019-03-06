@@ -24,7 +24,7 @@ public class DiagramRestController {
 	private ChapterService chapterService;
 	private final int DEFAULT_SIZE = 10;
 
-	@GetMapping("/diagramInfo")
+	@GetMapping("/diagraminfo")
 	public Page<DiagramChapterInfo> getDiagramInfo(@PageableDefault(size = DEFAULT_SIZE) Pageable page) {
 		User user = userSession.getLoggedUser();
 		if (user.getRoles().contains("ROLE_TEACHER"))

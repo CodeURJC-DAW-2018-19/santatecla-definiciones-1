@@ -1,10 +1,13 @@
 package com.group5.definitions.restcontrollers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +30,7 @@ import com.group5.definitions.usersession.UserSessionService;
 @RequestMapping("/api")
 public class RestConceptControllerTeacher {
 
+	private final int DEFAULT_SIZE = 10;
 	@Autowired
 	private ConceptService conceptService;
 	@Autowired
@@ -129,5 +133,17 @@ public class RestConceptControllerTeacher {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-
+	
+	interface AnswerMarked extends Answer.Marked, Answer.Justifications, Justification.Basic {}
+	@JsonView(AnswerMarked.class)
+	@GetMapping("/concept/{conceptId}/markedanswers")
+	public Page<Answer> getMarked(@PathVariable long conceptId, @PageableDefault(size = DEFAULT_SIZE) Pageable page) {
+		return answerService.findByMarkedAndConceptId(true, conceptId, page);
+	}
+	
+	@JsonView(Answer.Basic.class)
+	@GetMapping("/concept/{conceptId}/unmarkedanswers")
+	public Page<Answer> getUnmarked(@PathVariable long conceptId, @PageableDefault(size = DEFAULT_SIZE) Pageable page) {
+		return answerService.findByMarkedAndConceptId(false, conceptId, page);
+	}
 }

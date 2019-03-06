@@ -18,6 +18,8 @@ import com.fasterxml.jackson.annotation.JsonView;
 @Entity
 public class Answer {
 	public interface Basic {}
+	public interface Justifications {}
+	public interface Marked {}
 	
 	@JsonView(Basic.class)
 	@Id
@@ -28,8 +30,9 @@ public class Answer {
 	private String answerText;
 	@JsonView(Basic.class)
 	private boolean marked;
-	@JsonView(Basic.class)
+	@JsonView(Marked.class)
 	private boolean correct;
+	@JsonView(Justifications.class)
 	@OneToMany(mappedBy="answer", cascade = CascadeType.REMOVE)
 	private List<Justification> justifications;
 	@OneToOne

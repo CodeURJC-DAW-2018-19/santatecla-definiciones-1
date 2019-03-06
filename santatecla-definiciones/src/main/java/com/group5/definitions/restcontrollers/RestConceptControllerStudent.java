@@ -31,7 +31,7 @@ public class RestConceptControllerStudent {
 	private final int DEFAULT_SIZE = 10;
 
 	@JsonView(Question.Basic.class)
-	@GetMapping("/concept/{id}/generateQuestion")
+	@GetMapping("/concept/{id}/generatequestion")
 	public Question generateQuestion(@PathVariable long id) {
 		return questionGenerator.generateQuestion(id);
 	}
