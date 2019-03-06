@@ -74,7 +74,7 @@ public class RestChapterController {
 	}
 
 	@JsonView(Concept.Basic.class)
-	@RequestMapping(value = "/concept/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/concepts/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Concept> deleteConcept(@PathVariable Long id) {
 		Concept concept = conceptService.findById(id);
 		conceptService.deleteById(id);
