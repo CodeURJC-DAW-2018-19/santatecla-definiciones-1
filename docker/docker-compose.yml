@@ -10,7 +10,7 @@ services:
             MYSQL_USER: santatecla-definiciones
             MYSQL_PASSWORD: AvScnGQp5e4GHnd
     app:
-        build: ./app
+        image: ivchicano/santatecla-definitions:3
         links:
             - db
         depends_on:
