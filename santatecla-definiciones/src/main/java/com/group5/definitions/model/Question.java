@@ -19,8 +19,8 @@ public class Question {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	@Column(length = 1000)
 	@JsonView(Basic.class)
-	@Column(length = 10000)
 	private String questionText;
 	@JsonView(Basic.class)	
 	private int type;
