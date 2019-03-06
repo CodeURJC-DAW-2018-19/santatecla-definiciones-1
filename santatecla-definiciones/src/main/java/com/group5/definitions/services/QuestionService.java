@@ -29,4 +29,9 @@ public class QuestionService {
 		return questionRepository.findByMarkedAndAnswer_Concept_IdAndUser(marked, conceptId, loggedUser, page);
 	}
 
+	public Page<Question> findByMarkedAndAnswer_Concept_Id(boolean marked, long id, Pageable page) {
+		// TODO Auto-generated method stub
+		return questionRepository.findByMarkedAndAnswer_Concept_Id(marked, id, page);
+	}
+
 }
