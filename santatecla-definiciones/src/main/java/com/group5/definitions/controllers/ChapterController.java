@@ -1,15 +1,5 @@
 package com.group5.definitions.controllers;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import javax.annotation.PostConstruct;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.group5.definitions.images.Image;
 import com.group5.definitions.model.Chapter;
 import com.group5.definitions.model.Concept;
 import com.group5.definitions.model.User;
@@ -46,9 +35,6 @@ public class ChapterController {
 
 	@Autowired
 	private UserService userService;
-	
-	@Autowired
-	private ImageController imageController;
 
 	@ModelAttribute
 	public void addUserToModel(Model model) {
@@ -75,7 +61,7 @@ public class ChapterController {
 		} else if (req.isUserInRole("ROLE_STUDENT")){
 			model.addAttribute("diagramInfo", chapterService.generateDiagramInfoStudent(userSession.getLoggedUser()));
 		}
-		model.addAttribute("images", imageController.getImageValues());
+		//model.addAttribute("images", imageController.getImageValues());
 	}
 	
 	@RequestMapping("/loadChapters")

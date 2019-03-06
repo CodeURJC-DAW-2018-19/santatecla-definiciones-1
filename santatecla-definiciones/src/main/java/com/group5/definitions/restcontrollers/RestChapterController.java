@@ -54,6 +54,7 @@ public class RestChapterController {
 	//Not working
 	@JsonView(ChapterConcept.class)
 	@RequestMapping(value = { "", "/chapters" }, method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<Chapter> addChapter(@PathVariable String chapterName) {
 		Chapter chapter = new Chapter(chapterName);
 		chapterService.save(chapter);
