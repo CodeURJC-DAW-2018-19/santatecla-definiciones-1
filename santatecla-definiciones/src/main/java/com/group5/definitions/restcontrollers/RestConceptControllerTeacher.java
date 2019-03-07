@@ -116,7 +116,7 @@ public class RestConceptControllerTeacher {
 
 	@JsonView(AnswerJustification.class)
 	@DeleteMapping("/concepts/{conceptId}/answers/{answerId}")
-	public ResponseEntity<Answer> deleteCorrectAnswer(@PathVariable long conceptId, 
+	public ResponseEntity<Answer> deleteAnswer(@PathVariable long conceptId, 
 			@PathVariable long answerId, @RequestBody Answer answer) {
 		answerService.deleteById(answerId);
 		return new ResponseEntity<>(answer, HttpStatus.OK);
@@ -125,9 +125,8 @@ public class RestConceptControllerTeacher {
 	interface AnswerJustification extends Answer.Basic, Justification.Basic{}
 	@JsonView(AnswerJustification.class)
 	@PostMapping("/concepts/{conceptId}/answers/{answerId}")
-	public ResponseEntity<Answer> addCorrectAnswer(@PathVariable long conceptId, @PathVariable long answerId,
+	public ResponseEntity<Answer> addAnswer(@PathVariable long conceptId, @PathVariable long answerId,
 			@RequestBody Answer answer){
-		Concept con = conceptService.findById(conceptId);
 		if(!answer.isCorrect()) {
 			for(Justification j : answer.getJustifications()) {
 				justificationService.save(j);
@@ -139,10 +138,10 @@ public class RestConceptControllerTeacher {
 	
 	@JsonView(AnswerJustification.class)
 	@PutMapping("/concepts/{conceptId}/answers/{answerId}")
-	public ResponseEntity<Answer> updateCorrectAnswer(@PathVariable long conceptId, @PathVariable long answerId,
+	public ResponseEntity<Answer> updateAnswer(@PathVariable long conceptId, @PathVariable long answerId,
 			@RequestBody Answer updatedAnswer){
-		Answer oldAnswer = answerService.findById
-		
+		answerService.deleteById(answerId); //Delete old answer
+		answerService.save(updatedAnswer);
 		return new ResponseEntity<>(updatedAnswer, HttpStatus.OK);
 	}
 	

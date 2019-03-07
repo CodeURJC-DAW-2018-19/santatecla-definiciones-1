@@ -68,4 +68,5 @@ public class AnswerService {
 			Pageable page) {
 		return answerRepository.findByConceptAndJustifications_Marked(concept, justMarked, page);
 	}
+
 }
