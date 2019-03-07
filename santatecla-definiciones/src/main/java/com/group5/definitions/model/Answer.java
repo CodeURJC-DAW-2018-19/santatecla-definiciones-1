@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 public class Answer {
 	public interface Basic {}
 	public interface Justifications {}
-	public interface Marked {}
+	public interface Marked extends Basic{}
 	
 	@JsonView(Basic.class)
 	@Id

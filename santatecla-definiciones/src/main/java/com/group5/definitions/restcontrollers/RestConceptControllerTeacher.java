@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -57,7 +58,7 @@ public class RestConceptControllerTeacher {
 	}
 
 	@JsonView(Justification.Basic.class)
-	@PutMapping("/justifications/{justId}")
+	@PutMapping("/answers/{ansId}/justifications/{justId}")
 	public ResponseEntity<Justification> updateJustification(@PathVariable long justId,
 			@RequestBody Justification justification) {
 		Justification oldJust = justificationService.findById(justId);
@@ -78,7 +79,7 @@ public class RestConceptControllerTeacher {
 	}
 
 	@JsonView(Justification.Basic.class)
-	@RequestMapping(value = "/justifications/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/answers/{ansId}/justifications/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Justification> deleteJustification(@PathVariable long id) {
 		Justification justification = justificationService.findById(id);
 		if (justification.isMarked() && justification.getAnswer().countMarkedJustifications() > 1) {
@@ -136,14 +137,32 @@ public class RestConceptControllerTeacher {
 	
 	interface AnswerMarked extends Answer.Marked, Answer.Justifications, Justification.Basic {}
 	@JsonView(AnswerMarked.class)
-	@GetMapping("/concept/{conceptId}/markedanswers")
+	@GetMapping(value = {"/concepts/{conceptId}", "/concepts/{conceptId}/markedanswers"})
 	public Page<Answer> getMarked(@PathVariable long conceptId, @PageableDefault(size = DEFAULT_SIZE) Pageable page) {
 		return answerService.findByMarkedAndConceptId(true, conceptId, page);
 	}
 	
 	@JsonView(Answer.Basic.class)
-	@GetMapping("/concept/{conceptId}/unmarkedanswers")
+	@GetMapping("/concepts/{conceptId}/unmarkedanswers")
 	public Page<Answer> getUnmarked(@PathVariable long conceptId, @PageableDefault(size = DEFAULT_SIZE) Pageable page) {
 		return answerService.findByMarkedAndConceptId(false, conceptId, page);
 	}
+	
+	@JsonView(Justification.Basic.class)
+	@PostMapping("/answers/{ansId}/justifications/")
+	public ResponseEntity<Justification> addJustification(@PathVariable long ansId, @RequestBody Justification justification) {
+		Answer answer = answerService.getOne(ansId);
+		if (answer.isMarked() && !answer.isCorrect()) {
+			if (!justification.isValid() && justification.getError()==null)
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			justification.setMarked(true);
+			justification.setAnswer(answer);
+			justificationService.save(justification);
+			return new ResponseEntity<>(justification, HttpStatus.CREATED);
+		}
+		else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 }
