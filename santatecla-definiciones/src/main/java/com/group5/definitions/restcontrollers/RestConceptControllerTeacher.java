@@ -117,9 +117,13 @@ public class RestConceptControllerTeacher {
 	@JsonView(AnswerJustification.class)
 	@DeleteMapping("/concepts/{conceptId}/answers/{answerId}")
 	public ResponseEntity<Answer> deleteAnswer(@PathVariable long conceptId, 
-			@PathVariable long answerId, @RequestBody Answer answer) {
+			@PathVariable long answerId) {
+		Answer ans = answerService.getOne(answerId);
 		answerService.deleteById(answerId);
-		return new ResponseEntity<>(answer, HttpStatus.OK);
+		if(ans != null)
+			return new ResponseEntity<>(ans, HttpStatus.OK);
+		else
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 	
 	interface AnswerJustification extends Answer.Basic, Justification.Basic{}
@@ -127,10 +131,17 @@ public class RestConceptControllerTeacher {
 	@PostMapping("/concepts/{conceptId}/answers/{answerId}")
 	public ResponseEntity<Answer> addAnswer(@PathVariable long conceptId, @PathVariable long answerId,
 			@RequestBody Answer answer){
+		Concept con = conceptService.findById(conceptId);
+		con.addAnswer(answer);
+		answer.setConcept(con);
+		conceptService.save(con);
 		if(!answer.isCorrect()) {
 			for(Justification j : answer.getJustifications()) {
 				justificationService.save(j);
 			}
+		}
+		for(Question q : answer.getQuestions()) {
+			questionService.save(q);
 		}
 		answerService.save(answer);
 		return new ResponseEntity<>(answer, HttpStatus.OK);
@@ -140,7 +151,16 @@ public class RestConceptControllerTeacher {
 	@PutMapping("/concepts/{conceptId}/answers/{answerId}")
 	public ResponseEntity<Answer> updateAnswer(@PathVariable long conceptId, @PathVariable long answerId,
 			@RequestBody Answer updatedAnswer){
-		answerService.deleteById(answerId); //Delete old answer
+		Answer oldAns = answerService.getOne(answerId);
+		if (oldAns == null)
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		updatedAnswer.setId(answerId);
+		updatedAnswer.setConcept(oldAns.getConcept());
+		updatedAnswer.setUser(oldAns.getUser());
+		if (updatedAnswer.getJustifications() == null)
+			updatedAnswer.setJustifications(updatedAnswer.getJustifications());
+		if (updatedAnswer.getQuestions() == null)
+			updatedAnswer.setQuestions(updatedAnswer.getQuestions());
 		answerService.save(updatedAnswer);
 		return new ResponseEntity<>(updatedAnswer, HttpStatus.OK);
 	}
