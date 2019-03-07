@@ -45,9 +45,7 @@ public class RestConceptControllerStudent {
 	@GetMapping("/concepts/{id}/markedquestions")
 	public Page<Question> getMarkedQuestions(@PathVariable long id,
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page) {
-		User user = userSession.getLoggedUser();
-		//Page<Question> questions = questionService.findByMarkedAndAnswer_Concept_Id(true, id, page);
-		Page<Question> questions = questionService.findByMarkedAndAnswer_Concept_IdAndUser(true, id, user, page);
+		Page<Question> questions = questionService.findByMarkedAndAnswer_Concept_IdAndUser(true, id, userSession.getLoggedUser(), page);
 		return questions;
 	}
 	
@@ -55,7 +53,6 @@ public class RestConceptControllerStudent {
 	@GetMapping("/concepts/{id}/unmarkedquestions")
 	public Page<Question> getUnmarkedQuestions(@PathVariable long id,
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page) {
-		//Page<Question> questions = questionService.findByMarkedAndAnswer_Concept_Id(false, id, page);
 		Page<Question> questions = questionService.findByMarkedAndAnswer_Concept_IdAndUser(false, id, userSession.getLoggedUser(), page);
 		return questions;
 	}
