@@ -33,12 +33,12 @@ public class UserRepositoryAuthenticationProvider implements AuthenticationProvi
 		User user = userRepository.findByName(auth.getName());
 
 		if (user == null) {
-			throw new BadCredentialsException("Usuario no encontrado");
+			throw new BadCredentialsException("User not found.");
 		}
 
 		String password = (String) auth.getCredentials();
 		if (!new BCryptPasswordEncoder().matches(password, user.getPassword())) {
-			throw new BadCredentialsException("Contraseña incorrecta");
+			throw new BadCredentialsException("Wrong password.");
 		}
 
 		List<GrantedAuthority> roles = new ArrayList<>();
