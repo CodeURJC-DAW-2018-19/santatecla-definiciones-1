@@ -19,14 +19,14 @@ import com.fasterxml.jackson.annotation.JsonView;
 public class Answer {
 	public interface Basic {}
 	public interface Justifications {}
-	public interface Marked {}
+	public interface Marked extends Basic{}
 	
 	@JsonView(Basic.class)
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	@Column(length = 10000)
 	@JsonView(Basic.class)
+	@Column(length = 1000)
 	private String answerText;
 	@JsonView(Basic.class)
 	private boolean marked;

@@ -50,15 +50,13 @@ public class RestChapterController {
 		else
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
-
-	//Not working
+	
 	@JsonView(ChapterConcept.class)
-	@RequestMapping(value = { "", "/chapters" }, method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<Chapter> addChapter(@PathVariable String chapterName) {
-		Chapter chapter = new Chapter(chapterName);
+	@RequestMapping(value= {"", "/addChapter"} , method = RequestMethod.POST)
+	public Chapter addChapter(@RequestBody Chapter chapter){
 		chapterService.save(chapter);
-		return new ResponseEntity<>(chapter, HttpStatus.OK);
+		return chapter;
 	}
 
 	@JsonView(ChapterConcept.class)

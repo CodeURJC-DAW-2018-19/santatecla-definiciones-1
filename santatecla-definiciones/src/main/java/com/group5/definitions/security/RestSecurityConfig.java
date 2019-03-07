@@ -29,14 +29,13 @@ public class RestSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		// This may need to be edited in case more URLs are done
 		http.authorizeRequests().antMatchers(HttpMethod.PUT, "/api/concepts/**").hasAnyRole("TEACHER");
-		http.authorizeRequests().antMatchers(HttpMethod.PUT, "/api/justifications/**").hasAnyRole("TEACHER");
-		http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/api/justifications/**").hasAnyRole("TEACHER");
 		http.authorizeRequests().antMatchers(HttpMethod.PUT, "/api/answers/**").hasAnyRole("TEACHER");
+		http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/api/answers/**").hasAnyRole("TEACHER");
 
 		http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/diagraminfo").hasAnyRole("TEACHER", "STUDENT");
-		http.authorizeRequests().antMatchers(HttpMethod.GET, "/concepts/{id}/markedquestion").hasAnyRole("STUDENT");
-		http.authorizeRequests().antMatchers(HttpMethod.GET, "/concepts/{id}/unmarkedquestion").hasAnyRole("STUDENT");
-		http.authorizeRequests().antMatchers(HttpMethod.GET, "/concepts/{id}/newquestion").hasAnyRole("STUDENT");
+		http.authorizeRequests().antMatchers(HttpMethod.GET, "/concepts/*/markedquestion").hasAnyRole("STUDENT");
+		http.authorizeRequests().antMatchers(HttpMethod.GET, "/concepts/*/unmarkedquestion").hasAnyRole("STUDENT");
+		http.authorizeRequests().antMatchers(HttpMethod.GET, "/concepts/*/newquestion").hasAnyRole("STUDENT");
 		
 		// Unnecesary but left here in case is needed in the future
 		//http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/concept/*/image").hasAnyRole("TEACHER");

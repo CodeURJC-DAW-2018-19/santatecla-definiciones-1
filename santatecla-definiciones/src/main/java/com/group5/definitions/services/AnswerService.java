@@ -20,7 +20,7 @@ public class AnswerService {
 	private AnswerRepository answerRepository;
 
 	public Answer getOne(Long id) {
-		return answerRepository.getOne(id);
+		return answerRepository.findById(id).get();
 	}
 
 	public void save(Answer ans) {
