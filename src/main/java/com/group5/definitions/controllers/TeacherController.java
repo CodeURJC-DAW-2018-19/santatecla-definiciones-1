@@ -69,7 +69,7 @@ public class TeacherController {
 				if (ans.getJustifications().size() == 0) {
 					newJ = new Justification(justificationText.toUpperCase(), true, userSession.getLoggedUser());
 					newJ.setValid(jValid.equals("yes"));
-					if (jValid.equals("yes"))
+					if (jValid.equals("no"))
 						newJ.setError(error.toUpperCase());
 					ans.addJustification(newJ);
 				}
