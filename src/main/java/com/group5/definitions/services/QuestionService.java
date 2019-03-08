@@ -34,4 +34,13 @@ public class QuestionService {
 		return questionRepository.findByMarkedAndAnswer_Concept_Id(marked, id, page);
 	}
 
+	public Page<Question> findAllByUser(User user, Pageable page) {
+		
+		return questionRepository.findAllByUser(user, page);
+	}
+
+	public Question findById(long questionId) {
+		return questionRepository.getOne(questionId);
+	}
+
 }
