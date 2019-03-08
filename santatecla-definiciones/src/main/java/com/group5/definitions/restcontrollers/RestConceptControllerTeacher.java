@@ -114,9 +114,7 @@ public class RestConceptControllerTeacher {
 	}
 
 	
-	
-	interface AnswerMarked extends Answer.Marked, Answer.Justifications, Justification.Basic {}
-	@JsonView(AnswerMarked.class)
+	@JsonView(Answer.Marked.class)
 	@GetMapping(value = {"/concepts/{conceptId}", "/concepts/{conceptId}/markedanswers"})
 	public Page<Answer> getMarked(@PathVariable long conceptId, @PageableDefault(size = DEFAULT_SIZE) Pageable page) {
 		return answerService.findByMarkedAndConceptId(true, conceptId, page);
@@ -173,7 +171,7 @@ public class RestConceptControllerTeacher {
 		return new ResponseEntity<>(answer, HttpStatus.OK);
 	}
 	
-	@JsonView(Answer.Marked.class)
+	@JsonView(Justification.Basic.class)
 	@PutMapping("/concepts/{conceptId}/justifications/{justId}")
 	public ResponseEntity<Justification> correctJustification(@PathVariable long conceptId,@PathVariable long justId, 
 			@RequestParam boolean valid, @RequestParam(required = false) String errorText) {
@@ -185,6 +183,7 @@ public class RestConceptControllerTeacher {
 			else
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+		jus.setMarked(true);
 		jus.setValid(valid);
 		jus.setError(errorText);
 		justificationService.save(jus);
