@@ -91,20 +91,21 @@ public class RestConceptControllerTeacher {
 	@JsonView(Answer.Basic.class)
 	@PutMapping(value = "/answers/{id}")
 	public ResponseEntity<Answer> modifyAnswer(@PathVariable Long id, @RequestBody Answer updatedAnswer,
-			@RequestBody(required = false) Justification jus) {
+			@RequestParam(required = false) long justId) {
 		Answer oldAnswer = answerService.getOne(id);
 		if (oldAnswer != null) {
 			updatedAnswer.setId(id);
 			if (updatedAnswer.getConcept() == null) {
 				updatedAnswer.setConcept(oldAnswer.getConcept());
 			}
-			if(!updatedAnswer.isCorrect())
+			if(!updatedAnswer.isCorrect()) {	
+				Justification jus = justificationService.findById(justId);
 				if(jus != null) {
-					jus.setAnswer(updatedAnswer);
 					justificationService.save(jus);
 					updatedAnswer.addJustification(jus);
 				}else
 					return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
 			answerService.save(updatedAnswer);
 			return new ResponseEntity<>(updatedAnswer, HttpStatus.OK);
 		} else {
@@ -144,20 +145,23 @@ public class RestConceptControllerTeacher {
 		}
 	}
 	
-	interface AnswerJustification extends Answer.Basic, Justification.Basic{}
-	@JsonView(AnswerJustification.class)
+	@JsonView(Answer.Marked.class)
 	@PutMapping("/concepts/{conceptId}/mark/{answerId}")
-	public ResponseEntity<Answer> correctAnswer(@PathVariable long conceptId, @PathVariable long answerId, 
-			@RequestBody Answer answer, @RequestBody(required = false)Justification jus) {
-		if(!answer.isCorrect())
-			if(jus != null) {
+	public ResponseEntity<Answer> correctAnswer(@PathVariable long conceptId, @PathVariable long answerId,
+			@RequestParam boolean correct, @RequestParam(required = false) String justificationTextNew) {
+		Answer answer = answerService.getOne(answerId);
+		if(!correct) {
+			if(justificationTextNew != null) {
+				Justification jus = new Justification(justificationTextNew, true, answer.getUser());
 				jus.setValid(true);
 				jus.setAnswer(answer);
 				justificationService.save(jus);
 				answer.addJustification(jus);
 			}else
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		
+		}
+		answer.setCorrect(correct);
+		answer.setMarked(true);
 		for (Question q : answer.getQuestions()) {
 			if (!q.isMarked() && (q.getType() == 0)) {
 				q.setMarked(true);
@@ -167,6 +171,26 @@ public class RestConceptControllerTeacher {
 		}
 		answerService.save(answer);
 		return new ResponseEntity<>(answer, HttpStatus.OK);
+	}
+	
+	@JsonView(Answer.Marked.class)
+	@PutMapping("/concepts/{conceptId}/justifications/{justId}")
+	public ResponseEntity<Justification> correctJustification(@PathVariable long conceptId,@PathVariable long justId, 
+			@RequestParam boolean valid, @RequestParam(required = false) String errorText) {
+		Justification jus = justificationService.findById(justId);
+		Answer ans = jus.getAnswer();
+		if(!valid) {
+			if(errorText != null) 
+				jus.setError(errorText);
+			else
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		jus.setValid(valid);
+		jus.setError(errorText);
+		justificationService.save(jus);
+		ans.addJustification(jus);
+		answerService.save(ans);
+		return new ResponseEntity<>(jus, HttpStatus.OK);
 	}
 	
 }
