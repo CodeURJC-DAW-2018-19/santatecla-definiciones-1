@@ -78,6 +78,7 @@ For this you will need to have Docker installed. More info at: https://docs.dock
 The easiest way to build the application is using the *create_image.ps1* Powershell script in the *docker* directory. This will run a docker container with maven which will generate the .jar file and build a docker image with the application.
 If you have Maven installed you can also do:
 > mvn package
+
 This will generate the .jar in the *target* directory.
 Note that a mysql database will be needed.
 
@@ -85,8 +86,10 @@ Note that a mysql database will be needed.
 
 You can run the application using Docker Compose. For that, you have to go to the *docker* directory in your terminal and run the following command:
 > docker-compose up
+
 Note that you can also move the *docker-compose.yml* file anywhere and run the command from there, or use:
 > docker-compose -f PATH up
+
 Where PATH is the path in your file system where the file *docker-compose.yml* is.
 This will download all the needed images (mysql and app) from Docker Hub and run container with the database and the application.
 The application will run on port 8080.
