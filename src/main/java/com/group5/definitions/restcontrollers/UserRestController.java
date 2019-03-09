@@ -29,6 +29,7 @@ public class UserRestController {
 		// Assuming the password isn't encrypted in the Request Body
 		// Ignores roles added in user Request Body in favor of being only a student
 		User newUser = new User(user.getName(), user.getPassword(), "ROLE_STUDENT");
+		//Doesn't check if the username is already in the DB
 		userService.save(newUser);
 		return newUser;
 	}

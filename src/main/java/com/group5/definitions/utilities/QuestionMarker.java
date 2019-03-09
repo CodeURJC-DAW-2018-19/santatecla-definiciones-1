@@ -1,7 +1,6 @@
 package com.group5.definitions.utilities;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.group5.definitions.model.Answer;

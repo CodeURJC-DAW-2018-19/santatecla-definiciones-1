@@ -77,7 +77,7 @@ public class ChapterController {
 	public String getConcepts(Model model, HttpServletRequest req,
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page, 
 			@RequestParam("chapterId") String chapterId){
-		Page<Concept> concepts = conceptService.findByChapter_id(Long.parseLong(chapterId), page);
+		Page<Concept> concepts = conceptService.findByChapter_Id(Long.parseLong(chapterId), page);
 		model.addAttribute("concepts", concepts);
 		model.addAttribute("chapterId", chapterId);
 		model.addAttribute("teacher", req.isUserInRole("ROLE_TEACHER"));
