@@ -71,6 +71,4 @@ For running tthe application we need to open a STS environment like Spring and i
 
 ## Class Diagrams and Templates
 
-<img src="https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/DiagramaClases1.PNG"/>
-
-<img src="https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/DiagramaClases2.PNG"/>
+<img src="https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/ClassDiagram.png"/>
