@@ -52,7 +52,7 @@ Here is how it looks when you want to add a new answer
 
 ![Login](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/login.PNG)
 ![Register](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/register.PNG)
-*To split the student and teacher views a login and register is needed*
+*To split the student and teacher views a login or register is needed*
 
 ## Diagram
 
@@ -62,7 +62,34 @@ Here is how it looks when you want to add a new answer
 
 ## Development Environment
 
-For running tthe application we need to open a STS environment like Spring and import our project by Maven. To create a localhost we need to click on the boot dashboard and run our project into the local sercer. We have implemented the security into our project, so the way we open our web is using an explorer, like firefox, and type https :// localhost and the port 8443, like this: https://localhost:8443 and there is our web project.
+### Developing
+
+It's recomended to use an IDE with Maven support at worst, and is better if it has support for Spring and/or Spring Boot applications.
+We use the Spring Tool Suite (based on Eclipse). More info at: https://spring.io/tools
+You can run it by running the main class (Application).
+The application will run on port 8443, so if you're running it on localhost the url will be:
+https://localhost:8443
+Note that a Mysql database is needed, so you may have to edit the *application.properties* file on the *src/main/resources* directory properly.
+
+
+### Building the application image with Docker
+
+For this you will need to have Docker installed. More info at: https://docs.docker.com/install/
+The easiest way to build the application is using the *create_image.ps1* Powershell script in the *docker* directory. This will run a docker container with maven which will generate the .jar file and build a docker image with the application.
+If you have Maven installed you can also do:
+> mvn package
+This will generate the .jar in the *target* directory.
+Note that a mysql database will be needed.
+
+## How to run the application with Docker Compose
+
+You can run the application using Docker Compose. For that, you have to go to the *docker* directory in your terminal and run the following command:
+> docker-compose up
+Note that you can also move the *docker-compose.yml* file anywhere and run the command from there, or use:
+> docker-compose -f PATH up
+Where PATH is the path in your file system where the file *docker-compose.yml* is.
+This will download all the needed images (mysql and app) from Docker Hub and run container with the database and the application.
+The application will run on port 8080.
 
 ## Database Entities
 
