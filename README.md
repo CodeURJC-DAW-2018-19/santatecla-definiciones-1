@@ -102,3 +102,95 @@ The application will run on port 8080.
 ## Class Diagrams and Templates
 
 <img src="https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/ClassDiagram.png"/>
+
+
+# API Rest
+We divided the urls in different categories depending on the elements involved in them. Some urls are only accesible from the student view while others from the teacher. All of them are preceded by [/api/](https://localhost:8080/api/).
+
+## Chapters
+The standard url is: [/chapters/](https://localhost:8080/api/chapters/).
+> **Note:** There is an extra url for the home: ["/"](https://localhost:8080/api/). 
+
+It supports GET, POST and DELETE operations.
+
+The input information is usually a chapter, except for the GET operation where a Pageable attribute is the input. 
+The ouput is a ResponseEntity of the chapter, GET operation is an exception too, it returns a Page of chapters.
+
+## Concepts
+The standard url is: [/chapters/{id}/concepts/](https://localhost:8080/api/chapters/5/concepts/).
+> **Note:** id is the chapter identifier.
+
+It supports GET, POST, DELETE and PUT operations.
+
+The input information is usually a concept and the chapter id, except for the GET operation where a Pageable attribute is the input and not the concept. 
+The ouput is a ResponseEntity of the concept, GET operation is an exception too, it returns a Page of concepts.
+
+## Answers
+
+The standard url is: [/concepts/{conceptId}/answers/{id}/](https://localhost:8080/api/concepts/15/answers/28).
+> **Note:** conceptId is the concept identifier and id is the answer identifier .
+> 
+It supports GET, POST, DELETE and PUT operations. There are two GET operations, for marked and unmarked answers.
+- Marked answers: [/concepts/{conceptId}/](https://localhost:8080api//concepts/15/) or  [/concepts/{conceptId}/markedanswers/](https://localhost:8080/api/concepts/15/markedanswers).
+- Unmarked answers: [/concepts/{conceptId}/unmarkedanswers/](https://localhost:8080/concepts/15/unmarkedanswers.
+
+> **Note:** There is an extra PUT operation: [/concepts/{conceptId}/correct/{answerId}/](https://localhost:8080/api/concepts/15/correct/).
+> 
+The input information is usually the concept id and the answer id. PUT and POST also get an answer, and the GET methods get the concept id and a Pageable attribute.
+> **Note:** The  extra PUT operation gets the ids together with a correct and justificationText parameters.
+> 
+The ouput is a ResponseEntity of the answer, GET operation is an exception too, it returns a Page of answers, marked or unmarked accordingly.
+
+## Justifications
+
+The standard url is: [/answer/{ansId}/justifications/](https://localhost:8080/api/answer/15/justifications).
+> **Note:** ansId is the answer identifier.
+> 
+It supports POST, DELETE and PUT operations.
+> **Note:** There are no GET operations as the way to get the justifications if through the GETs of answer.
+> **Note:** There is an extra PUT operation: [/answer/{ansId}/correct/{justId}/](https://localhost:8080/api/concepts/15/correct/).
+> 
+The input information is usually the answer id and a justification. PUT gets also the justification id.
+> **Note:** The  extra PUT operation gets the ids together with a valid and errorText parameters.
+> 
+The ouput is a ResponseEntity of the justification.
+
+## Question
+The standard url is: [/concepts/{id}/](https://localhost:8080/api/concepts/15/).
+> **Note:** id is the concept identifier.
+
+It supports GET and POST operations.
+- Marked questions: [/concepts/{conceptId}/markedquestions/](https://localhost:8080/api/concepts/15/markedquestions).
+- Unmarked questions: [/concepts/{conceptId}/unmarkedquestions/](https://localhost:8080/api/concepts/15/unmarkedquestions).
+
+Their input information is the concept id and a Pageable attribute. The output is a page of questions.
+- Generate question: [/concepts/{conceptId}/newquestion/](https://localhost:8080/api/concepts/15/newquestion).
+
+The input is just the concept id and the output is a question.
+- Save answer: [/concepts/{conceptId}/saveanswer/](https://localhost:8080/api/concepts/15/newquestion).
+
+The input information is more than usual, question text, question type, answer text, answer option, answer id and question id, together with the concept id. The output is a ResponseEntity of an answer.
+
+## Diagram
+The only url is: [/diagraminfo/](https://localhost:8080/api/diagraminfo/).
+
+It only supports GET operations.
+
+The input information is just a Pageable attribute. 
+The ouput is a diagram and if the user is logged, their diagram.
+
+## Image
+The only url is: [/concepts/{id}/image/](https://localhost:8080/api/concepts/15/image/).
+> **Note:** id is the concept identifier.
+
+It supports GET and POST operations.
+
+The input information is just the concept id, the POST operation also need a MultipartFile. 
+The ouput is a ResposeEntity of an array of bytes.
+
+## User
+There is no standard url. There are two urls. 
+- Register: [/register/](https://localhost:8080/api/register).
+It input information is a user and output is a user too.
+- User: [/currentuser/](https://localhost:8080/api/currentuser/).
+There is no input information while output is a user.
