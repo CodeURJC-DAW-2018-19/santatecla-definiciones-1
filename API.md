@@ -10,11 +10,11 @@ Allows a user to log in.
 
 ## Chapters
 The following queries will be preceded by /chapters
-> **Note:** There is an extra url for the home: "/". 
+
 #### Show chapters
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#url-1)URL
     
-    < /chapters >
+    < /chapters > or < / >
     
 -   ##### []([](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#method-1))Method:
     
@@ -23,11 +23,10 @@ The following queries will be preceded by /chapters
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-1)URL Params:
     
     -   page=[int]
+
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-1)Example of query:
     
-    -   URL
-        
-        `/api/chapters`
+    -   URL: 	`/api/chapters`
         
 - ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-1) Success Response:
 	```
@@ -98,25 +97,28 @@ The following queries will be preceded by /chapters
     
     `POST`
     
--   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-2)Data Params:
-	```
-	{
-		"id":56,
-		"chapterName":"Tema 12 prueba"
-	}
-	 ```
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-2)URL Params:
+
+	`EMPTY`
+
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-2)Example of query:
     
-    -   URL
-        
-        `/api/chapters`
+    -   URL: `/api/chapters`
+	
+	-   Data Params:
+		```
+			{
+				"id":56,
+				"chapterName":"Tema 12 prueba"
+			}
+		```
         
 - ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-2)Success Response:
 	```
-	{
-		"id": 56,
-		"chapterName": "Tema 12 prueba"
-	}
+		{
+			"id": 56,
+			"chapterName": "Tema 12 prueba"
+		}
 	```
 
 #### Erase chapter
@@ -128,16 +130,15 @@ The following queries will be preceded by /chapters
     
     `DELETE`
     
+	
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-3)URL Params:
 
-	- id=[long] 
+	- 	id=[long] 
     
 	
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-3)Example of query:
     
-    -   URL
-        
-        `/api/chapters/56`
+    -   URL: `/api/chapters/56`
         
 - ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-3)Success Response:
 	```
@@ -163,12 +164,12 @@ The following queries will be preceded by /chapters/{id}/concepts
     
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-4)URL Params:
     
+	- 	id=[long]
     -   page=[int]
+
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-4)Example of query:
     
-    -   URL
-        
-        `/api/chapters/4/concepts`
+    -   URL:  `/api/chapters/4/concepts?page=0`
         
 - ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-4) Success Response:
 	```
@@ -248,20 +249,23 @@ The following queries will be preceded by /chapters/{id}/concepts
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#method-5)Method:
     
     `POST`
-    
--   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-5)Data Params:
-	```
-		{
-            "id": 56,
-            "conceptName": "concepto prueba",
-            "URL": "http://www.urldelconcepto.com"
-        }
-	 ```
+
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-5)URL Params:
+
+	- 	id=[long] 
+
+
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-5)Example of query:
     
-    -   URL
-        
-        `/api/chapters/4/concepts`
+    -   URL: `/api/chapters/4/concepts`
+	-	Data Params:
+		```
+			{
+				"id": 56,
+				"conceptName": "concepto prueba",
+				"URL": "http://www.urldelconcepto.com"
+			}
+		```
         
 - ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-5)Success Response:
 	```
@@ -280,31 +284,31 @@ The following queries will be preceded by /chapters/{id}/concepts
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#method-6)Method:
     
     `PUT`
-    
--   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-6)Data Params:
 
-	```
-		{
-            "id": 16,
-            "conceptName": "concepto actualizado",
-            "URL": "http://www.urldelconceptoactualizado.com"
-        }
-	```
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-6)URL Params:
+
+	- 	id=[long]
+	- 	conceptId=[long] 
     
-	
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-6)Example of query:
     
-    -   URL
-        
-        `/api/chapters/4/concepts/16`
+    -   URL:  `/api/chapters/4/concepts/16`
+	-   Data Params:
+		```
+			{
+				"id": 16,
+				"conceptName": "concepto actualizado",
+				"URL": "http://www.urldelconceptoactualizado.com"
+			}
+		```
         
 - ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-6)Success Response:
 	```
 		{
-            "id": 16,
-            "conceptName": "concepto actualizado",
-            "URL": "http://www.urldelconceptoactualizado.com"
-        }
+			"id": 16,
+			"conceptName": "concepto actualizado",
+			"URL": "http://www.urldelconceptoactualizado.com"
+    	}
 	```
 
 #### Erase concept
@@ -316,16 +320,14 @@ The following queries will be preceded by /chapters/{id}/concepts
     
     `DELETE`
     
--   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-7)Data Params:
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-7)URL Params:
 
-	`EMPTY`
-    
+	-	id=[long]
+	- 	conceptId=[long]
 	
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-7)Example of query:
     
-    -   URL
-        
-        `/api/chapters/4/concepts/56`
+    -   URL: `/api/chapters/4/concepts/56`
         
 - ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-7)Success Response:
 	```
@@ -352,98 +354,97 @@ The following queries will be preceded by /diagraminfo
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-8)URL Params:
     
     -   `EMPTY`
+
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-8)Example of query:
     
-    -   URL
-        
-        `/api/diagraminfo`
+    -   URL: `/api/diagraminfo`
 
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-8)Success response:
-
-		```
-			{
-				"size": 0,
-				"number": 0,
-				"totalElements": 11,
-				"last": true,
-				"totalPages": 1,
-				"sort": {
-					"sorted": false,
-					"unsorted": true,
-					"empty": true
+	```
+		{
+			"size": 0,
+			"number": 0,
+			"totalElements": 11,
+			"last": true,
+			"totalPages": 1,
+			"sort": {
+				"sorted": false,
+				"unsorted": true,
+				"empty": true
+			},
+			"first": true,
+			"numberOfElements": 11,
+			"content": [
+				{
+					"chapterName": "Tema 1: Desarrollo web servidor",
+					"unmarked": 1,
+					"correct": 9,
+					"incorrect": 2
 				},
-				"first": true,
-				"numberOfElements": 11,
-				"content": [
-					{
-						"chapterName": "Tema 1: Desarrollo web servidor",
-						"unmarked": 1,
-						"correct": 9,
-						"incorrect": 2
-					},
-					{
-						"chapterName": "Tema 2: Despliegue de webs",
-						"unmarked": 0,
-						"correct": 0,
-						"incorrect": 0
-					},
-					{
-						"chapterName": "Tema 3: Desarrollo web de cliente avanzado: SPA",
-						"unmarked": 0,
-						"correct": 0,
-						"incorrect": 0
-					},
-					{
-						"chapterName": "Tema 4",
-						"unmarked": 0,
-						"correct": 0,
-						"incorrect": 0
-					},
-					{
-						"chapterName": "Tema 5",
-						"unmarked": 0,
-						"correct": 0,
-						"incorrect": 0
-					},
-					{
-						"chapterName": "Tema 6",
-						"unmarked": 0,
-						"correct": 0,
-						"incorrect": 0
-					},
-					{
-						"chapterName": "Tema 7",
-						"unmarked": 0,
-						"correct": 0,
-						"incorrect": 0
-					},
-					{
-						"chapterName": "Tema 8",
-						"unmarked": 0,
-						"correct": 0,
-						"incorrect": 0
-					},
-					{
-						"chapterName": "Tema 9",
-						"unmarked": 0,
-						"correct": 0,
-						"incorrect": 0
-					},
-					{
-						"chapterName": "Tema 10",
-						"unmarked": 0,
-						"correct": 0,
-						"incorrect": 0
-					},
-					{
-						"chapterName": "Tema 11",
-						"unmarked": 0,
-						"correct": 0,
-						"incorrect": 0
-					}
-				]
-			}
-		```
+				{
+					"chapterName": "Tema 2: Despliegue de webs",
+					"unmarked": 0,
+					"correct": 0,
+					"incorrect": 0
+				},
+				{
+					"chapterName": "Tema 3: Desarrollo web de cliente avanzado: SPA",
+					"unmarked": 0,
+					"correct": 0,
+					"incorrect": 0
+				},
+				{
+					"chapterName": "Tema 4",
+					"unmarked": 0,
+					"correct": 0,
+					"incorrect": 0
+				},
+				{
+					"chapterName": "Tema 5",
+					"unmarked": 0,
+					"correct": 0,
+					"incorrect": 0
+				},
+				{
+					"chapterName": "Tema 6",
+					"unmarked": 0,
+					"correct": 0,
+					"incorrect": 0
+				},
+				{
+					"chapterName": "Tema 7",
+					"unmarked": 0,
+					"correct": 0,
+					"incorrect": 0
+				},
+				{
+					"chapterName": "Tema 8",
+					"unmarked": 0,
+					"correct": 0,
+					"incorrect": 0
+				},
+				{
+					"chapterName": "Tema 9",
+					"unmarked": 0,
+					"correct": 0,
+					"incorrect": 0
+				},
+				{
+					"chapterName": "Tema 10",
+					"unmarked": 0,
+					"correct": 0,
+					"incorrect": 0
+				},
+				{
+					"chapterName": "Tema 11",
+					"unmarked": 0,
+					"correct": 0,
+					"incorrect": 0
+				}
+			]
+		}
+	```
+		
 
 
 ## Answers
@@ -460,13 +461,12 @@ The following queries will be preceded by /concepts/{id}
     
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-9)URL Params:
     
+	-	id=[long]
     -   page=[int]
 
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-9)Example of query:
     
-    -   URL
-        
-        `/api/concepts/15/markedanswers`
+    -   URL: `/api/concepts/15/markedanswers?page=0`
         
 - ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-9) Success Response:
 	```
@@ -592,13 +592,12 @@ The following queries will be preceded by /concepts/{id}
     
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-10)URL Params:
     
+	-	id=[long]
     -   page=[int]
 
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-10)Example of query:
     
-    -   URL
-        
-        `/api/concepts/15/unmarkedanswers`
+    -   URL:  `/api/concepts/15/unmarkedanswers?page=0`
         
 - ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-10) Success Response:
 	```
@@ -636,33 +635,31 @@ The following queries will be preceded by /concepts/{id}
     
     `POST`
     
--   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-11)Data Params:
-	```
-		{
-            "id": 56,
-            "answerText": "respuesta de prueba",
-            "marked": true,
-            "correct": true
-        }
-	 ```
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-11)Example of query:
     
-    -   URL
-        
-        `/api/concepts/15/answers/`
+    -   URL: `/api/concepts/15/answers/`
+	-	Data Params:
+		```
+			{
+				"id": 56,
+				"answerText": "respuesta de prueba",
+				"marked": true,
+				"correct": true
+			}
+		```
         
 - ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-11)Success Response:
 	```
 		{
-            "id": 56,
-            "answerText": "respuesta de prueba",
-            "marked": true,
-            "correct": true,
+			"id": 56,
+			"answerText": "respuesta de prueba",
+			"marked": true,
+			"correct": true,
 			"justifications": null
-        }
+		}
 	```
 
-#### Modify answer
+#### Modify justification
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#url-12)URL
     
     < /concepts/{id}/answers/{answerId} >
@@ -673,18 +670,18 @@ The following queries will be preceded by /concepts/{id}
     
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-12)URL Params:
 
-	- answerText=[String]
-	- correct=[boolean]
-	- justText=[String]
-	- valid=[boolean]
-	- errorText=[String]
+	- 	id=[long]
+	-	answerId=[long]
+	- 	answerText=[String]
+	- 	correct=[boolean]
+	- 	justText=[String]
+	- 	valid=[boolean]
+	- 	errorText=[String]
     
 	
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-12)Example of query:
     
-    -   URL
-        
-        `/api/concepts/15/answers/56?answerText=respuesta actualizada&correct=false&justText=justification de prueba&valid=true&errorText=no se necesita`
+    -   URL: `/api/concepts/15/answers/56?answerText=respuesta actualizada&correct=false&justText=justification de prueba&valid=true&errorText=no se necesita`
 `
         
 - ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-6)Success Response:
@@ -709,18 +706,18 @@ The following queries will be preceded by /concepts/{id}
     
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-13)URL Params:
 
-	- correct=[boolean]
-	- justText=[String]
+	- 	id=[long]
+	-	answerId=[long]
+	-	correct=[boolean]
+	- 	justText=[String]
     
 	
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-13)Example of query:
     
-    -   URL
+    -   URL: `https://localhost:8443/api/concepts/15/correct/30?correct=false&justificationTextNew=nueva justificacion`
+
         
-        `https://localhost:8443/api/concepts/15/correct/30?correct=false&justificationTextNew=nueva justificacion`
-`
-        
-- ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-6)Success Response:
+- ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-13)Success Response:
 	```
 		{
 			"id": 30,
@@ -738,31 +735,548 @@ The following queries will be preceded by /concepts/{id}
 			]
 		}
 	```
-#### Erase concept
--   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#url-7)URL
+#### Erase answer
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#url-14)URL
     
-    < /chapters/{id}/concepts/{conceptId} >
+    < /concepts/{id}/answers/{answerId} >
     
--   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#method-7)Method:
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#method-14)Method:
     
     `DELETE`
     
--   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-7)Data Params:
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-14)URL Params:
+
+	- 	id=[long]
+	-	answerId=[long]
+    
+	
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-14)Example of query:
+    
+    -   URL: `/api/concepts/15/answers/56`
+        
+- ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-14)Success Response:
+	```
+		{
+			"id": 56,
+			"answerText": "respuesta de prueba",
+			"marked": true,
+			"correct": true,
+			"justifications": []
+		}
+	```
+
+## Justifications
+The following queries will be preceded by /answers/{answerId}
+
+#### New justification
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#url-15)URL
+    
+    < /answers/{answerId}/justifications >
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#method-15)Method:
+    
+    `POST`
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-15)	URL params:
+    
+    - 	answerId=[long]
+
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-15)Example of query:
+    
+    -   URL: `api/answers/29/justifications`
+	-	Data Params:
+		```
+			{
+				"id": 56,
+				"justificationText": "justificacion añadida",
+				"marked": true,
+				"valid": true,
+				"error": "no se vera"
+			}
+		```
+        
+- ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-15) Success Response:
+	```
+		{
+			"id": 56,
+			"answerText": "respuesta de prueba",
+			"marked": true,
+			"correct": true,
+			"justifications": []
+		}
+	```
+
+#### Modify justification
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#url-16)URL
+    
+    < /answers/{answerId}/justifications/{justId} >
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#method-16)Method:
+    
+    `PUT`
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-16)URL Params:
+    
+	- 	answerId=[long]
+	- 	justId=[long]
+
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-16)Example of query:
+    
+    -   URL: `/api/answers/29/justifications/56`
+	- 	Data Params: 
+		```
+			{
+				"id": 56,
+				"justificationText": "justificacion actualizada",
+				"marked": true,
+				"valid": false,
+				"error": "texto de error"
+			}
+		```
+        
+- ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-16) Success Response:
+	```
+		{
+			"id": 56,
+			"justificationText": "justificacion añadida",
+			"marked": true,
+			"valid": false,
+			"error": "texto de error"
+		}
+	```
+
+#### Correct justification
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#url-17)URL
+    
+    < /answers/{answerId}/correct/{justId} >
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#method-17)Method:
+    
+    `PUT`
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-17)URL Params:
+    
+	- 	answerId=[long]
+	- 	justId=[long]
+	- 	valid=[boolean]
+	- 	errorText=[String]
+
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-17)Example of query:
+    
+    -   URL: `/api/answers/31/correct/42?valid=true&errorText=not needed`
+        
+- ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-17) Success Response:
+	```
+		{
+			"id": 56,
+			"justificationText": "justificacion añadida",
+			"marked": true,
+			"valid": false,
+			"error": "texto de error"
+		}
+	```
+
+#### Erase justification
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#url-18)URL
+    
+    < /answers/{answerId}/justifications/{justId} >
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#method-18)Method:
+    
+    `DELETE`
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-18)URL Params:
+
+	- 	answerId=[long]
+	- 	justId=[long]
+    
+	
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-18)Example of query:
+    
+    -   URL: `/api/answers/29/justifications/56`
+        
+- ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-18)Success Response:
+	```
+		{
+			"id": 56,
+			"answerText": "respuesta de prueba",
+			"marked": true,
+			"correct": true,
+			"justifications": []
+		}
+	```
+
+## Image
+The following queries will be preceded by /concepts/{id}/image
+
+#### New image
+
+-	##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#url-19)URL
+    
+    < /concepts/{id}/image >
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#method-19)Method:
+    
+    `POST`
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-19)URL Params:
+
+	- 	id=[long]
+	-	file=[MultipartFile]
+    
+	
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-19)Example of query:
+    
+    -   URL: `/api/concepts/15/image`
+	-	Data params: `File: image file format (*.jpg, *.jpeg, *.png)`
+        
+#### Show image
+
+-	##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#url-20)URL
+    
+    < /concepts/{id}/image >
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#method-20)Method:
+    
+    `GET`
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-20)URL Params:
+
+	- 	id=[long]
+    
+	
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-20)Example of query:
+    
+    -   URL: `/api/concepts/15/image`
+
+## User
+The following queries are preceded by /api
+
+#### New user
+
+-	##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#url-21)URL
+    
+    < /register >
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#method-21)Method:
+    
+    `POST`
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-21)URL Params:
+
+	`EMPTY`
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-21)Example of query:
+    
+    -   URL: `/api/register`
+	-	Data params: 
+		```
+			{
+				"id": 56,
+				"name": "usertest",
+				"password": "usertest",
+				"roles": [
+					"ROLE_STUDENT"
+				]
+			}
+		```
+
+- ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-21)Success Response:
+
+	```
+		{
+			"id": 56,
+			"name": "usertest",
+			"password": "$2a$10$fJkbzP2xv9gmTUtVKoBIe.VX79DirJMpy3Fd3PWVWJpSnVnouCQv.",
+			"roles": [
+				"ROLE_STUDENT"
+			]
+		}
+	```
+        
+#### Show current user
+
+-	##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#url-22)URL
+    
+    < /currentuser >
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#method-22)Method:
+    
+    `GET`
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-22)URL Params:
 
 	`EMPTY`
     
 	
--   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-7)Example of query:
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-22)Example of query:
     
-    -   URL
-        
-        `/api/chapters/4/concepts/56`
-        
-- ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-7)Success Response:
+    -   URL: `/api/currentuser`
+
+- ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-22)Success Response:
+
 	```
 		{
 			"id": 56,
-			"conceptName": "concepto prueba",
-			"URL": "http://www.urldelconcepto.com"
+			"name": "usertest",
+			"password": "$2a$10$fJkbzP2xv9gmTUtVKoBIe.VX79DirJMpy3Fd3PWVWJpSnVnouCQv.",
+			"roles": [
+				"ROLE_STUDENT"
+			]
+		}
+	```
+
+## Question
+The following queries are preceded by /concepts/{id}
+
+#### Show marked questions
+
+-	##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#url-23)URL
+    
+    < /concepts/{id}/markedquestions >
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#method-23)Method:
+    
+    `GET`
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-23)URL Params:
+
+	- 	id=[long]
+	- 	page=[int]
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-23)Example of query:
+    
+    -   URL: `/api/concepts/15/markedquestions`
+
+- ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-23)Success Response:
+
+	```
+		{
+			"size": 10,
+			"number": 0,
+			"totalElements": 11,
+			"last": false,
+			"totalPages": 2,
+			"sort": {
+				"sorted": false,
+				"unsorted": true,
+				"empty": true
+			},
+			"first": true,
+			"numberOfElements": 10,
+			"content": [
+				{
+					"id": 43,
+					"questionText": "¿ES CORRECTO AFIRMAR QUE SPRING ES UN FRAMEWORK QUE PERMITE A UNA APLICACIÓN EJECUTARSE TANTO EN UN SERVIDOR DE APLICACIONES COMO EN UN SERVIDOR WEB?",
+					"type": 2,
+					"yesNoQuestion": true,
+					"userResponse": true,
+					"marked": true,
+					"correct": true
+				},
+				{
+					"id": 44,
+					"questionText": "¿ES CIERTO QUE SPRING NO ES UN FRAMEWORK DE DESARROLLO DE APLICACIONES WEB PORQUE SÓLO SE PUEDE UTILIZAR PARA DESARROLLAR SERVICIOS REST?",
+					"type": 3,
+					"yesNoQuestion": true,
+					"userResponse": true,
+					"marked": true,
+					"correct": false
+				},
+				{
+					"id": 47,
+					"questionText": "¿ES CORRECTO AFIRMAR QUE SPRING ES UN FRAMEWORK QUE PERMITE A UNA APLICACIÓN EJECUTARSE TANTO EN UN SERVIDOR DE APLICACIONES COMO EN UN SERVIDOR WEB?",
+					"type": 2,
+					"yesNoQuestion": true,
+					"userResponse": true,
+					"marked": true,
+					"correct": true
+				},
+				{
+					"id": 48,
+					"questionText": "¿ES CORRECTO AFIRMAR QUE SPRING ES UN FRAMEWORK QUE PERMITE A UNA APLICACIÓN EJECUTARSE TANTO EN UN SERVIDOR DE APLICACIONES COMO EN UN SERVIDOR WEB?",
+					"type": 2,
+					"yesNoQuestion": true,
+					"userResponse": true,
+					"marked": true,
+					"correct": true
+				},
+				{
+					"id": 49,
+					"questionText": "¿ES CORRECTO AFIRMAR QUE SPRING ES UN FRAMEWORK QUE PERMITE A UNA APLICACIÓN EJECUTARSE TANTO EN UN SERVIDOR DE APLICACIONES COMO EN UN SERVIDOR WEB?",
+					"type": 2,
+					"yesNoQuestion": true,
+					"userResponse": true,
+					"marked": true,
+					"correct": true
+				},
+				{
+					"id": 50,
+					"questionText": "¿ES CORRECTO AFIRMAR QUE SPRING ES UN FRAMEWORK QUE PERMITE A UNA APLICACIÓN EJECUTARSE TANTO EN UN SERVIDOR DE APLICACIONES COMO EN UN SERVIDOR WEB?",
+					"type": 2,
+					"yesNoQuestion": true,
+					"userResponse": true,
+					"marked": true,
+					"correct": true
+				},
+				{
+					"id": 51,
+					"questionText": "¿ES CORRECTO AFIRMAR QUE SPRING ES UN FRAMEWORK QUE PERMITE A UNA APLICACIÓN EJECUTARSE TANTO EN UN SERVIDOR DE APLICACIONES COMO EN UN SERVIDOR WEB?",
+					"type": 2,
+					"yesNoQuestion": true,
+					"userResponse": true,
+					"marked": true,
+					"correct": true
+				},
+				{
+					"id": 52,
+					"questionText": "¿ES CORRECTO AFIRMAR QUE SPRING ES UN FRAMEWORK QUE PERMITE A UNA APLICACIÓN EJECUTARSE TANTO EN UN SERVIDOR DE APLICACIONES COMO EN UN SERVIDOR WEB?",
+					"type": 2,
+					"yesNoQuestion": true,
+					"userResponse": true,
+					"marked": true,
+					"correct": true
+				},
+				{
+					"id": 53,
+					"questionText": "¿ES CORRECTO AFIRMAR QUE SPRING ES UN FRAMEWORK QUE PERMITE A UNA APLICACIÓN EJECUTARSE TANTO EN UN SERVIDOR DE APLICACIONES COMO EN UN SERVIDOR WEB?",
+					"type": 2,
+					"yesNoQuestion": true,
+					"userResponse": true,
+					"marked": true,
+					"correct": true
+				},
+				{
+					"id": 54,
+					"questionText": "¿ES CORRECTO AFIRMAR QUE SPRING ES UN FRAMEWORK QUE PERMITE A UNA APLICACIÓN EJECUTARSE TANTO EN UN SERVIDOR DE APLICACIONES COMO EN UN SERVIDOR WEB?",
+					"type": 2,
+					"yesNoQuestion": true,
+					"userResponse": true,
+					"marked": true,
+					"correct": true
+				}
+			]
+		}
+	```
+
+#### Show unmarked questions
+
+-	##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#url-24)URL
+    
+    < /concepts/{id}/unmarkedquestions >
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#method-24)Method:
+    
+    `GET`
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-24)URL Params:
+
+	- 	id=[long]
+	- 	page=[int]
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-24)Example of query:
+    
+    -   URL: `/api/concepts/15/unmarkedquestions`
+
+- ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-24)Success Response:
+
+	```
+		{
+			"size": 10,
+			"number": 0,
+			"totalElements": 2,
+			"last": true,
+			"totalPages": 1,
+			"sort": {
+				"sorted": false,
+				"unsorted": true,
+				"empty": true
+			},
+			"first": true,
+			"numberOfElements": 2,
+			"content": [
+				{
+					"id": 45,
+					"questionText": "¿QUÉ ES SPRING?",
+					"type": 0,
+					"yesNoQuestion": false,
+					"userResponse": false,
+					"marked": false,
+					"correct": false
+				},
+				{
+					"id": 46,
+					"questionText": "¿POR QUÉ NO ES CORRECTO AFIRMAR QUE SPRING ES UN FRAMEWORK COMERCIAL?",
+					"type": 1,
+					"yesNoQuestion": false,
+					"userResponse": false,
+					"marked": false,
+					"correct": false
+				}
+			]
+		}
+	```
+
+#### Show new question
+
+-	##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#url-25)URL
+    
+    < /concepts/{id}/newquestion >
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#method-25)Method:
+    
+    `GET`
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-25)URL Params:
+
+	- 	id=[long]
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-25)Example of query:
+    
+    -   URL: `/api/concepts/15/newquestion`
+
+- ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-25)Success Response:
+	```
+		{
+			"id": 0,
+			"questionText": "¿ES CIERTO QUE SPRING NO ES UN FRAMEWORK DE DESARROLLO DE APLICACIONES WEB PORQUE SÓLO SE PUEDE UTILIZAR PARA DESARROLLAR SERVICIOS REST?",
+			"type": 3,
+			"yesNoQuestion": true,
+			"userResponse": false,
+			"marked": false,
+			"correct": false
+		}
+	```
+
+#### Save answer
+
+-	##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#url-26)URL
+    
+    < /concepts/{id}/saveanswer >
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#method-26)Method:
+    
+    `POST`
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-26)URL Params:
+
+	- 	id=[long]
+	- 	questionText=[String]
+	-	questionType=[int]
+	- 	answerText=[String] (For type 1-3 questions)
+	- 	answerOption=[String] (For type 0 questions)
+	- 	answerId=[long] (For type 1-3 questions)
+	-	justificationQuestionId=[long] 	(For type 3 questions)
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-26)Example of query:
+    
+    -   URL: `/api/concepts/15/saveanswer?questionText=example text&questionType=0&answerText=example answer&answerId=56`
+
+- ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-26)Success Response:
+	```
+		{
+			"id": 56,
+			"answerText": "example text",
+			"marked": false
 		}
 	```
