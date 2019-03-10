@@ -102,3 +102,7 @@ The application will run on port 8080.
 ## Class Diagrams and Templates
 
 <img src="https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/ClassDiagram.png"/>
+
+## API Rest Documentation
+
+The documentation and examples of the API Rest part are very long. They are in the [API](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/API.md) file.
