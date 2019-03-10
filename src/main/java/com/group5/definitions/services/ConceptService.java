@@ -36,7 +36,7 @@ public class ConceptService {
 		conceptRepository.save(con);
 	}
 
-	public Page<Concept> findByChapter_id(long id, Pageable page) {
+	public Page<Concept> findByChapter_Id(long id, Pageable page) {
 		return conceptRepository.findByChapter_id(id, page);
 	}
 	

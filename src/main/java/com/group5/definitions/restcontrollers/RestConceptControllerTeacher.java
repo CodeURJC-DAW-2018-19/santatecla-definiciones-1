@@ -1,16 +1,11 @@
 package com.group5.definitions.restcontrollers;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,7 +21,6 @@ import com.group5.definitions.model.Answer;
 import com.group5.definitions.model.Concept;
 import com.group5.definitions.model.Justification;
 import com.group5.definitions.model.Question;
-import com.group5.definitions.model.User;
 import com.group5.definitions.services.AnswerService;
 import com.group5.definitions.services.ConceptService;
 import com.group5.definitions.services.JustificationService;
@@ -49,23 +42,106 @@ public class RestConceptControllerTeacher {
 	private QuestionService questionService;
 	@Autowired
 	private UserSessionService userSession;
-
+	
+	
+	//Concept methods
 	@JsonView(Concept.Basic.class)
-	@PutMapping("/concepts/{id}")
-	public ResponseEntity<Concept> updateConcept(@PathVariable long id, @RequestBody Concept concept) {
-		Concept oldConcept = conceptService.findById(id);
+	@PutMapping("/chapters/{answerId}/concepts/{conceptId}")
+	public ResponseEntity<Concept> updateConcept(@PathVariable long answerId, @PathVariable long conceptId, 
+			@RequestBody Concept concept) {
+		Concept oldConcept = conceptService.findById(conceptId);
 		if (oldConcept == null)
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		concept.setId(id);
+		concept.setId(conceptId);
 		if (concept.getChapter() == null)
 			concept.setChapter(oldConcept.getChapter());
 		conceptService.save(concept);
 		return new ResponseEntity<>(concept, HttpStatus.OK);
 	}
+	
+	//Get methods
+	interface AnswerMarked extends Answer.Marked, Answer.Justifications, Justification.Basic {}
+	@JsonView(AnswerMarked.class)
+	@GetMapping(value = {"/concepts/{conceptId}", "/concepts/{conceptId}/markedanswers"})
+	public Page<Answer> getMarked(@PathVariable long conceptId, @PageableDefault(size = DEFAULT_SIZE) Pageable page) {
+		return answerService.findByMarkedAndConceptId(true, conceptId, page);
+	}
+	
+	@JsonView(AnswerMarked.class)
+	@GetMapping("/concepts/{conceptId}/unmarkedanswers")
+	public Page<Answer> getUnmarked(@PathVariable long conceptId, @PageableDefault(size = DEFAULT_SIZE) Pageable page) {
+		return answerService.findByMarkedAndConceptId(false, conceptId, page);
+	}
+	
+	
+	//Answer methods
+	@JsonView(AnswerMarked.class)
+	@PutMapping(value = "concepts/{conceptId}/answers/{answerId}")
+	public ResponseEntity<Answer> updateAnswer(@PathVariable Long conceptId, @PathVariable Long answerId, 
+			@RequestParam String answerText, @RequestParam boolean correct,
+			@RequestParam(required = false) String justText, @RequestParam(required = false) boolean valid,
+			@RequestParam(required = false) String errorText) {
+		Answer ans = answerService.getOne(answerId);
+		if (ans == null)
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		ans.setAnswerText(answerText.toUpperCase());
+		ans.setCorrect(correct);
+		if (ans.isCorrect()) {
+			// It is needed to delete the justifications from the DB
+			for (Justification j : ans.getJustifications()) {
+				justificationService.deleteById(j.getId());
+			}
+			ans.getJustifications().clear(); // In case, we clear the answer justifications
+		} else {
+			if(!ans.getJustifications().isEmpty()) {
+				Justification newJ = new Justification(justText.toUpperCase(), true, userSession.getLoggedUser());
+				newJ.setValid(valid);
+				if(!valid)
+					newJ.setError(errorText.toUpperCase());
+				ans.addJustification(newJ);
+				newJ.setAnswer(ans);
+				justificationService.save(newJ);
+			}
+		}
+		answerService.save(ans);
+		return new ResponseEntity<>(ans, HttpStatus.OK);
+	}
 
+	@JsonView(AnswerMarked.class)
+	@DeleteMapping("/concepts/{conceptId}/answers/{answerId}")
+	public ResponseEntity<Answer> deleteAnswer(@PathVariable long conceptId, @PathVariable long answerId) {
+		Answer ans = answerService.getOne(answerId);
+		if(ans != null){
+			for(Justification j :ans.getJustifications())
+				justificationService.deleteById(j.getId());	
+			answerService.deleteById(answerId);
+			return new ResponseEntity<>(ans, HttpStatus.ACCEPTED);
+		}
+		else
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+	
+	@JsonView(AnswerMarked.class)
+	@PostMapping("/concepts/{conceptId}/answers")
+	public ResponseEntity<Answer> addAnswer(@PathVariable long conceptId, @RequestBody Answer answer){
+		Concept con = conceptService.findById(conceptId);
+		con.addAnswer(answer);
+		answer.setConcept(con);
+		if(!answer.isCorrect()) {
+			for(Justification j : answer.getJustifications()) {
+				justificationService.save(j);
+			}
+		}
+		answerService.save(answer);
+		conceptService.save(con);
+		return new ResponseEntity<>(answer, HttpStatus.CREATED);
+	}
+	
+	
+	//Justification methods
 	@JsonView(Justification.Basic.class)
 	@PutMapping("/answers/{ansId}/justifications/{justId}")
-	public ResponseEntity<Justification> updateJustification(@PathVariable long justId,
+	public ResponseEntity<Justification> updateJustification(@PathVariable long ansId, @PathVariable long justId,
 			@RequestBody Justification justification) {
 		Justification oldJust = justificationService.findById(justId);
 		if (oldJust == null)
@@ -81,109 +157,26 @@ public class RestConceptControllerTeacher {
 		justification.setAnswer(oldJust.getAnswer());
 		justification.setUser(oldJust.getUser());
 		justificationService.save(justification);
+		Answer ans = justification.getAnswer();
+		ans.addJustification(justification);
+		answerService.save(ans);
 		return new ResponseEntity<>(justification, HttpStatus.OK);
 	}
 
 	@JsonView(Justification.Basic.class)
-	@RequestMapping(value = "/answers/{ansId}/justifications/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Justification> deleteJustification(@PathVariable long id) {
-		Justification justification = justificationService.findById(id);
+	@DeleteMapping("/answers/{ansId}/justifications/{justId}")
+	public ResponseEntity<Justification> deleteJustification(@PathVariable long ansId, @PathVariable long justId) {
+		Justification justification = justificationService.findById(justId);
 		if (justification.isMarked() && justification.getAnswer().countMarkedJustifications() > 1) {
-			justificationService.deleteById(id);
+			justificationService.deleteById(justId);
 			return new ResponseEntity<>(justification, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	
-	interface AnswerJust extends Answer.Marked, Answer.Justifications , Justification.Basic{}
-	@JsonView(AnswerJust.class)
-	@PutMapping(value = "concepts/{conceptId}/answers/{id}")
-	public ResponseEntity<Answer> updateAnswer(@PathVariable Long conceptId, @PathVariable Long id, @RequestParam String answerText, 
-			@RequestParam(value = "correct", required = false) String cAnswer,
-			@RequestParam(value = "justificationTextNew", required = false) String justificationText,
-			@RequestParam(value = "validNew", required = false) String jValid,
-			@RequestParam(value = "errorNew", required = false) String error) {
-		Answer ans = answerService.getOne(id);
-		if (ans == null)
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		ans.setAnswerText(answerText.toUpperCase());
-		Justification newJ = null;
-		if (cAnswer != null) {
-			ans.setCorrect(cAnswer.equals("yes"));
-			if (cAnswer.equals("yes")) {
-				// It is needed to delete the justifications from the DB
-				for (Justification j : ans.getJustifications()) {
-					justificationService.deleteById(j.getId());
-				}
-				ans.getJustifications().clear(); // In case, we clear the answer justifications
-			} else {
-				if (ans.getJustifications().size() == 0) {
-					newJ = new Justification(justificationText.toUpperCase(), true, userSession.getLoggedUser());
-					newJ.setValid(jValid.equals("yes"));
-					if (jValid.equals("no"))
-						newJ.setError(error.toUpperCase());
-					ans.addJustification(newJ);
-				}
-			}
-			answerService.save(ans);
-			if (newJ != null) {
-				newJ.setAnswer(ans);
-				justificationService.save(newJ);
-			}
-			return new ResponseEntity<>(ans, HttpStatus.OK);	
-		}else
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	}
-
-	@JsonView(AnswerJustification.class)
-	@DeleteMapping("/concepts/{conceptId}/answers/{answerId}")
-	public ResponseEntity<Answer> deleteAnswer(@PathVariable long conceptId, 
-			@PathVariable long answerId) {
-		Answer ans = answerService.getOne(answerId);
-		answerService.deleteById(answerId);
-		if(ans != null)
-			return new ResponseEntity<>(ans, HttpStatus.OK);
-		else
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	}
-	
-	interface AnswerJustification extends Answer.Basic, Justification.Basic{}
-	@JsonView(AnswerJustification.class)
-	@PostMapping("/concepts/{conceptId}/answers/{answerId}")
-	public ResponseEntity<Answer> addAnswer(@PathVariable long conceptId, @PathVariable long answerId,
-			@RequestBody Answer answer){
-		Concept con = conceptService.findById(conceptId);
-		con.addAnswer(answer);
-		answer.setConcept(con);
-		conceptService.save(con);
-		if(!answer.isCorrect()) {
-			for(Justification j : answer.getJustifications()) {
-				justificationService.save(j);
-			}
-		}
-		for(Question q : answer.getQuestions()) {
-			questionService.save(q);
-		}
-		answerService.save(answer);
-		return new ResponseEntity<>(answer, HttpStatus.OK);
-	}
-	
-	interface AnswerMarked extends Answer.Marked, Answer.Justifications, Justification.Basic {}
-	@JsonView(AnswerMarked.class)
-	@GetMapping(value = {"/concepts/{conceptId}", "/concepts/{conceptId}/markedanswers"})
-	public Page<Answer> getMarked(@PathVariable long conceptId, @PageableDefault(size = DEFAULT_SIZE) Pageable page) {
-		return answerService.findByMarkedAndConceptId(true, conceptId, page);
-	}
-	
-	@JsonView(Answer.Basic.class)
-	@GetMapping("/concepts/{conceptId}/unmarkedanswers")
-	public Page<Answer> getUnmarked(@PathVariable long conceptId, @PageableDefault(size = DEFAULT_SIZE) Pageable page) {
-		return answerService.findByMarkedAndConceptId(false, conceptId, page);
-	}
-
 	@JsonView(Justification.Basic.class)
-	@PostMapping("/answers/{ansId}/justifications/")
+	@PostMapping("/answers/{ansId}/justifications")
 	public ResponseEntity<Justification> addJustification(@PathVariable long ansId, @RequestBody Justification justification) {
 		Answer answer = answerService.getOne(ansId);
 		if (answer.isMarked() && !answer.isCorrect()) {
@@ -198,10 +191,11 @@ public class RestConceptControllerTeacher {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
-
 	
-	@JsonView(Answer.Marked.class)
-	@PutMapping("/concepts/{conceptId}/mark/{answerId}")
+	
+	//Correction methods
+	@JsonView(AnswerMarked.class)
+	@PutMapping("/concepts/{conceptId}/correct/{answerId}")
 	public ResponseEntity<Answer> correctAnswer(@PathVariable long conceptId, @PathVariable long answerId,
 			@RequestParam boolean correct, @RequestParam(required = false) String justificationTextNew) {
 		Answer answer = answerService.getOne(answerId);
@@ -229,8 +223,8 @@ public class RestConceptControllerTeacher {
 	}
 	
 	@JsonView(Justification.Basic.class)
-	@PutMapping("/concepts/{conceptId}/justifications/{justId}")
-	public ResponseEntity<Justification> correctJustification(@PathVariable long conceptId,@PathVariable long justId, 
+	@PutMapping("/answers/{ansId}/correct/{justId}")
+	public ResponseEntity<Justification> correctJustification(@PathVariable long ansId, @PathVariable long justId, 
 			@RequestParam boolean valid, @RequestParam(required = false) String errorText) {
 		Justification jus = justificationService.findById(justId);
 		Answer ans = jus.getAnswer();
@@ -248,5 +242,4 @@ public class RestConceptControllerTeacher {
 		answerService.save(ans);
 		return new ResponseEntity<>(jus, HttpStatus.OK);
 	}
-	
 }

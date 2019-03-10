@@ -83,13 +83,18 @@ public class TeacherController {
 		httpServletResponse.sendRedirect("/concept/" + conceptId);
 		return null;
 	}
+	
 	@RequestMapping("/delete/concept/{conceptId}/answer/{id}")
 	public String deleteAnswer(Model model, @PathVariable String conceptId, @PathVariable long id,
 			HttpServletResponse httpServletResponse) throws IOException {
+		Answer ans = answerService.getOne(id);
+		for(Justification j :ans.getJustifications())
+			justificationService.deleteById(j.getId());
 		answerService.deleteById(id);
 		httpServletResponse.sendRedirect("/concept/" + conceptId);
 		return null;
 	}
+	
 	@PostMapping("/concept/{conceptId}/mark/{answerId}")
 	public String markAnswer(Model model, @PathVariable long conceptId, @PathVariable long answerId,
 			@RequestParam String correct, @RequestParam(required = false) String justificationTextNew,
@@ -115,6 +120,7 @@ public class TeacherController {
 		httpServletResponse.sendRedirect("/concept/" + conceptId);
 		return null;
 	}
+	
 	@RequestMapping("/concept/{conceptId}/loadMarkedAnswers")
 	public String loadMarkedAnswers(Model model, HttpServletRequest req,
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page, @PathVariable long conceptId) {
@@ -122,6 +128,7 @@ public class TeacherController {
 		model.addAttribute("answers", markedAnswers);
 		return "showanswer";
 	}
+	
 	@RequestMapping("/concept/{conceptId}/loadJust")
 	public String loadCorrectJust(Model model, HttpServletRequest req,
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page, @PathVariable long conceptId,
@@ -133,6 +140,7 @@ public class TeacherController {
 			model.addAttribute("nothingMore", true);
 		return "showjustification";
 	}
+	
 	@RequestMapping("/concept/{conceptId}/loadUnmarkedAnswers")
 	public String loadUnmarkedAnswers(Model model, HttpServletRequest req,
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page, @PathVariable long conceptId) {
@@ -140,6 +148,7 @@ public class TeacherController {
 		model.addAttribute("answers", unmarkedAnswers);
 		return "showanswer";
 	}
+	
 	@RequestMapping("/concept/{id}/loadUnmarkedJustifications")
 	public String loadUnmarkedJustifications(Model model, HttpServletRequest req, @PathVariable long id,
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page) {
@@ -148,6 +157,7 @@ public class TeacherController {
 		model.addAttribute("unmarkedJustifications", unmarkedJustifications);
 		return "showJustificationsUnmarked";
 	}
+	
 	@PostMapping("/concept/{conceptId}/addAnswer")
 	public String addAnswer(Model model, @PathVariable long conceptId, @RequestParam String answerText,
 			@RequestParam String correct, @RequestParam(required = false) String justificationText,

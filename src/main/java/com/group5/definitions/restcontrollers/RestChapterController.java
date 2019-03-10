@@ -5,12 +5,12 @@ import org.springframework.data.domain.*;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
@@ -31,68 +31,57 @@ public class RestChapterController {
 
 	private final int DEFAULT_SIZE = 10;
 
-	@JsonView(Chapter.Basic.class)
-	@GetMapping(value = { "", "/chapters" })
+	
+	//Chapter methods
+	interface ChapterConcept extends Chapter.Basic, Chapter.Concepts, Concept.Basic {}
+	
+	@JsonView(Chapter.Basic.class) //We could change to the interface ChapterConcept so it gets the corresponding chapters too
+	@GetMapping({ "", "/chapters" })
 	public Page<Chapter> getChapters(@PageableDefault(size = DEFAULT_SIZE) Pageable page) {
 		Page<Chapter> chapters = chapterService.findAll(page);
 		return chapters;
 	}
 
-	interface ChapterConcept extends Chapter.Basic, Chapter.Concepts, Concept.Basic {
-	}
-
-	@JsonView(ChapterConcept.class)
-	@GetMapping("/chapters/{id}")
-	public ResponseEntity<Chapter> getChaptersById(@PathVariable long id) {
-		Chapter chapter = chapterService.findById(id);
-		if (chapter != null)
-			return new ResponseEntity<>(chapter, HttpStatus.OK);
-		else
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	}
-	
-	@JsonView(ChapterConcept.class)
-	@ResponseStatus(HttpStatus.CREATED)
-	@RequestMapping(value= {"", "/addChapter"} , method = RequestMethod.POST)
-	public Chapter addChapter(@RequestBody Chapter chapter){
+	@JsonView(Chapter.Basic.class)
+	@PostMapping({"", "/chapters"})
+	public ResponseEntity<Chapter> addChapter(@RequestBody Chapter chapter){
 		chapterService.save(chapter);
-		return chapter;
+		return new ResponseEntity<>(chapter, HttpStatus.CREATED);
 	}
 
 	@JsonView(ChapterConcept.class)
-	@RequestMapping(value = "/chapters/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Chapter> deleteChapter(@PathVariable Long id) {
+	@DeleteMapping("/chapters/{id}")
+	public ResponseEntity<Chapter> deleteChapter(@PathVariable long id) {
 		Chapter chapter = chapterService.findById(id);
 		chapterService.deleteById(id);
-		if (chapter != null) {
-			return new ResponseEntity<>(chapter, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+		return new ResponseEntity<>(chapter, HttpStatus.ACCEPTED);
+	}
+
+	
+	//Concept methods
+	@JsonView(ChapterConcept.class)
+	@GetMapping("/chapters/{id}/concepts")
+	public Page<Concept> getConcepts(@PathVariable long id, @PageableDefault(size = DEFAULT_SIZE) Pageable page) {
+		Page<Concept> concepts = conceptService.findByChapter_Id(id, page);
+		return concepts;
+	}
+	
+	@JsonView(Concept.Basic.class)
+	@DeleteMapping("/chapters/{id}/concepts/{conceptId}")
+	public ResponseEntity<Concept> deleteConcept(@PathVariable Long id, @PathVariable Long conceptId) {
+		Concept con = conceptService.findById(conceptId);
+		conceptService.deleteById(conceptId);
+		return new ResponseEntity<>(con, HttpStatus.ACCEPTED);
 	}
 
 	@JsonView(Concept.Basic.class)
-	@RequestMapping(value = "/concepts/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Concept> deleteConcept(@PathVariable Long id) {
-		Concept concept = conceptService.findById(id);
-		conceptService.deleteById(id);
-		if (concept != null) {
-			return new ResponseEntity<>(concept, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-	}
-
-	@JsonView(Concept.Basic.class)
-	@RequestMapping(value = "/chapters/{id}", method = RequestMethod.POST)
-	@ResponseStatus(HttpStatus.CREATED)
-	public Concept addConcept(@RequestBody Concept concept, @PathVariable long id) {
+	@PostMapping("/chapters/{id}/concepts")
+	public ResponseEntity<Concept> addConcept(@PathVariable long id, @RequestBody Concept concept) {
 		Chapter chapter = chapterService.findById(id);
 		chapter.getConcepts().add(concept);
 		concept.setChapter(chapter);
 		conceptService.save(concept);
 		chapterService.save(chapter);
-		return concept;
+		return new ResponseEntity<>(concept, HttpStatus.CREATED);
 	}
-
 }
