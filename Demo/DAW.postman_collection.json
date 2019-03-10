@@ -1,0 +1,1010 @@
+{
+	"info": {
+		"_postman_id": "83831c9e-0000-40a8-9c63-5186c763094d",
+		"name": "DAW",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://localhost:8080/api/chapters",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:8080/api/chapters",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"chapters"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:8080/api/chapters?page=1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:8080/api/chapters?page=1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"chapters"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:8080/api/chapters",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "adminpass",
+							"type": "string"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"chapterName\":\"Tema 12 prueba\"\r\n}"
+				},
+				"url": {
+					"raw": "https://localhost:8080/api/chapters",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"chapters"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:8080/api/chapters/14",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "adminpass",
+							"type": "string"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:8080/api/chapters/14",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"chapters",
+						"14"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:8080/api/chapters/4/concepts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:8080/api/chapters/4/concepts",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"chapters",
+						"4",
+						"concepts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:8080/api/chapters/4/concepts",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "adminpass",
+							"type": "string"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"conceptName\": \"concepto prueba\",\n\t\"URL\": \"http://www.conceptoprueba.com\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:8080/api/chapters/4/concepts",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"chapters",
+						"4",
+						"concepts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:8080/api/chapters/4/concepts?page=1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:8080/api/chapters/4/concepts?page=1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"chapters",
+						"4",
+						"concepts"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:8080/api/chapters/4/concepts/16",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "adminpass",
+							"type": "string"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"conceptName\": \"concepto actualizado\",\n\t\"URL\": \"http://actualizado.com\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:8080/api/chapters/4/concepts/16",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"chapters",
+						"4",
+						"concepts",
+						"16"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:8080/api/chapters/4/concepts/18",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "adminpass",
+							"type": "string"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:8080/api/chapters/4/concepts/18",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"chapters",
+						"4",
+						"concepts",
+						"18"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:8080/api/diagraminfo",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "pass",
+							"type": "string"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:8080/api/diagraminfo",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"diagraminfo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:8080/api/concepts/15/markedquestions",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "pass",
+							"type": "string"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:8080/api/concepts/15/markedquestions",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"concepts",
+						"15",
+						"markedquestions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:8080/api/concepts/15/unmarkedquestions",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "pass",
+							"type": "string"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:8080/api/concepts/15/unmarkedquestions",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"concepts",
+						"15",
+						"unmarkedquestions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:8080/api/concepts/15/newquestion",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:8080/api/concepts/15/newquestion",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"concepts",
+						"15",
+						"newquestion"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:8080/api/concepts/15/saveanswer",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "pass",
+							"type": "string"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"questionText\": \"¿ES CORRECTO AFIRMAR QUE SPRING ES UN FRAMEWORK PARA DESARROLLAR APLICACIONES WEB, SERVICIOS REST, WEBSOCKETS, ANÁLISIS DE BIG DATA...?\",\n\t\"questionType\": \"2\",\n\t\"answerOption\": \"yes\",\n\t\"answerId\": \"35\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:8080/api/concepts/15/saveanswer",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"concepts",
+						"15",
+						"saveanswer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:8080/api/concepts/15",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "adminpass",
+							"type": "string"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:8080/api/concepts/15",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"concepts",
+						"15"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:8080/api/concepts/15/unmarkedanswers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:8080/api/concepts/15/unmarkedanswers",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"concepts",
+						"15",
+						"unmarkedanswers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:8080/api/concepts/15/answers/32",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "adminpass",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"answerText\": \"nuevo texto\",\n\t\"correct\": true\n}"
+				},
+				"url": {
+					"raw": "https://localhost:8080/api/concepts/15/answers/32",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"concepts",
+						"15",
+						"answers",
+						"32"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:8080/api/concepts/15/answers/32",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:8080/api/concepts/15/answers/32",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"concepts",
+						"15",
+						"answers",
+						"32"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:8080/api/concepts/15/answers",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "adminpass",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"answerText\": \"nueva respuesta\",\n\t\"correct\": true\n}"
+				},
+				"url": {
+					"raw": "https://localhost:8080/api/concepts/15/answers",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"concepts",
+						"15",
+						"answers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:8080/api/answers/31/justifications/41",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "adminpass",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"justificationText\": \"nuevo texto\",\n\t\"valid\":false,\n\t\"error\": \"nuevo error \"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:8080/api/answers/31/justifications/41",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"answers",
+						"31",
+						"justifications",
+						"41"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:8080/api/answers/31/justifications",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "adminpass",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"justificationText\": \"nuevo texto\",\n\t\"valid\":false,\n\t\"error\": \"nuevo error \"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:8080/api/answers/31/justifications",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"answers",
+						"31",
+						"justifications"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:8080/api/answers/31/justifications/41",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "adminpass",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:8080/api/answers/31/justifications/41",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"answers",
+						"31",
+						"justifications",
+						"41"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:8080/api/concepts/15/correct/30",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "adminpass",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"correct\": false,\n\t\"justificationTextNew\": \"NO ES CORRECTO\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:8080/api/concepts/15/correct/30",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"concepts",
+						"15",
+						"correct",
+						"30"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:8080/api/answers/31/correct/42",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"valid\": false,\n\t\"errorText\": \"NO ES UNA IMPLEMENTACIÓN DE JPA.\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:8080/api/answers/31/correct/42",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"answers",
+						"31",
+						"correct",
+						"42"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
