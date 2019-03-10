@@ -1279,11 +1279,10 @@ The following queries are preceded by /concepts/{id}
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-26)URL Params:
 
 	- 	id=[long]
-	-	body=[Map<String, Object>]
     
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-26)Example of query:
     
-    -   URL: `/api/concepts/15/saveanswer?questionText=example text&questionType=0&answerText=example answer&answerId=56`
+    -   URL: `/api/concepts/15/saveanswer`
 	-	Data params:
 		```
 			{
