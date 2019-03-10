@@ -1,0 +1,150 @@
+GET chapters: https://localhost:8443/api or https://localhost:8443/api/chapters
+
+POST chapters: https://localhost:8443/api/chapters (need admin authorization)
+JSON:   {
+            "id":56,
+            "chapterName":"Tema 12 prueba"
+        }
+Confirm GET: https://localhost:8443/api/chapters?page=1
+
+DELETE chapters: https://localhost:8443/api/chapters (need admin authorization)
+JSON:   {
+            "id":14,
+            "chapterName":"Tema 11"
+        }
+Confirm GET: https://localhost:8443/api/chapters?page=1
+
+
+
+
+
+GET concepts: https://localhost:8443/api/chapters/4/concepts
+
+POST concepts: https://localhost:8443/api/chapters/4/concepts (need admin authorization)
+JSON:   {
+            "id": 56,
+            "conceptName": "concepto prueba",
+            "URL": "http://www.urldelconcepto.com"
+        }
+Confirm GET: https://localhost:8443/api/chapters/4/concepts
+
+PUT concepts: https://localhost:8443/api/chapters/4/concepts/16 (need admin authorization)
+JSON:   {
+            "id": 16,
+            "conceptName": "concepto actualizado",
+            "URL": "http://www.urldelconceptoactualizado.com"
+        }
+Confirm GET: https://localhost:8443/api/chapters/4/concepts
+
+DELETE concepts: https://localhost:8443/api/chapters/4/concepts/56 (need admin authorization)
+Confirm GET: https://localhost:8443/api/chapters/4/concepts
+
+GET diagram: https://localhost:8443/api/diagraminfo
+
+
+
+
+
+(Admin authorization needed from now on)
+
+GET marked answers: https://localhost:8443/api/concepts/15 or https://localhost:8443/api/concepts/15/markedanswers
+
+GET unmarked answers: https://localhost:8443/api/concepts/15/unmarkedanswers
+
+POST answer: https://localhost:8443/api/concepts/15/answers/
+JSON:   {
+            "id": 56,
+            "answerText": "respuesta de prueba",
+            "marked": true,
+            "correct": true
+        }
+Confirm GET: https://localhost:8443/api/concepts/15/markedanswers?page=1
+
+PUT answer: https://localhost:8443/api/concepts/15/answers/56
+Params: https://localhost:8443/api/concepts/15/answers/56?answerText=respuesta actualizada&correct=false&justText=justification de prueba&valid=true&errorText=no se necesita
+            answerText      respuesta actualizada
+            correct         false
+            justText        justificacion de prueba
+            valid           true
+            errorText       no se necesita
+Confirm GET: https://localhost:8443/api/concepts/15/markedanswers?page=1
+
+PUT correct answer: https://localhost:8443/api/concepts/15/correct/30
+Params: https://localhost:8443/api/concepts/15/correct/30?correct=false&justificationTextNew=nueva justificacion
+Confirm GET: https://localhost:8443/api/concepts/15/markedanswers?page=0
+
+DELETE answer: https://localhost:8443/api/concepts/15/answers/56
+Confirm GET: https://localhost:8443/api/concepts/15/markedanswers?page=1
+
+
+
+
+
+POST justification: https://localhost:8443/api/answers/29/justifications
+JSON:   {
+            "id": 56,
+            "justificationText": "justificacion añadida",
+            "marked": true,
+            "valid": true,
+            "error": "no se vera"
+        }
+Confirm GET: https://localhost:8443/api/concepts/15/markedanswers?page=0
+
+PUT justification: https://localhost:8443/api/answers/29/justifications/56
+JSON:   {
+            "id": 56,
+            "justificationText": "justificacion actualizada",
+            "marked": true,
+            "valid": false,
+            "error": "texto de error"
+        }
+Confirm GET: https://localhost:8443/api/concepts/15/markedanswers?page=0
+
+PUT correct justification: https://localhost:8443/api/answers/31/correct/42
+Params: https://localhost:8443/api/answers/31/correct/42?valid=false&errorText=fallo
+Confirm GET: https://localhost:8443/api/concepts/15/markedanswers?page=0
+
+DELETE justification: https://localhost:8443/api/answers/29/justifications/56
+Confirm GET: https://localhost:8443/api/concepts/15/markedanswers?page=0
+
+
+
+
+
+GET image: https://localhost:8443/api/concepts/15/image
+
+POST image: https://localhost:8443/api/concepts/15/image
+Confirm GET image: https://localhost:8443/api/concepts/15/image
+
+GET user: https://localhost:8443/api/currentuser
+
+POST user: https://localhost:8443/api/register
+JSON:   {
+            "id": 56,
+            "name": "admintest",
+            "password": "passtest",
+            "roles": [
+                "ROLE_STUDENT",
+                "ROLE_TEACHER"
+            ]
+        }
+(after login)
+Confirm GET user: https://localhost:8443/api/currentuser 
+
+
+(User authorization needed from now on)
+
+GET marked questions: https://localhost:8443/api/concepts/15/markedquestions
+
+GET unmarked questions: https://localhost:8443/api/concepts/15/unmarkedquestions
+
+GET new question: https://localhost:8443/api/concepts/15/newquestion
+
+POST answer: https://localhost:8443/api/concepts/15/saveanswer
+(type 0)
+Params: https://localhost:8443/api/concepts/15/saveanswer?questionText=texto de pregunta&questionType=0&answerText=texto de respuesta&answerId=56
+(type 1-2 answerId needs to exist)
+Params: https://localhost:8443/api/concepts/15/saveanswer?questionText=texto de pregunta&questionType=0&answerText=texto de respuesta&answerId=56
+ (type 3 answerId and justificationId need to exist)
+Params: https://localhost:8443/api/concepts/15/saveanswer?questionText=texto de pregunta3&questionType=3&answerText=texto de respuesta3&answerId=56&justificationQuestionId=40
+Confirm GET:  https://localhost:8443/api/concepts/15/markedquestions and https://localhost:8443/api/concepts/15/unmarkedquestions

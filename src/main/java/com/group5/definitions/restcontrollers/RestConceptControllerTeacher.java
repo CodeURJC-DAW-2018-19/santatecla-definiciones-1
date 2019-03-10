@@ -46,12 +46,13 @@ public class RestConceptControllerTeacher {
 	
 	//Concept methods
 	@JsonView(Concept.Basic.class)
-	@PutMapping("/chapters/{id}/concepts/")
-	public ResponseEntity<Concept> updateConcept(@PathVariable long id, @RequestBody Concept concept) {
-		Concept oldConcept = conceptService.findById(id);
+	@PutMapping("/chapters/{answerId}/concepts/{conceptId}")
+	public ResponseEntity<Concept> updateConcept(@PathVariable long answerId, @PathVariable long conceptId, 
+			@RequestBody Concept concept) {
+		Concept oldConcept = conceptService.findById(conceptId);
 		if (oldConcept == null)
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		concept.setId(id);
+		concept.setId(conceptId);
 		if (concept.getChapter() == null)
 			concept.setChapter(oldConcept.getChapter());
 		conceptService.save(concept);
@@ -156,14 +157,18 @@ public class RestConceptControllerTeacher {
 		justification.setAnswer(oldJust.getAnswer());
 		justification.setUser(oldJust.getUser());
 		justificationService.save(justification);
+		Answer ans = justification.getAnswer();
+		ans.addJustification(justification);
+		answerService.save(ans);
 		return new ResponseEntity<>(justification, HttpStatus.OK);
 	}
 
 	@JsonView(Justification.Basic.class)
-	@DeleteMapping("/answers/{ansId}/justifications/")
-	public ResponseEntity<Justification> deleteJustification(@PathVariable long id, @RequestBody Justification justification) {
+	@DeleteMapping("/answers/{ansId}/justifications/{justId}")
+	public ResponseEntity<Justification> deleteJustification(@PathVariable long ansId, @PathVariable long justId) {
+		Justification justification = justificationService.findById(justId);
 		if (justification.isMarked() && justification.getAnswer().countMarkedJustifications() > 1) {
-			justificationService.deleteById(id);
+			justificationService.deleteById(justId);
 			return new ResponseEntity<>(justification, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -219,7 +224,7 @@ public class RestConceptControllerTeacher {
 	
 	@JsonView(Justification.Basic.class)
 	@PutMapping("/answers/{ansId}/correct/{justId}")
-	public ResponseEntity<Justification> correctJustification(@PathVariable long answerId,@PathVariable long justId, 
+	public ResponseEntity<Justification> correctJustification(@PathVariable long ansId, @PathVariable long justId, 
 			@RequestParam boolean valid, @RequestParam(required = false) String errorText) {
 		Justification jus = justificationService.findById(justId);
 		Answer ans = jus.getAnswer();

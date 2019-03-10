@@ -47,13 +47,13 @@ public class RestConceptControllerStudent {
 
 	private final int DEFAULT_SIZE = 10;
 
-	@JsonView(Question.Basic.class)
+	@JsonView(Question.Saved.class)
 	@GetMapping("/concepts/{id}/newquestion")
 	public Question generateQuestion(@PathVariable long id) {
-		return questionGenerator.generateQuestion(id);
+		return questionGenerator.generateQuestion(id) ;
 	}
 
-	@JsonView(Question.Basic.class)
+	@JsonView(Question.Saved.class)
 	@GetMapping("/concepts/{id}/markedquestions")
 	public Page<Question> getMarkedQuestions(@PathVariable long id,
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page) {
@@ -61,7 +61,7 @@ public class RestConceptControllerStudent {
 		return questions;
 	}
 	
-	@JsonView(Question.Basic.class)
+	@JsonView(Question.Saved.class)
 	@GetMapping("/concepts/{id}/unmarkedquestions")
 	public Page<Question> getUnmarkedQuestions(@PathVariable long id,
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page) {
