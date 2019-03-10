@@ -50,9 +50,10 @@ public class RestChapterController {
 	}
 
 	@JsonView(ChapterConcept.class)
-	@DeleteMapping("/chapters")
-	public ResponseEntity<Chapter> deleteChapter(@RequestBody Chapter chapter) {
-		chapterService.deleteById(chapter.getId());
+	@DeleteMapping("/chapters/{id}")
+	public ResponseEntity<Chapter> deleteChapter(@PathVariable long id) {
+		Chapter chapter = chapterService.findById(id);
+		chapterService.deleteById(id);
 		return new ResponseEntity<>(chapter, HttpStatus.ACCEPTED);
 	}
 
