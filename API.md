@@ -108,7 +108,6 @@ The following queries will be preceded by /chapters
 	-   Data Params:
 		```
 			{
-				"id":56,
 				"chapterName":"Tema 12 prueba"
 			}
 		```
@@ -261,7 +260,6 @@ The following queries will be preceded by /chapters/{id}/concepts
 	-	Data Params:
 		```
 			{
-				"id": 56,
 				"conceptName": "concepto prueba",
 				"URL": "http://www.urldelconcepto.com"
 			}
@@ -296,7 +294,6 @@ The following queries will be preceded by /chapters/{id}/concepts
 	-   Data Params:
 		```
 			{
-				"id": 16,
 				"conceptName": "concepto actualizado",
 				"URL": "http://www.urldelconceptoactualizado.com"
 			}
@@ -641,7 +638,6 @@ The following queries will be preceded by /concepts/{id}
 	-	Data Params:
 		```
 			{
-				"id": 56,
 				"answerText": "respuesta de prueba",
 				"marked": true,
 				"correct": true
