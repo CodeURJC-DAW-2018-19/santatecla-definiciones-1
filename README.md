@@ -102,3 +102,8 @@ The application will run on port 8080.
 ## Class Diagrams and Templates
 
 <img src="https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/ClassDiagram.png"/>
+
+
+# API Rest
+We divided the urls in different categories depending on the elements involved in them. Some urls are only accesible from the student view while others from the teacher. All of them are preceded by [/api/](https://localhost:8080/api/).
+

@@ -1261,22 +1261,28 @@ The following queries are preceded by /concepts/{id}
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-26)URL Params:
 
 	- 	id=[long]
-	- 	questionText=[String]
-	-	questionType=[int]
-	- 	answerText=[String] (For type 1-3 questions)
-	- 	answerOption=[String] (For type 0 questions)
-	- 	answerId=[long] (For type 1-3 questions)
-	-	justificationQuestionId=[long] 	(For type 3 questions)
+	-	body=[Map<String, Object>]
     
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-26)Example of query:
     
     -   URL: `/api/concepts/15/saveanswer?questionText=example text&questionType=0&answerText=example answer&answerId=56`
+	-	Data params:
+		```
+			{
+				"answerText": "texto de respues",
+				"answerOption": "",
+				"questionText": "texto de pregunta",
+				"answerId": 56,
+				"justificationQuestionId": 0,
+				"questionType": 0
+			}
+		```
 
 - ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-26)Success Response:
 	```
 		{
 			"id": 56,
-			"answerText": "example text",
+			"answerText": "TEXTO DE RESPUES",
 			"marked": false
 		}
 	```
