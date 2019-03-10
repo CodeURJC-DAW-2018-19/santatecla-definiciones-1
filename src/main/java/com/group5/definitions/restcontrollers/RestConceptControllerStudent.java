@@ -91,19 +91,4 @@ public class RestConceptControllerStudent {
 		Answer answer = answerService.getOne(answerId);
 		return new ResponseEntity<>(answer, HttpStatus.CREATED);
 	}
-	
-	
-	
-	
-	
-	/**, 
-			@RequestParam int questionType, , 
-			@RequestParam(required = false) String answerOption, 
-			@RequestParam(required = false) Long justificationQuestionId
-			*/
-	
-	
-	
-	
-	
 }
