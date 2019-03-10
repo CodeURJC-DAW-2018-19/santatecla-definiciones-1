@@ -1,5 +1,7 @@
 package com.group5.definitions.restcontrollers;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -71,10 +74,16 @@ public class RestConceptControllerStudent {
 	
 	@JsonView(Answer.Basic.class)
 	@PostMapping("/concepts/{conceptId}/saveanswer")
-	public ResponseEntity<Answer> addAnswer(@PathVariable long conceptId, @RequestParam String questionText, 
-			@RequestParam int questionType, @RequestParam(required = false) String answerText, 
-			@RequestParam(required = false) String answerOption, @RequestParam(required = false) Long answerId,
-			@RequestParam(required = false) Long justificationQuestionId){
+	public ResponseEntity<Answer> addAnswer(@PathVariable long conceptId, 
+			@RequestBody Map<String, Object> body){
+		
+		String answerText = body.get("answerText").toString();
+		String answerOption = body.get("answerOption").toString();
+		String questionText = body.get("questionText").toString();
+		long answerId = Long.parseLong(body.get("answerId").toString());
+		long justificationQuestionId = Long.parseLong(body.get("justificationQuestionId").toString());
+		int questionType = (Integer) body.get("questionType");
+		
 		boolean open = answerText != null;
 		String answerFinalText = open ? answerText : answerOption;
 		questionMarker.saveQuestion(conceptService.findById(conceptId), answerFinalText, questionText, questionType,
