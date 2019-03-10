@@ -655,7 +655,7 @@ The following queries will be preceded by /concepts/{id}
 		}
 	```
 
-#### Modify justification
+#### Modify answer
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#url-12)URL
     
     < /concepts/{id}/answers/{answerId} >
@@ -668,17 +668,21 @@ The following queries will be preceded by /concepts/{id}
 
 	- 	id=[long]
 	-	answerId=[long]
-	- 	answerText=[String]
-	- 	correct=[boolean]
-	- 	justText=[String]
-	- 	valid=[boolean]
-	- 	errorText=[String]
     
 	
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-12)Example of query:
     
-    -   URL: `/api/concepts/15/answers/56?answerText=respuesta actualizada&correct=false&justText=justification de prueba&valid=true&errorText=no se necesita`
-`
+    -   URL: `/api/concepts/15/answers/56`
+	-	Data Params:
+		```
+			{
+				"answerText": "RESPUESTA ACTUALIZADA",
+				"correct": false,
+				"justText": "nueva justificacion",
+				"valid": false,
+				"errorText": "nuevo error"
+			}
+		```
         
 - ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-6)Success Response:
 	```
@@ -687,7 +691,15 @@ The following queries will be preceded by /concepts/{id}
 			"answerText": "RESPUESTA ACTUALIZADA",
 			"marked": true,
 			"correct": false,
-			"justifications": []
+			"justifications": [
+				{
+					"id": 56,
+					"justificationText": "nueva justificacion",
+					"marked": true,
+					"valid": false,
+					"error": "nuevo error"
+				}
+			]
 		}
 	```
 
@@ -704,13 +716,18 @@ The following queries will be preceded by /concepts/{id}
 
 	- 	id=[long]
 	-	answerId=[long]
-	-	correct=[boolean]
-	- 	justText=[String]
     
 	
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-13)Example of query:
     
-    -   URL: `https://localhost:8443/api/concepts/15/correct/30?correct=false&justificationTextNew=nueva justificacion`
+    -   URL: `https://localhost:8443/api/concepts/15/correct/30`
+	-	Data Params:
+		```
+			{
+				"correct": false,
+				"justificationTextNew": "nueva justificacion"
+			}
+		```
 
         
 - ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-13)Success Response:
@@ -854,12 +871,17 @@ The following queries will be preceded by /answers/{answerId}
     
 	- 	answerId=[long]
 	- 	justId=[long]
-	- 	valid=[boolean]
-	- 	errorText=[String]
 
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-17)Example of query:
     
-    -   URL: `/api/answers/31/correct/42?valid=true&errorText=not needed`
+    -   URL: `/api/answers/31/correct/56`
+	- 	Data Params: 
+		```
+			{
+				"valid": false,
+				"errorText": "texto de error"
+			}
+		```
         
 - ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-17) Success Response:
 	```
