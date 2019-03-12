@@ -126,7 +126,7 @@ public class TeacherController {
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page, @PathVariable long conceptId) {
 		Page<Answer> markedAnswers = answerService.findByMarkedAndConceptId(true, conceptId, page);
 		model.addAttribute("answers", markedAnswers);
-		return "showanswer";
+		return "old/showanswer";
 	}
 	
 	@RequestMapping("/concept/{conceptId}/loadJust")
@@ -138,7 +138,7 @@ public class TeacherController {
 		model.addAttribute("id", answerId);
 		if( (page.getPageNumber() == correctJust.getTotalPages()) && (correctJust.getTotalPages() != 0)) 
 			model.addAttribute("nothingMore", true);
-		return "showjustification";
+		return "old/showjustification";
 	}
 	
 	@RequestMapping("/concept/{conceptId}/loadUnmarkedAnswers")
@@ -146,7 +146,7 @@ public class TeacherController {
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page, @PathVariable long conceptId) {
 		Page<Answer> unmarkedAnswers = answerService.findByMarkedAndConceptId(false, conceptId, page);
 		model.addAttribute("answers", unmarkedAnswers);
-		return "showanswer";
+		return "old/showanswer";
 	}
 	
 	@RequestMapping("/concept/{id}/loadUnmarkedJustifications")
@@ -155,7 +155,7 @@ public class TeacherController {
 		Page<Answer> unmarkedJustifications = answerService
 				.findByConceptAndJustifications_Marked(conceptService.findById(id), false, page);
 		model.addAttribute("unmarkedJustifications", unmarkedJustifications);
-		return "showJustificationsUnmarked";
+		return "old/showJustificationsUnmarked";
 	}
 	
 	@PostMapping("/concept/{conceptId}/addAnswer")

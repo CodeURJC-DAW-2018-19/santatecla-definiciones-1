@@ -37,7 +37,7 @@ public class CustomErrorController implements ErrorController {
 		model.addAttribute("errorMessage", errorMessage);
 		userSession.setActive(null);
 		model.addAttribute("tabs", userSession.getOpenTabs());
-		return "error";
+		return "old/error";
 	}
 
 	@Override

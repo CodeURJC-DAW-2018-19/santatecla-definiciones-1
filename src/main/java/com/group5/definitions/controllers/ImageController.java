@@ -37,7 +37,7 @@ public class ImageController {
 		} catch (Exception e) {
 			model.addAttribute("statusCode", 500);
 			model.addAttribute("errorMessage", e.getMessage());
-			return "error";
+			return "old/error";
 		}
 	}
 

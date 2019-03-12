@@ -87,12 +87,12 @@ public class ConceptController {
 			if	(errorJust!=null) {
 				model.addAttribute("deleteError", true);
 			}
-			return "teacher";
+			return "old/teacher";
 		} else {
 			user = userSession.getLoggedUser();
 			model.addAttribute("diagramInfo", chapterService.generateDiagramInfoStudent(user));
 			addQuestionInfoToModel(model, concept);
-			return "concept";
+			return "old/concept";
 		}
 	}
 

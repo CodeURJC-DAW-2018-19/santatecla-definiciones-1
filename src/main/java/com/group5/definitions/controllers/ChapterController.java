@@ -45,7 +45,7 @@ public class ChapterController {
 	public String loadHome(Model model, @RequestParam(name = "close", required = false) Long closeTab,
 			HttpServletRequest req) {
 		addToModelHome(model, closeTab, req);
-		return "home";
+		return "old/home";
 	}
 	
 	private void addToModelHome(Model model, Long closeTab, HttpServletRequest req) {
@@ -70,7 +70,7 @@ public class ChapterController {
 		Page<Chapter> chapters = chapterService.findAll(page);
 		model.addAttribute("chapters", chapters);
 		model.addAttribute("teacher", req.isUserInRole("ROLE_TEACHER"));
-		return "chapterInfo";
+		return "old/chapterInfo";
 	}
 	
 	@RequestMapping("/loadConcepts")
@@ -81,13 +81,13 @@ public class ChapterController {
 		model.addAttribute("concepts", concepts);
 		model.addAttribute("chapterId", chapterId);
 		model.addAttribute("teacher", req.isUserInRole("ROLE_TEACHER"));
-		return "conceptInfo";
+		return "old/conceptInfo";
 	}
 
 	@RequestMapping("/login")
 	public String loginPage(Model model) {
 		model.addAttribute("loginPage", true);
-		return "loginPage";
+		return "old/loginPage";
 	}
 
 	@RequestMapping("/addChapter")
@@ -95,7 +95,7 @@ public class ChapterController {
 		Chapter chap = new Chapter(chapterName);
 		chapterService.save(chap);
 		addToModelHome(model, null, req);
-		return "home";
+		return "old/home";
 	}
 
 	@RequestMapping("/deleteChapter/chapter/{id}")
@@ -105,7 +105,7 @@ public class ChapterController {
 		}
 		chapterService.deleteById(id);
 		addToModelHome(model, null, req);
-		return "home";
+		return "old/home";
 	}
 
 	@PostMapping("/addConcept")
@@ -118,7 +118,7 @@ public class ChapterController {
 		conceptService.save(con);
 		chapterService.save(chap);
 		addToModelHome(model, null, req);
-		return "home";
+		return "old/home";
 	}
 
 	@RequestMapping("/deleteConcept/concept/{id}")
@@ -126,18 +126,18 @@ public class ChapterController {
 		userSession.removeTab(id);
 		conceptService.deleteById(id);
 		addToModelHome(model, null, req);
-		return "home";
+		return "old/home";
 	}
 
 	@RequestMapping("/register")
 	public String register(Model model) {
-		return "register";
+		return "old/register";
 	}
 	
 	@PostMapping("/newUser")
 	public String newUser(Model model, HttpServletRequest req, @RequestParam String username, @RequestParam String password) {
 		userService.save(new User(username, password, "ROLE_STUDENT"));
 		addToModelHome(model, null, req);
-		return "loginPage";
+		return "old/loginPage";
 	}
 }

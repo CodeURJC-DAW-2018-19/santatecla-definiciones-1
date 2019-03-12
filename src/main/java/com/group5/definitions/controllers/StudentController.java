@@ -58,7 +58,7 @@ public class StudentController {
 		Page<Question> unmarkedQuestions = questionService.findByMarkedAndAnswer_Concept_IdAndUser(false, conceptId,
 				userSession.getLoggedUser(), page);
 		model.addAttribute("questions", unmarkedQuestions);
-		return "showquestion";
+		return "old/showquestion";
 	}
 
 	@RequestMapping("/concept/{conceptId}/loadMarkedQuestions")
@@ -67,6 +67,6 @@ public class StudentController {
 		Page<Question> markedQuestions = questionService.findByMarkedAndAnswer_Concept_IdAndUser(true, conceptId,
 				userSession.getLoggedUser(), page);
 		model.addAttribute("questions", markedQuestions);
-		return "showquestion";
+		return "old/showquestion";
 	}
 }
