@@ -1,5 +1,7 @@
-<td-tab-select backgroundColor="primary" >
-    <td-tab-option>
-        Inicio
-    </td-tab-option>
+<td-tab-select backgroundColor="primary">
+  <td-tab-option *ngFor="let tab of tabs" (click)="routeTab(tab.route)">
+    <nav>
+      {{ tab.name }}
+    </nav>
+  </td-tab-option>
 </td-tab-select>
