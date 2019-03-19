@@ -3,7 +3,7 @@
       {{ tab.name }}
       <mat-icon *ngIf="tab.closable" (click)="closeTab(tab)">close</mat-icon>
   </a>
-  <a mat-tab-link [routerLink]="login" routerLinkActive #rla="routerLinkActive" [active]="rla.isActive">
+  <a mat-tab-link routerLink="/login" routerLinkActive #rla="routerLinkActive" [active]="rla.isActive">
     Login
     <mat-icon>assignment</mat-icon>
   </a>
