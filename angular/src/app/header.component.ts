@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 
+
 interface Tab {
   name: string,
   route: string,
@@ -12,7 +13,7 @@ interface Tab {
   styleUrls: ["./header.component.css"]
 })
 export class HeaderComponent {
-  tabs: Tab[] = [{ name: "Inicio", route: "", closable: false }];
+  tabs: Tab[] = [{ name: "Inicio", route: "", closable: false }, { name: "Inicio", route: "", closable: true }];
 
   constructor(private router: Router) { }
 

@@ -1,6 +1,10 @@
-<td-tab-select backgroundColor="primary">
-  <td-tab-option *ngFor="let tab of tabs" (click)="routeTab(tab.route)">
+<nav mat-tab-nav-bar backgroundColor="primary">
+  <a mat-tab-link *ngFor="let tab of tabs" [routerLink]="tab.route" routerLinkActive #rla="routerLinkActive" [active]="rla.isActive">
       {{ tab.name }}
       <mat-icon *ngIf="tab.closable" (click)="closeTab(tab)">close</mat-icon>
-  </td-tab-option>
-</td-tab-select>
+  </a>
+  <a mat-tab-link [routerLink]="login" routerLinkActive #rla="routerLinkActive" [active]="rla.isActive">
+    Login
+    <mat-icon>assignment</mat-icon>
+  </a>
+</nav>
