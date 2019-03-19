@@ -6,9 +6,10 @@ import { AppComponent } from './app.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
 
 import { CovalentLayoutModule } from '@covalent/core/layout';
-import { CovalentStepsModule  } from '@covalent/core/steps';
+import { CovalentStepsModule } from '@covalent/core/steps';
 import { CovalentTabSelectModule } from '@covalent/core/tab-select';
 
 import { HeaderComponent } from "./header.component";
@@ -27,7 +28,8 @@ import { TestComponent } from "./test.component";
     MatMenuModule,
     CovalentLayoutModule,
     CovalentStepsModule,
-    CovalentTabSelectModule
+    CovalentTabSelectModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,7 +1,6 @@
 <td-tab-select backgroundColor="primary">
   <td-tab-option *ngFor="let tab of tabs" (click)="routeTab(tab.route)">
-    <nav>
       {{ tab.name }}
-    </nav>
+      <mat-icon *ngIf="tab.closable" (click)="closeTab(tab)">close</mat-icon>
   </td-tab-option>
 </td-tab-select>
