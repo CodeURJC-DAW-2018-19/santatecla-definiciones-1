@@ -39,7 +39,7 @@ import { QuestionsService } from "./question.service";
     MatListModule,
     MatCardModule,
     MatDividerModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [QuestionsService],
   bootstrap: [AppComponent]

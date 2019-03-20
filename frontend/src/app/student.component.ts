@@ -24,8 +24,7 @@ export class StudentComponent {
 
   getMarkedQuestions(id: number){
     this.questionsService.getMarkedQuestions(id).subscribe(
-      //it returns null, might be QuestionPage non primitive classes
-      (data: QuestionPage) => console.log(data),  
+      (data: QuestionPage) => this.markedQuestions = data["content"],
       error => console.log(error)
     );
   }
