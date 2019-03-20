@@ -16,8 +16,9 @@ import { CovalentLayoutModule } from '@covalent/core/layout';
 import { CovalentStepsModule } from '@covalent/core/steps';
 
 import { HeaderComponent } from "./header.component";
-import { TestComponent } from "./test.component";
 import { StudentComponent } from "./student.component";
+import { TeacherComponent } from "./teacher/teacher.component";
+import { UrlChangerComponent} from "./teacher/urlchange.component";
 
 import { QuestionsService } from "./question.service";
 
@@ -25,8 +26,9 @@ import { QuestionsService } from "./question.service";
   declarations: [
     AppComponent,
     HeaderComponent,
-    TestComponent,
-    StudentComponent
+    StudentComponent,
+    TeacherComponent,
+    UrlChangerComponent
   ],
   imports: [
     BrowserModule,
