@@ -1,19 +1,25 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 
-
+/**
+ * Interface for Tab information
+ */
 interface Tab {
   name: string,
   route: string,
   closable: boolean
 }
+
+/**
+ * Component for the header
+ */
 @Component({
   selector: "header",
   templateUrl: "./header.component.html",
   styleUrls: ["./header.component.css"]
 })
 export class HeaderComponent {
-  tabs: Tab[] = [{ name: "Inicio", route: "", closable: false }, { name: "Inicio", route: "", closable: true }];
+  tabs: Tab[] = [{ name: "Inicio", route: "", closable: false }, { name: "Teacher", route: "teacher/1", closable: true }];
 
   constructor(private router: Router) { }
 
