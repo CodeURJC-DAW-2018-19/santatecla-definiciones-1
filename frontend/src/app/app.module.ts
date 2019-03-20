@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -7,18 +8,25 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
+import {MatListModule} from '@angular/material/list';
+import {MatCardModule} from '@angular/material/card';
+import {MatDividerModule} from '@angular/material/divider';
 
 import { CovalentLayoutModule } from '@covalent/core/layout';
 import { CovalentStepsModule } from '@covalent/core/steps';
 
 import { HeaderComponent } from "./header.component";
 import { TestComponent } from "./test.component";
+import { StudentComponent } from "./student.component";
+
+import { QuestionsService } from "./question.service";
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    TestComponent
+    TestComponent,
+    StudentComponent
   ],
   imports: [
     BrowserModule,
@@ -27,9 +35,13 @@ import { TestComponent } from "./test.component";
     CovalentLayoutModule,
     CovalentStepsModule,
     MatIconModule,
-    MatTabsModule
+    MatTabsModule,
+    MatListModule,
+    MatCardModule,
+    MatDividerModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [QuestionsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
