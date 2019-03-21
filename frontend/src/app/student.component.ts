@@ -13,7 +13,6 @@ import { QuestionPage } from './questionPage.model';
   })
 
 export class StudentComponent {
-
   markedQuestions: Question[];
   unmarkedQuestions: Question[];
   questionPage: QuestionPage;

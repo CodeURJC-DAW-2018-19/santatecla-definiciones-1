@@ -25,6 +25,7 @@ import { TeacherComponent } from "./teacher/teacher.component";
 import { UrlChangerComponent } from "./teacher/urlchange.component";
 
 import { QuestionsService } from "./question.service";
+import { AnswerService } from "./teacher/answer.service"; 
 import { TeacherService } from "./teacher/teacher.service";
 
 @NgModule({
@@ -52,7 +53,7 @@ import { TeacherService } from "./teacher/teacher.service";
     HttpClientModule,
     FormsModule
   ],
-  providers: [QuestionsService, TeacherService],
+  providers: [QuestionsService, TeacherService, AnswerService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
