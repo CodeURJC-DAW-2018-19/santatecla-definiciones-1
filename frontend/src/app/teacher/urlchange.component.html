@@ -1,0 +1,15 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Url:</mat-card-title>
+  </mat-card-header>
+  <form (ngSubmit)=saveUrl()>
+    <mat-form-field id="urlForm">
+      <input matInput type="url" class="form-control" id="url" [value]="url" />
+    </mat-form-field>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit">
+        Guardar
+      </button>
+    </mat-card-actions>
+  </form>
+</mat-card>
