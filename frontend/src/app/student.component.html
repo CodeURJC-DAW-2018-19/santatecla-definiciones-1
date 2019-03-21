@@ -1,15 +1,36 @@
-<div class="cards">
+<div class="checkOverflow studentContent">
     <mat-card class="studentCard">
         <mat-card-title>Preguntas corregidas</mat-card-title>
+        <mat-card-content>
+            <mat-list *ngIf="markedQuestions" role="list" class="correctSize">
+                <mat-list-item *ngFor="let question of markedQuestions" role="listitem" class="checkOverflow">
+                    <p class="question">{{question.questionText}}</p>
+                    <p class="answer" *ngIf="question.userResponse">Sí</p>
+                    <p class="answer" *ngIf="!question.userResponse">No</p>
+                    <mat-icon class="icon" *ngIf="question.correct">check</mat-icon>
+                    <mat-icon class="icon" *ngIf="!question.correct">clear</mat-icon>
+                    <mat-divider></mat-divider>
+                </mat-list-item>
+                
+            </mat-list>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="studentCard">
+        <mat-card-title>Preguntas por corregir</mat-card-title>
         <mat-card-content>
             <mat-list>
                 <div *ngIf="markedQuestions">
                     <div *ngFor="let question of markedQuestions">
-                        <mat-list-item>{{question.questionText}}</mat-list-item>
+                        <mat-list-item>
+                            <p>{{question.questionText}}</p>
+                        </mat-list-item>
                         <mat-divider></mat-divider>
                     </div>
                 </div>
             </mat-list>
         </mat-card-content>
     </mat-card>
-</div>
+</div> 
+
+

@@ -8,7 +8,8 @@ import { QuestionPage } from './questionPage.model';
 
 @Component({
     selector: "student",
-    templateUrl: "./student.component.html"
+    templateUrl: "./student.component.html",
+    styleUrls: ["./student.component.css"]
   })
 
 export class StudentComponent {
