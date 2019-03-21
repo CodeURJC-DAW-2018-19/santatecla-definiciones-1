@@ -19,7 +19,9 @@ interface Tab {
   styleUrls: ["./header.component.css"]
 })
 export class HeaderComponent {
-  tabs: Tab[] = [{ name: "Inicio", route: "", closable: false }, { name: "Teacher", route: "teacher/1", closable: true }];
+  //Now holds placeholder data to be removed
+  //TODO: Remove tab Teacher
+  tabs: Tab[] = [{ name: "Inicio", route: "", closable: false }, { name: "Teacher", route: "teacher/15", closable: true }];
 
   constructor(private router: Router) { }
 
