@@ -51,9 +51,9 @@ public class RestConceptControllerTeacher {
 		return this.conceptService.findById(conceptId);
 	}
 	
-	@JsonView(Concept.Basic.class)
-	@PutMapping("/chapters/{chapterId}/concepts/{conceptId}")
-	public ResponseEntity<Concept> updateConcept(@PathVariable long chapterId, @PathVariable long conceptId,
+	@JsonView(Concept.Url.class)
+	@PutMapping("/concepts/{conceptId}")
+	public ResponseEntity<Concept> updateConcept(@PathVariable long conceptId,
 			@RequestBody Concept concept) {
 		Concept oldConcept = conceptService.findById(conceptId);
 		if (oldConcept == null)

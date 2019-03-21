@@ -1,12 +1,8 @@
 {
-    "/api/*":{
-        "target": {
-            "host": "localhost",
-            "protocol": "https:",
-            "port": 8443
-        },
-        "secure": false,
-        "changeOrigin": true,
-        "logLevel": "debug"
-    }
+  "/api/*": {
+    "target": "https://localhost:8443",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
 }
