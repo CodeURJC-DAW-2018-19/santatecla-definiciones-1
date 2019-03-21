@@ -446,11 +446,35 @@ The following queries will be preceded by /diagraminfo
 
 ## Answers
 The following queries will be preceded by /concepts/{id}
-
 #### Show marked answer
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#url-9)URL
     
-    < /concepts/{id} > or < /concepts/{id}/markedanswers >
+    < /concepts/{id} >
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#method-9)Method:
+    
+    `GET`
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-9)URL Params:
+    
+	-	id=[long]
+
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-9)Example of query:
+    
+    -   URL: `/api/concepts/15`
+        
+- ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-9) Success Response:
+	```
+	{
+		"id": 15,
+		"conceptName": "Spring",
+		"URL": "http://www.urldelconcepto.com"
+	}
+	```
+#### Show marked answer
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#url-9)URL
+    
+    < /concepts/{id}/markedanswers >
     
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#method-9)Method:
     

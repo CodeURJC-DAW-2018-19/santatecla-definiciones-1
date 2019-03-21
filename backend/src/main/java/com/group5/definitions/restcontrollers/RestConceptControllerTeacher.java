@@ -45,6 +45,12 @@ public class RestConceptControllerTeacher {
 	private UserSessionService userSession;
 
 	// Concept methods
+	@JsonView(Concept.Url.class)
+	@GetMapping("/concepts/{conceptId}")
+	public Concept getConceptUrl(@PathVariable long conceptId) {
+		return this.conceptService.findById(conceptId);
+	}
+	
 	@JsonView(Concept.Basic.class)
 	@PutMapping("/chapters/{chapterId}/concepts/{conceptId}")
 	public ResponseEntity<Concept> updateConcept(@PathVariable long chapterId, @PathVariable long conceptId,
@@ -64,7 +70,7 @@ public class RestConceptControllerTeacher {
 	}
 
 	@JsonView(AnswerMarked.class)
-	@GetMapping(value = { "/concepts/{conceptId}", "/concepts/{conceptId}/markedanswers" })
+	@GetMapping(value = {"/concepts/{conceptId}/markedanswers" })
 	public Page<Answer> getMarked(@PathVariable long conceptId, @PageableDefault(size = DEFAULT_SIZE) Pageable page) {
 		return answerService.findByMarkedAndConceptId(true, conceptId, page);
 	}

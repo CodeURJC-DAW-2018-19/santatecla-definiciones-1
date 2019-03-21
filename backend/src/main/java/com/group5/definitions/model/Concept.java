@@ -19,6 +19,7 @@ public class Concept {
 	public interface Basic{}
 	public interface Answers{}
 	public interface Chapters{}
+	public interface Url extends Basic{}
 	
 	@JsonView(Basic.class)
 	@Id
@@ -26,7 +27,7 @@ public class Concept {
 	private long id;
 	@JsonView(Basic.class)
 	private String conceptName;
-	@JsonView(Basic.class)
+	@JsonView(Url.class)
 	private String URL = "http://www.urldelconcepto.com";
 	@JsonView(Chapters.class)
 	@ManyToOne
