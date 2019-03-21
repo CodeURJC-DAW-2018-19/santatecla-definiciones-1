@@ -24,4 +24,8 @@ export class QuestionsService {
        return this.http.get<QuestionPage>("/api/concepts/"+id+"/markedquestions", httpOptions);
     }
 
+    getUnmarkedQuestions(id: number){
+      return this.http.get<QuestionPage>("/api/concepts/"+id+"/unmarkedquestions", httpOptions);
+   }
+
 }
