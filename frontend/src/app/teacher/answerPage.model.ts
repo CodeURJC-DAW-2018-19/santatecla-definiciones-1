@@ -1,7 +1,7 @@
-import { Question } from "./question.model";
-import { SortPage } from "./utilities/sortPage.model";
+import { Answer } from "./answer.model";
+import { SortPage } from "../sortPage.model";
 
-export interface QuestionPage {
+export interface AnswerPage {
     size: number;
     number: number;
     totalElements: number;
@@ -10,5 +10,5 @@ export interface QuestionPage {
     sort: SortPage;
     first: boolean;
     numberOfElements: number;
-    content: Question[];
+    content: Answer[];
 }

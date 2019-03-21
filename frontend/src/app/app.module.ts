@@ -21,6 +21,7 @@ import { TeacherComponent } from "./teacher/teacher.component";
 import { UrlChangerComponent} from "./teacher/urlchange.component";
 
 import { QuestionsService } from "./question.service";
+import { AnswerService } from "./teacher/answer.service"; 
 
 @NgModule({
   declarations: [
@@ -43,7 +44,7 @@ import { QuestionsService } from "./question.service";
     MatDividerModule,
     HttpClientModule,
   ],
-  providers: [QuestionsService],
+  providers: [QuestionsService, AnswerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
