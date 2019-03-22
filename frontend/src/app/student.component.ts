@@ -17,7 +17,6 @@ export class StudentComponent {
 
   markedQuestions: Question[];
   unmarkedQuestions: Question[];
-  questionPage: QuestionPage;
   id: number;
 
   displayedColumnsMarked: string[] = ['questionText','userResponse','correct'];

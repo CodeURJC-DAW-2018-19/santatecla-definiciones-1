@@ -22,18 +22,22 @@ mat-card-title {
     height: auto;
 }
 
+.center {
+    text-align: center;
+}
+
 .question {
-    float: left;
     width: 50%;
+    padding-top: 2%;
+    padding-bottom: 2%;
 }
 
 .answer {
-    float: left;
     width: 40%;
     text-align: center;
 }
 
 .icon {
-    float: left;
     width: 10%;
+    text-align: center;
 }
