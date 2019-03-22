@@ -1,5 +1,5 @@
 import { Question } from "./question.model";
-import { SortPage } from "./utilities/sortPage.model";
+import { SortPage } from "./sortPage.model";
 
 export interface QuestionPage {
     size: number;

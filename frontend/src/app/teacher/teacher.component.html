@@ -1,1 +1,57 @@
 <urlchange></urlchange>
+
+<div class="checkOverflow teacherContent">
+
+    <mat-card class="teacherCard">
+        <mat-card-title>Respuestas corregidas</mat-card-title>
+
+        <mat-nav-list *ngIf="markedAnswers?.length == 0" role="list" class="correctSize">
+            <p>No hay preguntas corregidas</p>
+        </mat-nav-list>
+        <mat-nav-list *ngIf="markedAnswers?.length > 0" role="list" class="correctSize">
+            <div *ngFor="let ans of markedAnswers" role="listitem" class="checkOverflow">
+                <div *ngIf="ans.marked">
+                    <div>{{ans.answerText}}</div>
+                    <div *ngIf="!ans.correct">
+                        <a *ngFor="let jus of ans.justifications" role="listitem" class="checkOverflow">
+                            <div *ngIf="jus.marked">
+                                <h4> JUSTIFICACION: </h4>
+                                <p>{{jus.justificationText}}</p>
+                                <div *ngIf="!jus.valid">
+                                    <h5> ERROR: </h5>
+                                    <div>{{jus.error}}</div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </mat-nav-list>
+
+    </mat-card>
+
+    <mat-card class="teacherCard">
+        <mat-card-title>Respuestas corregidas</mat-card-title>
+
+        <mat-nav-list *ngIf="unmarkedAnswers?.length == 0" role="list" class="correctSize">
+            <p>No hay preguntas corregidas</p>
+        </mat-nav-list>
+        <mat-nav-list *ngIf="unmarkedAnswers?.length > 0" role="list" class="correctSize">
+            <div *ngFor="let ans of unmarkedAnswers" role="listitem" class="checkOverflow">
+                <div>{{ans.answerText}}</div>
+                <div *ngIf="!ans.correct">
+                    <a *ngFor="let jus of ans.justifications" role="listitem" class="checkOverflow">
+                        <h4> JUSTIFICACION: </h4>
+                        <p>{{jus.justificationText}}</p>
+                        <div *ngIf="!jus.valid">
+                            <div>{{jus.error}}</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </mat-nav-list>
+
+    </mat-card>
+
+
+</div>
