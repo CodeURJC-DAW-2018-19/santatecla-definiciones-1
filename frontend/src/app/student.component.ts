@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { Router, ActivatedRoute } from '@angular/router';
+import {MatTableDataSource} from '@angular/material';
 
 import { QuestionsService } from "./question.service";
 import { Question } from "./question.model";
@@ -13,10 +14,16 @@ import { QuestionPage } from './questionPage.model';
   })
 
 export class StudentComponent {
+
   markedQuestions: Question[];
   unmarkedQuestions: Question[];
   questionPage: QuestionPage;
   id: number;
+
+  displayedColumnsMarked: string[] = ['questionText','userResponse','correct'];
+  dataSourceMarked: MatTableDataSource<Question>;
+  displayedColumnsUnmarked: string[] = ['questionText','userResponse'];
+  dataSourceUnmarked: MatTableDataSource<Question>;
 
   constructor(private router: Router, activatedRoute: ActivatedRoute,private questionsService: QuestionsService) {
     this.id = activatedRoute.snapshot.params['id'];
@@ -26,14 +33,14 @@ export class StudentComponent {
 
   getMarkedQuestions(id: number){
     this.questionsService.getMarkedQuestions(id).subscribe(
-      (data: QuestionPage) => this.markedQuestions = data["content"],
+      (data: QuestionPage) => this.dataSourceMarked = new MatTableDataSource(data["content"]),
       error => console.log(error)
     );
   }
 
   getUnmarkedQuestions(id: number){
     this.questionsService.getUnmarkedQuestions(id).subscribe(
-      (data: QuestionPage) => this.unmarkedQuestions = data["content"],
+      (data: QuestionPage) => this.dataSourceUnmarked = new MatTableDataSource(data["content"]),
       error => console.log(error)
     );
   }

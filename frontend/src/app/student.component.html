@@ -3,41 +3,67 @@
     <mat-card class="studentCard">
         <mat-card-title>Preguntas corregidas</mat-card-title>
         <mat-card-content>
-            <mat-list *ngIf="markedQuestions" role="list" class="correctSize">
-                <mat-list-item *ngFor="let question of markedQuestions" role="listitem" class="checkOverflow">
-                    <p class="question">{{question.questionText}}</p>
-                    <div *ngIf="question.yesNoQuestion" class="answer">
-                        <p *ngIf="question.userResponse">Sí</p>
-                        <p *ngIf="!question.userResponse">No</p>
-                    </div>
-                    <div *ngIf="!question.yesNoQuestion" class="answer">
-                        <p>Test response</p>
-                    </div>
-                    <mat-icon class="icon" *ngIf="question.correct">check</mat-icon>
-                    <mat-icon class="icon" *ngIf="!question.correct">clear</mat-icon>
-                    <mat-divider></mat-divider>
-                </mat-list-item>
-            </mat-list>
+            <table mat-table [dataSource]="dataSourceMarked" class="mat-elevation-z8">
+                <ng-container matColumnDef="questionText">
+                    <th mat-header-cell *matHeaderCellDef> Pregunta </th>
+                    <td mat-cell *matCellDef="let element"> {{element.questionText}} </td>
+                </ng-container>
+                <ng-container matColumnDef="userResponse">
+                    <th mat-header-cell *matHeaderCellDef> Respuesta </th>
+                    <td mat-cell *matCellDef="let element"> 
+                        <span *ngIf="element.userResponse">Sí</span> 
+                        <span *ngIf="!element.userResponse">No</span>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="correct">
+                <th mat-header-cell *matHeaderCellDef> Correccion </th>
+                <td mat-cell *matCellDef="let element"> 
+                    <mat-icon *ngIf="element.correct">check</mat-icon>
+                    <mat-icon *ngIf="!element.correct">clear</mat-icon>
+                </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsMarked"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsMarked;"></tr>
+            </table>
         </mat-card-content>
     </mat-card>
 
     <mat-card class="studentCard">
         <mat-card-title>Preguntas por corregir</mat-card-title>
         <mat-card-content>
-            <mat-list *ngIf="unmarkedQuestions" role="list" class="correctSize">
-                <mat-list-item *ngFor="let question of unmarkedQuestions" role="listitem" class="checkOverflow">
-                    <p class="question">{{question.questionText}}</p>
-                    <div *ngIf="question.yesNoQuestion" class="answer">
-                        <p *ngIf="question.userResponse">Sí</p>
-                        <p *ngIf="!question.userResponse">No</p>
-                    </div>
-                    <div *ngIf="!question.yesNoQuestion" class="answer">
-                        <p>Test response</p>
-                    </div>
-                    <mat-divider></mat-divider>
-                </mat-list-item>
-            </mat-list>
+                <table mat-table [dataSource]="dataSourceUnmarked" class="mat-elevation-z8">
+                    <ng-container matColumnDef="questionText">
+                        <th mat-header-cell *matHeaderCellDef> Pregunta </th>
+                        <td mat-cell *matCellDef="let element"> {{element.questionText}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="userResponse">
+                        <th mat-header-cell *matHeaderCellDef> Respuesta </th>
+                        <td mat-cell *matCellDef="let element"> 
+                            <span *ngIf="element.userResponse">Sí</span> 
+                            <span *ngIf="!element.userResponse">No</span>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsUnmarked"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsUnmarked;"></tr>
+                    </table>
         </mat-card-content>
     </mat-card>
 
 </div>
+
+<!--
+<mat-list *ngIf="markedQuestions" role="list" class="correctSize">
+        <mat-list-item *ngFor="let question of markedQuestions" role="listitem" class="checkOverflow">
+            <p class="question">{{question.questionText}}</p>
+            <div *ngIf="question.yesNoQuestion" class="answer">
+                <p *ngIf="question.userResponse">Sí</p>
+                <p *ngIf="!question.userResponse">No</p>
+            </div>
+            <div *ngIf="!question.yesNoQuestion" class="answer">
+                <p>Test response</p>
+            </div>
+            <mat-icon class="icon" *ngIf="question.correct">check</mat-icon>
+            <mat-icon class="icon" *ngIf="!question.correct">clear</mat-icon>
+            <mat-divider></mat-divider>
+        </mat-list-item>
+    </mat-list> -->
