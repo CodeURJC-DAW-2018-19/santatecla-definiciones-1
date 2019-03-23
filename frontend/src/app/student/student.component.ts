@@ -4,7 +4,7 @@ import {MatTableDataSource} from '@angular/material';
 
 import { QuestionsService } from "./question.service";
 import { Question } from "./question.model";
-import { QuestionPage } from './questionPage.model';
+import { Page } from '../page/page.model';
 
 
 @Component({
@@ -32,14 +32,14 @@ export class StudentComponent {
 
   getMarkedQuestions(id: number){
     this.questionsService.getMarkedQuestions(id).subscribe(
-      (data: QuestionPage) => this.dataSourceMarked = new MatTableDataSource(data["content"]),
+      (data: Page<Question>) => this.dataSourceMarked = new MatTableDataSource(data["content"]),
       error => console.log(error)
     );
   }
 
   getUnmarkedQuestions(id: number){
     this.questionsService.getUnmarkedQuestions(id).subscribe(
-      (data: QuestionPage) => this.dataSourceUnmarked = new MatTableDataSource(data["content"]),
+      (data: Page<Question>) => this.dataSourceUnmarked = new MatTableDataSource(data["content"]),
       error => console.log(error)
     );
   }

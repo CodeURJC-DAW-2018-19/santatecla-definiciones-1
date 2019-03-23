@@ -20,12 +20,12 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { CovalentLayoutModule } from "@covalent/core/layout";
 import { CovalentStepsModule } from "@covalent/core/steps";
 
-import { HeaderComponent } from "./header.component";
-import { StudentComponent } from "./student.component";
+import { HeaderComponent } from "./header/header.component";
+import { StudentComponent } from "./student/student.component";
 import { TeacherComponent } from "./teacher/teacher.component";
 import { UrlChangerComponent } from "./teacher/urlchange.component";
 
-import { QuestionsService } from "./question.service";
+import { QuestionsService } from "./student/question.service";
 import { AnswerService } from "./teacher/answer.service"; 
 import { TeacherService } from "./teacher/teacher.service";
 

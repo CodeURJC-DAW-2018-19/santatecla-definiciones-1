@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { AnswerService } from "./answer.service";
 import { Answer } from "./answer.model";
 import { Justification } from "./justification.model";
-import { AnswerPage } from './answerPage.model';
+import { Page } from '../page/page.model';
 //later add justificationPage
 
 /** 
@@ -19,7 +19,7 @@ import { AnswerPage } from './answerPage.model';
 export class TeacherComponent {
   markedAnswers: Answer[] = [];
   unmarkedAnswers: Answer[] = [];
-  answerPage: AnswerPage;
+  answerPage: Page<Answer>;
   id: number;
 
   constructor(private router: Router, activatedRoute: ActivatedRoute, private answerService: AnswerService) {
@@ -30,14 +30,14 @@ export class TeacherComponent {
 
   getMarkedAnswers(id: number){
     this.answerService.getMarkedAnswers(id).subscribe(
-      (data: AnswerPage) => this.markedAnswers = data["content"],
+      (data: Page<Answer>) => this.markedAnswers = data["content"],
       error => console.log(error),
     );
   }
 
   getUnmarkedAnswers(id: number){
     this.answerService.getUnmarkedAnswers(id).subscribe(
-      (data: AnswerPage) => this.unmarkedAnswers = data["content"],
+      (data: Page<Answer>) => this.unmarkedAnswers = data["content"],
       error => console.log(error)
     );
   }
