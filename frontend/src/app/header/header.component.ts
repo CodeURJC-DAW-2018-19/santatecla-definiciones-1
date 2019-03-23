@@ -21,7 +21,7 @@ interface Tab {
 export class HeaderComponent {
   //Now holds placeholder data to be removed
   //TODO: Remove tab Teacher
-  tabs: Tab[] = [{ name: "Inicio", route: "", closable: false }, { name: "Teacher", route: "teacher/15", closable: true }];
+  tabs: Tab[] = [{ name: "Inicio", route: "", closable: false }, { name: "Teacher", route: "teacher/15", closable: true }, { name: "Student", route: "concept/15", closable: true }];
 
   constructor(private router: Router) { }
 
