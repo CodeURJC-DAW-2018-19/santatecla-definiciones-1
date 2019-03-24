@@ -10,7 +10,6 @@ import { Diagram } from "./diagram.model";
 })
 export class DiagramComponent {
   config: Object;
-
   constructor(
     private dialogRef: MatDialogRef<DiagramComponent>,
     private diagramService: DiagramService
@@ -24,6 +23,7 @@ export class DiagramComponent {
   }
 
   addDataToDiagram(data: Page<Diagram>) {
+    //TODO: Change this when login's done
     let chapterNames: string[] = [];
     let unmarked: number[] = [];
     let correct: number[] = [];
