@@ -17,6 +17,7 @@ import { MatDividerModule } from "@angular/material/divider";
 import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatDialogModule } from "@angular/material/dialog";
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { CovalentLayoutModule } from "@covalent/core/layout";
 import { CovalentStepsModule } from "@covalent/core/steps";
@@ -65,7 +66,8 @@ import { TeacherService } from "./teacher/teacher.service";
     MatDialogModule,
     CovalentBaseEchartsModule,
     CovalentBarEchartsModule,
-    CovalentTooltipEchartsModule
+    CovalentTooltipEchartsModule,
+    MatPaginatorModule
   ],
   providers: [QuestionsService, TeacherService, AnswerService, DiagramService],
   bootstrap: [AppComponent, DiagramComponent]

@@ -1,6 +1,6 @@
-import { Component } from "@angular/core";
+import { Component, ViewChild } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
-import { MatTableDataSource, MatDialog } from "@angular/material";
+import { MatTableDataSource, MatDialog, MatPaginator } from "@angular/material";
 
 import { QuestionsService } from "./question.service";
 import { Question } from "./question.model";
@@ -25,6 +25,7 @@ export class StudentComponent {
   dataSourceMarked: MatTableDataSource<Question>;
   displayedColumnsUnmarked: string[] = ["questionText", "userResponse"];
   dataSourceUnmarked: MatTableDataSource<Question>;
+  @ViewChild(MatPaginator) markedPaginator: MatPaginator;
 
   constructor(
     private diagramDialog: MatDialog,
@@ -45,6 +46,7 @@ export class StudentComponent {
           (this.dataSourceMarked = new MatTableDataSource(data["content"])),
         error => console.log(error)
       );
+    this.dataSourceMarked.paginator = this.markedPaginator;
   }
 
   getUnmarkedQuestions(id: number) {
@@ -63,4 +65,5 @@ export class StudentComponent {
       width: "800px"
     });
   }
+
 }

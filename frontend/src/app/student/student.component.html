@@ -25,6 +25,7 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumnsMarked"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumnsMarked;"></tr>
             </table>
+            <mat-paginator [pageSize]="5" [pageSizeOptions]="[5,10,25,100]"></mat-paginator>
         </mat-card-content>
     </mat-card>
 
@@ -50,6 +51,7 @@
     </mat-card>
 
 </div>
+
 <div align="center">
     <button
       mat-raised-button
@@ -59,5 +61,4 @@
     >
       Diagrama
     </button>
-  </div>
-  
+</div>
