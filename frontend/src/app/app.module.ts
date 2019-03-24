@@ -16,25 +16,33 @@ import { MatCardModule } from "@angular/material/card";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatDialogModule } from "@angular/material/dialog";
 
 import { CovalentLayoutModule } from "@covalent/core/layout";
 import { CovalentStepsModule } from "@covalent/core/steps";
 
+import { CovalentBaseEchartsModule } from '@covalent/echarts/base';
+import { CovalentBarEchartsModule } from '@covalent/echarts/bar';
+import { CovalentTooltipEchartsModule } from '@covalent/echarts/tooltip';
+
 import { ChapterComponent } from "./main.component";
-import { HeaderComponent } from "./header.component";
-import { StudentComponent } from "./student.component";
+import { HeaderComponent } from "./header/header.component";
+import { DiagramComponent } from "./diagram/diagram.component";
+import { StudentComponent } from "./student/student.component";
 import { TeacherComponent } from "./teacher/teacher.component";
 import { UrlChangerComponent } from "./teacher/urlchange.component";
 
 import { ChapterService } from "./chapter.service";
-import { QuestionsService } from "./question.service";
-import { AnswerService } from "./teacher/answer.service"; 
+import { DiagramService } from "./diagram/diagram.service";
+import { QuestionsService } from "./student/question.service";
+import { AnswerService } from "./teacher/answer.service";
 import { TeacherService } from "./teacher/teacher.service";
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
+    DiagramComponent,
     StudentComponent,
     TeacherComponent,
     UrlChangerComponent
@@ -55,9 +63,13 @@ import { TeacherService } from "./teacher/teacher.service";
     MatDividerModule,
     HttpClientModule,
     FormsModule,
-    MatTableModule
+    MatTableModule,
+    MatDialogModule,
+    CovalentBaseEchartsModule,
+    CovalentBarEchartsModule,
+    CovalentTooltipEchartsModule
   ],
-  providers: [QuestionsService, TeacherService, AnswerService],
-  bootstrap: [AppComponent]
+  providers: [QuestionsService, TeacherService, AnswerService, DiagramService],
+  bootstrap: [AppComponent, DiagramComponent]
 })
 export class AppModule {}

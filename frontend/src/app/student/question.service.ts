@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
+import { Question } from './question.model';
+import { Page } from '../page/page.model'
 
-
-import { QuestionPage } from "./questionPage.model";
 
 const BASE_URL = "https://localhost:8443/api";
 
@@ -21,11 +21,11 @@ export class QuestionsService {
     constructor(private http: HttpClient) { }
 
     getMarkedQuestions(id: number){
-       return this.http.get<QuestionPage>("/api/concepts/"+id+"/markedquestions", httpOptions);
+       return this.http.get<Page<Question>>("/api/concepts/"+id+"/markedquestions", httpOptions);
     }
 
     getUnmarkedQuestions(id: number){
-      return this.http.get<QuestionPage>("/api/concepts/"+id+"/unmarkedquestions", httpOptions);
+      return this.http.get<Page<Question>>("/api/concepts/"+id+"/unmarkedquestions", httpOptions);
    }
 
 }
