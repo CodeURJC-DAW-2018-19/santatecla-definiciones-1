@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
-import { TeacherService, ConceptInfo } from "./teacher.service";
+import { TeacherService } from "./teacher.service";
+import { Concept } from '../home/concept.model';
 
 /**
  * Url changer for teacher
@@ -23,7 +24,7 @@ export class UrlChangerComponent {
     this.teacherService
       .getConceptInfo(this.id)
       .subscribe(
-        (data: ConceptInfo) => (this.url = data["URL"]),
+        (data: Concept) => (this.url = data["URL"]),
         error => console.log(error)
       );
   }
@@ -34,7 +35,7 @@ export class UrlChangerComponent {
     this.teacherService
       .updateConceptInfo(this.id, conceptInfo)
       .subscribe(
-        (data: ConceptInfo) => (this.url = data["URL"]),
+        (data: Concept) => (this.url = data["URL"]),
         error => console.log(error)
       );
   }
