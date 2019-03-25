@@ -76,13 +76,13 @@ public class RestConceptControllerStudent {
 	@PostMapping("/concepts/{conceptId}/saveanswer")
 	public ResponseEntity<Answer> addAnswer(@PathVariable long conceptId, 
 			@RequestBody Map<String, Object> body){
-		
+		//TODO: refactor to prevet null pointer exceptions
 		String answerText = body.get("answerText").toString();
 		String answerOption = body.get("answerOption").toString();
 		String questionText = body.get("questionText").toString();
 		long answerId = Long.parseLong(body.get("answerId").toString());
 		long justificationQuestionId = Long.parseLong(body.get("justificationQuestionId").toString());
-		int questionType = (Integer) body.get("questionType");
+		Integer questionType = Integer.parseInt(body.get("questionType").toString());
 		
 		boolean open = answerText != null;
 		String answerFinalText = open ? answerText : answerOption;
