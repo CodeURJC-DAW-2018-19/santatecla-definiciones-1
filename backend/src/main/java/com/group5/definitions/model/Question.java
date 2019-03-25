@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 @Entity
 public class Question {
 	public interface Basic {}
-	public interface Saved extends Basic{}
+	public interface Saved extends Basic, Answer.Student{}
 	
 	@JsonView(Saved.class)
 	@Id
@@ -33,6 +33,7 @@ public class Question {
 	private boolean marked;
 	@JsonView(Saved.class)
 	private boolean correct;
+	@JsonView(Saved.class)
 	@ManyToOne
 	private Answer answer;
 	@OneToOne
