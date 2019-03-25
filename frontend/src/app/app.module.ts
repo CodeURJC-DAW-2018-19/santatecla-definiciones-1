@@ -34,6 +34,7 @@ import { StudentComponent } from "./student/student.component";
 import { TeacherComponent } from "./teacher/teacher.component";
 import { UrlChangerComponent } from "./teacher/urlchange.component";
 
+import { LoginService } from "./login/login.service";
 import { ChapterService } from "./home/chapter.service";
 import { DiagramService } from "./diagram/diagram.service";
 import { QuestionsService } from "./student/question.service";
@@ -74,7 +75,7 @@ import { TeacherService } from "./teacher/teacher.service";
     MatPaginatorModule,
     CovalentExpansionPanelModule
   ],
-  providers: [ChapterService, QuestionsService, TeacherService, AnswerService, DiagramService],
+  providers: [ChapterService, QuestionsService, TeacherService, AnswerService, DiagramService, LoginService],
   bootstrap: [AppComponent, DiagramComponent]
 })
 export class AppModule {}
