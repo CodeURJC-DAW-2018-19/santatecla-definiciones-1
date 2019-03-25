@@ -16,7 +16,7 @@ export class ChapterService {
   apiUrl = environment.baseUrl;
   constructor(private http: HttpClient) {}
   getChapters() {
-    return this.http.get<Page<Chapter>>(this.apiUrl + "/chapters/", this.httpOptions);
+    return this.http.get<Page<Chapter>>(this.apiUrl + "/chapters?sort=id", this.httpOptions);
   }
   getConceptPerChapter(chapterId: number) {
       return this.http.get<Page<Concept>>(this.apiUrl + "/chapters/" + chapterId + "/concepts", this.httpOptions);

@@ -6,11 +6,11 @@ import { Concept } from "./concept.model";
 
 @Component({
   selector: "main",
-  templateUrl: "./main.component.html"
+  templateUrl: "./main.component.html",
+  styleUrls: ["./main.component.css"]
 })
 export class ChapterComponent {
   chapterConcepts: Map<Chapter, Concept[]> = new Map();
-
   constructor(private chapterService: ChapterService) {
     this.getChapters();
   }
@@ -25,8 +25,10 @@ export class ChapterComponent {
   }
 
   addChapters(data: Page<Chapter>) {
-    for (let i = 0; i < data.content.length; i++) {
-      this.getConcepts(data.content[i])
+    for (let ch of data.content) {
+      //Set chapter first to keep ordering
+      this.chapterConcepts.set(ch, []);
+      this.getConcepts(ch);
     }
   }
 
@@ -42,5 +44,4 @@ export class ChapterComponent {
   addConcepts(chapter: Chapter, data: Page<Concept>) {
     this.chapterConcepts.set(chapter, data.content);
   }
-
 }
