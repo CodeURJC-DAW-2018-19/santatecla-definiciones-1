@@ -1,3 +1,6 @@
+import { AnswerStudent } from './answerStudent.model';
+import { JustificationStudent } from './justificationStudent.model';
+
 export interface Question {
     id: number;
     questionText: string;
@@ -6,4 +9,6 @@ export interface Question {
     userResponse: boolean;
     marked: boolean;
     correct: boolean;
+    answer: AnswerStudent;
+    justification: JustificationStudent;
 }
