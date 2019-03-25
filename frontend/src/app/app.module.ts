@@ -21,17 +21,20 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { CovalentLayoutModule } from "@covalent/core/layout";
 import { CovalentStepsModule } from "@covalent/core/steps";
+import { CovalentExpansionPanelModule } from '@covalent/core/expansion-panel';
 
 import { CovalentBaseEchartsModule } from '@covalent/echarts/base';
 import { CovalentBarEchartsModule } from '@covalent/echarts/bar';
 import { CovalentTooltipEchartsModule } from '@covalent/echarts/tooltip';
 
+import { ChapterComponent } from "./home/main.component";
 import { HeaderComponent } from "./header/header.component";
 import { DiagramComponent } from "./diagram/diagram.component";
 import { StudentComponent } from "./student/student.component";
 import { TeacherComponent } from "./teacher/teacher.component";
 import { UrlChangerComponent } from "./teacher/urlchange.component";
 
+import { ChapterService } from "./home/chapter.service";
 import { DiagramService } from "./diagram/diagram.service";
 import { QuestionsService } from "./student/question.service";
 import { AnswerService } from "./teacher/answer.service";
@@ -41,6 +44,7 @@ import { TeacherService } from "./teacher/teacher.service";
   declarations: [
     AppComponent,
     HeaderComponent,
+    ChapterComponent,
     DiagramComponent,
     StudentComponent,
     TeacherComponent,
@@ -67,9 +71,10 @@ import { TeacherService } from "./teacher/teacher.service";
     CovalentBaseEchartsModule,
     CovalentBarEchartsModule,
     CovalentTooltipEchartsModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    CovalentExpansionPanelModule
   ],
-  providers: [QuestionsService, TeacherService, AnswerService, DiagramService],
+  providers: [ChapterService, QuestionsService, TeacherService, AnswerService, DiagramService],
   bootstrap: [AppComponent, DiagramComponent]
 })
 export class AppModule {}
