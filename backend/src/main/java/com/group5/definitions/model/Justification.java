@@ -11,13 +11,15 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
 public class Justification {
+	
 	public interface Basic {}
+	public interface Student {}
 	
 	@JsonView(Basic.class)
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	@JsonView(Basic.class)
+	@JsonView(Student.class)
 	private String justificationText;
 	@JsonView(Basic.class)
 	private boolean marked;

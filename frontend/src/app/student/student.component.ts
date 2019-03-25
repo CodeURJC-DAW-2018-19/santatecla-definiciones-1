@@ -25,8 +25,8 @@ export class StudentComponent {
   dataSourceMarked: MatTableDataSource<Question>;
   displayedColumnsUnmarked: string[] = ["questionText", "userResponse"];
   dataSourceUnmarked: MatTableDataSource<Question>;
-  @ViewChild(MatPaginator) markedPaginator: MatPaginator;
-  @ViewChild(MatPaginator) unmarkedPaginator: MatPaginator;
+  //@ViewChild(MatPaginator) markedPaginator: MatPaginator;
+  //@ViewChild(MatPaginator) unmarkedPaginator: MatPaginator;
 
   constructor(
     private diagramDialog: MatDialog,
@@ -47,7 +47,7 @@ export class StudentComponent {
           (this.dataSourceMarked = new MatTableDataSource(data["content"])),
         error => console.log(error)
       );
-    this.dataSourceMarked.paginator = this.markedPaginator;
+    //this.dataSourceMarked.paginator = this.markedPaginator;
   }
 
   getUnmarkedQuestions(id: number) {
@@ -58,7 +58,7 @@ export class StudentComponent {
           (this.dataSourceUnmarked = new MatTableDataSource(data["content"])),
         error => console.log(error)
       );
-      this.dataSourceUnmarked.paginator = this.unmarkedPaginator;
+      //this.dataSourceUnmarked.paginator = this.unmarkedPaginator;
   }
 
   showDiagram() {
