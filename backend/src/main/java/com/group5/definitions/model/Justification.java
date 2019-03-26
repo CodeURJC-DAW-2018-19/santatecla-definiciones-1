@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 @Entity
 public class Justification {
 	
-	public interface Basic {}
+	public interface Basic extends Student {}
 	public interface Student {}
 	
 	@JsonView(Basic.class)

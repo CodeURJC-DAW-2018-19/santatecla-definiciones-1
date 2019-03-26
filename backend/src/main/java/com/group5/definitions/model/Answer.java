@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
 public class Answer {
-	public interface Basic{}
+	public interface Basic extends Student{}
 	public interface Justifications {}
 	public interface Marked extends Basic{}
 	public interface Student {}
