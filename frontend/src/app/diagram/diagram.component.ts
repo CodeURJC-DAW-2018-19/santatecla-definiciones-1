@@ -15,7 +15,7 @@ export class DiagramComponent {
     private diagramService: DiagramService
   ) {
     this.diagramService
-      .getDiagramTeacher()
+      .getDiagram()
       .subscribe(
         (data: Page<Diagram>) => this.addDataToDiagram(data),
         error => console.log(error)
@@ -23,7 +23,6 @@ export class DiagramComponent {
   }
 
   addDataToDiagram(data: Page<Diagram>) {
-    //TODO: Change this when login's done
     let chapterNames: string[] = [];
     let unmarked: number[] = [];
     let correct: number[] = [];
