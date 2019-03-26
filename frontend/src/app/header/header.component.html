@@ -1,10 +1,100 @@
 <nav mat-tab-nav-bar backgroundColor="primary">
-  <a mat-tab-link *ngFor="let tab of tabs" [routerLink]="tab.route" routerLinkActive #rla="routerLinkActive" [active]="rla.isActive">
-      {{ tab.name }}
-      <mat-icon *ngIf="tab.closable" (click)="closeTab(tab)">close</mat-icon>
+  <a
+    mat-tab-link
+    *ngFor="let tab of tabs"
+    [routerLink]="tab.route"
+    routerLinkActive
+    #rla="routerLinkActive"
+    [active]="rla.isActive"
+  >
+    {{ tab.name }}
+    <mat-icon *ngIf="tab.closable" (click)="closeTab(tab)">close</mat-icon>
   </a>
-  <a mat-tab-link routerLink="/login" routerLinkActive #rla="routerLinkActive" [active]="rla.isActive">
-    Login
-    <mat-icon>assignment</mat-icon>
-  </a>
+  <a mat-tab-link *ngIf="!this.loginService.isLogged" (click)='openLoginDialog()'>Login</a>
+  <a mat-tab-link *ngIf="this.loginService.isLogged" (click)='logOut()'>Logout</a>
 </nav>
+<!-- Login -->
+<ng-template #loginDialog let-dialogRef="dialogRef">
+  <div layout="column" layout-fill>
+    <h2 mat-dialog-title>
+      Login
+    </h2>
+    <mat-dialog-content flex>
+      <form #loginForm="ngForm">
+        <div layout="row">
+          <mat-form-field flex>
+            <input
+              matInput
+              #userElement
+              #userControl="ngModel"
+              placeholder="Usuario"
+              type="text"
+              maxlength="30"
+              name="username"
+              [(ngModel)]="username"
+              required
+            />
+            <span matPrefix>
+              <mat-icon>person</mat-icon>
+            </span>
+            <mat-hint align="start">
+              <span
+                [hidden]="!userControl.errors?.required || userControl.pristine"
+                class="tc-red-600"
+                >Required</span
+              >
+            </mat-hint>
+            <mat-hint align="end">{{ userElement.value.length }} / 30</mat-hint>
+          </mat-form-field>
+        </div>
+        <div layout="row">
+          <mat-form-field flex>
+            <input
+              matInput
+              #passElement
+              #passControl="ngModel"
+              placeholder="Contraseña"
+              type="password"
+              name="password"
+              [(ngModel)]="password"
+              required
+            />
+            <span matPrefix>
+              <mat-icon>lock</mat-icon>
+            </span>
+            <mat-hint align="start">
+              <span
+                [hidden]="!passControl.errors?.required || passControl.pristine"
+                class="tc-red-600"
+                >Required</span
+              >
+            </mat-hint>
+          </mat-form-field>
+        </div>
+        <div layout="row">
+          <span *ngIf="loginError">Usuario o contraseña incorrecto</span>
+        </div>
+      </form>
+    </mat-dialog-content>
+    <mat-divider></mat-divider>
+    <mat-dialog-actions align="end">
+      <button
+        type="button"
+        mat-button
+        class="text-upper"
+        (click)="dialogRef.close()"
+      >
+        Cerrar
+      </button>
+      <button
+        type="button"
+        mat-button
+        color="accent"
+        class="text-upper"
+        (click)="logIn($event, userElement.value, passElement.value)"
+      >
+        Login
+      </button>
+    </mat-dialog-actions>
+  </div>
+</ng-template>

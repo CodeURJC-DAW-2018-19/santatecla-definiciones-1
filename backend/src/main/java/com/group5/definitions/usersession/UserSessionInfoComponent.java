@@ -62,4 +62,10 @@ public class UserSessionInfoComponent {
 	public boolean isLoggedUser() {
 		return this.user != null;
 	}
+	
+	@Override
+    public String toString() {
+        return "UserComponent [user="
+                + (user != null ? user.toString() : "null") + "]";
+    }
 }
