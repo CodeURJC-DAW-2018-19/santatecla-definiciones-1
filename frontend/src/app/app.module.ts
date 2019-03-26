@@ -1,6 +1,6 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { FormsModule } from "@angular/forms";
 import { MatTableModule } from "@angular/material/table";
 
@@ -40,6 +40,9 @@ import { DiagramService } from "./diagram/diagram.service";
 import { QuestionsService } from "./student/question.service";
 import { AnswerService } from "./teacher/answer.service";
 import { TeacherService } from "./teacher/teacher.service";
+import { BasicAuthInterceptor } from './login/auth.interceptor';
+import { ErrorInterceptor } from './login/error.interceptor';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -75,7 +78,10 @@ import { TeacherService } from "./teacher/teacher.service";
     MatPaginatorModule,
     CovalentExpansionPanelModule
   ],
-  providers: [ChapterService, QuestionsService, TeacherService, AnswerService, DiagramService, LoginService],
+  providers: [ChapterService, QuestionsService, TeacherService, AnswerService, DiagramService, LoginService,
+    { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent, DiagramComponent]
 })
 export class AppModule {}
