@@ -1,0 +1,29 @@
+<h1 mat-dialog-title>Nueva respuesta</h1>
+<div mat-dialog-content>
+    <form class="newAnswer">
+        <p class="padding">Respuesta:</p>
+        <mat-form-field class="padding">
+                <input matInput >
+        </mat-form-field>
+            <mat-radio-group aria-label="Selecciona una opción" class="padding">
+                <mat-radio-button value="correct">Correcta</mat-radio-button>
+                <mat-radio-button value="incorrect">Incorrecta</mat-radio-button>
+            </mat-radio-group>
+        <p class="padding">Justificacion: </p>
+        <mat-form-field>
+                <input matInput class="padding">
+        </mat-form-field>
+            <mat-radio-group aria-label="Selecciona una opción" class="padding">
+                <mat-radio-button value="valid">Valida</mat-radio-button>
+                <mat-radio-button value="invalid">Invalida</mat-radio-button>
+            </mat-radio-group>
+            <p class="padding">Error: </p>
+        <mat-form-field>
+                <input matInput class="padding">
+        </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions>
+    <button mat-button cdkFocusInitial>Aceptar</button>
+    <button mat-button (click)="close()">Cancelar</button>
+</div>
