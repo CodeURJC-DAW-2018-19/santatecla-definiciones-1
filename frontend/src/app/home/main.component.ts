@@ -4,6 +4,7 @@ import { Chapter } from "./chapter.model";
 import { Page } from "../page/page.model";
 import { Concept } from "./concept.model";
 import { LoginService } from '../login/login.service';
+import { HeaderService } from '../header/header.service';
 
 @Component({
   selector: "main",
@@ -12,7 +13,7 @@ import { LoginService } from '../login/login.service';
 })
 export class ChapterComponent {
   chapterConcepts: Map<Chapter, Concept[]> = new Map();
-  constructor(private chapterService: ChapterService, public loginService: LoginService) {
+  constructor(private chapterService: ChapterService, public loginService: LoginService, public headerService: HeaderService) {
     this.getChapters();
   }
 
