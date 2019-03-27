@@ -15,7 +15,7 @@
     </div>
   </td-expansion-panel>
 </mat-card>
-<div align="center">
+<div *ngIf="this.logginService.isLogged" align="center">
   <button
     mat-raised-button
     color="primary"
