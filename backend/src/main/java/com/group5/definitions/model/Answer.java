@@ -27,7 +27,7 @@ public class Answer {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	@JsonView(Student.class)
-	@Column(length = 1000)
+	@Column(columnDefinition = "TEXT")
 	private String answerText;
 	@JsonView(Basic.class)
 	private boolean marked;

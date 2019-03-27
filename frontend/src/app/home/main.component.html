@@ -7,8 +7,8 @@
     <div class="md-padding">
       <ul>
         <li *ngFor="let concept of chap.value">
-          <button *ngIf="!this.loginService.isTeacher" mat-raised-button [disabled]=!this.loginService.isLogged routerLink="/concept/{{concept.id}}">{{concept.conceptName}}</button>
-          <button *ngIf="this.loginService.isTeacher" mat-raised-button routerLink="/teacher/{{concept.id}}">{{concept.conceptName}}</button>
+          <button *ngIf="!this.loginService.isTeacher" mat-raised-button [disabled]=!this.loginService.isLogged routerLink="/concept/{{concept.id}}" (click)="this.headerService.addTab(concept.conceptName, '/concept/' + concept.id)">{{concept.conceptName}}</button>
+          <button *ngIf="this.loginService.isTeacher" mat-raised-button routerLink="/teacher/{{concept.id}}" (click)="this.headerService.addTab(concept.conceptName, '/teacher/' + concept.id)">{{concept.conceptName}}</button>
         </li>
       </ul>
       <span *ngIf="chap?.value?.length === 0">No hay conceptos disponibles</span>

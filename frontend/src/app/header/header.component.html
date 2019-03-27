@@ -1,14 +1,14 @@
 <nav mat-tab-nav-bar backgroundColor="primary">
   <a
     mat-tab-link
-    *ngFor="let tab of tabs"
-    [routerLink]="tab.route"
+    *ngFor="let tab of this.headerService.getTabs() | keyvalue"
+    [routerLink]="tab.key"
     routerLinkActive
     #rla="routerLinkActive"
     [active]="rla.isActive"
   >
-    {{ tab.name }}
-    <mat-icon *ngIf="tab.closable" (click)="closeTab(tab)">close</mat-icon>
+    {{ tab.value.name }}
+    <mat-icon *ngIf="tab.value.closable" (click)="$event.preventDefault(); closeTab(key)">close</mat-icon>
   </a>
   <a mat-tab-link *ngIf="!this.loginService.isLogged" (click)='openLoginDialog()'>Login</a>
   <a mat-tab-link *ngIf="this.loginService.isLogged" (click)='logOut()'>Logout</a>

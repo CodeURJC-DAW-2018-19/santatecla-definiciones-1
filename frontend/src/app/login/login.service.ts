@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment'
+import { HeaderService } from '../header/header.service';
 
 const URL = environment.baseUrl;
 
@@ -20,7 +21,7 @@ export class LoginService {
     user: User;
     auth: string;
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private headerService: HeaderService) {
         let user = JSON.parse(localStorage.getItem('currentUser'));
         if (user) {
             console.log('Logged user');
@@ -70,5 +71,6 @@ export class LoginService {
         localStorage.removeItem('currentUser');
         this.isLogged = false;
         this.isTeacher = false;
+        this.headerService.resetTabs();
     }
 }
