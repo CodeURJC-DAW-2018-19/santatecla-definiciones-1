@@ -33,7 +33,7 @@ export class HeaderComponent {
   loginError: boolean = false;
   constructor(
     private router: Router,
-    private loginService: LoginService,
+    public loginService: LoginService,
     public dialog: MatDialog
   ) {}
   //Tab methods

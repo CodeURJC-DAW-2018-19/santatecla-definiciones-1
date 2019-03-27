@@ -1,4 +1,3 @@
-<!-- TODO: Change this template when Login's done -->
 <mat-card>
   <span *ngIf="chapterConcepts.size === 0">No hay temas disponibles.</span>
   <td-expansion-panel
@@ -7,7 +6,10 @@
   >
     <div class="md-padding">
       <ul>
-        <li *ngFor="let concept of chap.value"><a mat-raised-button routerLink="/concept/{{concept.id}}">{{concept.conceptName}}</a></li>
+        <li *ngFor="let concept of chap.value">
+          <button *ngIf="!this.loginService.isTeacher" mat-raised-button [disabled]=!this.loginService.isLogged routerLink="/concept/{{concept.id}}">{{concept.conceptName}}</button>
+          <button *ngIf="this.loginService.isTeacher" mat-raised-button routerLink="/teacher/{{concept.id}}">{{concept.conceptName}}</button>
+        </li>
       </ul>
       <span *ngIf="chap?.value?.length === 0">No hay conceptos disponibles</span>
     </div>
