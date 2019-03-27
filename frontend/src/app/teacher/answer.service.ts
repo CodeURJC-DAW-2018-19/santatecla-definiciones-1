@@ -1,31 +1,30 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { HttpHeaders } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 
-import { Answer } from './answer.model';
-import { Page } from '../page/page.model';
+import { Answer } from "./answer.model";
+import { Page } from "../page/page.model";
+import { LoginService } from "../login/login.service";
+import { environment } from "../../environments/environment";
 
-const BASE_URL = "https://localhost:8443/api";
+const BASE_URL = environment.baseUrl;
 
 //It will be necessary to access the user information by a new service
-const httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type':  'application/json',
-      'Authorization': 'Basic ' + btoa('admin:adminpass')
-    })
-};
 
 @Injectable()
 export class AnswerService {
+  constructor(private http: HttpClient, private loginService: LoginService) {}
 
-    constructor(private http: HttpClient) { }
+  getMarkedAnswers(id: number) {
+    return this.http.get<Page<Answer>>(
+      BASE_URL + "/concepts/" + id + "/markedanswers",
+      { withCredentials: true }
+    );
+  }
 
-    getMarkedAnswers(id: number){
-       return this.http.get<Page<Answer>>("/api/concepts/"+id+"/markedanswers", httpOptions);
-    }
-
-    getUnmarkedAnswers(id: number){
-      return this.http.get<Page<Answer>>("/api/concepts/"+id+"/unmarkedanswers", httpOptions);
-   }
-
+  getUnmarkedAnswers(id: number) {
+    return this.http.get<Page<Answer>>(
+      BASE_URL + "/concepts/" + id + "/unmarkedanswers",
+      { withCredentials: true }
+    );
+  }
 }
