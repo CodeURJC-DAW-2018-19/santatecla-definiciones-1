@@ -44,6 +44,7 @@ import { BasicAuthInterceptor } from './login/auth.interceptor';
 import { ErrorInterceptor } from './login/error.interceptor';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { HeaderService } from './header/header.service';
+import { ImageService } from './images/image.service';
 
 @NgModule({
   declarations: [
@@ -79,7 +80,7 @@ import { HeaderService } from './header/header.service';
     MatPaginatorModule,
     CovalentExpansionPanelModule
   ],
-  providers: [ChapterService, QuestionsService, TeacherService, AnswerService, DiagramService, LoginService, HeaderService,
+  providers: [ChapterService, QuestionsService, TeacherService, AnswerService, DiagramService, LoginService, HeaderService, ImageService,
     { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: LocationStrategy, useClass: HashLocationStrategy }],

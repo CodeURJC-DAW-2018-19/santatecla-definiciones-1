@@ -24,10 +24,4 @@ export class ChapterService {
     );
   }
 
-  getImage(conceptId: number) {
-    return this.http.get(this.apiUrl + "/concepts/" + conceptId + "/image", {
-      responseType: "blob"
-    });
-  }
-  
 }

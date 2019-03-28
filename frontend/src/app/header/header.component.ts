@@ -29,7 +29,9 @@ export class HeaderComponent {
   }
 
   //Param is router url
-  closeTab(url: string) {
+  closeTab(url: string, event) {
+    console.log(event)
+    event.preventDefault();
     // If the tab to remove is the current open tab go to home route
     if (url === this.router.url) this.router.navigate(["/"]);
     this.headerService.closeTab(url);
