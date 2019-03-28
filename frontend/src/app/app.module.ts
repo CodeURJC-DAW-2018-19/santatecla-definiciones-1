@@ -41,6 +41,7 @@ import { ChapterService } from "./home/chapter.service";
 import { DiagramService } from "./diagram/diagram.service";
 import { QuestionsService } from "./student/question.service";
 import { AnswerService } from "./teacher/answer.service";
+import { JustificationService } from "./teacher/justification.service";
 import { TeacherService } from "./teacher/teacher.service";
 import { BasicAuthInterceptor } from './login/auth.interceptor';
 import { ErrorInterceptor } from './login/error.interceptor';
@@ -86,7 +87,7 @@ import { ImagePosterComponent } from './teacher/imageposter.component';
     CovalentDialogsModule,
     CovalentFileModule
   ],
-  providers: [ChapterService, QuestionsService, TeacherService, AnswerService, DiagramService, LoginService, HeaderService, ImageService,
+  providers: [ChapterService, QuestionsService, TeacherService, AnswerService, JustificationService, DiagramService, LoginService, HeaderService, ImageService,
     { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: LocationStrategy, useClass: HashLocationStrategy }],

@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
@@ -32,6 +33,7 @@ export class AnswerService {
       { withCredentials: true }
     );
   }
+
   apiUrl = environment.baseUrl;
 
    removeAnswer(answerId: number, conceptId: number): Observable<Answer> {
@@ -44,4 +46,6 @@ export class AnswerService {
       console.error(error);
       return throwError(new Error('Server error (' + error.status + '): ' + error));
    }
+
 }
+
