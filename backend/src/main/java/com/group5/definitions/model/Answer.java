@@ -34,7 +34,7 @@ public class Answer {
 	@JsonView(Marked.class)
 	private boolean correct;
 	@JsonView(Justifications.class)
-	@OneToMany(mappedBy="answer", cascade = CascadeType.REMOVE)
+	@OneToMany(cascade = CascadeType.REMOVE)
 	private List<Justification> justifications;
 	@OneToOne
 	private User user; //User that created this answer 
