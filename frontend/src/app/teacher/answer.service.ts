@@ -1,13 +1,16 @@
-import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { Answer } from "./answer.model";
-import { Page } from "../page/page.model";
+import { Answer } from './answer.model';
+import { Page } from '../page/page.model';
 import { LoginService } from "../login/login.service";
+
 import { environment } from "../../environments/environment";
+
 
 const BASE_URL = environment.baseUrl;
 
@@ -43,4 +46,6 @@ export class AnswerService {
       console.error(error);
       return throwError(new Error('Server error (' + error.status + '): ' + error));
    }
+
 }
+
