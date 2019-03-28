@@ -1,0 +1,9 @@
+.imageList {
+    vertical-align: middle;
+    width: 100px;
+    height: 100px;
+    margin: 20px;
+}
+td-file-upload {
+    display: inline-block
+}

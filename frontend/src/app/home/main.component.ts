@@ -7,6 +7,7 @@ import { LoginService } from '../login/login.service';
 import { HeaderService } from '../header/header.service';
 import { MatDialog } from '@angular/material';
 import { DiagramComponent } from '../diagram/diagram.component';
+import { ImageService } from '../images/image.service';
 
 @Component({
   selector: "main",
@@ -15,7 +16,7 @@ import { DiagramComponent } from '../diagram/diagram.component';
 })
 export class ChapterComponent {
   chapterConcepts: Map<Chapter, Concept[]> = new Map();
-  constructor(private diagramDialog: MatDialog, private chapterService: ChapterService, public loginService: LoginService, public headerService: HeaderService) {
+  constructor(private diagramDialog: MatDialog, private chapterService: ChapterService, public loginService: LoginService, public headerService: HeaderService, private imageService: ImageService) {
     this.getChapters();
   }
 
@@ -46,7 +47,14 @@ export class ChapterComponent {
   }
 
   addConcepts(chapter: Chapter, data: Page<Concept>) {
-    this.chapterConcepts.set(chapter, data.content);
+    let conceptInfo = data.content;
+    for (let concept of conceptInfo){
+      this.imageService.getImage(concept.id).subscribe(
+        (data: Blob) => this.imageService.createImageFromBlob(data, ((image) => concept.image = image)),
+        error => console.log(error)
+      )
+    }
+    this.chapterConcepts.set(chapter, conceptInfo);
   }
 
   showDiagram() {

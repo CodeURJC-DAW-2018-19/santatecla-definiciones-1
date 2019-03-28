@@ -2,12 +2,15 @@ package com.group5.definitions.restcontrollers;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -74,6 +77,7 @@ public class RestConceptControllerTeacher {
 	public Page<Answer> getMarked(@PathVariable long conceptId, @PageableDefault(size = DEFAULT_SIZE) Pageable page) {
 		return answerService.findByMarkedAndConceptId(true, conceptId, page);
 	}
+	
 
 	@JsonView(AnswerMarked.class)
 	@GetMapping("/concepts/{conceptId}/unmarkedanswers")
@@ -130,8 +134,6 @@ public class RestConceptControllerTeacher {
 	public ResponseEntity<Answer> deleteAnswer(@PathVariable long conceptId, @PathVariable long answerId) {
 		Answer ans = answerService.getOne(answerId);
 		if (ans != null) {
-			for (Justification j : ans.getJustifications())
-				justificationService.deleteById(j.getId());
 			answerService.deleteById(answerId);
 			return new ResponseEntity<>(ans, HttpStatus.ACCEPTED);
 		} else

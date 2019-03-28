@@ -8,7 +8,7 @@
     [active]="rla.isActive"
   >
     {{ tab.value.name }}
-    <mat-icon *ngIf="tab.value.closable" (click)="$event.preventDefault(); closeTab(key)">close</mat-icon>
+    <mat-icon *ngIf="tab.value.closable" (click)="closeTab(tab.key, $event)">close</mat-icon>
   </a>
   <a mat-tab-link *ngIf="!this.loginService.isLogged" (click)='openLoginDialog()'>Login</a>
   <a mat-tab-link *ngIf="this.loginService.isLogged" (click)='logOut()'>Logout</a>
@@ -86,10 +86,20 @@
       >
         Cerrar
       </button>
+      
       <button
         type="button"
         mat-button
-        color="accent"
+        color="primary"
+        class="text-upper"
+        (click)="signup($event, userElement.value, passElement.value)"
+      >
+        Registrarse
+      </button>
+      <button
+        type="button"
+        mat-button
+        color="primary"
         class="text-upper"
         (click)="logIn($event, userElement.value, passElement.value)"
       >

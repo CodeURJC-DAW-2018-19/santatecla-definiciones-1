@@ -23,6 +23,7 @@ import { CovalentLayoutModule } from "@covalent/core/layout";
 import { CovalentStepsModule } from "@covalent/core/steps";
 import { CovalentExpansionPanelModule } from '@covalent/core/expansion-panel';
 import { CovalentDialogsModule } from '@covalent/core';
+import { CovalentFileModule } from '@covalent/core/file'
 
 import { CovalentBaseEchartsModule } from '@covalent/echarts/base';
 import { CovalentBarEchartsModule } from '@covalent/echarts/bar';
@@ -45,6 +46,8 @@ import { BasicAuthInterceptor } from './login/auth.interceptor';
 import { ErrorInterceptor } from './login/error.interceptor';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { HeaderService } from './header/header.service';
+import { ImageService } from './images/image.service';
+import { ImagePosterComponent } from './teacher/imageposter.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +57,8 @@ import { HeaderService } from './header/header.service';
     DiagramComponent,
     StudentComponent,
     TeacherComponent,
-    UrlChangerComponent
+    UrlChangerComponent,
+    ImagePosterComponent
   ],
   imports: [
     BrowserModule,
@@ -79,9 +83,10 @@ import { HeaderService } from './header/header.service';
     CovalentTooltipEchartsModule,
     MatPaginatorModule,
     CovalentExpansionPanelModule,
-    CovalentDialogsModule
+    CovalentDialogsModule,
+    CovalentFileModule
   ],
-  providers: [ChapterService, QuestionsService, TeacherService, AnswerService, DiagramService, LoginService, HeaderService,
+  providers: [ChapterService, QuestionsService, TeacherService, AnswerService, DiagramService, LoginService, HeaderService, ImageService,
     { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: LocationStrategy, useClass: HashLocationStrategy }],

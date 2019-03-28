@@ -58,6 +58,8 @@ export class TeacherComponent {
     this._dialogService.openConfirm({
         message: '¿Quieres eliminar esta respuesta?',
         title: 'Confirmar', 
+        acceptButton: 'Aceptar',
+        cancelButton: 'Cancelar',
         width: '500px', 
         height: '175px'
     }).afterClosed().subscribe((accept: boolean) => {

@@ -1,0 +1,19 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Imagen</mat-card-title>
+  </mat-card-header>
+  <img class="imageList" [src]="this.image">
+  <td-file-upload
+    #singleFileUpload
+    (upload)="uploadEvent($event)"
+    required
+  >
+    <mat-icon>file_upload</mat-icon
+    ><span>{{ singleFileUpload.value?.name }}</span>
+    <ng-template td-file-input-label>
+      <mat-icon>attach_file</mat-icon>
+      <span>Selecciona una imagen...</span>
+      <span [hidden]="!singleFileUpload?.required"></span>
+    </ng-template>
+  </td-file-upload>
+</mat-card>

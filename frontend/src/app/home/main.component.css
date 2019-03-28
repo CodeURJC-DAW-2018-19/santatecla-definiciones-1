@@ -1,7 +1,12 @@
 ul {
-    /* TODO: Change with image maybe?*/
     list-style-type: none;
 }
 li {
     margin-bottom: 20px;
+}
+.imageList {
+    vertical-align: middle;
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
 }
