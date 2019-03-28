@@ -86,10 +86,20 @@
       >
         Cerrar
       </button>
+      
       <button
         type="button"
         mat-button
-        color="accent"
+        color="primary"
+        class="text-upper"
+        (click)="signup($event, userElement.value, passElement.value)"
+      >
+        Registrarse
+      </button>
+      <button
+        type="button"
+        mat-button
+        color="primary"
         class="text-upper"
         (click)="logIn($event, userElement.value, passElement.value)"
       >

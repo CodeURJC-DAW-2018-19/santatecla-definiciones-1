@@ -30,7 +30,7 @@ export class HeaderComponent {
 
   //Param is router url
   closeTab(url: string, event) {
-    console.log(event)
+    console.log(event);
     event.preventDefault();
     // If the tab to remove is the current open tab go to home route
     if (url === this.router.url) this.router.navigate(["/"]);
@@ -63,6 +63,16 @@ export class HeaderComponent {
         this.router.navigate(["/"]);
       },
       error => console.log("Error when trying to log out: " + error)
+    );
+  }
+
+  signup(event: any, user: string, pass: string) {
+    event.preventDefault();
+    this.loginService.signup(user, pass).subscribe(
+      u => {
+        this.logIn(event, user, pass)
+      },
+      (error: Error) => console.error(error)
     );
   }
 }
