@@ -7,8 +7,12 @@ import { Justification } from "./justification.model";
 import { Page } from "../page/page.model";
 import { DiagramComponent } from "../diagram/diagram.component";
 import { MatDialog } from "@angular/material";
+import { TdDialogService } from '@covalent/core';
 //later add justificationPage
 
+/**
+ * Wrapper component for all teacher information.
+ */
 @Component({
   selector: "teacher",
   templateUrl: "./teacher.component.html",
@@ -24,7 +28,8 @@ export class TeacherComponent {
     private diagramDialog: MatDialog,
     private router: Router,
     activatedRoute: ActivatedRoute,
-    private answerService: AnswerService
+    private answerService: AnswerService,
+    private _dialogService: TdDialogService
   ) {
     this.id = activatedRoute.snapshot.params["id"];
     this.getMarkedAnswers(this.id);
@@ -48,6 +53,24 @@ export class TeacherComponent {
         error => console.log(error)
       );
   }
+
+  deleteAnswer(answerId: number) {
+    this._dialogService.openConfirm({
+        message: '¿Quieres eliminar esta respuesta?',
+        title: 'Confirmar', 
+        acceptButton: 'Aceptar',
+        cancelButton: 'Cancelar',
+        width: '500px', 
+        height: '175px'
+    }).afterClosed().subscribe((accept: boolean) => {
+        if (accept) {
+            this.answerService
+                .removeAnswer(answerId, this.id) 
+                .subscribe((_) => this.getMarkedAnswers(this.id), (error) => console.error(error));
+            console.log(this.markedAnswers);
+        }
+    });
+}
 
   showDiagram() {
     this.diagramDialog.open(DiagramComponent, {
