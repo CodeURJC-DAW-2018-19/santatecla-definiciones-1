@@ -22,6 +22,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { CovalentLayoutModule } from "@covalent/core/layout";
 import { CovalentStepsModule } from "@covalent/core/steps";
 import { CovalentExpansionPanelModule } from '@covalent/core/expansion-panel';
+import { CovalentDialogsModule } from '@covalent/core';
 import { CovalentFileModule } from '@covalent/core/file'
 
 import { CovalentBaseEchartsModule } from '@covalent/echarts/base';
@@ -82,6 +83,7 @@ import { ImagePosterComponent } from './teacher/imageposter.component';
     CovalentTooltipEchartsModule,
     MatPaginatorModule,
     CovalentExpansionPanelModule,
+    CovalentDialogsModule,
     CovalentFileModule
   ],
   providers: [ChapterService, QuestionsService, TeacherService, AnswerService, DiagramService, LoginService, HeaderService, ImageService,
@@ -90,4 +92,4 @@ import { ImagePosterComponent } from './teacher/imageposter.component';
     { provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent, DiagramComponent]
 })
-export class AppModule {}
+export class AppModule { }

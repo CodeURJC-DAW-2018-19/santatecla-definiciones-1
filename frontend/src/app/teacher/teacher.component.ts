@@ -66,7 +66,7 @@ export class TeacherComponent {
         if (accept) {
             this.answerService
                 .removeAnswer(answerId, this.id) 
-                .subscribe((_) => this.getMarkedAnswers(this.id), (error) => console.error(error));
+                .subscribe((_) => this.getMarkedAnswers(this.id), /*this.router.navigate(['/teacher/' + this.id]),*/ (error) => console.error(error));
             console.log(this.markedAnswers);
         }
     });
