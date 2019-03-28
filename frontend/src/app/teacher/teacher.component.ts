@@ -9,9 +9,6 @@ import { DiagramComponent } from "../diagram/diagram.component";
 import { MatDialog } from "@angular/material";
 //later add justificationPage
 
-/**
- * Wrapper component for all teacher information.
- */
 @Component({
   selector: "teacher",
   templateUrl: "./teacher.component.html",

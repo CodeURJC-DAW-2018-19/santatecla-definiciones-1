@@ -50,23 +50,12 @@ export class ChapterComponent {
     let conceptInfo = data.content;
     for (let concept of conceptInfo){
       this.imageService.getImage(concept.id).subscribe(
-        (data: Blob) => this.createImageFromBlob(data, ((image) => concept.image = image)),
+        (data: Blob) => this.imageService.createImageFromBlob(data, ((image) => concept.image = image)),
         error => console.log(error)
       )
     }
     this.chapterConcepts.set(chapter, conceptInfo);
   }
-
-  createImageFromBlob(image: Blob, callback: (arg0: string | ArrayBuffer) => void) {
-    let reader = new FileReader();
-    reader.addEventListener("load", () => {
-       callback(reader.result);
-    }, false);
- 
-    if (image) {
-       reader.readAsDataURL(image);
-    }
- }
 
   showDiagram() {
     this.diagramDialog.open(DiagramComponent, {
