@@ -3,6 +3,10 @@ import { ChapterService } from "./chapter.service";
 import { Chapter } from "./chapter.model";
 import { Page } from "../page/page.model";
 import { Concept } from "./concept.model";
+import { LoginService } from '../login/login.service';
+import { HeaderService } from '../header/header.service';
+import { MatDialog } from '@angular/material';
+import { DiagramComponent } from '../diagram/diagram.component';
 
 @Component({
   selector: "main",
@@ -11,7 +15,7 @@ import { Concept } from "./concept.model";
 })
 export class ChapterComponent {
   chapterConcepts: Map<Chapter, Concept[]> = new Map();
-  constructor(private chapterService: ChapterService) {
+  constructor(private diagramDialog: MatDialog, private chapterService: ChapterService, public loginService: LoginService, public headerService: HeaderService) {
     this.getChapters();
   }
 
@@ -43,5 +47,12 @@ export class ChapterComponent {
 
   addConcepts(chapter: Chapter, data: Page<Concept>) {
     this.chapterConcepts.set(chapter, data.content);
+  }
+
+  showDiagram() {
+    this.diagramDialog.open(DiagramComponent, {
+      height: "600px",
+      width: "800px"
+    });
   }
 }

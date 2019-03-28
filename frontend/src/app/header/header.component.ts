@@ -2,15 +2,8 @@ import { Component, TemplateRef, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { LoginService } from "../login/login.service";
 import { MatDialogRef, MatDialog } from "@angular/material";
-
-/**
- * Interface for Tab information
- */
-interface Tab {
-  name: string;
-  route: string;
-  closable: boolean;
-}
+import { HeaderService } from "./header.service";
+import { Tab } from "./tab.model";
 
 /**
  * Component for the header
@@ -23,34 +16,23 @@ interface Tab {
 export class HeaderComponent {
   @ViewChild("loginDialog") loginDialog: TemplateRef<any>;
   dialogRef: MatDialogRef<any, any>;
-  //Now holds placeholder data to be removed
-  //TODO: Remove tab Teacher
-  tabs: Tab[] = [
-    { name: "Inicio", route: "/", closable: false },
-    { name: "Teacher", route: "teacher/15", closable: true },
-    { name: "Student", route: "concept/15", closable: true }
-  ];
   loginError: boolean = false;
   constructor(
     private router: Router,
-    private loginService: LoginService,
+    public headerService: HeaderService,
+    public loginService: LoginService,
     public dialog: MatDialog
   ) {}
   //Tab methods
   addTab(name: string, route: string) {
-    this.tabs.push({ name: name, route: route, closable: true });
+    this.headerService.addTab(name, route);
   }
 
-  closeTab(tab: Tab) {
-    let index = this.tabs.indexOf(tab);
+  //Param is router url
+  closeTab(url: string) {
     // If the tab to remove is the current open tab go to home route
-    if (this.router.url === this.tabs[index].route)
-      this.router.navigate([this.tabs[0].route]);
-    this.tabs.splice(index, 1);
-  }
-
-  routeTab(route: string) {
-    this.router.navigate([route]);
+    if (url === this.router.url) this.router.navigate(["/"]);
+    this.headerService.closeTab(url);
   }
   //Login/Logout methods
   openLoginDialog() {

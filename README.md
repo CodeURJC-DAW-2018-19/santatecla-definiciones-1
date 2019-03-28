@@ -3,7 +3,7 @@
 
 |Name|E-mail|Github|
 |-----|-----|-----|
-|Daniel Diz Molinero  |  d.diz.2016@alumnos.urjc.es	    | [LordHansTopo](https://github.com/LordHansTopo)|
+|Daniel Diz Molinero  |  d.diz.2016@alumnos.urjc.es	    | [danielDiz](https://github.com/danielDiz)|
 |Iván Chicano Capelo | i.chicano.2016@alumnos.urjc.es  |	[ivchicano](https://github.com/ivchicano)   |
 |Diego Jara López	    | d.jaral@alumnos.urjc.es	        | [DiegoJL97](https://github.com/DiegoJL97)   |
 |David Muñoz Alonso	  | d.munoza.2016@alumnos.urjc.es	  | [ggeettaa](https://github.com/ggeettaa)    |

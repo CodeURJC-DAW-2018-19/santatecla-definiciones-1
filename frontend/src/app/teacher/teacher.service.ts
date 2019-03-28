@@ -8,20 +8,16 @@ import { Concept } from '../home/concept.model';
  */
 @Injectable()
 export class TeacherService {
-  constructor(private http: HttpClient) {}
-  httpOptions = {
-    headers: new HttpHeaders({
-      "Content-Type": "application/json",
-      //TODO: Change this when login's done
-      Authorization: "Basic " + btoa("admin:adminpass")
-    })
-  };
+  constructor(private http: HttpClient) { }
   apiUrl = environment.baseUrl;
 
   getConceptInfo(id: number) {
-    return this.http.get<Concept>(this.apiUrl + "/concepts/" + id, this.httpOptions);
+    return this.http.get<Concept>(this.apiUrl + "/concepts/" + id, { withCredentials: true });
   }
-  updateConceptInfo(id:number, conceptInfo: Concept){
-    return this.http.put<Concept>(this.apiUrl + "/concepts/" + id, conceptInfo, this.httpOptions);
+  updateConceptInfo(id: number, conceptInfo: Concept) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    return this.http.put<Concept>(this.apiUrl + "/concepts/" + id, conceptInfo, { headers: headers});
   }
 }

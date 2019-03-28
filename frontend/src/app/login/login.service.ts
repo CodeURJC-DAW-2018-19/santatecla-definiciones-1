@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment'
+import { HeaderService } from '../header/header.service';
 
 const URL = environment.baseUrl;
 
@@ -16,13 +17,11 @@ export interface User {
 export class LoginService {
 
     isLogged = false;
-    isAdmin = false;
+    isTeacher = false;
     user: User;
     auth: string;
 
-    constructor(private http: HttpClient) {
-        //TODO: Delete clear() when logout works
-        localStorage.clear();
+    constructor(private http: HttpClient, private headerService: HeaderService) {
         let user = JSON.parse(localStorage.getItem('currentUser'));
         if (user) {
             console.log('Logged user');
@@ -65,12 +64,13 @@ export class LoginService {
     private setCurrentUser(user: User) {
         this.isLogged = true;
         this.user = user;
-        this.isAdmin = this.user.roles.indexOf('ROLE_ADMIN') !== -1;
+        this.isTeacher = this.user.roles.indexOf('ROLE_TEACHER') !== -1;
     }
 
     removeCurrentUser() {
         localStorage.removeItem('currentUser');
         this.isLogged = false;
-        this.isAdmin = false;
+        this.isTeacher = false;
+        this.headerService.resetTabs();
     }
 }

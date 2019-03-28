@@ -44,6 +44,7 @@ import { TeacherService } from "./teacher/teacher.service";
 import { BasicAuthInterceptor } from './login/auth.interceptor';
 import { ErrorInterceptor } from './login/error.interceptor';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { HeaderService } from './header/header.service';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,7 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
     CovalentExpansionPanelModule,
     CovalentDialogsModule
   ],
-  providers: [ChapterService, QuestionsService, TeacherService, AnswerService, DiagramService, LoginService,
+  providers: [ChapterService, QuestionsService, TeacherService, AnswerService, DiagramService, LoginService, HeaderService,
     { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: LocationStrategy, useClass: HashLocationStrategy }],

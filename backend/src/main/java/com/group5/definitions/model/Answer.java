@@ -27,14 +27,14 @@ public class Answer {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	@JsonView(Student.class)
-	@Column(length = 1000)
+	@Column(columnDefinition = "TEXT")
 	private String answerText;
 	@JsonView(Basic.class)
 	private boolean marked;
 	@JsonView(Marked.class)
 	private boolean correct;
 	@JsonView(Justifications.class)
-	@OneToMany(mappedBy="answer", cascade = CascadeType.REMOVE)
+	@OneToMany(cascade = CascadeType.REMOVE)
 	private List<Justification> justifications;
 	@OneToOne
 	private User user; //User that created this answer 
