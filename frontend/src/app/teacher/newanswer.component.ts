@@ -6,6 +6,7 @@ import { AnswerService } from "./answer.service";
 import { Justification } from './justification.model';
 
 
+
 @Component({
     selector: 'dialogAnswer',
     templateUrl: './dialogAnswer.component.html',
@@ -31,17 +32,21 @@ import { Justification } from './justification.model';
     }
 
     newAnswer(){
+      let justificationArray = [];
       let justification: Justification = {
         justificationText: this.justificationText,
         marked: this.markedJustification,
         valid: this.validJustification,
         error: this.error
       }
+      if(justification.justificationText != null){
+        justificationArray.push(justification);
+      }
       let answer: Answer = {
         answerText: this.answerText,
         marked: this.marked,
         correct: this.correct,
-        justifications: [justification]
+        justifications: justificationArray
       };
       this.answerService.postNewAnswer(this.id,answer).subscribe(
         data => console.log(data),
@@ -49,7 +54,7 @@ import { Justification } from './justification.model';
       );
       this.dialogRef.close();
     }
-    
+
     onNoClick(): void {
       this.dialogRef.close();
     }
