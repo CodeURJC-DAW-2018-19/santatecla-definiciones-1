@@ -27,4 +27,13 @@ export class AnswerService {
       { withCredentials: true }
     );
   }
+
+  postNewAnswer(id: number,answer: Answer){
+    return this.http.post(
+      BASE_URL + "/concepts/" + id + "/answers",
+      answer,
+      { withCredentials: true }
+    );
+  }
+
 }

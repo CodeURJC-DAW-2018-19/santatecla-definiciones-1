@@ -1,5 +1,5 @@
 export interface Justification {
-    id: number;
+    id?: number;
     justificationText: string;
     marked: boolean;
     valid: boolean;

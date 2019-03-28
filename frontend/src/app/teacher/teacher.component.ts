@@ -63,7 +63,11 @@ export class TeacherComponent {
 
   openDialogAnswer(){
 
-    const dialogRef = this.answerDialog.open(NewAnswerComponent);
+    const dialogRef = this.answerDialog.open(NewAnswerComponent, {
+      data: {
+        id: this.id
+      }
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
