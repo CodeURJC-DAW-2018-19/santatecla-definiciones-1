@@ -1,5 +1,5 @@
 <urlchange></urlchange>
-<imageposter></imageposter>
+
 <div class="checkOverflow teacherContent">
   <mat-card class="teacherCard mat-typography">
     <mat-card-title>Respuestas corregidas</mat-card-title>
@@ -34,7 +34,7 @@
               <button mat-raised-button color="primary" (click)="deleteAnswer( ans.id )">
                 <mat-icon>delete</mat-icon>Borrar
               </button>
-
+              <!--Boton modificar-->
 
             </div>
             <div *ngIf="!ans.correct">
@@ -64,7 +64,14 @@
                     <mat-card-subtitle> ERROR: </mat-card-subtitle>
                     <input type="textarea" value="{{ jus.error }}" style="width: 40%" />
                   </div>
-                  <!--Here the different type of buttons will be added-->
+                  <div class="btnPanel">
+                    <button mat-raised-button color="primary" (click)="deleteJustification( just.id, ans.id )">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                    <!--Boton modificar-->
+      
+
+                  </div>
                   <mat-card-actions>
                     <button class="showMoreBtn">
                       <span>Mostrar más</span>
