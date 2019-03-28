@@ -8,16 +8,26 @@ import { Concept } from "./concept.model";
 @Injectable()
 export class ChapterService {
   apiUrl = environment.baseUrl;
+
   constructor(private http: HttpClient) {}
+
   getChapters() {
     return this.http.get<Page<Chapter>>(this.apiUrl + "/chapters?sort=id", {
       withCredentials: true
     });
   }
+
   getConceptPerChapter(chapterId: number) {
     return this.http.get<Page<Concept>>(
       this.apiUrl + "/chapters/" + chapterId + "/concepts",
       { withCredentials: true }
     );
   }
+
+  getImage(conceptId: number) {
+    return this.http.get(this.apiUrl + "/concepts/" + conceptId + "/image", {
+      responseType: "blob"
+    });
+  }
+  
 }
