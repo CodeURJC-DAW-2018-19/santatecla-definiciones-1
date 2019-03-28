@@ -18,6 +18,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatRadioModule } from '@angular/material/radio';
 
 import { CovalentLayoutModule } from "@covalent/core/layout";
 import { CovalentStepsModule } from "@covalent/core/steps";
@@ -35,6 +36,7 @@ import { DiagramComponent } from "./diagram/diagram.component";
 import { StudentComponent } from "./student/student.component";
 import { TeacherComponent } from "./teacher/teacher.component";
 import { UrlChangerComponent } from "./teacher/urlchange.component";
+import { NewAnswerComponent } from "./teacher/newanswer.component";
 
 import { LoginService } from "./login/login.service";
 import { ChapterService } from "./home/chapter.service";
@@ -58,7 +60,8 @@ import { ImagePosterComponent } from './teacher/imageposter.component';
     StudentComponent,
     TeacherComponent,
     UrlChangerComponent,
-    ImagePosterComponent
+    ImagePosterComponent,
+    NewAnswerComponent
   ],
   imports: [
     BrowserModule,
@@ -84,12 +87,14 @@ import { ImagePosterComponent } from './teacher/imageposter.component';
     MatPaginatorModule,
     CovalentExpansionPanelModule,
     CovalentDialogsModule,
-    CovalentFileModule
+    CovalentFileModule,
+    MatRadioModule
   ],
   providers: [ChapterService, QuestionsService, TeacherService, AnswerService, DiagramService, LoginService, HeaderService, ImageService,
     { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: LocationStrategy, useClass: HashLocationStrategy }],
-  bootstrap: [AppComponent, DiagramComponent]
+  bootstrap: [AppComponent, DiagramComponent],
+  entryComponents: [NewAnswerComponent]
 })
 export class AppModule { }

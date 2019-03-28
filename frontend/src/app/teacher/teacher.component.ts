@@ -6,6 +6,7 @@ import { Answer } from "./answer.model";
 import { Justification } from "./justification.model";
 import { Page } from "../page/page.model";
 import { DiagramComponent } from "../diagram/diagram.component";
+import { NewAnswerComponent } from "./newanswer.component";
 import { MatDialog } from "@angular/material";
 import { TdDialogService } from '@covalent/core';
 //later add justificationPage
@@ -25,6 +26,7 @@ export class TeacherComponent {
   id: number;
 
   constructor(
+    private answerDialog: MatDialog,
     private diagramDialog: MatDialog,
     private router: Router,
     activatedRoute: ActivatedRoute,
@@ -78,4 +80,15 @@ export class TeacherComponent {
       width: "800px"
     });
   }
+
+  openDialogAnswer(){
+
+    const dialogRef = this.answerDialog.open(NewAnswerComponent, {
+      data: {
+        id: this.id
+      }
+    });
+
+  }
+
 }
