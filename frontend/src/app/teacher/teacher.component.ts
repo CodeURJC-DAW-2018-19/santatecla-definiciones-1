@@ -88,7 +88,17 @@ export class TeacherComponent {
         if (accept) {
             this.justificationService
                 .removeJustification(justId, answerId) 
-                .subscribe((_) => this.getMarkedAnswers(this.id), (error) => console.error(error + 'markedanswers on just delete'));           
+                .subscribe((_) => this.getMarkedAnswers(this.id), (error) => {
+                  if(error === 400){
+                    this.dialogService.openAlert({
+                      message: 'No se puede eliminar una justificación de una respuesta incorrecta si no hay mas justificaciones',
+                      title: 'Error al borrar',
+                      closeButton: 'Cerrar',
+                    });
+                  }else{
+                    console.error(error + 'markedanswers on just delete');
+                  }
+                });           
         }
     });
   }

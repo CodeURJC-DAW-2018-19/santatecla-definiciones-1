@@ -20,7 +20,15 @@ export class JustificationService {
    removeJustification(justId: number, answerId: number): Observable<Justification> {
       return this.http
           .delete<Justification>(this.apiUrl + '/answers/' + answerId + '/justifications/' + justId)
-          .pipe(catchError((error) => this.handleError(error)));
+          .pipe(
+            catchError((error: any) => {
+               if (error.status === 400) {
+                  return throwError(error.status);
+               }
+               else {
+                  this.handleError(error);
+               }
+           }));
    }
 
    private handleError(error: any) {
