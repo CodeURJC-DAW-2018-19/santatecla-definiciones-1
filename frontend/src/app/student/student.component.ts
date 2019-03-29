@@ -28,6 +28,8 @@ export class StudentComponent {
   //@ViewChild(MatPaginator) markedPaginator: MatPaginator;
   //@ViewChild(MatPaginator) unmarkedPaginator: MatPaginator;
 
+  showSpinner: boolean = true;
+
   constructor(
     private diagramDialog: MatDialog,
     private router: Router,
@@ -54,8 +56,10 @@ export class StudentComponent {
     this.questionsService
       .getUnmarkedQuestions(id)
       .subscribe(
-        (data: Page<Question>) =>
-          (this.dataSourceUnmarked = new MatTableDataSource(data["content"])),
+        (data: Page<Question>) => {
+          this.dataSourceUnmarked = new MatTableDataSource(data["content"]);
+          this.showSpinner = false;
+        },
         error => console.log(error)
       );
       //this.dataSourceUnmarked.paginator = this.unmarkedPaginator;

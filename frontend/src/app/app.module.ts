@@ -19,6 +19,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { CovalentLayoutModule } from "@covalent/core/layout";
 import { CovalentStepsModule } from "@covalent/core/steps";
@@ -89,7 +90,8 @@ import { ImagePosterComponent } from './teacher/imageposter.component';
     CovalentExpansionPanelModule,
     CovalentDialogsModule,
     CovalentFileModule,
-    MatRadioModule
+    MatRadioModule,
+    MatProgressSpinnerModule
   ],
   providers: [ChapterService, QuestionsService, TeacherService, AnswerService, JustificationService, DiagramService, LoginService, HeaderService, ImageService,
     { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },

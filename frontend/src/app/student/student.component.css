@@ -42,3 +42,9 @@ mat-card-title {
     width: 10%;
     text-align: center;
 }
+
+.spinner {
+    margin: 0 auto;
+    margin-top: 15%;
+    margin-bottom: 15%;
+}
