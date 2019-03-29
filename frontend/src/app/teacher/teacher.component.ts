@@ -25,7 +25,6 @@ export class TeacherComponent {
   answerPage: Page<Answer>;
   justPages:  Map<number, Page<Justification>>; //key: answer.id value:justification page per answer
   id: number; //concept id
-  showSpinner: boolean = true;
 
   constructor(
     private answerDialog: MatDialog,
@@ -54,10 +53,7 @@ export class TeacherComponent {
     this.answerService
       .getUnmarkedAnswers(id)
       .subscribe(
-        (data: Page<Answer>) => {
-          (this.unmarkedAnswers = data["content"]);
-          this.showSpinner = false;
-        },
+        (data: Page<Answer>) => (this.unmarkedAnswers = data["content"]),
         error => console.log(error + 'unmarkedanswer')
       );
   }

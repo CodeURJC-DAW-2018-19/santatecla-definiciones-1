@@ -14,12 +14,8 @@ import { ImageService } from '../images/image.service';
   templateUrl: "./main.component.html",
   styleUrls: ["./main.component.css"]
 })
-
 export class ChapterComponent {
-
   chapterConcepts: Map<Chapter, Concept[]> = new Map();
-  showSpinner: boolean = true;
-
   constructor(private diagramDialog: MatDialog, private chapterService: ChapterService, public loginService: LoginService, public headerService: HeaderService, private imageService: ImageService) {
     this.getChapters();
   }
@@ -28,10 +24,7 @@ export class ChapterComponent {
     this.chapterService
       .getChapters()
       .subscribe(
-        (data: Page<Chapter>) => {
-          this.addChapters(data);
-          this.showSpinner = false;
-        },
+        (data: Page<Chapter>) => this.addChapters(data),
         error => console.log(error)
       );
   }

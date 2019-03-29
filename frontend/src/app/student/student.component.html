@@ -1,7 +1,5 @@
-<mat-spinner *ngIf="showSpinner" class="spinner"></mat-spinner>
-
-<div *ngIf="!showSpinner">
 <div class="checkOverflow studentContent">
+
     <mat-card class="studentCard">
         <mat-card-title>Preguntas corregidas</mat-card-title>
         <mat-card-content>
@@ -72,19 +70,16 @@
             <!--<mat-paginator [pageSize]="5" [pageSizeOptions]="[5,10,25,100]"></mat-paginator>-->
         </mat-card-content>
     </mat-card>
-    
+
 </div>
 
 <div align="center">
     <button
-        mat-raised-button
-        color="primary"
-        class="align-center"
-        (click)="showDiagram()"
+      mat-raised-button
+      color="primary"
+      class="align-center"
+      (click)="showDiagram()"
     >
-        Diagrama
+      Diagrama
     </button>
 </div>
-
-</div>
-
