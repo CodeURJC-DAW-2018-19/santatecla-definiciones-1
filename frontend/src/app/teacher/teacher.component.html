@@ -69,7 +69,7 @@
                       <mat-icon>delete</mat-icon>
                     </button>
                     <!--Boton modificar-->
-      
+
 
                   </div>
                   <mat-card-actions>
@@ -86,11 +86,11 @@
         <mat-divider></mat-divider>
       </div>
     </mat-nav-list>
-    <button
-      mat-raised-button
-      color="primary"
-      (click)="openDialogAnswer()">
+    <button mat-raised-button color="primary" (click)="openDialogAnswer()">
       <mat-icon>add</mat-icon>
+    </button>
+    <button mat-raised-button color="primary" (click)="getMarkedAnswers()">
+      <span>Mostrar más</span>
     </button>
   </mat-card>
 
@@ -161,7 +161,7 @@
             </a>
           </div>
         </form>
-        <button class="showMoreBtn" id="showMoreMarked">
+        <button mat-raised-button color="primary" (click)="getUnmarkedAnswers()">
           <span>Mostrar más</span>
         </button>
         <mat-divider></mat-divider>
