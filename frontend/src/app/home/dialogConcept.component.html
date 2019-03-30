@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>Nueva respuesta</h1>
+<div mat-dialog-content>
+    <p class="padding">Nombre:</p>
+    <mat-form-field>
+            <input matInput [(ngModel)]="conceptName" name="conceptName">
+    </mat-form-field>
+    <p class="padding">URL:</p>
+    <mat-form-field>
+            <input matInput [(ngModel)]="URL" name="URL">
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="newConcept()" cdkFocusInitial>Aceptar</button>
+    <button mat-button (click)="onNoClick()">Cancelar</button>
+</div>

@@ -24,4 +24,12 @@ export class ChapterService {
     );
   }
 
+  addConcept(id: number, concept: Concept) {
+    return this.http.post(
+      this.apiUrl + "/chapters/" + id + "/concepts",
+      concept,
+      { withCredentials: true }
+    );
+  }
+
 }

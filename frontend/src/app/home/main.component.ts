@@ -8,6 +8,7 @@ import { HeaderService } from '../header/header.service';
 import { MatDialog } from '@angular/material';
 import { DiagramComponent } from '../diagram/diagram.component';
 import { ImageService } from '../images/image.service';
+import { newConcept } from './newConcept.component';
 
 @Component({
   selector: "main",
@@ -16,7 +17,12 @@ import { ImageService } from '../images/image.service';
 })
 export class ChapterComponent {
   chapterConcepts: Map<Chapter, Concept[]> = new Map();
-  constructor(private diagramDialog: MatDialog, private chapterService: ChapterService, public loginService: LoginService, public headerService: HeaderService, private imageService: ImageService) {
+  constructor(private conceptDialog: MatDialog,
+              private diagramDialog: MatDialog, 
+              private chapterService: ChapterService, 
+              public loginService: LoginService, 
+              public headerService: HeaderService, 
+              private imageService: ImageService) {
     this.getChapters();
   }
 
@@ -62,5 +68,15 @@ export class ChapterComponent {
       height: "600px",
       width: "800px"
     });
+  }
+
+  showDialogNewConcept(id: number){
+    
+    const dialogRef = this.conceptDialog.open(newConcept,{
+      data: {
+        id: id
+      }
+    });
+
   }
 }
