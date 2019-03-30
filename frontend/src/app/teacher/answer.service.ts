@@ -23,9 +23,9 @@ export class AnswerService {
     );
   }
 
-  getUnmarkedAnswers(id: number) {
+  getUnmarkedAnswers(id: number, page: number) {
     return this.http.get<Page<Answer>>(
-      this.apiUrl + "/concepts/" + id + "/unmarkedanswers",
+      this.apiUrl + "/concepts/" + id + "/unmarkedanswers" + "?page=" + page,
       { withCredentials: true }
     );
   }
