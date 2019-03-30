@@ -1,11 +1,14 @@
 import { Component, ViewChild } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { MatTableDataSource, MatDialog, MatPaginator } from "@angular/material";
+import { OnInit } from '@angular/core';
 
 import { QuestionsService } from "./question.service";
 import { Question } from "./question.model";
 import { Page } from "../page/page.model";
 import { DiagramComponent } from "../diagram/diagram.component";
+
+import { TdDialogService } from '@covalent/core';
 
 @Component({
   selector: "student",
@@ -13,8 +16,14 @@ import { DiagramComponent } from "../diagram/diagram.component";
   styleUrls: ["./student.component.css"]
 })
 export class StudentComponent {
-  markedQuestions: Question[];
-  unmarkedQuestions: Question[];
+  markedQuestions: Question[] = [];
+  markedQuestionsPage: number;
+  markedOnce: boolean;
+
+  unmarkedQuestions: Question[] = [];
+  unmarkedQuestionsPage: number;
+  unmarkedOnce: boolean;
+
   id: number;
 
   displayedColumnsMarked: string[] = [
@@ -32,40 +41,75 @@ export class StudentComponent {
     private diagramDialog: MatDialog,
     private router: Router,
     activatedRoute: ActivatedRoute,
-    private questionsService: QuestionsService
+    private questionsService: QuestionsService,
+    private dialogService: TdDialogService
   ) {
     this.id = activatedRoute.snapshot.params["id"];
-    this.getMarkedQuestions(this.id);
-    this.getUnmarkedQuestions(this.id);
+    this.markedQuestionsPage = 0;
+    this.markedOnce = false;
+    this.unmarkedQuestionsPage = 0;
+    this.unmarkedOnce = false;
   }
 
-  getMarkedQuestions(id: number) {
+
+ngOnInit(){
+  this.getMarkedQuestions();
+  this.getUnmarkedQuestions();
+}
+
+getMarkedQuestions() {
+  if (this.markedOnce === false) {
+    let page: number = this.markedQuestionsPage++;
     this.questionsService
-      .getMarkedQuestions(id)
+      .getMarkedQuestions(this.id, page)
       .subscribe(
-        (data: Page<Question>) =>
-          (this.dataSourceMarked = new MatTableDataSource(data["content"])),
+        (data: Page<Question>) => {
+          if((data.numberOfElements === 0 ) && (this.markedOnce === false)){
+            this.markedOnce = true;
+            this.dialogService.openAlert({
+              message: 'No hay más preguntas corregidas',
+              title: 'No hay más preguntas', 
+              closeButton: 'Cerrar'
+            });
+          }else if(data.numberOfElements > 0 ){
+            this.markedQuestions = this.markedQuestions.concat(data.content);
+            this.dataSourceMarked = new MatTableDataSource(this.markedQuestions);
+          }
+        },
         error => console.log(error)
       );
-    //this.dataSourceMarked.paginator = this.markedPaginator;
   }
+}
 
-  getUnmarkedQuestions(id: number) {
+getUnmarkedQuestions() {
+  if (this.unmarkedOnce === false) {
+    let page: number = this.unmarkedQuestionsPage++;
     this.questionsService
-      .getUnmarkedQuestions(id)
+      .getUnmarkedQuestions(this.id, page)
       .subscribe(
-        (data: Page<Question>) =>
-          (this.dataSourceUnmarked = new MatTableDataSource(data["content"])),
+        (data: Page<Question>) => {
+          if((data.numberOfElements === 0 ) && (this.unmarkedOnce === false)){
+            this.unmarkedOnce = true;
+            this.dialogService.openAlert({
+              message: 'No hay más preguntas por corregidas',
+              title: 'No hay más preguntas', 
+              closeButton: 'Cerrar'
+            });
+          }else if(data.numberOfElements > 0 ){
+            this.unmarkedQuestions = this.unmarkedQuestions.concat(data.content);
+            this.dataSourceUnmarked = new MatTableDataSource(this.unmarkedQuestions);
+          }
+        },
         error => console.log(error)
       );
-      //this.dataSourceUnmarked.paginator = this.unmarkedPaginator;
   }
+}
 
-  showDiagram() {
-    this.diagramDialog.open(DiagramComponent, {
-      height: "600px",
-      width: "800px"
-    });
-  }
+showDiagram() {
+  this.diagramDialog.open(DiagramComponent, {
+    height: "600px",
+    width: "800px"
+  });
+}
 
 }
