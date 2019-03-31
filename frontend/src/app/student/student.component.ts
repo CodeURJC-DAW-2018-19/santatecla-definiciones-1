@@ -44,6 +44,9 @@ export class StudentComponent {
     private questionsService: QuestionsService,
     private dialogService: TdDialogService
   ) {
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    };
     this.id = activatedRoute.snapshot.params["id"];
     this.markedQuestionsPage = 0;
     this.markedOnce = false;

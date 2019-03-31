@@ -42,6 +42,9 @@ export class TeacherComponent {
     private justificationService: JustificationService,
     private dialogService: TdDialogService
   ) {
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    };
     this.id = activatedRoute.snapshot.params["id"];
     this.markedAnswersPage = 0;
     this.markedOnce = false;
