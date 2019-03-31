@@ -18,11 +18,15 @@ import { TdDialogService } from '@covalent/core';
 export class StudentComponent {
   markedQuestions: Question[] = [];
   markedQuestionsPage: number;
-  markedOnce: boolean;
+  markedOnce: number;
+  //-1 means not initialized, 0 means false, 1 means true
+  //we need to use -1 so we don't get the alert first time we try to get them
 
   unmarkedQuestions: Question[] = [];
   unmarkedQuestionsPage: number;
-  unmarkedOnce: boolean;
+  unmarkedOnce: number;
+  //-1 means not initialized, 0 means false, 1 means true
+  //we need to use -1 so we don't get the alert first time we try to get them
 
   id: number;
 
@@ -49,9 +53,9 @@ export class StudentComponent {
     };
     this.id = activatedRoute.snapshot.params["id"];
     this.markedQuestionsPage = 0;
-    this.markedOnce = false;
+    this.markedOnce = -1;
     this.unmarkedQuestionsPage = 0;
-    this.unmarkedOnce = false;
+    this.unmarkedOnce = -1;
   }
 
 
@@ -61,20 +65,24 @@ ngOnInit(){
 }
 
 getMarkedQuestions() {
-  if (this.markedOnce === false) {
+  let once: number = this.markedOnce;
+  if((once == -1) || (once == 0)){
     let page: number = this.markedQuestionsPage++;
     this.questionsService
       .getMarkedQuestions(this.id, page)
       .subscribe(
         (data: Page<Question>) => {
-          if((data.numberOfElements === 0 ) && (this.markedOnce === false)){
-            this.markedOnce = true;
+          if((data.numberOfElements === 0 ) && (once == 0)){
+            this.markedOnce = 1;
             this.dialogService.openAlert({
               message: 'No hay más preguntas corregidas',
               title: 'No hay más preguntas', 
               closeButton: 'Cerrar'
             });
           }else if(data.numberOfElements > 0 ){
+            if(once == -1){
+              this.markedOnce =  0;
+            }
             this.markedQuestions = this.markedQuestions.concat(data.content);
             this.dataSourceMarked = new MatTableDataSource(this.markedQuestions);
           }
@@ -85,20 +93,24 @@ getMarkedQuestions() {
 }
 
 getUnmarkedQuestions() {
-  if (this.unmarkedOnce === false) {
+  let once: number = this.unmarkedOnce;
+  if((once == -1) || (once == 0)){
     let page: number = this.unmarkedQuestionsPage++;
     this.questionsService
       .getUnmarkedQuestions(this.id, page)
       .subscribe(
         (data: Page<Question>) => {
-          if((data.numberOfElements === 0 ) && (this.unmarkedOnce === false)){
-            this.unmarkedOnce = true;
+          if((data.numberOfElements === 0 ) && (once == 0)){
+            this.unmarkedOnce = 1;
             this.dialogService.openAlert({
               message: 'No hay más preguntas por corregidas',
               title: 'No hay más preguntas', 
               closeButton: 'Cerrar'
             });
           }else if(data.numberOfElements > 0 ){
+            if(once == -1){
+              this.unmarkedOnce =  0;
+            }
             this.unmarkedQuestions = this.unmarkedQuestions.concat(data.content);
             this.dataSourceUnmarked = new MatTableDataSource(this.unmarkedQuestions);
           }

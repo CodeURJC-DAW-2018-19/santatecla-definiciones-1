@@ -2,7 +2,10 @@
 
     <mat-card class="studentCard">
         <mat-card-title>Preguntas corregidas</mat-card-title>
-        <mat-card-content>
+        <mat-nav-list *ngIf="markedQuestions?.length == 0" role="list" class="correctSize">
+            <mat-card-content>No hay preguntas corregidas</mat-card-content>
+        </mat-nav-list>
+        <mat-card-content *ngIf="markedQuestions?.length > 0">
             <table mat-table [dataSource]="dataSourceMarked" class="mat-elevation-z8">
                 <ng-container matColumnDef="questionText">
                     <th mat-header-cell *matHeaderCellDef class="center"> Pregunta </th>
@@ -39,16 +42,16 @@
         <mat-card-actions>
             <button mat-raised-button color="primary" (click)="getMarkedQuestions()">
                 <span>Mostrar más</span>
-              </button>
+            </button>
         </mat-card-actions>
     </mat-card>
 
     <mat-card class="studentCard">
         <mat-card-title>Preguntas por corregir</mat-card-title>
-        <mat-nav-list *ngIf="unmarkedAnswers?.length == 0" role="list" class="correctSize">
-            <mat-card-content>No hay respuestas por corregir</mat-card-content>
+        <mat-nav-list *ngIf="unmarkedQuestions?.length == 0" role="list" class="correctSize">
+            <mat-card-content>No hay preguntas por corregir</mat-card-content>
         </mat-nav-list>
-        <mat-card-content>
+        <mat-card-content *ngIf="unmarkedQuestions?.length > 0">
             <table mat-table [dataSource]="dataSourceUnmarked" class="mat-elevation-z8">
                 <ng-container matColumnDef="questionText">
                     <th mat-header-cell *matHeaderCellDef class="center"> Pregunta </th>
@@ -78,7 +81,7 @@
         <mat-card-actions>
             <button mat-raised-button color="primary" (click)="getUnmarkedQuestions()">
                 <span>Mostrar más</span>
-              </button>
+            </button>
         </mat-card-actions>
     </mat-card>
 
