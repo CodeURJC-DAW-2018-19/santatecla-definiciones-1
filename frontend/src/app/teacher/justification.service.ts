@@ -30,9 +30,18 @@ export class JustificationService {
                }
            }));
    }
+   
 
    private handleError(error: any) {
       console.error(error);
       return throwError(new Error('Server error (' + error.status + '): ' + error));
    }
+   
+   postNewJustification(id: number, just: Justification): Observable<Justification> {
+    return this.http.post(
+        this.apiUrl "/concepts/" + id + "/answers", 
+        just,
+        { withCredentials: true }
+    );
+  }
 }
