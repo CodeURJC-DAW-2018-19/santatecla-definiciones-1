@@ -32,4 +32,11 @@ export class ChapterService {
     );
   }
 
+  deleteConcept(chapterId: number, conceptId: number) {
+    return this.http.delete(
+      this.apiUrl + "/chapters/" + chapterId + "/concepts/" + conceptId,
+      { withCredentials: true }
+    );
+  }
+
 }

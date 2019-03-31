@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material';
 import { DiagramComponent } from '../diagram/diagram.component';
 import { ImageService } from '../images/image.service';
 import { newConcept } from './newConcept.component';
+import { TdDialogService } from '@covalent/core';
 
 @Component({
   selector: "main",
@@ -17,7 +18,8 @@ import { newConcept } from './newConcept.component';
 })
 export class ChapterComponent {
   chapterConcepts: Map<Chapter, Concept[]> = new Map();
-  constructor(private conceptDialog: MatDialog,
+  constructor(private dialogService: TdDialogService,
+              private conceptDialog: MatDialog,
               private diagramDialog: MatDialog, 
               private chapterService: ChapterService, 
               public loginService: LoginService, 
@@ -79,4 +81,23 @@ export class ChapterComponent {
     });
 
   }
+
+  deleteConcept(chapterId: number, conceptId: number){
+    this.dialogService.openConfirm({
+      message: '¿Quieres eliminar este concepto?',
+      title: 'Confirmar', 
+      acceptButton: 'Aceptar',
+      cancelButton: 'Cancelar',
+      width: '500px', 
+      height: '175px'
+    }).afterClosed().subscribe((accept: boolean) => {
+      if (accept) {
+          this.chapterService
+              .deleteConcept(chapterId, conceptId) 
+              .subscribe((_) => this.getChapters, 
+                         (error) => console.error(error + 'markedanswers on ans delete'));
+      }
+    });
+  }
+
 }
