@@ -1,42 +1,52 @@
 <mat-card>
   <span *ngIf="chapterConcepts.size === 0">No hay temas disponibles.</span>
-  <td-expansion-panel
-    *ngFor="let chap of chapterConcepts | keyvalue"
-    label="{{chap.key.chapterName}}"
-  >
-    <div class="md-padding">
-      <ul>
-        <li *ngFor="let concept of chap.value">
-          <img class="imageList" [src]="concept.image">
-          <button *ngIf="!this.loginService.isTeacher" mat-raised-button [disabled]=!this.loginService.isLogged routerLink="/concept/{{concept.id}}" (click)="this.headerService.addTab(concept.conceptName, '/concept/' + concept.id)">{{concept.conceptName}}</button>
-          <button *ngIf="this.loginService.isTeacher" mat-raised-button routerLink="/teacher/{{concept.id}}" (click)="this.headerService.addTab(concept.conceptName, '/teacher/' + concept.id)">{{concept.conceptName}}</button>
-          <button *ngIf="this.loginService.isTeacher"
-                  mat-raised-button
-                  color="primary"
-                  (click)="deleteConcept(chap.key.id,concept.id)"
-          >
-          <mat-icon>delete</mat-icon>
+  <td-expansion-panel *ngFor="let chap of chapterConcepts | keyvalue" label="{{chap.key.chapterName}}">
+    <div *ngIf="chapterConcepts?.size == 0" class="md-padding">
+      <li>
+        No hay temas disponibles
+      </li>
+    </div>
+    <div *ngIf="chapterConcepts?.size > 0" class="md-padding">
+      <p>{{chap.keyvalue}}</p>
+      <div *ngIf="chap?.value?.length === 0">
+        <ul>
+          <li>
+            No hay conceptos disponibles para {{chap.key.chapterName}}
+          </li>
+        </ul>
+      </div>
+      <div *ngIf="chap?.value?.length > 0">
+        <ul *ngFor="let concept of chap.value">
+          <li>
+            <img class="imageList" [src]="concept.image">
+            <button *ngIf="!this.loginService.isTeacher" mat-raised-button [disabled]=!this.loginService.isLogged
+              routerLink="/concept/{{concept.id}}"
+              (click)="this.headerService.addTab(concept.conceptName, '/concept/' + concept.id)">{{concept.conceptName}}</button>
+            <button *ngIf="this.loginService.isTeacher" mat-raised-button routerLink="/teacher/{{concept.id}}"
+              (click)="this.headerService.addTab(concept.conceptName, '/teacher/' + concept.id)">{{concept.conceptName}}</button>
+            <button *ngIf="this.loginService.isTeacher" mat-raised-button color="primary"
+              (click)="deleteConcept(chap.key.id,concept.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </li>
+          <button *ngIf="this.loginService.isTeacher" mat-raised-button color="primary"
+            (click)="showDialogNewConcept(chap.key.id)">
+            <mat-icon>add</mat-icon>
           </button>
-        </li>
-        <button *ngIf="this.loginService.isTeacher"
-          mat-raised-button
-          color="primary"
-          (click)="showDialogNewConcept(chap.key.id)"
-        >
-          <mat-icon>add</mat-icon>
+        </ul>
+        <button mat-raised-button color="primary" (click)="getConcepts(chap.key)">
+          <span>Mostrar más</span>
         </button>
-      </ul>
-      <span *ngIf="chap?.value?.length === 0">No hay conceptos disponibles</span>
+      </div>
+
     </div>
   </td-expansion-panel>
+  <button mat-raised-button color="primary" (click)="getChapters()">
+    <span>Mostrar más</span>
+  </button>
 </mat-card>
 <div *ngIf="this.loginService.isLogged" align="center">
-  <button
-    mat-raised-button
-    color="primary"
-    class="align-center"
-    (click)="showDiagram()"
-  >
+  <button mat-raised-button color="primary" class="align-center" (click)="showDiagram()">
     Diagrama
   </button>
 </div>

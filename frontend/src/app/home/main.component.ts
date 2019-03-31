@@ -17,51 +17,111 @@ import { TdDialogService } from '@covalent/core';
   styleUrls: ["./main.component.css"]
 })
 export class ChapterComponent {
+  chaptersPage: number;
+  chaptersOnce: number;
+  //-1 means not initialized, 0 means false, 1 means true
+  //we need to use -1 so we don't get the alert first time we try to get them
+
+  conceptsPage: Map<Chapter, number> = new Map();
+  conceptsOnce: Map<Chapter, number> = new Map(); 
+  //-1 means not initialized, 0 means false, 1 means true
+  //we need to use -1 so we don't get the alert first time we try to get them
+
   chapterConcepts: Map<Chapter, Concept[]> = new Map();
+
+
   constructor(private dialogService: TdDialogService,
-              private conceptDialog: MatDialog,
-              private diagramDialog: MatDialog, 
-              private chapterService: ChapterService, 
-              public loginService: LoginService, 
-              public headerService: HeaderService, 
-              private imageService: ImageService) {
+    private conceptDialog: MatDialog,
+    private diagramDialog: MatDialog,
+    private chapterService: ChapterService,
+    public loginService: LoginService,
+    public headerService: HeaderService,
+    private imageService: ImageService) {
+    this.chaptersPage = 0;
+    this.chaptersOnce = -1;
+  }
+
+  ngOnInit() {
     this.getChapters();
   }
 
   getChapters() {
-    this.chapterService
-      .getChapters()
-      .subscribe(
-        (data: Page<Chapter>) => this.addChapters(data),
-        error => console.log(error)
-      );
+    let once: number = this.chaptersOnce;
+    if ((once == -1) || (once == 0)) {
+      let page: number = this.chaptersPage++;
+      this.chapterService
+        .getChapters(page)
+        .subscribe(
+          (data: Page<Chapter>) => {
+            if ((data.numberOfElements === 0) && (once == 0)) {
+              this.chaptersOnce = 1;
+              this.dialogService.openAlert({
+                message: 'No hay más temas disponibles',
+                title: 'No hay más temas',
+                closeButton: 'Cerrar'
+              });
+            } else if (data.numberOfElements > 0) {
+              if(once == -1){
+                this.chaptersOnce = 0;
+              }
+              this.addChapters(data);
+            }
+          },
+          error => console.log(error)
+        );
+    }
   }
 
   addChapters(data: Page<Chapter>) {
     for (let ch of data.content) {
       //Set chapter first to keep ordering
       this.chapterConcepts.set(ch, []);
+      if (!this.conceptsPage.has(ch)) { //add the chapter to both maps
+        this.conceptsPage.set(ch, -1);
+        this.conceptsOnce.set(ch, -1);
+      }
       this.getConcepts(ch);
     }
   }
 
   getConcepts(chapter: Chapter) {
-    this.chapterService
-      .getConceptPerChapter(chapter.id)
-      .subscribe(
-        (data: Page<Concept>) => this.addConcepts(chapter, data),
-        error => console.log(error)
-      );
+    let once: number = this.conceptsOnce.get(chapter)
+    if ((once == -1) || (once == 0)) {
+      let page: number = this.conceptsPage.get(chapter) + 1;
+      this.conceptsPage.set(chapter, page);
+      this.chapterService
+        .getConceptPerChapter(chapter.id, page)
+        .subscribe(
+          (data: Page<Concept>) => {
+            if ((data.numberOfElements === 0) && (once == 0)) {
+              this.conceptsOnce.set(chapter, 1);
+              this.dialogService.openAlert({
+                message: 'No hay más conceptos para ' + chapter.chapterName,
+                title: 'No hay más conceptos',
+                closeButton: 'Cerrar'
+              });
+            } else if (data.numberOfElements > 0) {
+              if(once == -1){
+                this.conceptsOnce.set(chapter, 0);
+              }
+              this.addConcepts(chapter, data);
+            }
+          },
+          error => console.log(error)
+        );
+    }
   }
+
 
   addConcepts(chapter: Chapter, data: Page<Concept>) {
     let conceptInfo = data.content;
-    for (let concept of conceptInfo){
+    for (let concept of conceptInfo) {
       this.imageService.getImage(concept.id).subscribe(
         (data: Blob) => this.imageService.createImageFromBlob(data, ((image) => concept.image = image)),
         error => console.log(error)
       )
     }
+    conceptInfo = this.chapterConcepts.get(chapter).concat(data.content);
     this.chapterConcepts.set(chapter, conceptInfo);
   }
 
@@ -72,9 +132,9 @@ export class ChapterComponent {
     });
   }
 
-  showDialogNewConcept(id: number){
-    
-    const dialogRef = this.conceptDialog.open(newConcept,{
+  showDialogNewConcept(id: number) {
+
+    const dialogRef = this.conceptDialog.open(newConcept, {
       data: {
         id: id
       }
@@ -82,20 +142,20 @@ export class ChapterComponent {
 
   }
 
-  deleteConcept(chapterId: number, conceptId: number){
+  deleteConcept(chapterId: number, conceptId: number) {
     this.dialogService.openConfirm({
       message: '¿Quieres eliminar este concepto?',
-      title: 'Confirmar', 
+      title: 'Confirmar',
       acceptButton: 'Aceptar',
       cancelButton: 'Cancelar',
-      width: '500px', 
+      width: '500px',
       height: '175px'
     }).afterClosed().subscribe((accept: boolean) => {
       if (accept) {
-          this.chapterService
-              .deleteConcept(chapterId, conceptId) 
-              .subscribe((_) => this.getChapters, 
-                         (error) => console.error(error + 'markedanswers on ans delete'));
+        this.chapterService
+          .deleteConcept(chapterId, conceptId)
+          .subscribe((_) => this.getChapters,
+            (error) => console.error(error + 'markedanswers on ans delete'));
       }
     });
   }

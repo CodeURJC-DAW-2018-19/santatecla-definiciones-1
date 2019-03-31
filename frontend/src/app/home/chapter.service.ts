@@ -11,15 +11,15 @@ export class ChapterService {
 
   constructor(private http: HttpClient) {}
 
-  getChapters() {
-    return this.http.get<Page<Chapter>>(this.apiUrl + "/chapters?sort=id", {
+  getChapters(page: number) {
+    return this.http.get<Page<Chapter>>(this.apiUrl + "/chapters?sort=id" + "&page=" + page, {
       withCredentials: true
     });
   }
 
-  getConceptPerChapter(chapterId: number) {
+  getConceptPerChapter(chapterId: number, page: number) {
     return this.http.get<Page<Concept>>(
-      this.apiUrl + "/chapters/" + chapterId + "/concepts",
+      this.apiUrl + "/chapters/" + chapterId + "/concepts" + "?page=" + page,
       { withCredentials: true }
     );
   }
