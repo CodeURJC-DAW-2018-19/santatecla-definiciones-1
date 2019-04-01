@@ -35,7 +35,7 @@
                 <mat-icon>delete</mat-icon>Borrar
               </button>
               <!--Boton modificar-->
-
+              
             </div>
             <div *ngIf="!ans.correct">
               <a *ngFor="let jus of ans.justifications" role="listitem" class="checkOverflow" required>
@@ -69,7 +69,10 @@
                       <mat-icon>delete</mat-icon>
                     </button>
                     <!--Boton modificar-->
-
+                    <button mat-raised-button color="primary"
+                      (click)="addJustification(ans.id)">
+                      <mat-icon>plus_one</mat-icon>
+                    </button>
 
                   </div>
                   <mat-card-actions>
