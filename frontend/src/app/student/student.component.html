@@ -2,7 +2,10 @@
 
     <mat-card class="studentCard">
         <mat-card-title>Preguntas corregidas</mat-card-title>
-        <mat-card-content>
+        <mat-nav-list *ngIf="markedQuestions?.length == 0" role="list" class="correctSize">
+            <mat-card-content>No hay preguntas corregidas</mat-card-content>
+        </mat-nav-list>
+        <mat-card-content *ngIf="markedQuestions?.length > 0">
             <table mat-table [dataSource]="dataSourceMarked" class="mat-elevation-z8">
                 <ng-container matColumnDef="questionText">
                     <th mat-header-cell *matHeaderCellDef class="center"> Pregunta </th>
@@ -10,15 +13,15 @@
                 </ng-container>
                 <ng-container matColumnDef="userResponse">
                     <th mat-header-cell *matHeaderCellDef class="center"> Respuesta </th>
-                    <td mat-cell *matCellDef="let element" class="answer"> 
-                        <div *ngIf="element.yesNoQuestion"> 
-                            <span *ngIf="element.userResponse">Sí</span> 
-                            <span *ngIf="!element.userResponse">No</span>     
-                        </div>               
+                    <td mat-cell *matCellDef="let element" class="answer">
+                        <div *ngIf="element.yesNoQuestion">
+                            <span *ngIf="element.userResponse">Sí</span>
+                            <span *ngIf="!element.userResponse">No</span>
+                        </div>
                         <div *ngIf="!element.yesNoQuestion">
                             <div *ngIf="!element.justification">
                                 <span>{{element.answer.answerText}}</span>
-                            </div>     
+                            </div>
                             <div *ngIf="element.justification">
                                 <span>{{element.justification.justificationText}}</span>
                             </div>
@@ -26,22 +29,29 @@
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="correct">
-                <th mat-header-cell *matHeaderCellDef class="center"> Correccion </th>
-                <td mat-cell *matCellDef="let element" class="icon"> 
-                    <mat-icon *ngIf="element.correct">check</mat-icon>
-                    <mat-icon *ngIf="!element.correct">clear</mat-icon>
-                </td>
+                    <th mat-header-cell *matHeaderCellDef class="center"> Correccion </th>
+                    <td mat-cell *matCellDef="let element" class="icon">
+                        <mat-icon *ngIf="element.correct">check</mat-icon>
+                        <mat-icon *ngIf="!element.correct">clear</mat-icon>
+                    </td>
                 </ng-container>
                 <tr mat-header-row *matHeaderRowDef="displayedColumnsMarked"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumnsMarked;"></tr>
             </table>
-            <!--<mat-paginator [pageSize]="5" [pageSizeOptions]="[5,10,25,100]"></mat-paginator>-->
         </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button color="primary" (click)="getMarkedQuestions()">
+                <span>Mostrar más</span>
+            </button>
+        </mat-card-actions>
     </mat-card>
 
     <mat-card class="studentCard">
         <mat-card-title>Preguntas por corregir</mat-card-title>
-        <mat-card-content>
+        <mat-nav-list *ngIf="unmarkedQuestions?.length == 0" role="list" class="correctSize">
+            <mat-card-content>No hay preguntas por corregir</mat-card-content>
+        </mat-nav-list>
+        <mat-card-content *ngIf="unmarkedQuestions?.length > 0">
             <table mat-table [dataSource]="dataSourceUnmarked" class="mat-elevation-z8">
                 <ng-container matColumnDef="questionText">
                     <th mat-header-cell *matHeaderCellDef class="center"> Pregunta </th>
@@ -49,15 +59,15 @@
                 </ng-container>
                 <ng-container matColumnDef="userResponse">
                     <th mat-header-cell *matHeaderCellDef class="center"> Respuesta </th>
-                    <td mat-cell *matCellDef="let element"class="answer"> 
-                        <div *ngIf="element.yesNoQuestion"> 
-                            <span *ngIf="element.userResponse">Sí</span> 
-                            <span *ngIf="!element.userResponse">No</span>     
-                        </div>               
-                        <div *ngIf="!element.yesNoQuestion">     
+                    <td mat-cell *matCellDef="let element" class="answer">
+                        <div *ngIf="element.yesNoQuestion">
+                            <span *ngIf="element.userResponse">Sí</span>
+                            <span *ngIf="!element.userResponse">No</span>
+                        </div>
+                        <div *ngIf="!element.yesNoQuestion">
                             <div *ngIf="!element.justification">
                                 <span>{{element.answer.answerText}}</span>
-                            </div>     
+                            </div>
                             <div *ngIf="element.justification">
                                 <span>{{element.justification.justificationText}}</span>
                             </div>
@@ -67,19 +77,18 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumnsUnmarked"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumnsUnmarked;"></tr>
             </table>
-            <!--<mat-paginator [pageSize]="5" [pageSizeOptions]="[5,10,25,100]"></mat-paginator>-->
         </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button color="primary" (click)="getUnmarkedQuestions()">
+                <span>Mostrar más</span>
+            </button>
+        </mat-card-actions>
     </mat-card>
 
 </div>
 
 <div align="center">
-    <button
-      mat-raised-button
-      color="primary"
-      class="align-center"
-      (click)="showDiagram()"
-    >
-      Diagrama
+    <button mat-raised-button color="primary" class="align-center" (click)="showDiagram()">
+        Diagrama
     </button>
 </div>

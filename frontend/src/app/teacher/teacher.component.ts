@@ -22,7 +22,17 @@ import { NewJustComponent } from './newjust.component';
 })
 export class TeacherComponent {
   markedAnswers: Answer[] = [];
+  markedAnswersPage: number;
+  markedOnce: number;
+  //-1 means not initialized, 0 means false, 1 means true
+  //we need to use -1 so we don't get the alert first time we try to get them
+
   unmarkedAnswers: Answer[] = [];
+  unmarkedAnswersPage: number;
+  unmarkedOnce: number;
+  //-1 means not initialized, 0 means false, 1 means true
+  //we need to use -1 so we don't get the alert first time we try to get them
+
   answerPage: Page<Answer>;
   justPages:  Map<number, Page<Justification>>; //key: answer.id value:justification page per answer
   id: number; //concept id
@@ -36,27 +46,77 @@ export class TeacherComponent {
     private justificationService: JustificationService,
     private dialogService: TdDialogService
   ) {
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    };
     this.id = activatedRoute.snapshot.params["id"];
-    this.getMarkedAnswers(this.id);
-    this.getUnmarkedAnswers(this.id);
+    this.markedAnswersPage = 0;
+    this.markedOnce = -1;
+    this.unmarkedAnswersPage = 0;
+    this.unmarkedOnce = -1;
   }
 
-  getMarkedAnswers(id: number) {
-    this.answerService
-      .getMarkedAnswers(id)
-      .subscribe(
-        (data: Page<Answer>) => (this.markedAnswers = data["content"]),
-        error => console.log(error + 'markedanswers')
-      );
+  ngOnInit(){
+    this.getMarkedAnswers();
+    this.getUnmarkedAnswers();
   }
 
-  getUnmarkedAnswers(id: number) {
-    this.answerService
-      .getUnmarkedAnswers(id)
-      .subscribe(
-        (data: Page<Answer>) => (this.unmarkedAnswers = data["content"]),
-        error => console.log(error + 'unmarkedanswer')
-      );
+  getMarkedAnswers() {
+    let once: number = this.markedOnce;
+    if((once == -1) || (once == 0)){
+      let page: number = this.markedAnswersPage++;
+      this.answerService
+        .getMarkedAnswers(this.id, page)
+        .subscribe(
+          (data: Page<Answer>) => {
+            if((data.numberOfElements === 0 ) && (once == 0)){
+              this.markedOnce = 1;
+              this.dialogService.openAlert({
+                message: 'No hay más respuestas corregidas',
+                title: 'No hay más respuestas', 
+                closeButton: 'Cerrar'
+              });
+            }else if(data.numberOfElements > 0 ){
+              if(once == -1){
+                this.markedOnce =  0;
+              }
+              this.markedAnswers = this.markedAnswers.concat(data.content);
+            }
+            console.log(data);
+          },
+          error => console.log(error + 'markedanswers')
+        );
+    }
+  }
+
+
+  getUnmarkedAnswers() {
+    let once: number = this.unmarkedOnce;
+    if((once == -1) || (once == 0)){
+      let page: number = this.unmarkedAnswersPage++;
+      this.answerService
+        .getUnmarkedAnswers(this.id, page)
+        .subscribe(
+          (data: Page<Answer>) => {
+            console.log(data);
+            if((data.numberOfElements === 0 ) && (once == 0)){
+              this.unmarkedOnce = 1;
+              this.dialogService.openAlert({
+                message: 'No hay más respuestas por corregidas',
+                title: 'No hay más respuestas', 
+                closeButton: 'Cerrar'
+              });
+            }else if(data.numberOfElements > 0 ){
+              if(once == -1){
+                this.unmarkedOnce =  0;
+              }
+              this.unmarkedAnswers = this.unmarkedAnswers.concat(data.content);
+            }
+            console.log(data);
+          },
+          error => console.log(error + 'unmarkedanswers')
+        );
+    }
   }
 
   deleteAnswer(answerId: number) {
@@ -71,7 +131,7 @@ export class TeacherComponent {
         if (accept) {
             this.answerService
                 .removeAnswer(answerId, this.id) 
-                .subscribe((_) => this.getMarkedAnswers(this.id), /*this.router.navigate(['/teacher/' + this.id]),*/ (error) => console.error(error + 'markedanswers on ans delete'));
+                .subscribe((_) => this.getMarkedAnswers(), /*this.router.navigate(['/teacher/' + this.id]),*/ (error) => console.error(error + 'markedanswers on ans delete'));
             console.log(this.markedAnswers);
         }
     });
@@ -89,7 +149,7 @@ export class TeacherComponent {
         if (accept) {
             this.justificationService
                 .removeJustification(justId, answerId) 
-                .subscribe((_) => this.getMarkedAnswers(this.id), (error) => {
+                .subscribe((_) => this.getMarkedAnswers(), (error) => {
                   if(error === 400){
                     this.dialogService.openAlert({
                       message: 'No se puede eliminar una justificación de una respuesta incorrecta si no hay mas justificaciones',

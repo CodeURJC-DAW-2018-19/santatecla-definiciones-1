@@ -9,18 +9,18 @@ const BASE_URL = environment.baseUrl;
 
 @Injectable()
 export class QuestionsService {
-  constructor(private http: HttpClient, private loginService: LoginService) {}
+  constructor(private http: HttpClient, private loginService: LoginService) { }
 
-  getMarkedQuestions(id: number) {
+  getMarkedQuestions(id: number, page: number) {
     return this.http.get<Page<Question>>(
-      BASE_URL + "/concepts/" + id + "/markedquestions",
+      BASE_URL + "/concepts/" + id + "/markedquestions" + "?page=" + page,
       { withCredentials: true }
     );
   }
 
-  getUnmarkedQuestions(id: number) {
+  getUnmarkedQuestions(id: number, page: number) {
     return this.http.get<Page<Question>>(
-      BASE_URL + "/concepts/" + id + "/unmarkedquestions",
+      BASE_URL + "/concepts/" + id + "/unmarkedquestions" + "?page=" + page,
       { withCredentials: true }
     );
   }

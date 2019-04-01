@@ -69,6 +69,7 @@
                       <mat-icon>delete</mat-icon>
                     </button>
                     <!--Boton modificar-->
+
                     <button mat-raised-button color="primary"
                       (click)="addJustification(ans.id)">
                       <mat-icon>plus_one</mat-icon>
@@ -89,11 +90,76 @@
         <mat-divider></mat-divider>
       </div>
     </mat-nav-list>
-    <button
-      mat-raised-button
-      color="primary"
-      (click)="openDialogAnswer()">
+    <hr>
+    <mat-card-title>Justificaciones por corregir</mat-card-title>
+    <mat-nav-list *ngIf="markedAnswers?.length == 0" role="list" class="correctSize">
+      <mat-card-content>No hay justificaciones por corregir</mat-card-content>
+    </mat-nav-list>
+    <mat-nav-list *ngIf="markedAnswers?.length > 0" role="list" class="correctSize">
+      <div *ngFor="let ans of markedAnswers" role="listitem" class="checkOverflow">
+        <div *ngIf="ans.marked" class="answer">
+          <a *ngFor="let jus of ans.justifications" role="listitem" class="checkOverflow" required>
+            <div *ngIf="!jus.marked">
+              <mat-divider></mat-divider>
+              <form id="modifyForm{{ ans.id }}">
+                <input type="textarea" value="{{ ans.answerText }}" style="width: 80%" required disabled />
+                <div class="correction">
+                  <label class="form-check form-check-radio">
+                    <input class="form-check-input" type="radio" name="correct" id="correct{{ ans.id }}"
+                      [checked]="ans.correct === true" value="{{ ans.correct }}" required disabled />
+                    Correcta
+                    <span claas="circle">
+                      <span class="check"></span>
+                    </span>
+                  </label>
+                  <label class="form-check form-check-radio">
+                    <input class="form-check-input" type="radio" name="correct" id="incorrect{{ ans.id }}"
+                      [checked]="ans.correct === false" value="{{ ans.correct }}" required disabled />
+                    Incorrecta
+                    <span claas="circle">
+                      <span class="check"></span>
+                    </span>
+                  </label>
+                </div>
+                <mat-card-subtitle> JUSTIFICACION: </mat-card-subtitle>
+                <input type="textarea" value="{{ jus.justificationText }}" style="width: 80%" required disabled />
+                <div class="validity">
+                  <label class="form-check form-check-radio">
+                    <input class="form-check-input" type="radio" name="valid" id="valid{{ jus.id }}"
+                      [checked]="jus.correct === true" value="{{ jus.correct }}" />
+                    Válida
+                    <span claas="circle">
+                      <span class="check"></span>
+                    </span>
+                  </label>
+                  <label class="form-check form-check-radio">
+                    <input class="form-check-input" type="radio" name="valid" id="incorrect{{ jus.id }}"
+                      [checked]="jus.correct === false" value="{{ jus.correct }}" />
+                    Inválida
+                    <span claas="circle">
+                      <span class="check"></span>
+                    </span>
+                  </label>
+                </div>
+                <div *ngIf="!jus.valid">
+                  <mat-card-subtitle> ERROR: </mat-card-subtitle>
+                  <input type="textarea" value="{{ jus.error }}" style="width: 40%" />
+                </div>
+
+              </form>
+              <mat-divider></mat-divider>
+            </div>
+          </a>
+        </div>
+      </div>
+    </mat-nav-list>
+
+    <hr>
+    <button mat-raised-button color="primary" (click)="openDialogAnswer()">
       <mat-icon>add</mat-icon>
+    </button>
+    <button mat-raised-button color="primary" (click)="getMarkedAnswers()">
+      <span>Mostrar más</span>
     </button>
   </mat-card>
 
@@ -164,88 +230,10 @@
             </a>
           </div>
         </form>
-        <button class="showMoreBtn" id="showMoreMarked">
+        <button mat-raised-button color="primary" (click)="getUnmarkedAnswers()">
           <span>Mostrar más</span>
         </button>
         <mat-divider></mat-divider>
       </div>
     </mat-nav-list>
   </mat-card>
-
-
-
-  <mat-card class="teacherCard mat-typography">
-    <mat-card-title>Justificaciones por corregir</mat-card-title>
-    <mat-nav-list *ngIf="markedAnswers?.length == 0" role="list" class="correctSize">
-      <mat-card-content>No hay justificaciones por corregir</mat-card-content>
-    </mat-nav-list>
-    <mat-nav-list *ngIf="markedAnswers?.length > 0" role="list" class="correctSize">
-      <div *ngFor="let ans of markedAnswers" role="listitem" class="checkOverflow">
-        <div *ngIf="ans.marked" class="answer">
-          <a *ngFor="let jus of ans.justifications" role="listitem" class="checkOverflow" required>
-            <div *ngIf="!jus.marked">
-              <mat-divider></mat-divider>
-              <form id="modifyForm{{ ans.id }}">
-                <input type="textarea" value="{{ ans.answerText }}" style="width: 80%" required disabled />
-                <div class="correction">
-                  <label class="form-check form-check-radio">
-                    <input class="form-check-input" type="radio" name="correct" id="correct{{ ans.id }}"
-                      [checked]="ans.correct === true" value="{{ ans.correct }}" required disabled />
-                    Correcta
-                    <span claas="circle">
-                      <span class="check"></span>
-                    </span>
-                  </label>
-                  <label class="form-check form-check-radio">
-                    <input class="form-check-input" type="radio" name="correct" id="incorrect{{ ans.id }}"
-                      [checked]="ans.correct === false" value="{{ ans.correct }}" required disabled />
-                    Incorrecta
-                    <span claas="circle">
-                      <span class="check"></span>
-                    </span>
-                  </label>
-                </div>
-                <mat-card-subtitle> JUSTIFICACION: </mat-card-subtitle>
-                <input type="textarea" value="{{ jus.justificationText }}" style="width: 80%" required disabled />
-                <div class="validity">
-                  <label class="form-check form-check-radio">
-                    <input class="form-check-input" type="radio" name="valid" id="valid{{ jus.id }}"
-                      [checked]="jus.correct === true" value="{{ jus.correct }}" />
-                    Válida
-                    <span claas="circle">
-                      <span class="check"></span>
-                    </span>
-                  </label>
-                  <label class="form-check form-check-radio">
-                    <input class="form-check-input" type="radio" name="valid" id="incorrect{{ jus.id }}"
-                      [checked]="jus.correct === false" value="{{ jus.correct }}" />
-                    Inválida
-                    <span claas="circle">
-                      <span class="check"></span>
-                    </span>
-                  </label>
-                </div>
-                <div *ngIf="!jus.valid">
-                  <mat-card-subtitle> ERROR: </mat-card-subtitle>
-                  <input type="textarea" value="{{ jus.error }}" style="width: 40%" />
-                </div>
-                <!--Here the different type of buttons will be added-->
-                <mat-card-actions>
-                  <button class="showMoreBtn">
-                    <span>Mostrar más</span>
-                  </button>
-                </mat-card-actions>
-              </form>
-              <mat-divider></mat-divider>
-            </div>
-          </a>
-        </div>
-      </div>
-    </mat-nav-list>
-  </mat-card>
-</div>
-<div align="center">
-  <button mat-raised-button color="primary" class="align-center" (click)="showDiagram()">
-    Diagrama
-  </button>
-</div>

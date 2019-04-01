@@ -38,6 +38,8 @@ import { TeacherComponent } from "./teacher/teacher.component";
 import { UrlChangerComponent } from "./teacher/urlchange.component";
 import { NewAnswerComponent } from "./teacher/newanswer.component";
 import { NewJustComponent } from "./teacher/newjust.component";
+import { newConcept } from "./home/newConcept.component";
+
 
 import { LoginService } from "./login/login.service";
 import { ChapterService } from "./home/chapter.service";
@@ -64,7 +66,9 @@ import { ImagePosterComponent } from './teacher/imageposter.component';
     UrlChangerComponent,
     ImagePosterComponent,
     NewAnswerComponent,
-    NewJustComponent
+    NewJustComponent,
+    newConcept
+
   ],
   imports: [
     BrowserModule,
@@ -98,6 +102,7 @@ import { ImagePosterComponent } from './teacher/imageposter.component';
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent, DiagramComponent],
-  entryComponents: [NewAnswerComponent, NewJustComponent]
+
+  entryComponents: [NewAnswerComponent,newConcept, NewJustComponentcept]
 })
 export class AppModule { }

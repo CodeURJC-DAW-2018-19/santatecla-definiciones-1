@@ -16,16 +16,16 @@ import { environment } from "../../environments/environment";
 export class AnswerService {
   constructor(private http: HttpClient, private loginService: LoginService) {}
   apiUrl = environment.baseUrl;
-  getMarkedAnswers(id: number) {
+  getMarkedAnswers(id: number, page: number) {
     return this.http.get<Page<Answer>>(
-      this.apiUrl + "/concepts/" + id + "/markedanswers",
+      this.apiUrl + "/concepts/" + id + "/markedanswers" + "?page=" + page,
       { withCredentials: true }
     );
   }
 
-  getUnmarkedAnswers(id: number) {
+  getUnmarkedAnswers(id: number, page: number) {
     return this.http.get<Page<Answer>>(
-      this.apiUrl + "/concepts/" + id + "/unmarkedanswers",
+      this.apiUrl + "/concepts/" + id + "/unmarkedanswers" + "?page=" + page,
       { withCredentials: true }
     );
   }
