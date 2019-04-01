@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>Nueva Justificación</h1>
+<div mat-dialog-content>
+    <form>
+        <p class="padding">Justificación:</p>
+        <mat-form-field>
+                <input matInput [(ngModel)]="justificationText" name="justificationText">
+        </mat-form-field>
+            <mat-radio-group aria-label="Selecciona una opción" class="padding" [(ngModel)]="validJustification" name="validJustification"> 
+                <mat-radio-button value="true">Valida</mat-radio-button>
+                <mat-radio-button value="false">Invalida</mat-radio-button>
+            </mat-radio-group>
+            <p class="padding">Error: </p>
+            <mat-form-field>
+                <input matInput class="padding" [(ngModel)]="error" name="error">
+            </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="newJustification()" cdkFocusInitial>Aceptar</button>
+    <button mat-button (click)="onNoClick()">Cancelar</button>
+</div>
