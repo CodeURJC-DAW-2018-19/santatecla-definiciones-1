@@ -32,12 +32,6 @@ export class TeacherComponent {
   //-1 means not initialized, 0 means false, 1 means true
   //we need to use -1 so we don't get the alert first time we try to get them
 
-  uncorrectedJust: Answer[] = [];
-  uncorrectedJustPage: number;
-  uncorrectedJustOnce: number;
-  //-1 means not initialized, 0 means false, 1 means true
-  //we need to use -1 so we don't get the alert fir
-
   answerPage: Page<Answer>;
   justPages:  Map<number, Page<Justification>>; //key: answer.id value:justification page per answer
   id: number; //concept id
@@ -59,14 +53,11 @@ export class TeacherComponent {
     this.markedOnce = -1;
     this.unmarkedAnswersPage = 0;
     this.unmarkedOnce = -1;
-    this.uncorrectedJustPage = 0;
-    this.uncorrectedJustOnce = -1;
   }
 
   ngOnInit(){
     this.getMarkedAnswers();
     this.getUnmarkedAnswers();
-    this.getUncorrectedJustifications();
   }
 
   getMarkedAnswers() {
@@ -124,44 +115,6 @@ export class TeacherComponent {
           },
           error => console.log(error + 'unmarkedanswers')
         );
-    }
-  }
-
-  getUncorrectedJustifications(){
-    let once: number = this.uncorrectedJustOnce;
-    if((once == -1) || (once == 0)){
-      let page: number = this.uncorrectedJustPage++;
-      this.answerService
-        .getMarkedAnswers(this.id, page)
-        .subscribe(
-          (data: Page<Answer>) => {
-            if((data.numberOfElements === 0 ) && (once == 0)){
-              this.uncorrectedJustOnce= 1;
-              this.dialogService.openAlert({
-                message: 'No hay más justificaciones por corregir',
-                title: 'No hay más justificaciones', 
-                closeButton: 'Cerrar'
-              });
-            }else if(data.numberOfElements > 0 ){
-              if(once == -1){
-                this.uncorrectedJustOnce =  0;
-              }
-              //Only add the answers that have an uncorrected just to the array
-              let uncorrect: boolean;
-              data.content.forEach(ans => {
-                uncorrect = false
-                ans.justifications.forEach(jus => {
-                  if(jus.marked === false)
-                    uncorrect = true;
-                });
-                if(uncorrect){
-                  this.uncorrectedJust = this.uncorrectedJust.concat(ans);
-                }
-              });
-              
-            }
-          }
-        )
     }
   }
 
