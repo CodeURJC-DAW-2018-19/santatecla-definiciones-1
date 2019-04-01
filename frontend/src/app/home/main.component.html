@@ -36,19 +36,20 @@
             </button>
             <hr>
           </li>
-          <button *ngIf="this.loginService.isTeacher" mat-raised-button color="primary"
-            (click)="showDialogNewConcept(chap.key.id)">
-            <mat-icon>add</mat-icon>
-          </button>
         </ul>
-        <hr>
+        <!--<hr>-->
         <div align="center">
           <button mat-raised-button color="primary" (click)="getConcepts(chap.key)">
             <span>Mostrar más</span>
           </button>
         </div>
       </div>
-
+    </div>
+    <div align="center">
+      <button *ngIf="this.loginService.isTeacher" mat-raised-button color="primary"
+        (click)="showDialogNewConcept(chap.key.id)">
+        <mat-icon>add</mat-icon>
+      </button>
     </div>
   </td-expansion-panel>
   <div align="center">

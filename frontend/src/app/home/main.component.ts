@@ -154,7 +154,17 @@ export class ChapterComponent {
       if (accept) {
         this.chapterService
           .deleteConcept(chapterId, conceptId)
-          .subscribe((_) => this.getChapters,
+          .subscribe((_) => {
+            let chapters = Array.from(this.chapterConcepts.keys());
+            let chapter: Chapter = chapters.find(j => j.id == chapterId);
+            let concepts = this.chapterConcepts.get(chapter);
+            let concept: Concept = concepts.find(i => i.id == conceptId);
+            const index = concepts.indexOf(concept, 0);
+            if (index > -1) {
+              concepts.splice(index, 1);
+            }
+            this.chapterConcepts.set(chapter,concepts);
+          },
             (error) => console.error(error + 'markedanswers on ans delete'));
       }
     });
