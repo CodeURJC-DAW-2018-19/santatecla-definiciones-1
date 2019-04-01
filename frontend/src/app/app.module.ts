@@ -37,7 +37,9 @@ import { StudentComponent } from "./student/student.component";
 import { TeacherComponent } from "./teacher/teacher.component";
 import { UrlChangerComponent } from "./teacher/urlchange.component";
 import { NewAnswerComponent } from "./teacher/newanswer.component";
+import { NewJustComponent } from "./teacher/newjust.component";
 import { newConcept } from "./home/newConcept.component";
+
 
 import { LoginService } from "./login/login.service";
 import { ChapterService } from "./home/chapter.service";
@@ -65,8 +67,10 @@ import { YesNoDialogComponent } from './student/yesNoDialog.component';
     UrlChangerComponent,
     ImagePosterComponent,
     NewAnswerComponent,
-    newConcept,
-    YesNoDialogComponent
+    YesNoDialogComponent,
+    NewJustComponent,
+    newConcept
+
   ],
   imports: [
     BrowserModule,
@@ -99,7 +103,7 @@ import { YesNoDialogComponent } from './student/yesNoDialog.component';
     { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: LocationStrategy, useClass: HashLocationStrategy }],
-  bootstrap: [AppComponent, DiagramComponent, YesNoDialogComponent],
+  bootstrap: [AppComponent, DiagramComponent, YesNoDialogComponent, NewJustComponent],
   entryComponents: [NewAnswerComponent,newConcept]
 })
 export class AppModule { }

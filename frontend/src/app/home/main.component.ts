@@ -139,6 +139,16 @@ export class ChapterComponent {
         id: id
       }
     });
+    dialogRef.afterClosed().subscribe(
+      result => {
+        let chapters = Array.from(this.chapterConcepts.keys());
+        let chapter: Chapter = chapters.find(j => j.id == id);
+        let concepts = this.chapterConcepts.get(chapter);
+        concepts.push(result);
+        this.chapterConcepts.set(chapter,concepts);
+      },
+      error => console.log(error)
+    );
 
   }
 
