@@ -37,9 +37,9 @@ export class JustificationService {
       return throwError(new Error('Server error (' + error.status + '): ' + error));
    }
    
-   postNewJustification(id: number, just: Justification): Observable<Justification> {
+   postNewJustification(id: number, just: Justification){
     return this.http.post(
-        this.apiUrl "/concepts/" + id + "/answers", 
+        this.apiUrl   + "/answers/" + id + "/justifications", 
         just,
         { withCredentials: true }
     );

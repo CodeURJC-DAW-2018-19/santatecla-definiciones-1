@@ -10,6 +10,7 @@ import { DiagramComponent } from "../diagram/diagram.component";
 import { NewAnswerComponent } from "./newanswer.component";
 import { MatDialog } from "@angular/material";
 import { TdDialogService } from '@covalent/core';
+import { NewJustComponent } from './newjust.component';
 
 /**
  * Wrapper component for all teacher information.
@@ -120,4 +121,22 @@ export class TeacherComponent {
 
   }
 
+  addJustification(answerid: number){
+    const dialogRef = this.answerDialog.open(NewJustComponent, {
+      data: {
+        id: answerid,
+         
+
+
+      }
+
+    });
+    dialogRef.afterClosed().subscribe(
+      result => {
+        //TODO
+        
+      }
+    )
+
+  }
 }

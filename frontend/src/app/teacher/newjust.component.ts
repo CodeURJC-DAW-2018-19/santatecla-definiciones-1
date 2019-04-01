@@ -1,8 +1,5 @@
 import { Component, Inject} from "@angular/core";
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material'
-
-import { Answer } from "./answer.model";
-import { AnswerService } from "./answer.service";
 import { Justification } from './justification.model';
 import { JustificationService } from "./justification.service";
 
@@ -17,7 +14,6 @@ export class NewJustComponent {
 
     id: number;
     justificationText: string;
-    markedJustification: boolean = true;
     validJustification : boolean;
     error: string;
 
@@ -29,9 +25,17 @@ export class NewJustComponent {
     newJustification(){
         let justification: Justification = {
             justificationText: this.justificationText,
-            marked: this.markedJustification,
             valid: this.validJustification,
-            error: this.error
+            error: this.error,
+            marked: true
+        };
+        this.justificationService.postNewJustification(this.id, justification).subscribe(
+            data => console.log(data),
+            error => console.log(error)
+        );
+        this.dialogRef.close();
     }
-
+    onNoClick(){
+        this.dialogRef.close();
+    }
 }
