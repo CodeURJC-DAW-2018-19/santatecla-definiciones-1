@@ -10,3 +10,6 @@ li {
     height: 100px;
     margin-right: 20px;
 }
+button[color="primary"] {
+    margin: 10px
+}

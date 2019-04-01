@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Chapter } from "./chapter.model";
 import { Page } from "../page/page.model";
 import { environment } from "../../environments/environment";
@@ -7,9 +7,10 @@ import { Concept } from "./concept.model";
 
 @Injectable()
 export class ChapterService {
+
   apiUrl = environment.baseUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getChapters(page: number) {
     return this.http.get<Page<Chapter>>(this.apiUrl + "/chapters?sort=id" + "&page=" + page, {
@@ -39,4 +40,17 @@ export class ChapterService {
     );
   }
 
+  deleteChapter(chapterId: number) {
+    return this.http.delete(this.apiUrl + "/chapters/" + chapterId, { withCredentials: true })
+  }
+
+  createChapter(chapterName: string) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    const body = {
+      chapterName : chapterName
+    }
+    return this.http.post(this.apiUrl + "/chapters", {headers: headers, withCredentials: true})
+  }
 }

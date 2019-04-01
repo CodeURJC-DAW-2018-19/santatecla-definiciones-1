@@ -23,7 +23,7 @@ export class ChapterComponent {
   //we need to use -1 so we don't get the alert first time we try to get them
 
   conceptsPage: Map<Chapter, number> = new Map();
-  conceptsOnce: Map<Chapter, number> = new Map(); 
+  conceptsOnce: Map<Chapter, number> = new Map();
   //-1 means not initialized, 0 means false, 1 means true
   //we need to use -1 so we don't get the alert first time we try to get them
 
@@ -61,7 +61,7 @@ export class ChapterComponent {
                 closeButton: 'Cerrar'
               });
             } else if (data.numberOfElements > 0) {
-              if(once == -1){
+              if (once == -1) {
                 this.chaptersOnce = 0;
               }
               this.addChapters(data);
@@ -101,7 +101,7 @@ export class ChapterComponent {
                 closeButton: 'Cerrar'
               });
             } else if (data.numberOfElements > 0) {
-              if(once == -1){
+              if (once == -1) {
                 this.conceptsOnce.set(chapter, 0);
               }
               this.addConcepts(chapter, data);
@@ -160,4 +160,38 @@ export class ChapterComponent {
     });
   }
 
+  deleteChapter(chapter: Chapter) {
+    this.dialogService.openConfirm({
+      message: '¿Quieres eliminar este tema?',
+      title: 'Confirmar',
+      acceptButton: 'Aceptar',
+      cancelButton: 'Cancelar',
+      width: '500px',
+      height: '175px'
+    }).afterClosed().subscribe((accept: boolean) => {
+      if (accept) {
+        this.chapterService.deleteChapter(chapter.id).subscribe(
+          (_) => this.chapterConcepts.delete(chapter),
+          error => console.error(error)
+        )
+      }
+    });
+  }
+
+  addChapter() {
+    this.dialogService.openPrompt({
+      message: "Elige un nombre para el tema: ",
+      title: "Crear tema",
+      acceptButton: "Crear",
+      cancelButton: "Cancelar",
+      width: '500px',
+      height: '175px'
+    }).afterClosed().subscribe((newChapterName: string) => {
+      if (newChapterName) {
+        this.chapterService.createChapter(newChapterName)
+      } else {
+        alert("Tienes que escribir un nombre para el tema en el campo de texto.")
+      }
+    })
+  }
 }
