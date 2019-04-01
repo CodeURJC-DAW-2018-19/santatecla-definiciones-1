@@ -22,15 +22,14 @@ import { ChapterService } from './chapter.service';
     }
 
     newConcept(){
-        let concept: Concept = {
-            conceptName: this.conceptName,
-            URL: this.URL,
-        };
-        this.chapterService.addConcept(this.id, concept).subscribe(
-            data => console.log(data),
-            error => console.log(error)
-          );
-        this.dialogRef.close();
+      let concept: Concept = {
+          conceptName: this.conceptName,
+          URL: this.URL,
+      };
+      this.chapterService.addConcept(this.id,concept).subscribe(
+          data => this.dialogRef.close(data),
+          error => console.log(error)
+        );
     }
 
     onNoClick(): void {
