@@ -52,6 +52,7 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { HeaderService } from './header/header.service';
 import { ImageService } from './images/image.service';
 import { ImagePosterComponent } from './teacher/imageposter.component';
+import { YesNoDialogComponent } from './student/yesNoDialog.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { ImagePosterComponent } from './teacher/imageposter.component';
     UrlChangerComponent,
     ImagePosterComponent,
     NewAnswerComponent,
-    newConcept
+    newConcept,
+    YesNoDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -97,7 +99,7 @@ import { ImagePosterComponent } from './teacher/imageposter.component';
     { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: LocationStrategy, useClass: HashLocationStrategy }],
-  bootstrap: [AppComponent, DiagramComponent],
+  bootstrap: [AppComponent, DiagramComponent, YesNoDialogComponent],
   entryComponents: [NewAnswerComponent,newConcept]
 })
 export class AppModule { }

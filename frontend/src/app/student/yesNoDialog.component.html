@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>Pregunta</h1>
+  <p>{{ data.questionText }}</p>
+    <mat-radio-group [value]="solution">
+      <mat-radio-button value="yes" (click)="checkRadio()">Sí</mat-radio-button>
+      <br>
+      <mat-radio-button value="no" (click)="checkRadio()">No</mat-radio-button>
+    </mat-radio-group>
+<mat-dialog-actions align="end">
+  <button mat-button color="primary" mat-dialog-close>
+    Cancelar
+  </button>
+  <button mat-button color="primary" [disabled]="disable" [mat-dialog-close]="solution" (click)="send()">
+    Enviar
+  </button>
+</mat-dialog-actions>

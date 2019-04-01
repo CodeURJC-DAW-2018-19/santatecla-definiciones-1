@@ -42,3 +42,7 @@ mat-card-title {
     width: 10%;
     text-align: center;
 }
+
+button[color="primary"] {
+    margin: 10px
+}
