@@ -125,18 +125,14 @@ export class TeacherComponent {
     const dialogRef = this.answerDialog.open(NewJustComponent, {
       data: {
         id: answerid,
-         
-
 
       }
 
     });
     dialogRef.afterClosed().subscribe(
       result => {
-        //TODO
-        
+        this.addJustification=result;
       }
-    )
-
+    );
   }
 }
