@@ -35,10 +35,10 @@
                 <mat-icon>delete</mat-icon>Borrar
               </button>
               <!--Boton modificar-->
-              
+
             </div>
             <div *ngIf="!ans.correct">
-              <a *ngFor="let jus of ans.justifications" role="listitem" class="checkOverflow" required>
+              <a *ngFor="let jus of markedJust.get(ans.id)" role="listitem" class="checkOverflow" required>
                 <div *ngIf="jus.marked">
                   <mat-card-subtitle> JUSTIFICACION: </mat-card-subtitle>
                   <input type="textarea" value="{{ jus.justificationText }}" style="width: 80%" />
@@ -72,15 +72,15 @@
 
                   </div>
                   <mat-card-actions>
-                    <button class="showMoreBtn">
+                    <button mat-raised-button color="primary" (click)="getMarkedJustificationsByAnswer(ans.id)">
                       <span>Mostrar más</span>
                     </button>
                   </mat-card-actions>
                 </div>
               </a>
-              <button *ngIf="ans.justifications.length > 0" mat-raised-button color="primary"
-                      (click)="addJustification(ans.id)">
-                      <mat-icon>plus_one</mat-icon>
+              <button *ngIf="markedJust.get(ans.id)?.length > 0" mat-raised-button color="primary"
+                (click)="addJustification(ans.id)">
+                <mat-icon>plus_one</mat-icon>
               </button>
             </div>
           </form>
@@ -176,13 +176,13 @@
     </mat-card>
 
 
-    <mat-card class="teacherCard mat-typography">
+    <mat-card class="checkOverflow teacherContent">
       <mat-card-title>Justificaciones por corregir</mat-card-title>
-      <mat-nav-list *ngIf="uncorrectedJust?.length == 0" role="list" class="correctSize">
+      <mat-nav-list *ngIf="unmarkedJust?.length == 0" role="list" class="correctSize">
         <mat-card-content>No hay justificaciones por corregir</mat-card-content>
       </mat-nav-list>
-      <mat-nav-list *ngIf="uncorrectedJust?.length > 0" role="list" class="correctSize">
-        <div *ngFor="let jus of uncorrectedJust" role="listitem" class="checkOverflow">
+      <mat-nav-list *ngIf="unmarkedJust?.length > 0" role="list" class="correctSize">
+        <div *ngFor="let jus of unmarkedJust" role="listitem" class="checkOverflow">
           <mat-divider></mat-divider>
           <form id="modifyForm{{ jus.answer.id }}">
             <input type="textarea" value="{{ jus.answer.answerText }}" style="width: 80%" required disabled />
@@ -230,7 +230,7 @@
             </div>
           </form>
           <mat-divider></mat-divider>
-          <button mat-raised-button color="primary" (click)="getUncorrectedJustifications()">
+          <button mat-raised-button color="primary" (click)="getUnmarkedJustifications()">
             <span>Mostrar más</span>
           </button>
         </div>

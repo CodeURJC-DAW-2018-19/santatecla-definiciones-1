@@ -68,9 +68,8 @@ public class RestConceptControllerTeacher {
 		return new ResponseEntity<>(concept, HttpStatus.OK);
 	}
 
-	// Get methods
-	interface AnswerMarked extends Answer.Marked, Answer.Justifications, Justification.Basic {
-	}
+	// Get methods Answer
+	interface AnswerMarked extends Answer.Marked, Answer.Justifications, Justification.Basic {}
 
 	@JsonView(AnswerMarked.class)
 	@GetMapping(value = {"/concepts/{conceptId}/markedanswers" })
@@ -86,10 +85,21 @@ public class RestConceptControllerTeacher {
 	}
 	
 	interface JustificationsUnmarked extends Answer.Marked, Justification.AnswerView {}	
+	
 	@JsonView(JustificationsUnmarked.class)
 	@GetMapping(value = {"/concepts/{conceptId}/unmarkedjustifications" })
 	public Page<Justification> getMarkedWithUnmarkedJust(@PathVariable long conceptId, @PageableDefault(size = DEFAULT_SIZE) Pageable page) {
 		return justificationService.findByMarkedAndAnswer_Concept_IdAndAnswer_Marked(false, conceptId, true, page);
+	}
+	
+	// Get methods Justifications
+	
+	interface JustificationsPerAnswer extends Answer.IdOnly, Justification.AnswerView {}
+	
+	@JsonView(JustificationsPerAnswer.class)
+	@GetMapping(value = {"/concepts/{conceptId}/answers/{answerId}/markedjustifications" })
+	public Page<Justification> getMarkedWithMarkedJust(@PathVariable long conceptId, @PathVariable long answerId, @PageableDefault(size = DEFAULT_SIZE) Pageable page) {
+		return justificationService.findByMarkedAndAnswer_Concept_IdAndAnswer_MarkedAndAnswer_Id(true, conceptId, true, answerId, page);
 	}
 
 	// Answer methods

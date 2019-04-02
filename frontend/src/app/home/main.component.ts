@@ -23,7 +23,7 @@ export class ChapterComponent {
   //we need to use -1 so we don't get the alert first time we try to get them
 
   conceptsPage: Map<Chapter, number> = new Map();
-  conceptsOnce: Map<Chapter, number> = new Map();
+  conceptsOnce: Map<Chapter, boolean> = new Map();
   //-1 means not initialized, 0 means false, 1 means true
   //we need to use -1 so we don't get the alert first time we try to get them
 
@@ -78,37 +78,39 @@ export class ChapterComponent {
       this.chapterConcepts.set(ch, []);
       if (!this.conceptsPage.has(ch)) { //add the chapter to both maps
         this.conceptsPage.set(ch, -1);
-        this.conceptsOnce.set(ch, -1);
+        this.conceptsOnce.set(ch, false);
       }
       this.getConcepts(ch);
     }
   }
 
   getConcepts(chapter: Chapter) {
-    let once: number = this.conceptsOnce.get(chapter)
-    if ((once == -1) || (once == 0)) {
+    if (this.conceptsOnce.has(chapter)) {
+      let once: boolean = this.conceptsOnce.get(chapter)
       let page: number = this.conceptsPage.get(chapter) + 1;
       this.conceptsPage.set(chapter, page);
       this.chapterService
         .getConceptPerChapter(chapter.id, page)
         .subscribe(
           (data: Page<Concept>) => {
-            if ((data.numberOfElements === 0) && (once == 0)) {
-              this.conceptsOnce.set(chapter, 1);
+            if ((data.numberOfElements === 0) && (once == true)) {
+              this.conceptsOnce.delete(chapter);
+              this.conceptsPage.delete(chapter);
               this.dialogService.openAlert({
                 message: 'No hay más conceptos para ' + chapter.chapterName,
                 title: 'No hay más conceptos',
                 closeButton: 'Cerrar'
               });
             } else if (data.numberOfElements > 0) {
-              if (once == -1) {
-                this.conceptsOnce.set(chapter, 0);
+              if (once == false) {
+                this.conceptsOnce.set(chapter, true);
               }
               this.addConcepts(chapter, data);
             }
           },
           error => console.log(error)
         );
+
     }
   }
 
@@ -145,7 +147,7 @@ export class ChapterComponent {
         let chapter: Chapter = chapters.find(j => j.id == id);
         let concepts = this.chapterConcepts.get(chapter);
         concepts.push(result);
-        this.chapterConcepts.set(chapter,concepts);
+        this.chapterConcepts.set(chapter, concepts);
       },
       error => console.log(error)
     );
@@ -173,7 +175,7 @@ export class ChapterComponent {
             if (index > -1) {
               concepts.splice(index, 1);
             }
-            this.chapterConcepts.set(chapter,concepts);
+            this.chapterConcepts.set(chapter, concepts);
           },
             (error) => console.error(error + 'markedanswers on ans delete'));
       }

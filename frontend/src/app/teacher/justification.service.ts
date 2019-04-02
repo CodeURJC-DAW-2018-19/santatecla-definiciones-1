@@ -19,9 +19,16 @@ export class JustificationService {
 
    apiUrl = environment.baseUrl;
 
-   getUnmarkedjustifications(id: number, page: number) { //This methods gets us the answers that have at least 1
+   getUnmarkedJustifications(id: number, page: number) { //This methods gets us the answers that have at least 1
       return this.http.get<Page<Justification>>(
          this.apiUrl + "/concepts/" + id + "/unmarkedjustifications" + "?page=" + page,
+         { withCredentials: true }
+      );
+   }
+
+   getMarkedJustificationsByAnswer(conceptId: number, answerId: number, page: number){
+      return this.http.get<Page<Justification>>(
+         this.apiUrl + "/concepts/" + conceptId + "/answers/" + answerId + "/markedjustifications" + "?page=" + page,
          { withCredentials: true }
       );
    }
@@ -39,18 +46,18 @@ export class JustificationService {
                }
             }));
    }
-   
+
 
    private handleError(error: any) {
       console.error(error);
       return throwError(new Error('Server error (' + error.status + '): ' + error));
    }
-   
-   postNewJustification(id: number, just: Justification){
-    return this.http.post(
-        this.apiUrl   + "/answers/" + id + "/justifications", 
-        just,
-        { withCredentials: true }
-    );
-  }
+
+   postNewJustification(id: number, just: Justification) {
+      return this.http.post(
+         this.apiUrl + "/answers/" + id + "/justifications",
+         just,
+         { withCredentials: true }
+      );
+   }
 }
