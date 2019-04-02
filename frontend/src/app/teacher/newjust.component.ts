@@ -30,10 +30,9 @@ export class NewJustComponent {
             marked: true
         };
         this.justificationService.postNewJustification(this.id, justification).subscribe(
-            data => console.log(data),
+            data =>this.dialogRef.close(data),
             error => console.log(error)
         );
-        this.dialogRef.close();
     }
     onNoClick(){
         this.dialogRef.close();
