@@ -77,11 +77,19 @@ public class RestConceptControllerStudent {
 	public ResponseEntity<Answer> addAnswer(@PathVariable long conceptId, 
 			@RequestBody Map<String, Object> body){
 		//TODO: refactor to prevet null pointer exceptions
-		String answerText = body.get("answerText").toString();
-		String answerOption = body.get("answerOption").toString();
+		String answerText = null;
+		String answerOption = null;
+		if (body.get("answerText")!=null) // not yes/no question
+			answerText = body.get("answerText").toString();
+		if (body.get("answerOption")!=null) // yes/no question
+			answerOption = body.get("answerOption").toString();
 		String questionText = body.get("questionText").toString();
-		long answerId = Long.parseLong(body.get("answerId").toString());
-		long justificationQuestionId = Long.parseLong(body.get("justificationQuestionId").toString());
+		Long answerId = null;
+		Long justificationQuestionId = null;
+		if (body.get("answerOption")!=null)
+			answerId = Long.parseLong(body.get("answerId").toString());
+		if (body.get("answerOption")!=null)
+			justificationQuestionId = Long.parseLong(body.get("justificationQuestionId").toString());
 		Integer questionType = Integer.parseInt(body.get("questionType").toString());
 		
 		boolean open = answerText != null;
