@@ -9,7 +9,7 @@ const BASE_URL = environment.baseUrl;
 
 @Injectable()
 export class QuestionsService {
-  constructor(private http: HttpClient, private loginService: LoginService) { }
+  constructor(private http: HttpClient, private loginService: LoginService) {}
 
   getMarkedQuestions(id: number, page: number) {
     return this.http.get<Page<Question>>(
@@ -24,4 +24,11 @@ export class QuestionsService {
       { withCredentials: true }
     );
   }
+
+  getNewQuestion(id: number) {
+    return this.http.get<Question>(
+      BASE_URL + "/concepts/" + id + "/newquestion", {withCredentials: true}
+    );
+  }
+  
 }

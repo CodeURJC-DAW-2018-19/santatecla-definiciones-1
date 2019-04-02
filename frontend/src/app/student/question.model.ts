@@ -9,6 +9,6 @@ export interface Question {
     userResponse: boolean;
     marked: boolean;
     correct: boolean;
-    answer: AnswerStudent;
-    justification: JustificationStudent;
+    answer?: AnswerStudent;
+    justification?: JustificationStudent;
 }
