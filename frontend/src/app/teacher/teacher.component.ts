@@ -228,7 +228,13 @@ export class TeacherComponent {
     });
     dialogRef.afterClosed().subscribe(
       result => {
-        this.addJustification=result;
+        let answer: Answer = this.markedAnswers.find(j=> j.id == answerid);
+        const index = this.markedAnswers.indexOf(answer, 0);
+        if(index > 1){
+          this.markedAnswers.splice(index, 1);
+        }
+        answer.justifications.push(result);
+        this.markedAnswers.push(answer);
       }
     );
   }
