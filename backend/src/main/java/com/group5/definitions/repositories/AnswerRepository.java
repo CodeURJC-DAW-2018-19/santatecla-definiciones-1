@@ -24,5 +24,8 @@ public interface AnswerRepository extends JpaRepository<Answer, Long>{
 
 	public Page<Answer> findByConceptAndJustifications_Marked(Concept concept,
 			boolean justMarked, Pageable page);
+	
+	public Page<Answer> findByMarkedAndConceptIdAndJustifications_Marked(boolean marked, long id,
+			boolean justMarked, Pageable page);
 
 }

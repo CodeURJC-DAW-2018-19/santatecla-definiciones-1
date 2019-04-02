@@ -56,4 +56,8 @@ public class JustificationService {
 	public Page<Justification> findByAnswer(Answer ans, Pageable page) {
 		return justificationRepository.findByAnswer(ans, page);
 	}
+	
+	public Page<Justification> findByMarkedAndAnswer_Concept_IdAndAnswer_Marked(boolean justMarked, long id, boolean marked, Pageable page){
+		return justificationRepository.findByMarkedAndAnswer_Concept_IdAndAnswer_Marked(justMarked, id, marked,  page);
+	};
 }
