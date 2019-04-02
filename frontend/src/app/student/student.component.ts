@@ -141,7 +141,24 @@ export class StudentComponent {
               }
             })
             .afterClosed()
-            .subscribe((answer: string) => console.log("TODO"));
+            .subscribe((answer: string) => {
+              if (data.justification)
+                this.saveAnswer(
+                  data.type,
+                  answer,
+                  data.questionText,
+                  data.answer.id,
+                  data.justification.id
+                );
+              else if (data.answer)
+                this.saveAnswer(
+                  data.type,
+                  answer,
+                  data.questionText,
+                  data.answer.id
+                );
+              else this.saveAnswer(data.type, answer, data.questionText);
+            });
         } else {
           this.dialogService
             .openPrompt({
@@ -151,10 +168,62 @@ export class StudentComponent {
               acceptButton: "Enviar"
             })
             .afterClosed()
-            .subscribe((answer: string) => console.log("TODO"));
+            .subscribe((answer: string) => {
+              if (data.justification)
+                this.saveAnswer(
+                  data.type,
+                  answer,
+                  data.questionText,
+                  data.answer.id,
+                  data.justification.id
+                );
+              else if (data.answer)
+                this.saveAnswer(
+                  data.type,
+                  answer,
+                  data.questionText,
+                  data.answer.id
+                );
+              else this.saveAnswer(data.type, answer, data.questionText);
+            });
         }
       },
       error => console.log(error)
     );
+  }
+  saveAnswer(
+    questionType: number,
+    answerText: string,
+    questionText: string,
+    answerId?: number,
+    justificationId?: number
+  ) {
+    if (justificationId)
+      this.questionsService
+        .saveAnswer(
+          this.id,
+          questionType,
+          answerText,
+          questionText,
+          answerId,
+          justificationId
+        )
+        .subscribe(_ => this.addNewQuestion(questionText, questionType, answerText), error => console.log(error));
+    else if (answerId)
+      this.questionsService
+        .saveAnswer(this.id, questionType, answerText, questionText, answerId)
+        .subscribe(_ => this.addNewQuestion(questionText, questionType, answerText), error => console.log(error));
+    else
+      this.questionsService
+        .saveAnswer(this.id, questionType, answerText, questionText, answerId)
+        .subscribe(_ => this.addNewQuestion(questionText, questionType, answerText), error => console.log(error));
+  }
+
+  addNewQuestion(
+    questionText: string,
+    questionType: number,
+    answerText: string
+  ) {
+
   }
 }

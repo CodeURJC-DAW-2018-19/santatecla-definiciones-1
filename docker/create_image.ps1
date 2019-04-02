@@ -1,5 +1,5 @@
 cd ../frontend
-docker run --rm --name angular-cli -v ${PWD}:/angular -w /angular node:8.15.1 /bin/bash -c "npm install; npm rebuild; ng build --prod --baseHref=/new/"
+docker run --rm --name angular-cli -v ${PWD}:/angular -w /angular node:8.15.1 /bin/bash -c "npm install -g @angular/cli; npm install; npm rebuild; ng build --prod --baseHref=/new/"
 Remove-Item -path '..\backend\src\main\resources\static\new\*'
 Move-Item -Path './dist/angular/*' -Destination '..\backend\src\main\resources\static\new'
 cd ../backend
