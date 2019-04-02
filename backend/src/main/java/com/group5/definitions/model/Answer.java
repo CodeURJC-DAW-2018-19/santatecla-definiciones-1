@@ -17,12 +17,13 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
 public class Answer {
-	public interface Basic extends Student{}
-	public interface Justifications {}
-	public interface Marked extends Basic{}
-	public interface Student {}
+	public interface Basic extends Student, IdOnly{} //  to send basic info, contains id and answerText
+	public interface Justifications {} // justifications of the answer
+	public interface Marked extends Basic{} // to send basic components plus marked
+	public interface Student {}	// to only send the answerText
+	public interface IdOnly {} // to send only the id
 	
-	@JsonView(Basic.class)
+	@JsonView(IdOnly.class)
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;

@@ -34,17 +34,18 @@ export class TeacherComponent {
   unmarkedAnswersPage: number;
   unmarkedOnce: number;
   //-1 means not initialized, 0 means false, 1 means true
-  //we need to use -1 so we don't get the alert first time we try to get them
 
-  uncorrectedJust: Justification[] = [];
-  uncorrectedJustPage: number;
-  uncorrectedJustOnce: number;
+  unmarkedJust: Justification[] = [];
+  unmarkedJustPage: number;
+  unmarkedJustOnce: number;
   //-1 means not initialized, 0 means false, 1 means true
-  //we need to use -1 so we don't get the alert fir
 
+  markedJust: Map<number, Justification[]> = new Map() // key is answer id
+  markedJustPage: Map<number, number> = new Map(); // key is answer id
+  markedJustOnce: Map<number, number> = new Map(); // key: answer id   value:  -1 means not initialized, 0 means false, 1 means true
 
   answerPage: Page<Answer>;
-  justPages: Map<number, Page<Justification>>; //key: answer.id value:justification page per answer
+  justPages: Map<number, Page<Justification>>; // key: answer id     value: justification page per answer
   id: number; //concept id
 
   constructor(
@@ -64,14 +65,14 @@ export class TeacherComponent {
     this.markedOnce = -1;
     this.unmarkedAnswersPage = 0;
     this.unmarkedOnce = -1;
-    this.uncorrectedJustPage = 0;
-    this.uncorrectedJustOnce = -1;
+    this.unmarkedJustPage = 0;
+    this.unmarkedJustOnce = -1;
   }
 
   ngOnInit() {
     this.getMarkedAnswers();
     this.getUnmarkedAnswers();
-    this.getUncorrectedJustifications();
+    this.getUnmarkedJustifications();
   }
 
   getMarkedAnswers() {
@@ -94,6 +95,16 @@ export class TeacherComponent {
                 this.markedOnce = 0;
               }
               this.markedAnswers = this.markedAnswers.concat(data.content);
+              data.content.forEach(answer => {
+                if (!answer.correct) {
+                  let id = answer.id;
+                  if (!this.markedJustOnce.has(id)) {
+                    this.markedJustOnce.set(id, -1);
+                    this.markedJustPage.set(id, -1); //starts in -1 bc its increased after
+                  }
+                  this.getMarkedJustificationsByAnswer(id); 
+                }
+              });
             }
           },
           error => console.log(error + 'markedanswers')
@@ -129,16 +140,16 @@ export class TeacherComponent {
     }
   }
 
-  getUncorrectedJustifications() {
-    let once: number = this.uncorrectedJustOnce;
+  getUnmarkedJustifications() {
+    let once: number = this.unmarkedJustOnce;
     if ((once == -1) || (once == 0)) {
-      let page: number = this.uncorrectedJustPage++;
+      let page: number = this.unmarkedJustPage++;
       this.justificationService
-        .getUnmarkedjustifications(this.id, page)
+        .getUnmarkedJustifications(this.id, page)
         .subscribe(
           (data: Page<Justification>) => {
             if ((data.numberOfElements === 0) && (once == 0)) {
-              this.uncorrectedJustOnce = 1;
+              this.unmarkedJustOnce = 1;
               this.dialogService.openAlert({
                 message: 'No hay más justificaciones por corregir',
                 title: 'No hay más justificaciones',
@@ -146,12 +157,42 @@ export class TeacherComponent {
               });
             } else if (data.numberOfElements > 0) {
               if (once == -1) {
-                this.uncorrectedJustOnce = 0;
+                this.unmarkedJustOnce = 0;
               }
-              this.uncorrectedJust = this.uncorrectedJust.concat(data.content);
+              this.unmarkedJust = this.unmarkedJust.concat(data.content);
             }
           },
           error => console.log(error + 'unmarkedjustifications')
+        );
+    }
+  }
+
+  getMarkedJustificationsByAnswer(answerId: number) {
+    let once: number = this.markedJustOnce.get(answerId);
+    if ((once == -1) || (once == 0)) {
+      let page: number = this.markedJustPage.get(answerId) + 1;
+      this.justificationService
+        .getMarkedJustificationsByAnswer(this.id, answerId, page)
+        .subscribe(
+          (data: Page<Justification>) => {
+            if ((data.numberOfElements === 0) && (once == 0)) {
+              this.markedJustOnce.set(answerId, 1);
+              this.dialogService.openAlert({
+                message: 'No hay más justificaciones en esta respuesta', //TODO: put answer name
+                title: 'No hay más justificaciones',
+                closeButton: 'Cerrar'
+              });
+            } else if (data.numberOfElements > 0) {
+              if (once == -1) {
+                this.markedJustOnce.set(answerId, 0);
+                this.markedJust.set(answerId, []);
+              }
+              this.markedJustPage.set(answerId, page);
+              let just = this.markedJust.get(answerId).concat(data.content);
+              this.markedJust.set(answerId, just);
+            }
+          },
+          error => console.log(error + 'markedjustifications in answer ' + answerId)
         );
     }
   }
@@ -222,7 +263,7 @@ export class TeacherComponent {
     );
   }
 
-  addJustification(answerid: number){
+  addJustification(answerid: number) {
     const dialogRef = this.answerDialog.open(NewJustComponent, {
       data: {
         id: answerid,
@@ -232,9 +273,9 @@ export class TeacherComponent {
     });
     dialogRef.afterClosed().subscribe(
       result => {
-        let answer: Answer = this.markedAnswers.find(j=> j.id == answerid);
+        let answer: Answer = this.markedAnswers.find(j => j.id == answerid);
         const index = this.markedAnswers.indexOf(answer, 0);
-        if(index > 1){
+        if (index > 1) {
           this.markedAnswers.splice(index, 1);
         }
         answer.justifications.push(result);
