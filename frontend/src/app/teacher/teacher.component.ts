@@ -11,6 +11,9 @@ import { NewAnswerComponent } from "./newanswer.component";
 import { MatDialog } from "@angular/material";
 import { TdDialogService } from '@covalent/core';
 
+
+import { catchError, timeout } from "rxjs/operators";
+
 /**
  * Wrapper component for all teacher information.
  */
@@ -32,8 +35,15 @@ export class TeacherComponent {
   //-1 means not initialized, 0 means false, 1 means true
   //we need to use -1 so we don't get the alert first time we try to get them
 
+  uncorrectedJust: Justification[] = [];
+  uncorrectedJustPage: number;
+  uncorrectedJustOnce: number;
+  //-1 means not initialized, 0 means false, 1 means true
+  //we need to use -1 so we don't get the alert fir
+
+
   answerPage: Page<Answer>;
-  justPages:  Map<number, Page<Justification>>; //key: answer.id value:justification page per answer
+  justPages: Map<number, Page<Justification>>; //key: answer.id value:justification page per answer
   id: number; //concept id
 
   constructor(
@@ -53,35 +63,37 @@ export class TeacherComponent {
     this.markedOnce = -1;
     this.unmarkedAnswersPage = 0;
     this.unmarkedOnce = -1;
+    this.uncorrectedJustPage = 0;
+    this.uncorrectedJustOnce = -1;
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.getMarkedAnswers();
     this.getUnmarkedAnswers();
+    this.getUncorrectedJustifications();
   }
 
   getMarkedAnswers() {
     let once: number = this.markedOnce;
-    if((once == -1) || (once == 0)){
+    if ((once == -1) || (once == 0)) {
       let page: number = this.markedAnswersPage++;
       this.answerService
         .getMarkedAnswers(this.id, page)
         .subscribe(
           (data: Page<Answer>) => {
-            if((data.numberOfElements === 0 ) && (once == 0)){
+            if ((data.numberOfElements === 0) && (once == 0)) {
               this.markedOnce = 1;
               this.dialogService.openAlert({
                 message: 'No hay más respuestas corregidas',
-                title: 'No hay más respuestas', 
+                title: 'No hay más respuestas',
                 closeButton: 'Cerrar'
               });
-            }else if(data.numberOfElements > 0 ){
-              if(once == -1){
-                this.markedOnce =  0;
+            } else if (data.numberOfElements > 0) {
+              if (once == -1) {
+                this.markedOnce = 0;
               }
               this.markedAnswers = this.markedAnswers.concat(data.content);
             }
-            console.log(data);
           },
           error => console.log(error + 'markedanswers')
         );
@@ -91,75 +103,100 @@ export class TeacherComponent {
 
   getUnmarkedAnswers() {
     let once: number = this.unmarkedOnce;
-    if((once == -1) || (once == 0)){
+    if ((once == -1) || (once == 0)) {
       let page: number = this.unmarkedAnswersPage++;
       this.answerService
         .getUnmarkedAnswers(this.id, page)
         .subscribe(
           (data: Page<Answer>) => {
-            console.log(data);
-            if((data.numberOfElements === 0 ) && (once == 0)){
+            if ((data.numberOfElements === 0) && (once == 0)) {
               this.unmarkedOnce = 1;
               this.dialogService.openAlert({
                 message: 'No hay más respuestas por corregidas',
-                title: 'No hay más respuestas', 
+                title: 'No hay más respuestas',
                 closeButton: 'Cerrar'
               });
-            }else if(data.numberOfElements > 0 ){
-              if(once == -1){
-                this.unmarkedOnce =  0;
+            } else if (data.numberOfElements > 0) {
+              if (once == -1) {
+                this.unmarkedOnce = 0;
               }
               this.unmarkedAnswers = this.unmarkedAnswers.concat(data.content);
             }
-            console.log(data);
           },
           error => console.log(error + 'unmarkedanswers')
         );
     }
   }
 
+  getUncorrectedJustifications() {
+    let once: number = this.uncorrectedJustOnce;
+    if ((once == -1) || (once == 0)) {
+      let page: number = this.uncorrectedJustPage++;
+      this.justificationService
+        .getUnmarkedjustifications(this.id, page)
+        .subscribe(
+          (data: Page<Justification>) => {
+            if ((data.numberOfElements === 0) && (once == 0)) {
+              this.uncorrectedJustOnce = 1;
+              this.dialogService.openAlert({
+                message: 'No hay más justificaciones por corregir',
+                title: 'No hay más justificaciones',
+                closeButton: 'Cerrar'
+              });
+            } else if (data.numberOfElements > 0) {
+              if (once == -1) {
+                this.uncorrectedJustOnce = 0;
+              }
+              this.uncorrectedJust = this.uncorrectedJust.concat(data.content);
+            }
+          },
+          error => console.log(error + 'unmarkedjustifications')
+        );
+    }
+  }
+
   deleteAnswer(answerId: number) {
     this.dialogService.openConfirm({
-        message: '¿Quieres eliminar esta respuesta?',
-        title: 'Confirmar', 
-        acceptButton: 'Aceptar',
-        cancelButton: 'Cancelar',
-        width: '500px', 
-        height: '175px'
+      message: '¿Quieres eliminar esta respuesta?',
+      title: 'Confirmar',
+      acceptButton: 'Aceptar',
+      cancelButton: 'Cancelar',
+      width: '500px',
+      height: '175px'
     }).afterClosed().subscribe((accept: boolean) => {
-        if (accept) {
-            this.answerService
-                .removeAnswer(answerId, this.id) 
-                .subscribe((_) => this.getMarkedAnswers(), /*this.router.navigate(['/teacher/' + this.id]),*/ (error) => console.error(error + 'markedanswers on ans delete'));
-            console.log(this.markedAnswers);
-        }
+      if (accept) {
+        this.answerService
+          .removeAnswer(answerId, this.id)
+          .subscribe((_) => this.getMarkedAnswers(), /*this.router.navigate(['/teacher/' + this.id]),*/(error) => console.error(error + 'markedanswers on ans delete'));
+        console.log(this.markedAnswers);
+      }
     });
   }
 
   deleteJustification(justId: number, answerId: number) {
     this.dialogService.openConfirm({
-        message: '¿Quieres eliminar esta justificacion?',
-        title: 'Confirmar', 
-        acceptButton: 'Aceptar',
-        cancelButton: 'Cancelar',
-        width: '500px', 
-        height: '175px'
+      message: '¿Quieres eliminar esta justificacion?',
+      title: 'Confirmar',
+      acceptButton: 'Aceptar',
+      cancelButton: 'Cancelar',
+      width: '500px',
+      height: '175px'
     }).afterClosed().subscribe((accept: boolean) => {
-        if (accept) {
-            this.justificationService
-                .removeJustification(justId, answerId) 
-                .subscribe((_) => this.getMarkedAnswers(), (error) => {
-                  if(error === 400){
-                    this.dialogService.openAlert({
-                      message: 'No se puede eliminar una justificación de una respuesta incorrecta si no hay mas justificaciones',
-                      title: 'Error al borrar',
-                      closeButton: 'Cerrar',
-                    });
-                  }else{
-                    console.error(error + 'markedanswers on just delete');
-                  }
-                });           
-        }
+      if (accept) {
+        this.justificationService
+          .removeJustification(justId, answerId)
+          .subscribe((_) => this.getMarkedAnswers(), (error) => {
+            if (error === 400) {
+              this.dialogService.openAlert({
+                message: 'No se puede eliminar una justificación de una respuesta incorrecta si no hay mas justificaciones',
+                title: 'Error al borrar',
+                closeButton: 'Cerrar',
+              });
+            } else {
+              console.error(error + 'markedanswers on just delete');
+            }
+          });
+      }
     });
   }
 
@@ -170,7 +207,7 @@ export class TeacherComponent {
     });
   }
 
-  openDialogAnswer(){
+  openDialogAnswer() {
 
     const dialogRef = this.answerDialog.open(NewAnswerComponent, {
       data: {

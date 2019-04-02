@@ -14,6 +14,7 @@ public class Justification {
 	
 	public interface Basic extends Student {}
 	public interface Student {}
+	public interface AnswerView extends Basic {}
 	
 	@JsonView(Basic.class)
 	@Id
@@ -27,6 +28,7 @@ public class Justification {
 	private boolean valid;
 	@JsonView(Basic.class)
 	private String error;
+	@JsonView(AnswerView.class)
 	@ManyToOne
 	private Answer answer;
 	@OneToOne

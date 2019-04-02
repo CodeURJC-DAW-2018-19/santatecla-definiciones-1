@@ -84,6 +84,13 @@ public class RestConceptControllerTeacher {
 	public Page<Answer> getUnmarked(@PathVariable long conceptId, @PageableDefault(size = DEFAULT_SIZE) Pageable page) {
 		return answerService.findByMarkedAndConceptId(false, conceptId, page);
 	}
+	
+	interface JustificationsUnmarked extends Answer.Marked, Justification.AnswerView {}	
+	@JsonView(JustificationsUnmarked.class)
+	@GetMapping(value = {"/concepts/{conceptId}/unmarkedjustifications" })
+	public Page<Justification> getMarkedWithUnmarkedJust(@PathVariable long conceptId, @PageableDefault(size = DEFAULT_SIZE) Pageable page) {
+		return justificationService.findByMarkedAndAnswer_Concept_IdAndAnswer_Marked(false, conceptId, true, page);
+	}
 
 	// Answer methods
 	@JsonView(AnswerMarked.class)

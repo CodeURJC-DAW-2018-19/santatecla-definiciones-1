@@ -5,5 +5,5 @@ export interface Answer {
     answerText: string;
     marked: boolean
     correct: boolean;
-    justifications: Justification[];
+    justifications?: Justification[];
 }

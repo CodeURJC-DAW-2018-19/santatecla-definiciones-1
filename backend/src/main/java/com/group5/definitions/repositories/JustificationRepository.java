@@ -20,5 +20,7 @@ public interface JustificationRepository extends JpaRepository<Justification, Lo
 	Page<Justification> findByAnswer_Id(long id, Pageable page);
 	
 	Page<Justification> findByAnswer(Answer ans, Pageable page);
+	
+	Page<Justification> findByMarkedAndAnswer_Concept_IdAndAnswer_Marked(boolean justMarked, long id, boolean marked, Pageable page);
 
 }
