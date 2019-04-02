@@ -69,10 +69,6 @@
                       <mat-icon>delete</mat-icon>
                     </button>
                     <!--Boton modificar-->
-                    <button mat-raised-button color="primary"
-                      (click)="addJustification(ans.id)">
-                      <mat-icon>plus_one</mat-icon>
-                    </button>
 
                   </div>
                   <mat-card-actions>
@@ -82,6 +78,10 @@
                   </mat-card-actions>
                 </div>
               </a>
+              <button *ngIf="ans.justifications.length > 0" mat-raised-button color="primary"
+                      (click)="addJustification(ans.id)">
+                      <mat-icon>plus_one</mat-icon>
+              </button>
             </div>
           </form>
           <mat-divider></mat-divider>
@@ -93,6 +93,11 @@
       <button mat-raised-button color="primary" (click)="getMarkedAnswers()">
         <span>Mostrar más</span>
       </button>
+      <div align="center">
+        <button mat-raised-button color="primary" (click)="openDialogAnswer()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
     </mat-nav-list>
 
 
@@ -231,7 +236,4 @@
         </div>
       </mat-nav-list>
       <hr>
-      <button mat-raised-button color="primary" (click)="openDialogAnswer()">
-        <mat-icon>add</mat-icon>
-      </button>
     </mat-card>

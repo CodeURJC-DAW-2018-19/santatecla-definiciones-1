@@ -215,7 +215,11 @@ export class TeacherComponent {
         id: this.id
       }
     });
-
+    dialogRef.afterClosed().subscribe(
+      result => {
+        this.markedAnswers.push(result);
+      }
+    );
   }
 
   addJustification(answerid: number){

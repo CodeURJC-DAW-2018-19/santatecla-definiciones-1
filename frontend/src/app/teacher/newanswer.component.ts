@@ -49,10 +49,9 @@ import { Justification } from './justification.model';
         justifications: justificationArray
       };
       this.answerService.postNewAnswer(this.id,answer).subscribe(
-        data => console.log(data),
+        data => this.dialogRef.close(data),
         error => console.log(error)
       );
-      this.dialogRef.close();
     }
 
     onNoClick(): void {
