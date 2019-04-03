@@ -5,6 +5,8 @@ import { OnInit } from "@angular/core";
 
 import { QuestionsService } from "./question.service";
 import { Question } from "./question.model";
+import { Answer } from "../teacher/answer.model";
+import { Justification } from "../teacher/justification.model";
 import { Page } from "../page/page.model";
 import { DiagramComponent } from "../diagram/diagram.component";
 
@@ -49,7 +51,7 @@ export class StudentComponent {
     private questionsService: QuestionsService,
     private dialogService: TdDialogService
   ) {
-    this.router.routeReuseStrategy.shouldReuseRoute = function() {
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
       return false;
     };
     this.id = activatedRoute.snapshot.params["id"];
@@ -140,7 +142,7 @@ export class StudentComponent {
                 questionText: data.questionText
               }
             })
-            .afterClosed()
+            .afterClosed() // TODO: if closed 'badly' don't save answer
             .subscribe((answer: string) => {
               if (data.justification)
                 this.saveAnswer(
@@ -193,6 +195,7 @@ export class StudentComponent {
       error => console.log(error)
     );
   }
+
   saveAnswer(
     questionType: number,
     answerText: string,
@@ -200,7 +203,7 @@ export class StudentComponent {
     answerId?: number,
     justificationId?: number
   ) {
-    if (justificationId!=null)
+    if (justificationId != null)
       this.questionsService
         .saveAnswer(
           this.id,
@@ -214,7 +217,7 @@ export class StudentComponent {
           data => this.addNewQuestion(questionText, answerText, questionType),
           error => console.log(error)
         );
-    else if (answerId!=null)
+    else if (answerId != null)
       this.questionsService
         .saveAnswer(this.id, questionType, answerText, questionText, answerId)
         .subscribe(
@@ -236,25 +239,60 @@ export class StudentComponent {
     questionType: number,
     correct?: boolean
   ) {
-    let question: Question = {
-      questionText: questionText,
-      type: questionType,
-      userResponse: true,
-      marked: false,
-      yesNoQuestion: false,
-      correct: false
-    }
-    if (questionType == 2  || questionType == 3) {
+    let question: Question;
+    if (questionType == 2 || questionType == 3) {
+      question = {
+        questionText: questionText,
+        type: questionType,
+        userResponse: true,
+        marked: false,
+        yesNoQuestion: false,
+        correct: false,
+      }
       question["yesNoQuestion"] = true;
       question["correct"] = correct;
       this.markedQuestions.push(question);
+      this.dataSourceMarked = new MatTableDataSource(
+        this.markedQuestions
+      );
     } else {
-      question["yesNoQuestion"] = false;
-      if (questionType == 0)
-        question["answer"]["answerText"] = answerText;
-      else if (questionType == 1)
-        question["justification"]["justificationText"] = answerText;
+      if (questionType == 0) {
+        let ans: Answer = {
+          answerText: answerText,
+          marked: false,
+          correct: false,
+        };
+        question = {
+          questionText: questionText,
+          type: questionType,
+          userResponse: true,
+          marked: false,
+          yesNoQuestion: false,
+          correct: false,
+          answer: ans
+        };
+      }
+      else if (questionType == 1) {
+        let jus: Justification = {
+          justificationText: answerText,
+          marked: false,
+          valid: false,
+          error: ''
+        };
+        question = {
+          questionText: questionText,
+          type: questionType,
+          userResponse: true,
+          marked: false,
+          yesNoQuestion: false,
+          correct: false,
+          justification: jus
+        };
+      }
       this.unmarkedQuestions.push(question);
+      this.dataSourceUnmarked = new MatTableDataSource(
+        this.unmarkedQuestions
+      );
     }
     //TODO: Add reload
   }

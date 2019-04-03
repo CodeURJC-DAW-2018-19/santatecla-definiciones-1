@@ -47,7 +47,7 @@ public class ChapterController {
 		addToModelHome(model, closeTab, req);
 		return "old/home";
 	}
-	
+
 	private void addToModelHome(Model model, Long closeTab, HttpServletRequest req) {
 		if (closeTab != null) {
 			userSession.removeTab(closeTab);
@@ -58,12 +58,12 @@ public class ChapterController {
 		model.addAttribute("seeDiagram", req.isUserInRole("ROLE_TEACHER") || req.isUserInRole("ROLE_STUDENT"));
 		if (req.isUserInRole("ROLE_TEACHER")) {
 			model.addAttribute("diagramInfo", chapterService.generateDiagramInfoTeacher());
-		} else if (req.isUserInRole("ROLE_STUDENT")){
+		} else if (req.isUserInRole("ROLE_STUDENT")) {
 			model.addAttribute("diagramInfo", chapterService.generateDiagramInfoStudent(userSession.getLoggedUser()));
 		}
-		//model.addAttribute("images", imageController.getImageValues());
+		// model.addAttribute("images", imageController.getImageValues());
 	}
-	
+
 	@RequestMapping("/loadChapters")
 	public String getChapters(Model model, HttpServletRequest req,
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page) {
@@ -72,11 +72,10 @@ public class ChapterController {
 		model.addAttribute("teacher", req.isUserInRole("ROLE_TEACHER"));
 		return "old/chapterInfo";
 	}
-	
+
 	@RequestMapping("/loadConcepts")
-	public String getConcepts(Model model, HttpServletRequest req,
-			@PageableDefault(size = DEFAULT_SIZE) Pageable page, 
-			@RequestParam("chapterId") String chapterId){
+	public String getConcepts(Model model, HttpServletRequest req, @PageableDefault(size = DEFAULT_SIZE) Pageable page,
+			@RequestParam("chapterId") String chapterId) {
 		Page<Concept> concepts = conceptService.findByChapter_Id(Long.parseLong(chapterId), page);
 		model.addAttribute("concepts", concepts);
 		model.addAttribute("chapterId", chapterId);
@@ -109,8 +108,7 @@ public class ChapterController {
 	}
 
 	@PostMapping("/addConcept")
-	public String addConcept(Model model, HttpServletRequest req,
-			@RequestParam String conceptName, 
+	public String addConcept(Model model, HttpServletRequest req, @RequestParam String conceptName,
 			@RequestParam String chapterId) {
 		Chapter chap = chapterService.findById(Long.parseLong(chapterId));
 		Concept con = new Concept(conceptName, chap);
@@ -133,9 +131,10 @@ public class ChapterController {
 	public String register(Model model) {
 		return "old/register";
 	}
-	
+
 	@PostMapping("/newUser")
-	public String newUser(Model model, HttpServletRequest req, @RequestParam String username, @RequestParam String password) {
+	public String newUser(Model model, HttpServletRequest req, @RequestParam String username,
+			@RequestParam String password) {
 		userService.save(new User(username, password, "ROLE_STUDENT"));
 		addToModelHome(model, null, req);
 		return "old/loginPage";

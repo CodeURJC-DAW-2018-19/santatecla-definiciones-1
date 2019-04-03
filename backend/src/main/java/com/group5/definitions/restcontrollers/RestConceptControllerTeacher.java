@@ -53,11 +53,10 @@ public class RestConceptControllerTeacher {
 	public Concept getConceptUrl(@PathVariable long conceptId) {
 		return this.conceptService.findById(conceptId);
 	}
-	
+
 	@JsonView(Concept.Url.class)
 	@PutMapping("/concepts/{conceptId}")
-	public ResponseEntity<Concept> updateConcept(@PathVariable long conceptId,
-			@RequestBody Concept concept) {
+	public ResponseEntity<Concept> updateConcept(@PathVariable long conceptId, @RequestBody Concept concept) {
 		Concept oldConcept = conceptService.findById(conceptId);
 		if (oldConcept == null)
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -73,22 +72,24 @@ public class RestConceptControllerTeacher {
 	}
 
 	@JsonView(AnswerMarked.class)
-	@GetMapping(value = {"/concepts/{conceptId}/markedanswers" })
+	@GetMapping(value = { "/concepts/{conceptId}/markedanswers" })
 	public Page<Answer> getMarked(@PathVariable long conceptId, @PageableDefault(size = DEFAULT_SIZE) Pageable page) {
 		return answerService.findByMarkedAndConceptId(true, conceptId, page);
 	}
-	
 
 	@JsonView(AnswerMarked.class)
 	@GetMapping("/concepts/{conceptId}/unmarkedanswers")
 	public Page<Answer> getUnmarked(@PathVariable long conceptId, @PageableDefault(size = DEFAULT_SIZE) Pageable page) {
 		return answerService.findByMarkedAndConceptId(false, conceptId, page);
 	}
-	
-	interface JustificationsUnmarked extends Answer.Marked, Justification.AnswerView {}	
+
+	interface JustificationsUnmarked extends Answer.Marked, Justification.AnswerView {
+	}
+
 	@JsonView(JustificationsUnmarked.class)
-	@GetMapping(value = {"/concepts/{conceptId}/unmarkedjustifications" })
-	public Page<Justification> getMarkedWithUnmarkedJust(@PathVariable long conceptId, @PageableDefault(size = DEFAULT_SIZE) Pageable page) {
+	@GetMapping(value = { "/concepts/{conceptId}/unmarkedjustifications" })
+	public Page<Justification> getMarkedWithUnmarkedJust(@PathVariable long conceptId,
+			@PageableDefault(size = DEFAULT_SIZE) Pageable page) {
 		return justificationService.findByMarkedAndAnswer_Concept_IdAndAnswer_Marked(false, conceptId, true, page);
 	}
 

@@ -12,9 +12,6 @@ import { MatDialog } from "@angular/material";
 import { TdDialogService } from '@covalent/core';
 import { NewJustComponent } from './newjust.component';
 
-
-import { catchError, timeout } from "rxjs/operators";
-
 /**
  * Wrapper component for all teacher information.
  */

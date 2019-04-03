@@ -11,11 +11,16 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
 public class Justification {
-	
-	public interface Basic extends Student {}
-	public interface Student {}
-	public interface AnswerView extends Basic {}
-	
+
+	public interface Basic extends Student {
+	}
+
+	public interface Student {
+	}
+
+	public interface AnswerView extends Basic {
+	}
+
 	@JsonView(Basic.class)
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,31 +38,37 @@ public class Justification {
 	private Answer answer;
 	@OneToOne
 	private User user;
-	
-	protected Justification() {}
-	
+
+	protected Justification() {
+	}
+
 	public Justification(String justificationText, boolean marked, User user) {
 		super();
 		this.justificationText = justificationText;
 		this.marked = marked;
 		this.user = user;
 	}
-	
+
 	public String getJustificationText() {
 		return justificationText;
 	}
+
 	public void setJustificationText(String justificationText) {
 		this.justificationText = justificationText;
 	}
+
 	public boolean isValid() {
 		return valid;
 	}
+
 	public void setValid(boolean valid) {
 		this.valid = valid;
 	}
+
 	public String getError() {
 		return error;
 	}
+
 	public void setError(String error) {
 		this.error = error;
 	}
@@ -100,5 +111,4 @@ public class Justification {
 				+ ", valid=" + valid + ", error=" + error + ", answer=" + answer + ", user=" + user + "]";
 	}
 
-	
 }

@@ -29,24 +29,24 @@ import com.group5.definitions.usersession.UserSessionService;
 
 @Controller
 public class TeacherController {
-	
+
 	@Autowired
 	private AnswerService answerService;
-	
+
 	@Autowired
 	private JustificationService justificationService;
-	
+
 	@Autowired
 	private ConceptService conceptService;
-	
+
 	@Autowired
 	private QuestionService questionService;
-	
+
 	@Autowired
 	private UserSessionService userSession;
-	
+
 	private final int DEFAULT_SIZE = 10;
-	
+
 	@PostMapping("/modifyAnswer/concept/{conceptId}/answer/{id}")
 	public String addModifiedAnswer(Model model, @PathVariable String conceptId, @PathVariable long id,
 			@RequestParam String answerText, @RequestParam(value = "correct", required = false) String cAnswer,
@@ -83,18 +83,18 @@ public class TeacherController {
 		httpServletResponse.sendRedirect("/concept/" + conceptId);
 		return null;
 	}
-	
+
 	@RequestMapping("/delete/concept/{conceptId}/answer/{id}")
 	public String deleteAnswer(Model model, @PathVariable String conceptId, @PathVariable long id,
 			HttpServletResponse httpServletResponse) throws IOException {
 		Answer ans = answerService.getOne(id);
-		for(Justification j :ans.getJustifications())
+		for (Justification j : ans.getJustifications())
 			justificationService.deleteById(j.getId());
 		answerService.deleteById(id);
 		httpServletResponse.sendRedirect("/concept/" + conceptId);
 		return null;
 	}
-	
+
 	@PostMapping("/concept/{conceptId}/mark/{answerId}")
 	public String markAnswer(Model model, @PathVariable long conceptId, @PathVariable long answerId,
 			@RequestParam String correct, @RequestParam(required = false) String justificationTextNew,
@@ -120,7 +120,7 @@ public class TeacherController {
 		httpServletResponse.sendRedirect("/concept/" + conceptId);
 		return null;
 	}
-	
+
 	@RequestMapping("/concept/{conceptId}/loadMarkedAnswers")
 	public String loadMarkedAnswers(Model model, HttpServletRequest req,
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page, @PathVariable long conceptId) {
@@ -128,19 +128,19 @@ public class TeacherController {
 		model.addAttribute("answers", markedAnswers);
 		return "old/showanswer";
 	}
-	
+
 	@RequestMapping("/concept/{conceptId}/loadJust")
 	public String loadCorrectJust(Model model, HttpServletRequest req,
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page, @PathVariable long conceptId,
 			@RequestParam("answerId") String answerId) {
-		Page<Justification> correctJust = justificationService.findByAnswer_Id(Long.parseLong(answerId), page);		
+		Page<Justification> correctJust = justificationService.findByAnswer_Id(Long.parseLong(answerId), page);
 		model.addAttribute("justifications", correctJust);
 		model.addAttribute("id", answerId);
-		if( (page.getPageNumber() == correctJust.getTotalPages()) && (correctJust.getTotalPages() != 0)) 
+		if ((page.getPageNumber() == correctJust.getTotalPages()) && (correctJust.getTotalPages() != 0))
 			model.addAttribute("nothingMore", true);
 		return "old/showjustification";
 	}
-	
+
 	@RequestMapping("/concept/{conceptId}/loadUnmarkedAnswers")
 	public String loadUnmarkedAnswers(Model model, HttpServletRequest req,
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page, @PathVariable long conceptId) {
@@ -148,7 +148,7 @@ public class TeacherController {
 		model.addAttribute("answers", unmarkedAnswers);
 		return "old/showanswer";
 	}
-	
+
 	@RequestMapping("/concept/{id}/loadUnmarkedJustifications")
 	public String loadUnmarkedJustifications(Model model, HttpServletRequest req, @PathVariable long id,
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page) {
@@ -157,7 +157,7 @@ public class TeacherController {
 		model.addAttribute("unmarkedJustifications", unmarkedJustifications);
 		return "old/showJustificationsUnmarked";
 	}
-	
+
 	@PostMapping("/concept/{conceptId}/addAnswer")
 	public String addAnswer(Model model, @PathVariable long conceptId, @RequestParam String answerText,
 			@RequestParam String correct, @RequestParam(required = false) String justificationText,
@@ -180,7 +180,7 @@ public class TeacherController {
 		httpServletResponse.sendRedirect("/concept/" + conceptId);
 		return null;
 	}
-	
+
 	@RequestMapping("/modifyJust/concept/{conceptId}/justification/{id}")
 	public void modifyJustification(Model model, @PathVariable String conceptId, @PathVariable String id,
 			@RequestParam String jText, @RequestParam String valid, @RequestParam(required = false) String error,
@@ -196,7 +196,7 @@ public class TeacherController {
 		justificationService.save(j);
 		httpServletResponse.sendRedirect("/concept/" + conceptId);
 	}
-	
+
 	@RequestMapping("/deleteJust/concept/{conceptId}/justification/{id}")
 	public void deleteJustification(Model model, @PathVariable String conceptId, @PathVariable long id,
 			HttpServletResponse httpServletResponse) throws IOException {
@@ -209,14 +209,14 @@ public class TeacherController {
 		}
 		httpServletResponse.sendRedirect("/concept/" + conceptId + error);
 	}
-	
+
 	@PostMapping("/concept/{conceptId}/saveURL")
 	public void saveURL(Model model, @PathVariable Long conceptId, @RequestParam String url,
 			HttpServletResponse httpServletResponse) throws IOException {
 		conceptService.saveURL(conceptId, url);
 		httpServletResponse.sendRedirect("/concept/" + conceptId);
 	}
-	
+
 	@PostMapping("/concept/{conceptId}/markJust/{justId}")
 	public String addJustification(Model mode, @PathVariable long conceptId, @PathVariable long justId,
 			@RequestParam String validUnmarked, @RequestParam(required = false) String errorUnmarked,
@@ -224,23 +224,22 @@ public class TeacherController {
 		Justification just = justificationService.findById(justId);
 		just.setMarked(true);
 		just.setValid(validUnmarked.equals("yes"));
-		if((errorUnmarked!=null) && (validUnmarked.equals("no"))) {
+		if ((errorUnmarked != null) && (validUnmarked.equals("no"))) {
 			just.setError(errorUnmarked.toUpperCase());
 		}
 		justificationService.save(just);
 		httpServletResponse.sendRedirect("/concept/" + conceptId);
 		return null;
 	}
-	
+
 	@RequestMapping("/extraJustification/concept/{conceptId}/answer/{answerId}")
-	public String extraJustification(Model model, @RequestParam String jText,
-			@RequestParam String valid, @RequestParam(required = false) String error,
-			@PathVariable String conceptId, @PathVariable long answerId,
+	public String extraJustification(Model model, @RequestParam String jText, @RequestParam String valid,
+			@RequestParam(required = false) String error, @PathVariable String conceptId, @PathVariable long answerId,
 			HttpServletResponse httpServletResponse) throws IOException {
 		Justification justification = new Justification(jText.toUpperCase(), true, userSession.getLoggedUser());
 		justification.setValid(valid.equals("yes"));
 		justification.setAnswer(answerService.getOne(answerId));
-		if(valid.equals("no")) {
+		if (valid.equals("no")) {
 			justification.setError(error.toUpperCase());
 		}
 		justificationService.save(justification);

@@ -9,7 +9,7 @@ import com.group5.definitions.model.Justification;
 
 public interface JustificationRepository extends JpaRepository<Justification, Long> {
 
-	//Page<Justification> findByAnswer(Answer answer, Pageable page);
+	// Page<Justification> findByAnswer(Answer answer, Pageable page);
 
 	long countByAnswer(Answer answer);
 
@@ -18,9 +18,10 @@ public interface JustificationRepository extends JpaRepository<Justification, Lo
 	long countByAnswer_Id(long answerId);
 
 	Page<Justification> findByAnswer_Id(long id, Pageable page);
-	
+
 	Page<Justification> findByAnswer(Answer ans, Pageable page);
-	
-	Page<Justification> findByMarkedAndAnswer_Concept_IdAndAnswer_Marked(boolean justMarked, long id, boolean marked, Pageable page);
+
+	Page<Justification> findByMarkedAndAnswer_Concept_IdAndAnswer_Marked(boolean justMarked, long id, boolean marked,
+			Pageable page);
 
 }

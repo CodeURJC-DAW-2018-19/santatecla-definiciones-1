@@ -23,7 +23,7 @@ public class QuestionGenerator {
 
 	@Autowired
 	private ConceptService conceptService;
-	
+
 	@Autowired
 	private AnswerService answerService;
 
@@ -50,16 +50,18 @@ public class QuestionGenerator {
 	public Question generateQuestion(long conceptId) {
 		return generateQuestion(conceptService.findById(conceptId));
 	}
+
 	public Question generateQuestion(Concept concept) {
 		Random r = new Random();
 		int type = r.nextInt(questionTypes.size());
 		// Debug purposes
-		// type = 3;
+		 type = 1;
 		return generateQuestionWithType(type, concept);
 	}
-	
+
 	private Question generateQuestionWithType(int type, Concept concept) {
-		// A Question Entity will be returned, this entity is not to be saved in the repository 
+		// A Question Entity will be returned, this entity is not to be saved in the
+		// repository
 		// but serves to be a record for holding info to pass to the model
 		String questionText = null;
 		Question question = null;
@@ -70,10 +72,11 @@ public class QuestionGenerator {
 			break;
 		case 1:
 			Answer wrongAnswer1 = answerService.getRandomAnswer(false, concept);
-			if (wrongAnswer1==null) {
-				//Handle error
-				//If this type fails then generate a type 0 question
-				//We could also try to generate a type 2 but it is simpler and faster to just generate a type 0
+			if (wrongAnswer1 == null) {
+				// Handle error
+				// If this type fails then generate a type 0 question
+				// We could also try to generate a type 2 but it is simpler and faster to just
+				// generate a type 0
 				return generateQuestionWithType(0, concept);
 			}
 			questionText = buildQuestion(type, concept.getConceptName(), wrongAnswer1.getAnswerText());
@@ -81,28 +84,30 @@ public class QuestionGenerator {
 			break;
 		case 2:
 			Answer answer = answerService.getRandomAnswer(concept);
-			if (answer==null) {
-				//Handle error
+			if (answer == null) {
+				// Handle error
 				return generateQuestionWithType(0, concept);
 			}
 			questionText = buildQuestion(type, concept.getConceptName(), answer.getAnswerText());
 			question = new Question(questionText.toUpperCase(), 2, answer, true, userSession.getLoggedUser());
 			break;
 		case 3:
-			Answer wrongAnswer3 = answerService.getRandomAnswer(false, concept); //Assuming every wrong answer has a justification
-			if (wrongAnswer3==null) {
-				//Handle error
+			Answer wrongAnswer3 = answerService.getRandomAnswer(false, concept); // Assuming every wrong answer has a
+																					// justification
+			if (wrongAnswer3 == null) {
+				// Handle error
 				return generateQuestionWithType(0, concept);
 			}
 			Justification justification = justificationService.getRandomJustification(wrongAnswer3);
-			if (justification==null) {
-				//Handle error
-				//This should never happen
+			if (justification == null) {
+				// Handle error
+				// This should never happen
 				return generateQuestionWithType(0, concept);
 			}
 			questionText = buildQuestion(type, concept.getConceptName(), wrongAnswer3.getAnswerText(),
 					justification.getJustificationText());
-			question = new Question(questionText.toUpperCase(), 3, wrongAnswer3, true, justification, userSession.getLoggedUser());
+			question = new Question(questionText.toUpperCase(), 3, wrongAnswer3, true, justification,
+					userSession.getLoggedUser());
 			break;
 		}
 		return question;

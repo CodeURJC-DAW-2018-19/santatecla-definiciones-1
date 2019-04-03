@@ -8,7 +8,7 @@ import com.group5.definitions.model.Concept;
 import com.group5.definitions.model.Question;
 import com.group5.definitions.model.User;
 
-public interface QuestionRepository extends JpaRepository<Question, Long>{
+public interface QuestionRepository extends JpaRepository<Question, Long> {
 
 	Page<Question> findByMarkedAndAnswer_Concept(boolean marked, Concept concept, Pageable page);
 

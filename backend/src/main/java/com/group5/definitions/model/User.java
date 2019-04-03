@@ -14,19 +14,18 @@ import javax.persistence.Id;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-
 @Entity
 public class User {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
-	@Column(columnDefinition = "TEXT", unique=true, length=50)
+
+	@Column(columnDefinition = "TEXT", unique = true, length = 50)
 	private String name;
-	
+
 	private String password;
-	
+
 	@ElementCollection(fetch = FetchType.EAGER)
 	private List<String> roles;
 
@@ -35,17 +34,17 @@ public class User {
 		this.password = new BCryptPasswordEncoder().encode(password);
 		this.roles = new ArrayList<>(Arrays.asList(roles));
 	}
-	
+
 	public User(String name, String password, List<String> roles) {
 		this.name = name;
 		this.password = new BCryptPasswordEncoder().encode(password);
 		this.roles = roles;
 	}
-	
+
 	public User() {
-		
+
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -77,6 +76,5 @@ public class User {
 	public void setRoles(List<String> roles) {
 		this.roles = roles;
 	}
-
 
 }

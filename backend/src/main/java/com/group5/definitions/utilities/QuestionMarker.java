@@ -24,8 +24,8 @@ public class QuestionMarker {
 	@Autowired
 	private JustificationService justificationService;
 
-	public Answer saveQuestion(Concept concept, String answerText, String questionText, int type,
-			Long answerQuestionId, Long justificationQuestionId) {
+	public Answer saveQuestion(Concept concept, String answerText, String questionText, int type, Long answerQuestionId,
+			Long justificationQuestionId) {
 		Answer answer = null;
 		Question question = null;
 		Justification justification = null;
@@ -37,22 +37,26 @@ public class QuestionMarker {
 		case 1:
 			answer = answerService.getOne(answerQuestionId);
 			justification = new Justification(answerText.toUpperCase(), false, userSession.getLoggedUser());
-			question = new Question(questionText.toUpperCase(), 1, answer, false, justification, userSession.getLoggedUser());
+			question = new Question(questionText.toUpperCase(), 1, answer, false, justification,
+					userSession.getLoggedUser());
 			break;
 		case 2:
 			answer = answerService.getOne(answerQuestionId);
 			question = new Question(questionText.toUpperCase(), 2, answer, true, userSession.getLoggedUser());
 			question.setMarked(true);
-			question.setUserResponse(answerText.equals("yes"));
-			question.setCorrect((answer.isCorrect() && answerText.equals("yes") || (!answer.isCorrect() && answerText.equals("no"))));
+			question.setUserResponse(answerText.equals("yes")); //bug detected
+			question.setCorrect((answer.isCorrect() && answerText.equals("yes")
+					|| (!answer.isCorrect() && answerText.equals("no"))));
 			break;
 		case 3:
 			answer = answerService.getOne(answerQuestionId);
 			justification = justificationService.findById(justificationQuestionId);
-			question = new Question(questionText.toUpperCase(), 2, answer, true, justification, userSession.getLoggedUser());
+			question = new Question(questionText.toUpperCase(), 2, answer, true, justification,
+					userSession.getLoggedUser());
 			question.setMarked(true);
 			question.setUserResponse(answerText.equals("yes"));
-			question.setCorrect((justification.isValid() && answerText.equals("yes") || (!justification.isValid() && answerText.equals("no"))));
+			question.setCorrect((justification.isValid() && answerText.equals("yes")
+					|| (!justification.isValid() && answerText.equals("no"))));
 			break;
 		}
 		answerService.save(answer);

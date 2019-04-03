@@ -8,13 +8,12 @@ import com.group5.definitions.repositories.UserRepository;
 
 @Service
 public class UserService {
-	
+
 	@Autowired
 	private UserRepository userRepository;
 
 	public void save(User user) {
 		userRepository.save(user);
 	}
-	
-	
+
 }

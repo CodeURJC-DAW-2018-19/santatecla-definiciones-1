@@ -35,7 +35,7 @@ public class QuestionService {
 	}
 
 	public Page<Question> findAllByUser(User user, Pageable page) {
-		
+
 		return questionRepository.findAllByUser(user, page);
 	}
 

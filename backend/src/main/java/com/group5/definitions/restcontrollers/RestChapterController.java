@@ -31,11 +31,12 @@ public class RestChapterController {
 
 	private final int DEFAULT_SIZE = 10;
 
-	
-	//Chapter methods
-	interface ChapterConcept extends Chapter.Basic, Chapter.Concepts, Concept.Basic {}
-	
-	@JsonView(Chapter.Basic.class) //We could change to the interface ChapterConcept so it gets the corresponding chapters too
+	// Chapter methods
+	interface ChapterConcept extends Chapter.Basic, Chapter.Concepts, Concept.Basic {
+	}
+
+	@JsonView(Chapter.Basic.class) // We could change to the interface ChapterConcept so it gets the corresponding
+									// chapters too
 	@GetMapping({ "", "/chapters" })
 	public Page<Chapter> getChapters(@PageableDefault(size = DEFAULT_SIZE) Pageable page) {
 		Page<Chapter> chapters = chapterService.findAll(page);
@@ -43,8 +44,8 @@ public class RestChapterController {
 	}
 
 	@JsonView(Chapter.Basic.class)
-	@PostMapping({"", "/chapters"})
-	public ResponseEntity<Chapter> addChapter(@RequestBody Chapter chapter){
+	@PostMapping({ "", "/chapters" })
+	public ResponseEntity<Chapter> addChapter(@RequestBody Chapter chapter) {
 		chapterService.save(chapter);
 		return new ResponseEntity<>(chapter, HttpStatus.CREATED);
 	}
@@ -57,15 +58,14 @@ public class RestChapterController {
 		return new ResponseEntity<>(chapter, HttpStatus.ACCEPTED);
 	}
 
-	
-	//Concept methods
+	// Concept methods
 	@JsonView(ChapterConcept.class)
 	@GetMapping("/chapters/{id}/concepts")
 	public Page<Concept> getConcepts(@PathVariable long id, @PageableDefault(size = DEFAULT_SIZE) Pageable page) {
 		Page<Concept> concepts = conceptService.findByChapter_Id(id, page);
 		return concepts;
 	}
-	
+
 	@JsonView(Concept.Basic.class)
 	@DeleteMapping("/chapters/{id}/concepts/{conceptId}")
 	public ResponseEntity<Concept> deleteConcept(@PathVariable Long id, @PathVariable Long conceptId) {

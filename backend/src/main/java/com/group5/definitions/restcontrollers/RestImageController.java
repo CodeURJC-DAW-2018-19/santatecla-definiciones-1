@@ -36,7 +36,7 @@ public class RestImageController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
+
 	@PostMapping(value = "/concepts/{id}/image", consumes = "multipart/form-data")
 	public ResponseEntity<byte[]> getImage(@PathVariable long id, @RequestParam("file") MultipartFile file) {
 		try {

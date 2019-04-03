@@ -13,9 +13,12 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class Chapter {
-	public interface Basic {}
-	public interface Concepts {}
-	
+	public interface Basic {
+	}
+
+	public interface Concepts {
+	}
+
 	@JsonView(Basic.class)
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,10 +26,11 @@ public class Chapter {
 	@JsonView(Basic.class)
 	private String chapterName;
 	@JsonView(Concepts.class)
-	@OneToMany(cascade=CascadeType.REMOVE, mappedBy="chapter")
+	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "chapter")
 	private List<Concept> concepts = new ArrayList<>();
-	
-	protected Chapter() {}
+
+	protected Chapter() {
+	}
 
 	public Chapter(String chapterName) {
 		super();
@@ -60,11 +64,10 @@ public class Chapter {
 	public void removeConcept(Concept concept) {
 		this.concepts.remove(concept);
 	}
+
 	@Override
 	public String toString() {
 		return "Chapter [id=" + id + ", chapterName=" + chapterName + ", concepts=" + concepts + "]";
 	}
-	
-	
-	
+
 }

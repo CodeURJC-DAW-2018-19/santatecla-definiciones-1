@@ -43,14 +43,14 @@ public class UserSessionInfoComponent {
 
 	public void removeTab(long id) {
 		openTabs.remove(new Tab(id, null, null, false));
-		
+
 	}
-	
+
 	public void resetTabs() {
 		openTabs = new ArrayList<>();
 		openTabs.add(new Tab(0, "inicio", "/", false));
 	}
-	
+
 	public User getLoggedUser() {
 		return user;
 	}
@@ -62,10 +62,9 @@ public class UserSessionInfoComponent {
 	public boolean isLoggedUser() {
 		return this.user != null;
 	}
-	
+
 	@Override
-    public String toString() {
-        return "UserComponent [user="
-                + (user != null ? user.toString() : "null") + "]";
-    }
+	public String toString() {
+		return "UserComponent [user=" + (user != null ? user.toString() : "null") + "]";
+	}
 }

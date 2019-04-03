@@ -12,9 +12,12 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
 public class Question {
-	public interface Basic {}
-	public interface Saved extends Basic, Answer.Student, Justification.Student {}
-	
+	public interface Basic {
+	}
+
+	public interface Saved extends Basic, Answer.Student, Justification.Student {
+	}
+
 	@JsonView(Saved.class)
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,13 +25,13 @@ public class Question {
 	@Column(columnDefinition = "TEXT")
 	@JsonView(Basic.class)
 	private String questionText;
-	@JsonView(Basic.class)	
+	@JsonView(Basic.class)
 	private int type;
-	//Only used in Yes/No questions
+	// Only used in Yes/No questions
 	@JsonView(Basic.class)
 	private boolean yesNoQuestion;
 	@JsonView(Saved.class)
-	private boolean userResponse; //true for yes, false for no
+	private boolean userResponse; // true for yes, false for no
 	@JsonView(Saved.class)
 	private boolean marked;
 	@JsonView(Saved.class)
@@ -38,12 +41,13 @@ public class Question {
 	private Answer answer;
 	@JsonView(Saved.class)
 	@OneToOne
-	private Justification justification; //Justification related to the question (type 1, 3)
+	private Justification justification; // Justification related to the question (type 1, 3)
 	@OneToOne
 	private User user;
-	
-	protected Question() {}
-	
+
+	protected Question() {
+	}
+
 	public Question(String questionText, int type, Answer answer, boolean yesNoQuestion, User user) {
 		super();
 		this.yesNoQuestion = yesNoQuestion;
@@ -53,7 +57,8 @@ public class Question {
 		this.user = user;
 	}
 
-	public Question(String questionText, int type, Answer answer, boolean yesNoQuestion, Justification justification, User user) {
+	public Question(String questionText, int type, Answer answer, boolean yesNoQuestion, Justification justification,
+			User user) {
 		super();
 		this.yesNoQuestion = yesNoQuestion;
 		this.questionText = questionText;
@@ -66,15 +71,15 @@ public class Question {
 	public long getId() {
 		return id;
 	}
-	
+
 	public void setId(long id) {
 		this.id = id;
 	}
-	
+
 	public String getQuestionText() {
 		return questionText;
 	}
-	
+
 	public void setQuestionText(String questionText) {
 		this.questionText = questionText;
 	}

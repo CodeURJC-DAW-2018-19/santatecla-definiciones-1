@@ -16,11 +16,18 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
 public class Concept {
-	public interface Basic{}
-	public interface Answers{}
-	public interface Chapters{}
-	public interface Url extends Basic{}
-	
+	public interface Basic {
+	}
+
+	public interface Answers {
+	}
+
+	public interface Chapters {
+	}
+
+	public interface Url extends Basic {
+	}
+
 	@JsonView(Basic.class)
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,10 +40,11 @@ public class Concept {
 	@ManyToOne
 	private Chapter chapter;
 	@JsonView(Answers.class)
-	@OneToMany(mappedBy="concept", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "concept", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	private List<Answer> answers = new ArrayList<>();
-	
-	protected Concept() {}
+
+	protected Concept() {
+	}
 
 	public Concept(String conceptName, Chapter chapter) {
 		super();
@@ -92,5 +100,5 @@ public class Concept {
 	public String toString() {
 		return "Concept [id=" + id + ", conceptName=" + conceptName + ", URL=" + URL + ", answers=" + answers + "]";
 	}
-	
+
 }
