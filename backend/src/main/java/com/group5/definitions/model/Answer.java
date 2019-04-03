@@ -22,7 +22,7 @@ public class Answer {
 	public interface Marked extends Basic{}
 	public interface Student {}
 	
-	@JsonView(Basic.class)
+	@JsonView(Student.class)
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;

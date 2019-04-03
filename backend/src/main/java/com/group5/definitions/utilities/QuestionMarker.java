@@ -24,7 +24,7 @@ public class QuestionMarker {
 	@Autowired
 	private JustificationService justificationService;
 
-	public void saveQuestion(Concept concept, String answerText, String questionText, int type,
+	public Answer saveQuestion(Concept concept, String answerText, String questionText, int type,
 			Long answerQuestionId, Long justificationQuestionId) {
 		Answer answer = null;
 		Question question = null;
@@ -62,5 +62,6 @@ public class QuestionMarker {
 			answer.addJustification(justification);
 		}
 		questionService.save(question);
+		return answer;
 	}
 }

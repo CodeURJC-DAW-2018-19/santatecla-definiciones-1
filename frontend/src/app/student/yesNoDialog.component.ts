@@ -18,9 +18,6 @@ export class YesNoDialogComponent {
 
   solution: string = null;
   disable: boolean = true;
-  send() {
-      //TODO
-  }
   checkRadio(){
     this.disable = false;
   }

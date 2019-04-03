@@ -169,22 +169,24 @@ export class StudentComponent {
             })
             .afterClosed()
             .subscribe((answer: string) => {
-              if (data.justification)
-                this.saveAnswer(
-                  data.type,
-                  answer,
-                  data.questionText,
-                  data.answer.id,
-                  data.justification.id
-                );
-              else if (data.answer)
-                this.saveAnswer(
-                  data.type,
-                  answer,
-                  data.questionText,
-                  data.answer.id
-                );
-              else this.saveAnswer(data.type, answer, data.questionText);
+              if (answer) {
+                if (data.justification)
+                  this.saveAnswer(
+                    data.type,
+                    answer,
+                    data.questionText,
+                    data.answer.id,
+                    data.justification.id
+                  );
+                else if (data.answer)
+                  this.saveAnswer(
+                    data.type,
+                    answer,
+                    data.questionText,
+                    data.answer.id
+                  );
+                else this.saveAnswer(data.type, answer, data.questionText);
+              }
             });
         }
       },
@@ -198,7 +200,7 @@ export class StudentComponent {
     answerId?: number,
     justificationId?: number
   ) {
-    if (justificationId)
+    if (justificationId!=null)
       this.questionsService
         .saveAnswer(
           this.id,
@@ -208,22 +210,52 @@ export class StudentComponent {
           answerId,
           justificationId
         )
-        .subscribe(_ => this.addNewQuestion(questionText, questionType, answerText), error => console.log(error));
-    else if (answerId)
+        .subscribe(
+          data => this.addNewQuestion(questionText, answerText, questionType),
+          error => console.log(error)
+        );
+    else if (answerId!=null)
       this.questionsService
         .saveAnswer(this.id, questionType, answerText, questionText, answerId)
-        .subscribe(_ => this.addNewQuestion(questionText, questionType, answerText), error => console.log(error));
+        .subscribe(
+          data => this.addNewQuestion(questionText, answerText, questionType),
+          error => console.log(error)
+        );
     else
       this.questionsService
         .saveAnswer(this.id, questionType, answerText, questionText, answerId)
-        .subscribe(_ => this.addNewQuestion(questionText, questionType, answerText), error => console.log(error));
+        .subscribe(
+          data => this.addNewQuestion(questionText, answerText, questionType, data.correct),
+          error => console.log(error)
+        );
   }
 
   addNewQuestion(
     questionText: string,
+    answerText: string,
     questionType: number,
-    answerText: string
+    correct?: boolean
   ) {
-
+    let question: Question = {
+      questionText: questionText,
+      type: questionType,
+      userResponse: true,
+      marked: false,
+      yesNoQuestion: false,
+      correct: false
+    }
+    if (questionType == 2  || questionType == 3) {
+      question["yesNoQuestion"] = true;
+      question["correct"] = correct;
+      this.markedQuestions.push(question);
+    } else {
+      question["yesNoQuestion"] = false;
+      if (questionType == 0)
+        question["answer"]["answerText"] = answerText;
+      else if (questionType == 1)
+        question["justification"]["justificationText"] = answerText;
+      this.unmarkedQuestions.push(question);
+    }
+    //TODO: Add reload
   }
 }

@@ -5,6 +5,7 @@ import { Page } from "../page/page.model";
 import { environment } from "../../environments/environment";
 import { LoginService } from "../login/login.service";
 import { StudentAnswer } from "./studentAnswer.model";
+import { Answer } from '../teacher/answer.model';
 
 const BASE_URL = environment.baseUrl;
 
@@ -45,16 +46,16 @@ export class QuestionsService {
       questionType: questionType,
       questionText: questionText
     }
-    if (answerText === "yes" || answerText === "no") { // If question is a yes/no question
+    if (questionType == 2 || questionType == 3) { // If question is a yes/no question
       body.answerOption = answerText;
     } else {
       body.answerText = answerText;
     }
-    if (answerId)
+    if (answerId!=null)
       body.answerId = answerId;
-    if (justificationId)
+    if (justificationId!=null)
       body.justificationQuestionId = justificationId;
-    return this.http.post<StudentAnswer>(
+    return this.http.post<Answer>(
       BASE_URL + "/concepts/" + conceptId + "/saveanswer",
       body,
       { withCredentials: true }
