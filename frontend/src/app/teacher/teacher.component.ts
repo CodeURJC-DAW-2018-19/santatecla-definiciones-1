@@ -99,7 +99,7 @@ export class TeacherComponent {
                     this.markedJustOnce.set(id, -1);
                     this.markedJustPage.set(id, -1); //starts in -1 bc its increased after
                   }
-                  this.getMarkedJustificationsByAnswer(id); 
+                  this.getMarkedJustificationsByAnswer(id);
                 }
               });
             }
@@ -206,8 +206,12 @@ export class TeacherComponent {
       if (accept) {
         this.answerService
           .removeAnswer(answerId, this.id)
-          .subscribe((_) => this.getMarkedAnswers(), /*this.router.navigate(['/teacher/' + this.id]),*/(error) => console.error(error + 'markedanswers on ans delete'));
-        console.log(this.markedAnswers);
+          .subscribe((_) => {
+            let answer: Answer = this.markedAnswers.find(a => a.id == answerId);
+            let index = this.markedAnswers.indexOf(answer, 0);
+            if (index >= 0)
+              this.markedAnswers.splice(index, 1);
+          }, (error) => console.error(error + 'markedanswers on ans delete'));
       }
     });
   }
@@ -224,7 +228,13 @@ export class TeacherComponent {
       if (accept) {
         this.justificationService
           .removeJustification(justId, answerId)
-          .subscribe((_) => this.getMarkedAnswers(), (error) => {
+          .subscribe((_) => {
+            let justOfAnswer = this.markedJust.get(answerId); //get array of just from map
+            let just: Justification = justOfAnswer.find(j => j.id == justId); //get just from array
+            let index = justOfAnswer.indexOf(just, 0); //get just index
+            justOfAnswer.splice(index, 1); //delete just from array
+            this.markedJust.set(answerId, justOfAnswer); //set updated array in map
+          }, (error) => {
             if (error === 400) {
               this.dialogService.openAlert({
                 message: 'No se puede eliminar una justificación de una respuesta incorrecta si no hay mas justificaciones',
@@ -260,23 +270,16 @@ export class TeacherComponent {
     );
   }
 
-  addJustification(answerid: number) {
+  addJustification(answerId: number) {
     const dialogRef = this.answerDialog.open(NewJustComponent, {
       data: {
-        id: answerid,
-
+        id: answerId,
       }
-
     });
     dialogRef.afterClosed().subscribe(
       result => {
-        let answer: Answer = this.markedAnswers.find(j => j.id == answerid);
-        const index = this.markedAnswers.indexOf(answer, 0);
-        if (index > 1) {
-          this.markedAnswers.splice(index, 1);
-        }
-        answer.justifications.push(result);
-        this.markedAnswers.push(answer);
+        let justOfAnswer = this.markedJust.get(answerId).concat(result);
+        this.markedJust.set(answerId, justOfAnswer);
       }
     );
   }

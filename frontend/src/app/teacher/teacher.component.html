@@ -15,7 +15,7 @@
             <div class="correction">
               <label class="form-check form-check-radio">
                 <input class="form-check-input" type="radio" name="correct" id="correct{{ ans.id }}"
-                  [checked]="ans.correct === true" value="{{ ans.correct }}" />
+                  [checked]="ans.correct" value="{{ ans.correct }}" />
                 Correcta
                 <span claas="circle">
                   <span class="check"></span>
@@ -23,7 +23,7 @@
               </label>
               <label class="form-check form-check-radio">
                 <input class="form-check-input" type="radio" name="correct" id="incorrect{{ ans.id }}"
-                  [checked]="ans.correct === false" value="{{ ans.correct }}" />
+                  [checked]="!ans.correct" value="{{ ans.correct }}" />
                 Incorrecta
                 <span claas="circle">
                   <span class="check"></span>
@@ -40,42 +40,44 @@
             <div *ngIf="!ans.correct">
               <a *ngFor="let jus of markedJust.get(ans.id)" role="listitem" class="checkOverflow" required>
                 <div *ngIf="jus.marked">
-                  <mat-card-subtitle> JUSTIFICACION: </mat-card-subtitle>
-                  <input type="textarea" value="{{ jus.justificationText }}" style="width: 80%" />
-                  <div class="validity">
-                    <label class="form-check form-check-radio">
-                      <input class="form-check-input" type="radio" name="valid" id="valid{{ jus.id }}"
-                        [checked]="jus.valid === true" value="{{ jus.valid }}" />
-                      Válida
-                      <span claas="circle">
-                        <span class="check"></span>
-                      </span>
-                    </label>
-                    <label class="form-check form-check-radio">
-                      <input class="form-check-input" type="radio" name="valid" id="incorrect{{ jus.id }}"
-                        [checked]="jus.valid === false" value="{{ jus.valid }}" />
-                      Inválida
-                      <span claas="circle">
-                        <span class="check"></span>
-                      </span>
-                    </label>
-                  </div>
-                  <div *ngIf="!jus.valid">
-                    <mat-card-subtitle> ERROR: </mat-card-subtitle>
-                    <input type="textarea" value="{{ jus.error }}" style="width: 40%" />
-                  </div>
-                  <div class="btnPanel">
-                    <button mat-raised-button color="primary" (click)="deleteJustification( jus.id, ans.id )">
-                      <mat-icon>delete</mat-icon>
-                    </button>
-                    <!--Boton modificar-->
+                  <form id="justification{{ jus.id }}">
+                    <mat-card-subtitle> JUSTIFICACION: </mat-card-subtitle>
+                    <input type="textarea" value="{{ jus.justificationText }}" style="width: 80%" />
+                    <div class="validity">
+                      <label class="form-check form-check-radio">
+                        <input class="form-check-input" type="radio" name="valid" id="valid{{ jus.id }}"
+                          [checked]="jus.valid" value="{{ jus.valid }}" />
+                        Válida
+                        <span claas="circle">
+                          <span class="check"></span>
+                        </span>
+                      </label>
+                      <label class="form-check form-check-radio">
+                        <input class="form-check-input" type="radio" name="valid" id="incorrect{{ jus.id }}"
+                          [checked]="!jus.valid" value="{{ jus.valid }}" />
+                        Inválida
+                        <span claas="circle">
+                          <span class="check"></span>
+                        </span>
+                      </label>
+                    </div>
+                    <div *ngIf="!jus.valid">
+                      <mat-card-subtitle> ERROR: </mat-card-subtitle>
+                      <input type="textarea" value="{{ jus.error }}" style="width: 40%" />
+                    </div>
+                    <div class="btnPanel">
+                      <button mat-raised-button color="primary" (click)="deleteJustification( jus.id, ans.id )">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                      <!--Boton modificar-->
 
-                  </div>
-                  <mat-card-actions>
-                    <button mat-raised-button color="primary" (click)="getMarkedJustificationsByAnswer(ans.id)">
-                      <span>Mostrar más</span>
-                    </button>
-                  </mat-card-actions>
+                    </div>
+                    <mat-card-actions>
+                      <button mat-raised-button color="primary" (click)="getMarkedJustificationsByAnswer(ans.id)">
+                        <span>Mostrar más</span>
+                      </button>
+                    </mat-card-actions>
+                  </form>
                 </div>
               </a>
               <button *ngIf="markedJust.get(ans.id)?.length > 0" mat-raised-button color="primary"
