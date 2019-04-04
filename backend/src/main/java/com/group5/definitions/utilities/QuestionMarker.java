@@ -24,7 +24,7 @@ public class QuestionMarker {
 	@Autowired
 	private JustificationService justificationService;
 
-	public Answer saveQuestion(Concept concept, String answerText, String questionText, int type, Long answerQuestionId,
+	public Question saveQuestion(Concept concept, String answerText, String questionText, int type, Long answerQuestionId,
 			Long justificationQuestionId) {
 		Answer answer = null;
 		Question question = null;
@@ -44,7 +44,7 @@ public class QuestionMarker {
 			answer = answerService.getOne(answerQuestionId);
 			question = new Question(questionText.toUpperCase(), 2, answer, true, userSession.getLoggedUser());
 			question.setMarked(true);
-			question.setUserResponse(answerText.equals("yes")); //bug detected
+			question.setUserResponse(answerText.equals("yes"));
 			question.setCorrect((answer.isCorrect() && answerText.equals("yes")
 					|| (!answer.isCorrect() && answerText.equals("no"))));
 			break;
@@ -66,6 +66,6 @@ public class QuestionMarker {
 			answer.addJustification(justification);
 		}
 		questionService.save(question);
-		return answer;
+		return question;
 	}
 }

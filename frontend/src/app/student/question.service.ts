@@ -55,7 +55,7 @@ export class QuestionsService {
       body.answerId = answerId;
     if (justificationId!=null)
       body.justificationQuestionId = justificationId;
-    return this.http.post<Answer>(
+    return this.http.post<Question>(
       BASE_URL + "/concepts/" + conceptId + "/saveanswer",
       body,
       { withCredentials: true }

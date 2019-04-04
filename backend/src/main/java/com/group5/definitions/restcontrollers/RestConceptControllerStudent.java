@@ -74,9 +74,9 @@ public class RestConceptControllerStudent {
 		return questions;
 	}
 
-	@JsonView(Answer.Basic.class)
+	@JsonView(Question.Saved.class)
 	@PostMapping("/concepts/{conceptId}/saveanswer")
-	public ResponseEntity<Answer> addAnswer(@PathVariable long conceptId, @RequestBody Map<String, Object> body) {
+	public ResponseEntity<Question> addAnswer(@PathVariable long conceptId, @RequestBody Map<String, Object> body) {
 		String answerText = null;
 		String answerOption = null;
 		if (body.get("answerText") != null) // not yes/no question
@@ -94,8 +94,8 @@ public class RestConceptControllerStudent {
 
 		boolean open = answerText != null;
 		String answerFinalText = open ? answerText : answerOption;
-		Answer answer = questionMarker.saveQuestion(conceptService.findById(conceptId), answerFinalText, questionText,
+		Question question = questionMarker.saveQuestion(conceptService.findById(conceptId), answerFinalText, questionText,
 				questionType, answerId, justificationQuestionId);
-		return new ResponseEntity<>(answer, HttpStatus.CREATED);
+		return new ResponseEntity<>(question, HttpStatus.CREATED);
 	}
 }

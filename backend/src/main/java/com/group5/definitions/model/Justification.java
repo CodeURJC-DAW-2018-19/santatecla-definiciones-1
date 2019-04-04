@@ -21,7 +21,7 @@ public class Justification {
 	public interface AnswerView extends Basic {
 	}
 
-	@JsonView(Basic.class)
+	@JsonView(Student.class)
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;

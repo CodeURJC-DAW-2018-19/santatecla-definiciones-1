@@ -51,7 +51,7 @@ export class StudentComponent {
     private questionsService: QuestionsService,
     private dialogService: TdDialogService
   ) {
-    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+    this.router.routeReuseStrategy.shouldReuseRoute = function() {
       return false;
     };
     this.id = activatedRoute.snapshot.params["id"];
@@ -142,24 +142,26 @@ export class StudentComponent {
                 questionText: data.questionText
               }
             })
-            .afterClosed() // TODO: if closed 'badly' don't save answer
+            .afterClosed()
             .subscribe((answer: string) => {
-              if (data.justification)
-                this.saveAnswer(
-                  data.type,
-                  answer,
-                  data.questionText,
-                  data.answer.id,
-                  data.justification.id
-                );
-              else if (data.answer)
-                this.saveAnswer(
-                  data.type,
-                  answer,
-                  data.questionText,
-                  data.answer.id
-                );
-              else this.saveAnswer(data.type, answer, data.questionText);
+              if (answer) {
+                if (data.justification)
+                  this.saveAnswer(
+                    data.type,
+                    answer,
+                    data.questionText,
+                    data.answer.id,
+                    data.justification.id
+                  );
+                else if (data.answer)
+                  this.saveAnswer(
+                    data.type,
+                    answer,
+                    data.questionText,
+                    data.answer.id
+                  );
+                else this.saveAnswer(data.type, answer, data.questionText);
+              }
             });
         } else {
           this.dialogService
@@ -214,74 +216,76 @@ export class StudentComponent {
           justificationId
         )
         .subscribe(
-          data => this.addNewQuestion(questionText, answerText, questionType),
+          data => {
+            console.log(questionText);
+            console.log(data);
+            this.addNewQuestion(data);
+          },
           error => console.log(error)
         );
     else if (answerId != null)
       this.questionsService
         .saveAnswer(this.id, questionType, answerText, questionText, answerId)
         .subscribe(
-          data => this.addNewQuestion(questionText, answerText, questionType),
+          data => {
+            console.log(questionText);
+            console.log(data);
+            this.addNewQuestion(data);
+          },
           error => console.log(error)
         );
     else
       this.questionsService
         .saveAnswer(this.id, questionType, answerText, questionText, answerId)
         .subscribe(
-          data => this.addNewQuestion(questionText, answerText, questionType, data.correct),
+          data => {
+            console.log(questionText);
+            console.log(data);
+            this.addNewQuestion(data);
+          },
           error => console.log(error)
         );
   }
 
-  addNewQuestion(
-    questionText: string,
-    answerText: string,
-    questionType: number,
-    correct?: boolean
-  ) {
+  addNewQuestion(data: Question) {
     let question: Question;
-    if (questionType == 2 || questionType == 3) {
+    if (data.type == 2 || data.type == 3) {
       question = {
-        questionText: questionText,
-        type: questionType,
-        userResponse: true,
+        questionText: data.questionText,
+        type: data.type,
+        userResponse: data.userResponse,
         marked: false,
-        yesNoQuestion: false,
-        correct: false,
-      }
-      question["yesNoQuestion"] = true;
-      question["correct"] = correct;
+        yesNoQuestion: true,
+        correct: data.correct
+      };
       this.markedQuestions.push(question);
-      this.dataSourceMarked = new MatTableDataSource(
-        this.markedQuestions
-      );
+      this.dataSourceMarked = new MatTableDataSource(this.markedQuestions);
     } else {
-      if (questionType == 0) {
+      if (data.type == 0) {
         let ans: Answer = {
-          answerText: answerText,
+          answerText: data.answer.answerText,
           marked: false,
-          correct: false,
+          correct: false
         };
         question = {
-          questionText: questionText,
-          type: questionType,
+          questionText: data.questionText,
+          type: data.type,
           userResponse: true,
           marked: false,
           yesNoQuestion: false,
           correct: false,
           answer: ans
         };
-      }
-      else if (questionType == 1) {
+      } else if (data.type == 1) {
         let jus: Justification = {
-          justificationText: answerText,
+          justificationText: data.justification.justificationText,
           marked: false,
           valid: false,
-          error: ''
+          error: ""
         };
         question = {
-          questionText: questionText,
-          type: questionType,
+          questionText: data.questionText,
+          type: data.type,
           userResponse: true,
           marked: false,
           yesNoQuestion: false,
@@ -290,10 +294,7 @@ export class StudentComponent {
         };
       }
       this.unmarkedQuestions.push(question);
-      this.dataSourceUnmarked = new MatTableDataSource(
-        this.unmarkedQuestions
-      );
+      this.dataSourceUnmarked = new MatTableDataSource(this.unmarkedQuestions);
     }
-    //TODO: Add reload
   }
 }

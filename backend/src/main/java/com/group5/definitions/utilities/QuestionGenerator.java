@@ -55,7 +55,7 @@ public class QuestionGenerator {
 		Random r = new Random();
 		int type = r.nextInt(questionTypes.size());
 		// Debug purposes
-		 type = 1;
+		// type = 3;
 		return generateQuestionWithType(type, concept);
 	}
 
