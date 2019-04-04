@@ -21,18 +21,16 @@ import com.group5.definitions.services.ImageService;
 
 @Controller
 public class ImageController {
-	
+
 	@Autowired
 	private ImageService imageService;
-	
-	
-	
+
 	@RequestMapping(value = "/image/upload", method = RequestMethod.POST)
-	public String handleFileUpload(Model model, @RequestParam("conceptId") long conceptId, HttpServletResponse httpServletResponse,
-			@RequestParam("file") MultipartFile file) {
+	public String handleFileUpload(Model model, @RequestParam("conceptId") long conceptId,
+			HttpServletResponse httpServletResponse, @RequestParam("file") MultipartFile file) {
 		try {
 			imageService.handleFileUpload(conceptId, file);
-			httpServletResponse.sendRedirect("/concept/"+ conceptId);
+			httpServletResponse.sendRedirect("/concept/" + conceptId);
 			return null;
 		} catch (Exception e) {
 			model.addAttribute("statusCode", 500);

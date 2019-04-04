@@ -51,7 +51,8 @@ public class ConceptController {
 	@RequestMapping("/concept/{id}")
 	public String conceptPage(Model model, HttpServletRequest req, @PathVariable long id,
 			@RequestParam(name = "close", required = false) Long closeTab,
-			@RequestParam(name = "justerror", required = false) String errorJust, HttpServletResponse httpServletResponse,
+			@RequestParam(name = "justerror", required = false) String errorJust,
+			HttpServletResponse httpServletResponse,
 			@PageableDefault(size = DEFAULT_SIZE, sort = { "id" }) Pageable page) throws IOException {
 		Concept concept = conceptService.findById(id);
 		String name = concept.getConceptName();
@@ -84,7 +85,7 @@ public class ConceptController {
 			model.addAttribute("conceptURL", url);
 			// model.addAttribute("markedAnswers", markedAnswers);
 			// model.addAttribute("unmarkedAnswers", unmarkedAnswers);
-			if	(errorJust!=null) {
+			if (errorJust != null) {
 				model.addAttribute("deleteError", true);
 			}
 			return "old/teacher";
@@ -109,16 +110,4 @@ public class ConceptController {
 		model.addAttribute("questionType", question.getType());
 	}
 
-	
-
-	
-
-	
-
-	
-
-	
-  
-	
-	
 }

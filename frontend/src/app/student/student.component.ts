@@ -5,6 +5,8 @@ import { OnInit } from "@angular/core";
 
 import { QuestionsService } from "./question.service";
 import { Question } from "./question.model";
+import { Answer } from "../teacher/answer.model";
+import { Justification } from "../teacher/justification.model";
 import { Page } from "../page/page.model";
 import { DiagramComponent } from "../diagram/diagram.component";
 
@@ -141,7 +143,26 @@ export class StudentComponent {
               }
             })
             .afterClosed()
-            .subscribe((answer: string) => console.log("TODO"));
+            .subscribe((answer: string) => {
+              if (answer) {
+                if (data.justification)
+                  this.saveAnswer(
+                    data.type,
+                    answer,
+                    data.questionText,
+                    data.answer.id,
+                    data.justification.id
+                  );
+                else if (data.answer)
+                  this.saveAnswer(
+                    data.type,
+                    answer,
+                    data.questionText,
+                    data.answer.id
+                  );
+                else this.saveAnswer(data.type, answer, data.questionText);
+              }
+            });
         } else {
           this.dialogService
             .openPrompt({
@@ -151,10 +172,129 @@ export class StudentComponent {
               acceptButton: "Enviar"
             })
             .afterClosed()
-            .subscribe((answer: string) => console.log("TODO"));
+            .subscribe((answer: string) => {
+              if (answer) {
+                if (data.justification)
+                  this.saveAnswer(
+                    data.type,
+                    answer,
+                    data.questionText,
+                    data.answer.id,
+                    data.justification.id
+                  );
+                else if (data.answer)
+                  this.saveAnswer(
+                    data.type,
+                    answer,
+                    data.questionText,
+                    data.answer.id
+                  );
+                else this.saveAnswer(data.type, answer, data.questionText);
+              }
+            });
         }
       },
       error => console.log(error)
     );
+  }
+
+  saveAnswer(
+    questionType: number,
+    answerText: string,
+    questionText: string,
+    answerId?: number,
+    justificationId?: number
+  ) {
+    if (justificationId != null)
+      this.questionsService
+        .saveAnswer(
+          this.id,
+          questionType,
+          answerText,
+          questionText,
+          answerId,
+          justificationId
+        )
+        .subscribe(
+          data => {
+            console.log(questionText);
+            console.log(data);
+            this.addNewQuestion(data);
+          },
+          error => console.log(error)
+        );
+    else if (answerId != null)
+      this.questionsService
+        .saveAnswer(this.id, questionType, answerText, questionText, answerId)
+        .subscribe(
+          data => {
+            console.log(questionText);
+            console.log(data);
+            this.addNewQuestion(data);
+          },
+          error => console.log(error)
+        );
+    else
+      this.questionsService
+        .saveAnswer(this.id, questionType, answerText, questionText, answerId)
+        .subscribe(
+          data => {
+            console.log(questionText);
+            console.log(data);
+            this.addNewQuestion(data);
+          },
+          error => console.log(error)
+        );
+  }
+
+  addNewQuestion(data: Question) {
+    let question: Question;
+    if (data.type == 2 || data.type == 3) {
+      question = {
+        questionText: data.questionText,
+        type: data.type,
+        userResponse: data.userResponse,
+        marked: false,
+        yesNoQuestion: true,
+        correct: data.correct
+      };
+      this.markedQuestions.push(question);
+      this.dataSourceMarked = new MatTableDataSource(this.markedQuestions);
+    } else {
+      if (data.type == 0) {
+        let ans: Answer = {
+          answerText: data.answer.answerText,
+          marked: false,
+          correct: false
+        };
+        question = {
+          questionText: data.questionText,
+          type: data.type,
+          userResponse: true,
+          marked: false,
+          yesNoQuestion: false,
+          correct: false,
+          answer: ans
+        };
+      } else if (data.type == 1) {
+        let jus: Justification = {
+          justificationText: data.justification.justificationText,
+          marked: false,
+          valid: false,
+          error: ""
+        };
+        question = {
+          questionText: data.questionText,
+          type: data.type,
+          userResponse: true,
+          marked: false,
+          yesNoQuestion: false,
+          correct: false,
+          justification: jus
+        };
+      }
+      this.unmarkedQuestions.push(question);
+      this.dataSourceUnmarked = new MatTableDataSource(this.unmarkedQuestions);
+    }
   }
 }

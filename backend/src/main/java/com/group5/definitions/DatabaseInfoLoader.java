@@ -23,10 +23,10 @@ public class DatabaseInfoLoader {
 
 	@Autowired
 	private ChapterRepository chapterRepository;
-	
+
 	@Autowired
 	private ConceptRepository conceptRepository;
-	
+
 	@Autowired
 	private UserRepository userRepository;
 
@@ -49,7 +49,7 @@ public class DatabaseInfoLoader {
 		userRepository.save(student);
 		userRepository.save(student2);
 		userRepository.save(admin);
-		//Home page
+		// Home page
 		Chapter chapter1 = new Chapter("Tema 1: Desarrollo web servidor");
 		Chapter chapter2 = new Chapter("Tema 2: Despliegue de webs");
 		Chapter chapter3 = new Chapter("Tema 3: Desarrollo web de cliente avanzado: SPA");
@@ -111,7 +111,7 @@ public class DatabaseInfoLoader {
 		conceptRepository.save(c111);
 		conceptRepository.save(c21);
 		conceptRepository.save(c31);
-		
+
 		Answer[] answers = new Answer[12];
 		answers[0] = new Answer(
 				"UN FRAMEWORK QUE PERMITE A UNA APLICACIÓN EJECUTARSE TANTO EN UN SERVIDOR DE APLICACIONES COMO EN UN SERVIDOR WEB",
@@ -128,33 +128,24 @@ public class DatabaseInfoLoader {
 				"UN FRAMEWORK QUE PERMITE A UNA APLICACIÓN EJECUTARSE TANTO EN UN SERVIDOR WEB COMO EN UN SERVIDOR DE APLICACIONES",
 				true, student, c11);
 		answers[4].setCorrect(true);
-		answers[5] = new Answer(
-				"UN FRAMEWORK BASADO EN JAVA EE",
-				true, student, c11);
+		answers[5] = new Answer("UN FRAMEWORK BASADO EN JAVA EE", true, student, c11);
 		answers[5].setCorrect(true);
-		answers[6] = new Answer(
-				"UN FRAMEWORK QUE PERMITE DESARROLLAR APLICACIONES DE SERVIDOR",
-				true, student, c11);
+		answers[6] = new Answer("UN FRAMEWORK QUE PERMITE DESARROLLAR APLICACIONES DE SERVIDOR", true, student, c11);
 		answers[6].setCorrect(true);
 		answers[7] = new Answer(
 				"UN FRAMEWORK PARA DESARROLLAR APLICACIONES WEB, SERVICIOS REST, WEBSOCKETS, ANÁLISIS DE BIG DATA...",
 				true, student, c11);
 		answers[7].setCorrect(true);
 		answers[8] = new Answer(
-				"UN FRAMEWORK QUE SOPORTA ACCESO A BASES DE DATOS TANTO RELACIONALES COMO NO RELACIONALES",
-				true, student, c11);
+				"UN FRAMEWORK QUE SOPORTA ACCESO A BASES DE DATOS TANTO RELACIONALES COMO NO RELACIONALES", true,
+				student, c11);
 		answers[8].setCorrect(true);
-		answers[9] = new Answer(
-				"UN FRAMEWORK QUE SOPORTA GROOVY",
-				true, student, c11);
+		answers[9] = new Answer("UN FRAMEWORK QUE SOPORTA GROOVY", true, student, c11);
 		answers[9].setCorrect(true);
-		answers[10] = new Answer(
-				"UN FRAMEWORK QUE SOPORTA REACTOR",
-				true, student, c11);
+		answers[10] = new Answer("UN FRAMEWORK QUE SOPORTA REACTOR", true, student, c11);
 		answers[10].setCorrect(true);
-		answers[11] = new Answer(
-				"UN FRAMEWORK CUYAS APLICACIONES SE SUELEN EJECUTAR EN TOMCAT O JETTY",
-				true, student, c11);
+		answers[11] = new Answer("UN FRAMEWORK CUYAS APLICACIONES SE SUELEN EJECUTAR EN TOMCAT O JETTY", true, student,
+				c11);
 		answers[11].setCorrect(true);
 		for (Answer a : answers) {
 			answerRepository.save(a);
@@ -166,13 +157,13 @@ public class DatabaseInfoLoader {
 
 		Justification j2 = new Justification("ES UN FRAMEWORK DE SOFTWARE LIBRE", true, student);
 		j2.setValid(true);
-		
+
 		j1.setAnswer(answers[1]);
 		j2.setAnswer(answers[3]);
-		
+
 		justificationRepository.save(j1);
 		justificationRepository.save(j2);
-		
+
 		Question[] questions = new Question[13];
 		questions[0] = new Question(
 				"¿ES CORRECTO AFIRMAR QUE SPRING ES UN FRAMEWORK QUE PERMITE A UNA APLICACIÓN EJECUTARSE TANTO EN UN SERVIDOR DE APLICACIONES COMO EN UN SERVIDOR WEB?",

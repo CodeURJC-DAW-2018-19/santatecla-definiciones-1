@@ -15,7 +15,7 @@ import com.group5.definitions.repositories.AnswerRepository;
 
 @Service
 public class AnswerService {
-	
+
 	@Autowired
 	private AnswerRepository answerRepository;
 
@@ -42,7 +42,8 @@ public class AnswerService {
 	public Answer getRandomAnswer(boolean correct, Concept c) {
 		long n = answerRepository.countByMarkedAndCorrectAndConcept(true, correct, c);
 		int index = (int) (Math.random() * n);
-		Page<Answer> answerPage = answerRepository.findByMarkedAndCorrectAndConcept(true, correct, c, PageRequest.of(index, 1));
+		Page<Answer> answerPage = answerRepository.findByMarkedAndCorrectAndConcept(true, correct, c,
+				PageRequest.of(index, 1));
 		Answer a = null;
 		if (answerPage.hasContent()) {
 			a = answerPage.getContent().get(0);
@@ -52,7 +53,7 @@ public class AnswerService {
 
 	public Answer getRandomAnswer(Concept c) {
 		Random r = new Random();
-		boolean correct = r.nextInt(2)==0;
+		boolean correct = r.nextInt(2) == 0;
 		return getRandomAnswer(correct, c);
 	}
 
@@ -64,13 +65,12 @@ public class AnswerService {
 		return answerRepository.findByMarkedAndConceptId(marked, id, page);
 	}
 
-	public Page<Answer> findByConceptAndJustifications_Marked(Concept concept, boolean justMarked,
-			Pageable page) {
+	public Page<Answer> findByConceptAndJustifications_Marked(Concept concept, boolean justMarked, Pageable page) {
 		return answerRepository.findByConceptAndJustifications_Marked(concept, justMarked, page);
 	}
-	
-	public Page<Answer>  findByMarkedAndConceptIdAndJustifications_Marked(boolean marked, long id, 
-			boolean markedJust, Pageable page){
+
+	public Page<Answer> findByMarkedAndConceptIdAndJustifications_Marked(boolean marked, long id, boolean markedJust,
+			Pageable page) {
 		return answerRepository.findByMarkedAndConceptIdAndJustifications_Marked(marked, id, markedJust, page);
 	}
 

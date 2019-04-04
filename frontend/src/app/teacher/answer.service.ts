@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { HttpHeaders } from "@angular/common/http";
 import { Observable, throwError } from "rxjs";
 import { catchError, timeout } from "rxjs/operators";
  
@@ -10,7 +9,6 @@ import { Page } from "../page/page.model";
 import { LoginService } from "../login/login.service";
 
 import { environment } from "../../environments/environment";
-import { Justification } from './justification.model';
 
 //It will be necessary to access the user information by a new service
 
@@ -22,7 +20,7 @@ export class AnswerService {
     return this.http.get<Page<Answer>>(
       this.apiUrl + "/concepts/" + id + "/markedanswers" + "?page=" + page,
       { withCredentials: true }
-    ).pipe(timeout(1000));
+    );
   }
 
   getUnmarkedAnswers(id: number, page: number) {

@@ -4,7 +4,7 @@ public class Tab {
 	private long id;
 	private String tabName, tabURL;
 	private boolean closable, active;
-	
+
 	public Tab(long id, String tabName, String tabURL, boolean closable) {
 		super();
 		this.id = id;
@@ -82,6 +82,4 @@ public class Tab {
 		return true;
 	}
 
-
-	
 }

@@ -2,7 +2,7 @@ import { AnswerStudent } from './answerStudent.model';
 import { JustificationStudent } from './justificationStudent.model';
 
 export interface Question {
-    id: number;
+    id?: number;
     questionText: string;
     type: number;
     yesNoQuestion: boolean;

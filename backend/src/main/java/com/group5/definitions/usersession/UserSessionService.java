@@ -12,10 +12,10 @@ import com.group5.definitions.usersession.UserSessionInfoComponent;
 
 @Service
 public class UserSessionService {
-	
+
 	@Autowired
 	private UserSessionInfoComponent userSession;
-	
+
 	public void addUserToModel(Model model) {
 		boolean logged = userSession.getLoggedUser() != null;
 		model.addAttribute("logged", logged);
@@ -32,7 +32,7 @@ public class UserSessionService {
 	public void addTab(Tab tab) {
 		userSession.addTab(tab);
 	}
-	
+
 	public void removeTab(long tabId) {
 		userSession.removeTab(tabId);
 	}

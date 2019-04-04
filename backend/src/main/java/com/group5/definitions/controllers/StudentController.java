@@ -24,21 +24,21 @@ import com.group5.definitions.utilities.QuestionMarker;
 
 @Controller
 public class StudentController {
-	
+
 	@Autowired
 	private ConceptService conceptService;
-	
+
 	@Autowired
 	private QuestionService questionService;
-	
+
 	@Autowired
 	private QuestionMarker questionMarker;
-	
+
 	@Autowired
 	private UserSessionService userSession;
-	
+
 	private final int DEFAULT_SIZE = 10;
-	
+
 	@PostMapping("/saveAnswer/concept/{conceptId}")
 	public String saveAnswer(Model model, @PathVariable long conceptId, HttpServletResponse httpServletResponse,
 			@RequestParam String questionText, @RequestParam int questionType,
@@ -52,6 +52,7 @@ public class StudentController {
 		httpServletResponse.sendRedirect("/concept/" + conceptId);
 		return null;
 	}
+
 	@RequestMapping("/concept/{conceptId}/loadUnmarkedQuestions")
 	public String loadUnmarkedQuestions(Model model, HttpServletRequest req,
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page, @PathVariable long conceptId) {

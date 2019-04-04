@@ -21,7 +21,7 @@ public class CustomErrorController implements ErrorController {
 	public void addUserToModel(Model model) {
 		userSession.addUserToModel(model);
 	}
-	
+
 	@RequestMapping("/error")
 	public String handleError(Model model, HttpServletRequest request) {
 		Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");

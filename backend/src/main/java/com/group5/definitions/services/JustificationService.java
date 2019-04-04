@@ -12,7 +12,7 @@ import com.group5.definitions.repositories.JustificationRepository;
 
 @Service
 public class JustificationService {
-	
+
 	@Autowired
 	private JustificationRepository justificationRepository;
 
@@ -21,7 +21,8 @@ public class JustificationService {
 			throw new RuntimeException("Answer is correct and has no justification.");
 		long n = justificationRepository.countByAnswer(answer);
 		int index = (int) (Math.random() * n);
-		Page<Justification> justificationPage = justificationRepository.findByAnswer_Id(answer.getId(), PageRequest.of(index, 1));
+		Page<Justification> justificationPage = justificationRepository.findByAnswer_Id(answer.getId(),
+				PageRequest.of(index, 1));
 		Justification j = null;
 		if (justificationPage.hasContent()) {
 			j = justificationPage.getContent().get(0);
@@ -52,7 +53,7 @@ public class JustificationService {
 	public Page<Justification> findByAnswer_Id(long answerId, Pageable page) {
 		return justificationRepository.findByAnswer_Id(answerId, page);
 	}
-	
+
 	public Page<Justification> findByAnswer(Answer ans, Pageable page) {
 		return justificationRepository.findByAnswer(ans, page);
 	}

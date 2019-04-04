@@ -38,13 +38,13 @@ public class RestConceptControllerStudent {
 
 	@Autowired
 	private QuestionService questionService;
-	
+
 	@Autowired
 	private QuestionMarker questionMarker;
-	
+
 	@Autowired
 	private ConceptService conceptService;
-	
+
 	@Autowired
 	private AnswerService answerService;
 
@@ -53,50 +53,49 @@ public class RestConceptControllerStudent {
 	@JsonView(Question.Saved.class)
 	@GetMapping("/concepts/{id}/newquestion")
 	public Question generateQuestion(@PathVariable long id) {
-		return questionGenerator.generateQuestion(id) ;
+		return questionGenerator.generateQuestion(id);
 	}
 
 	@JsonView(Question.Saved.class)
 	@GetMapping("/concepts/{id}/markedquestions")
 	public Page<Question> getMarkedQuestions(@PathVariable long id,
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page) {
-		Page<Question> questions = questionService.findByMarkedAndAnswer_Concept_IdAndUser(true, id, userSession.getLoggedUser(), page);
+		Page<Question> questions = questionService.findByMarkedAndAnswer_Concept_IdAndUser(true, id,
+				userSession.getLoggedUser(), page);
 		return questions;
 	}
-	
+
 	@JsonView(Question.Saved.class)
 	@GetMapping("/concepts/{id}/unmarkedquestions")
 	public Page<Question> getUnmarkedQuestions(@PathVariable long id,
 			@PageableDefault(size = DEFAULT_SIZE) Pageable page) {
-		Page<Question> questions = questionService.findByMarkedAndAnswer_Concept_IdAndUser(false, id, userSession.getLoggedUser(), page);
+		Page<Question> questions = questionService.findByMarkedAndAnswer_Concept_IdAndUser(false, id,
+				userSession.getLoggedUser(), page);
 		return questions;
 	}
-	
-	@JsonView(Answer.Basic.class)
+
+	@JsonView(Question.Saved.class)
 	@PostMapping("/concepts/{conceptId}/saveanswer")
-	public ResponseEntity<Answer> addAnswer(@PathVariable long conceptId, 
-			@RequestBody Map<String, Object> body){
-		//TODO: refactor to prevet null pointer exceptions
+	public ResponseEntity<Question> addAnswer(@PathVariable long conceptId, @RequestBody Map<String, Object> body) {
 		String answerText = null;
 		String answerOption = null;
-		if (body.get("answerText")!=null) // not yes/no question
+		if (body.get("answerText") != null) // not yes/no question
 			answerText = body.get("answerText").toString();
-		if (body.get("answerOption")!=null) // yes/no question
+		if (body.get("answerOption") != null) // yes/no question
 			answerOption = body.get("answerOption").toString();
 		String questionText = body.get("questionText").toString();
 		Long answerId = null;
 		Long justificationQuestionId = null;
-		if (body.get("answerOption")!=null)
+		if (body.get("answerId") != null)
 			answerId = Long.parseLong(body.get("answerId").toString());
-		if (body.get("answerOption")!=null)
+		if (body.get("justificationQuestionId") != null)
 			justificationQuestionId = Long.parseLong(body.get("justificationQuestionId").toString());
 		Integer questionType = Integer.parseInt(body.get("questionType").toString());
-		
+
 		boolean open = answerText != null;
 		String answerFinalText = open ? answerText : answerOption;
-		questionMarker.saveQuestion(conceptService.findById(conceptId), answerFinalText, questionText, questionType,
-				answerId, justificationQuestionId);
-		Answer answer = answerService.getOne(answerId);
-		return new ResponseEntity<>(answer, HttpStatus.CREATED);
+		Question question = questionMarker.saveQuestion(conceptService.findById(conceptId), answerFinalText, questionText,
+				questionType, answerId, justificationQuestionId);
+		return new ResponseEntity<>(question, HttpStatus.CREATED);
 	}
 }

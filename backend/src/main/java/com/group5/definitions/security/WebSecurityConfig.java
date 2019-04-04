@@ -10,14 +10,14 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	
+
 	@Autowired
-    public UserRepositoryAuthenticationProvider authenticationProvider;
-	
+	public UserRepositoryAuthenticationProvider authenticationProvider;
+
 	@Override
-    protected void configure(HttpSecurity http) throws Exception{
-		
-		//Public pages
+	protected void configure(HttpSecurity http) throws Exception {
+
+		// Public pages
 		http.authorizeRequests().antMatchers("/").permitAll();
 		http.authorizeRequests().antMatchers("/login").permitAll();
 		http.authorizeRequests().antMatchers("/logout").permitAll();
@@ -26,9 +26,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers("/loadChapters").permitAll();
 		http.authorizeRequests().antMatchers("/loadConcepts").permitAll();
 		http.authorizeRequests().antMatchers("/assets/**").permitAll();
-		
-		//Private pages
-		http.authorizeRequests().antMatchers("/concept/*").hasAnyRole("STUDENT","TEACHER");
+
+		// Private pages
+		http.authorizeRequests().antMatchers("/concept/*").hasAnyRole("STUDENT", "TEACHER");
 		http.authorizeRequests().antMatchers("/concept/*/addAnswer").hasAnyRole("TEACHER");
 		http.authorizeRequests().antMatchers("/concept/*/loadUnmarkedQuestions").hasAnyRole("STUDENT");
 		http.authorizeRequests().antMatchers("/concept/*/loadMarkedQuestions").hasAnyRole("STUDENT");
@@ -44,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers("/concept/*/markJust/**").hasAnyRole("TEACHER");
 		http.authorizeRequests().antMatchers("/saveURL/**").hasAnyRole("TEACHER");
 		http.authorizeRequests().antMatchers("/extraJustification/**").hasAnyRole("TEACHER");
-		
+
 		http.authorizeRequests().antMatchers("/modifyAnswer/**").hasAnyRole("TEACHER");
 		http.authorizeRequests().antMatchers("/modifyJust/**").hasAnyRole("TEACHER");
 		http.authorizeRequests().antMatchers("/deleteJust/**").hasAnyRole("TEACHER");
@@ -53,27 +53,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers("/deleteConcept/**").hasAnyRole("TEACHER");
 		http.authorizeRequests().antMatchers("/image/upload").hasAnyRole("TEACHER");
 		http.authorizeRequests().antMatchers("/image/{conceptName}").permitAll();
-		
 
-		//Login form
+		// Login form
 		http.formLogin().loginPage("/login");
 		http.formLogin().usernameParameter("username");
 		http.formLogin().passwordParameter("password");
 		http.formLogin().failureUrl("/");
-		
-		//Logout
+
+		// Logout
 		http.logout().logoutUrl("/logout");
-        http.logout().logoutSuccessUrl("/");
-		
+		http.logout().logoutSuccessUrl("/");
+
 	}
-	
+
 	@Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+
 		auth.authenticationProvider(authenticationProvider);
-		
+
 	}
-	
 
 }
-

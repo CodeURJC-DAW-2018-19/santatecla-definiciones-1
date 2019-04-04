@@ -6,10 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.group5.definitions.model.Concept;
 
-public interface ConceptRepository extends JpaRepository<Concept, Long>{
-	
-	Concept	findByConceptName(String name);
+public interface ConceptRepository extends JpaRepository<Concept, Long> {
+
+	Concept findByConceptName(String name);
 
 	Page<Concept> findByChapter_id(long id, Pageable page);
-	
+
 }

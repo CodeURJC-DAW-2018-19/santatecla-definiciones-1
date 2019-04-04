@@ -10,18 +10,18 @@ import com.group5.definitions.repositories.ConceptRepository;
 
 @Service
 public class ConceptService {
-	
+
 	@Autowired
 	private ConceptRepository conceptRepository;
 
 	public Concept findByConceptName(String name) {
 		return conceptRepository.findByConceptName(name);
 	}
-	
+
 	public void save(Concept con) {
 		conceptRepository.save(con);
 	}
-	
+
 	public void deleteById(Long id) {
 		conceptRepository.deleteById(id);
 	}
@@ -39,6 +39,5 @@ public class ConceptService {
 	public Page<Concept> findByChapter_Id(long id, Pageable page) {
 		return conceptRepository.findByChapter_id(id, page);
 	}
-	
-	
+
 }

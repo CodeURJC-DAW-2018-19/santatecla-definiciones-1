@@ -35,18 +35,18 @@ public class Answer {
 	@JsonView(Marked.class)
 	private boolean correct;
 	@JsonView(Justifications.class)
-	@OneToMany(mappedBy="answer", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "answer", cascade = CascadeType.REMOVE)
 	private List<Justification> justifications;
 	@OneToOne
-	private User user; //User that created this answer 
+	private User user; // User that created this answer
 	@ManyToOne
 	private Concept concept;
-	@OneToMany(mappedBy="answer", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "answer", cascade = CascadeType.REMOVE)
 	private List<Question> questions;
-	
+
 	protected Answer() {
 	}
-	
+
 	public Answer(String answerText, boolean marked, User user, Concept concept) {
 		super();
 		this.justifications = new ArrayList<>();
@@ -80,7 +80,6 @@ public class Answer {
 		this.correct = correct;
 	}
 
-
 	public boolean isMarked() {
 		return marked;
 	}
@@ -104,7 +103,7 @@ public class Answer {
 	public void setConcept(Concept concept) {
 		this.concept = concept;
 	}
-	
+
 	public List<Justification> getJustifications() {
 		return justifications;
 	}
@@ -144,6 +143,5 @@ public class Answer {
 		}
 		return i;
 	}
-
 
 }

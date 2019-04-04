@@ -16,11 +16,7 @@ export class YesNoDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
-  solution: string = null;
   disable: boolean = true;
-  send() {
-      //TODO
-  }
   checkRadio(){
     this.disable = false;
   }
