@@ -372,4 +372,20 @@ export class TeacherComponent {
         }
       );
   }
+
+  editJustification(oldJustification: Justification, justificationText: string, incorrect: boolean) {
+    this.editJustificationServiceCall(oldJustification, justificationText, incorrect);
+  }
+
+  private editJustificationServiceCall(oldJustification: Justification, justificationText: string, incorrect: boolean) {
+    this.justificationService
+    .editJustification(oldJustification.id, justificationText, !incorrect)
+    .subscribe(
+      data => {
+        console.log(data);
+    },
+    error => {
+      console.log(error);
+    }
+  }
 }

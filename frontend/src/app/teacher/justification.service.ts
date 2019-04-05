@@ -15,6 +15,7 @@ const BASE_URL = environment.baseUrl;
 
 @Injectable()
 export class JustificationService {
+   headers: HttpHeaders | { [header: string]: string | string[]; };
    constructor(private http: HttpClient, private loginService: LoginService) { }
 
    apiUrl = environment.baseUrl;
@@ -60,4 +61,15 @@ export class JustificationService {
          { withCredentials: true }
       );
    }
+
+   editJustification(answerId: number, justificationText: string, correct: boolean) {
+      let body = {
+         answerText: justificationText,
+         correct: correct
+       };
+       return this.http.put(
+         this.apiUrl + "/answers/" + answerId+ "/justifications",
+         body,
+         { headers: this.headers, withCredentials: true }
+   );
 }

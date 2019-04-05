@@ -146,6 +146,15 @@
                   </button>
                 </td>
                 <td>
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    (click)="editJustification(jus, justificationText.value, !jus.valid)"
+                  >
+                    <mat-icon>build</mat-icon>Editar
+                  </button>
+                </td>
+                <td>
                   <button mat-raised-button color="primary">
                     <mat-icon></mat-icon>
                   </button>
