@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.group5.definitions.model.Answer;
+import com.group5.definitions.model.Justification;
 import com.group5.definitions.model.Question;
 import com.group5.definitions.services.AnswerService;
 import com.group5.definitions.services.ConceptService;
@@ -47,7 +48,7 @@ public class RestConceptControllerStudent {
 
 	private final int DEFAULT_SIZE = 10;
 
-	private interface NewQuestion extends Question.Saved, Answer.Basic, Justification.Basic{}
+	private interface NewQuestion extends Justification.Basic, Question.Saved, Answer.Basic {}
 	@JsonView(NewQuestion.class)
 	@GetMapping("/concepts/{id}/newquestion")
 	public Question generateQuestion(@PathVariable long id) {
