@@ -173,12 +173,14 @@ public class RestConceptControllerTeacher {
 		Concept con = conceptService.findById(conceptId);
 		con.addAnswer(answer);
 		answer.setConcept(con);
+		answerService.save(answer); 
 		if (!answer.isCorrect()) {
 			for (Justification j : answer.getJustifications()) {
+				j.setAnswer(answer);
 				justificationService.save(j);
 			}
+			answerService.save(answer); //need to save again
 		}
-		answerService.save(answer);
 		conceptService.save(con);
 		return new ResponseEntity<>(answer, HttpStatus.CREATED);
 	}

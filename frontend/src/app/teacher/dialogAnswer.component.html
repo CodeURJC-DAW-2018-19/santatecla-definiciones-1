@@ -3,7 +3,7 @@
     <form class="newAnswer">
         <p class="padding">Respuesta:</p>
         <mat-form-field>
-                <input matInput [(ngModel)]="answerText" name="answerText">
+            <input matInput [(ngModel)]="answerText" name="answerText">
         </mat-form-field>
         <mat-radio-group aria-label="Selecciona una opción" class="padding" [(ngModel)]="correct" name="correct">
             <mat-radio-button value="true">Correcta</mat-radio-button>
@@ -14,11 +14,12 @@
             <mat-form-field>
                 <input matInput class="padding" [(ngModel)]="justificationText" name="justificationText">
             </mat-form-field>
-            <mat-radio-group aria-label="Selecciona una opción" class="padding" [(ngModel)]="validJustification" name="validJustification"> 
+            <mat-radio-group aria-label="Selecciona una opción" class="padding" [(ngModel)]="validJustification"
+                name="validJustification">
                 <mat-radio-button value="true">Valida</mat-radio-button>
                 <mat-radio-button value="false">Invalida</mat-radio-button>
             </mat-radio-group>
-        </div> 
+        </div>
         <div *ngIf="validJustification">
             <p class="padding">Error: </p>
             <mat-form-field>
@@ -28,6 +29,6 @@
     </form>
 </div>
 <div mat-dialog-actions>
-    <button mat-button (click)="newAnswer()" cdkFocusInitial>Aceptar</button>
+    <button mat-button [disabled]="(!correct) || (!answerText)" (click)="newAnswer()" cdkFocusInitial>Aceptar</button>
     <button mat-button (click)="onNoClick()">Cancelar</button>
 </div>

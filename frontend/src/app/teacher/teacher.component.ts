@@ -45,8 +45,8 @@ export class TeacherComponent {
   markedJustPage: Map<number, number> = new Map(); // key is answer id
   markedJustOnce: Map<number, number> = new Map(); // key: answer id   value:  -1 means not initialized, 0 means false, 1 means true
 
-  answerPage: Page<Answer>;
-  justPages: Map<number, Page<Justification>>; // key: answer id     value: justification page per answer
+  //answerPage: Page<Answer>;
+  //justPages: Map<number, Page<Justification>>; // key: answer id     value: justification page per answer
   id: number; //concept id
 
 
@@ -182,6 +182,7 @@ export class TeacherComponent {
         .subscribe(
           (data: Page<Justification>) => {
             if ((data.numberOfElements === 0) && (once == 0)) {
+              console.log('no hay mas');
               this.markedJustOnce.set(answerId, 1);
               this.dialogService.openAlert({
                 message: 'No hay más justificaciones en esta respuesta', //TODO: put answer name
@@ -193,11 +194,15 @@ export class TeacherComponent {
                 this.markedJustOnce.set(answerId, 0);
                 this.markedJust.set(answerId, []);
               }
+              console.log('adding');
               this.markedJustPage.set(answerId, page);
               let just = this.markedJust.get(answerId).concat(data.content);
               this.markedJust.set(answerId, just);
               this.dataSourceJustmarked.set(answerId, new  MatTableDataSource(just));
+            }else{
+              console.log(data.numberOfElements);
             }
+            console.log(this.markedJust);
           },
           error => console.log(error + 'markedjustifications in answer ' + answerId)
         );
@@ -279,9 +284,8 @@ export class TeacherComponent {
     dialogRef.afterClosed().subscribe(
       result => {
         this.markedAnswers.push(result);
-        if(result.correct == false){
-          this.markedJust.set(result.id, result.justifications);
-        }
+        this.markedJust.set(result.id, result.justifications);
+        
         console.log(this.markedJust.get(result.id));
       }
     );
