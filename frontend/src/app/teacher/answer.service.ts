@@ -1,8 +1,7 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable, throwError } from "rxjs";
 import { catchError, timeout } from "rxjs/operators";
- 
 
 import { Answer } from "./answer.model";
 import { Page } from "../page/page.model";
@@ -16,6 +15,9 @@ import { environment } from "../../environments/environment";
 export class AnswerService {
   constructor(private http: HttpClient, private loginService: LoginService) {}
   apiUrl = environment.baseUrl;
+  headers = new HttpHeaders({
+    "Content-Type": "application/json"
+  });
   getMarkedAnswers(id: number, page: number) {
     return this.http.get<Page<Answer>>(
       this.apiUrl + "/concepts/" + id + "/markedanswers" + "?page=" + page,
@@ -50,6 +52,18 @@ export class AnswerService {
       this.apiUrl + "/concepts/" + id + "/answers",
       answer,
       { withCredentials: true }
+    );
+  }
+
+  editAnswer(conceptId: number, answerId: number, answerText: string, correct: boolean) {
+    let body = {
+      answerText: answerText,
+      correct: correct
+    };
+    return this.http.put(
+      this.apiUrl + "/concepts/" + conceptId + "/answers/" + answerId,
+      body,
+      { headers: this.headers, withCredentials: true }
     );
   }
 }

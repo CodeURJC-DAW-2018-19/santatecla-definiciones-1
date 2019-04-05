@@ -1,5 +1,6 @@
 package com.group5.definitions.restcontrollers;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -141,16 +142,6 @@ public class RestConceptControllerTeacher {
 				justificationService.deleteById(j.getId());
 			}
 			ans.getJustifications().clear(); // In case, we clear the answer justifications
-		} else {
-			if (!ans.getJustifications().isEmpty()) {
-				Justification newJ = new Justification(justText.toUpperCase(), true, userSession.getLoggedUser());
-				newJ.setValid(valid);
-				if (!valid)
-					newJ.setError(errorText.toUpperCase());
-				ans.addJustification(newJ);
-				newJ.setAnswer(ans);
-				justificationService.save(newJ);
-			}
 		}
 		answerService.save(ans);
 		return new ResponseEntity<>(ans, HttpStatus.OK);
