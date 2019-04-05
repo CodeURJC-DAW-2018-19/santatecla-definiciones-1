@@ -8,7 +8,7 @@ import { Justification } from "./justification.model";
 import { Page } from "../page/page.model";
 import { DiagramComponent } from "../diagram/diagram.component";
 import { NewAnswerComponent } from "./newanswer.component";
-import { MatDialog } from "@angular/material";
+import { MatTableDataSource, MatDialog } from "@angular/material";
 import { TdDialogService } from '@covalent/core';
 import { NewJustComponent } from './newjust.component';
 
@@ -21,22 +21,26 @@ import { NewJustComponent } from './newjust.component';
   styleUrls: ["./teacher.component.css"]
 })
 export class TeacherComponent {
+  dataSourceMarked: MatTableDataSource<Answer>;
   markedAnswers: Answer[] = [];
   markedAnswersPage: number;
   markedOnce: number;
   //-1 means not initialized, 0 means false, 1 means true
   //we need to use -1 so we don't get the alert first time we try to get them
 
+  dataSourceUnmarked: MatTableDataSource<Answer>;
   unmarkedAnswers: Answer[] = [];
   unmarkedAnswersPage: number;
   unmarkedOnce: number;
   //-1 means not initialized, 0 means false, 1 means true
 
+  dataSourceJustUnmarked: MatTableDataSource<Justification>;
   unmarkedJust: Justification[] = [];
   unmarkedJustPage: number;
   unmarkedJustOnce: number;
   //-1 means not initialized, 0 means false, 1 means true
 
+  dataSourceJustmarked: Map<number, MatTableDataSource<Justification>> = new Map();
   markedJust: Map<number, Justification[]> = new Map() // key is answer id
   markedJustPage: Map<number, number> = new Map(); // key is answer id
   markedJustOnce: Map<number, number> = new Map(); // key: answer id   value:  -1 means not initialized, 0 means false, 1 means true
@@ -44,6 +48,8 @@ export class TeacherComponent {
   answerPage: Page<Answer>;
   justPages: Map<number, Page<Justification>>; // key: answer id     value: justification page per answer
   id: number; //concept id
+
+
 
   constructor(
     private answerDialog: MatDialog,
@@ -92,6 +98,7 @@ export class TeacherComponent {
                 this.markedOnce = 0;
               }
               this.markedAnswers = this.markedAnswers.concat(data.content);
+              this.dataSourceMarked = new MatTableDataSource(this.markedAnswers);
               data.content.forEach(answer => {
                 if (!answer.correct) {
                   let id = answer.id;
@@ -130,6 +137,7 @@ export class TeacherComponent {
                 this.unmarkedOnce = 0;
               }
               this.unmarkedAnswers = this.unmarkedAnswers.concat(data.content);
+              this.dataSourceUnmarked = new MatTableDataSource(this.unmarkedAnswers);
             }
           },
           error => console.log(error + 'unmarkedanswers')
@@ -157,6 +165,7 @@ export class TeacherComponent {
                 this.unmarkedJustOnce = 0;
               }
               this.unmarkedJust = this.unmarkedJust.concat(data.content);
+              this.dataSourceJustUnmarked = new MatTableDataSource(this.unmarkedJust);
             }
           },
           error => console.log(error + 'unmarkedjustifications')
@@ -187,6 +196,7 @@ export class TeacherComponent {
               this.markedJustPage.set(answerId, page);
               let just = this.markedJust.get(answerId).concat(data.content);
               this.markedJust.set(answerId, just);
+              this.dataSourceJustmarked.set(answerId, new  MatTableDataSource(just));
             }
           },
           error => console.log(error + 'markedjustifications in answer ' + answerId)
@@ -209,8 +219,10 @@ export class TeacherComponent {
           .subscribe((_) => {
             let answer: Answer = this.markedAnswers.find(a => a.id == answerId);
             let index = this.markedAnswers.indexOf(answer, 0);
-            if (index >= 0)
+            if (index >= 0){
               this.markedAnswers.splice(index, 1);
+              this.dataSourceMarked = new MatTableDataSource(this.markedAnswers);
+            }
           }, (error) => console.error(error + 'markedanswers on ans delete'));
       }
     });
@@ -234,6 +246,7 @@ export class TeacherComponent {
             let index = justOfAnswer.indexOf(just, 0); //get just index
             justOfAnswer.splice(index, 1); //delete just from array
             this.markedJust.set(answerId, justOfAnswer); //set updated array in map
+            this.dataSourceJustmarked.set(answerId, new  MatTableDataSource(justOfAnswer));
           }, (error) => {
             if (error === 400) {
               this.dialogService.openAlert({
@@ -280,6 +293,7 @@ export class TeacherComponent {
       result => {
         let justOfAnswer = this.markedJust.get(answerId).concat(result);
         this.markedJust.set(answerId, justOfAnswer);
+        this.dataSourceJustmarked.set(answerId, new  MatTableDataSource(justOfAnswer));
       }
     );
   }
