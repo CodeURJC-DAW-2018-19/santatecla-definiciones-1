@@ -3,92 +3,140 @@
 <div class="checkOverflow teacherContent">
   <mat-card class="checkOverflow teacherContent">
     <mat-card-title>Respuestas corregidas</mat-card-title>
-    <mat-nav-list *ngIf="markedAnswers?.length == 0" role="list" class="correctSize">
+    <mat-nav-list
+      *ngIf="markedAnswers?.length == 0"
+      role="list"
+      class="correctSize"
+    >
       <mat-card-content>No hay respuestas corregidas</mat-card-content>
     </mat-nav-list>
-    <mat-nav-list *ngIf="markedAnswers?.length > 0" role="list" class="correctSize">
-      <div *ngFor="let ans of markedAnswers" role="listitem" class="checkOverflow">
+    <mat-nav-list
+      *ngIf="markedAnswers?.length > 0"
+      role="list"
+      class="correctSize"
+    >
+      <div
+        *ngFor="let ans of markedAnswers"
+        role="listitem"
+        class="checkOverflow"
+      >
         <div *ngIf="ans.marked" class="answer">
           <mat-divider></mat-divider>
           <table>
             <td style="width: 110%">
-              <textarea value="{{ ans.answerText }}" style="width: 90%" rows="3" autocapitalize="characters"
-                required></textarea>
+              <textarea
+                value="{{ ans.answerText }}"
+                style="width: 90%"
+                rows="3"
+                autocapitalize="characters"
+                required
+                #answerText
+              ></textarea>
             </td>
-            <td>
-              <label class="form-check form-check-radio">
-                <input class="form-check-input" type="radio" name="correct{{ ans.id }}" id="correct{{ ans.id }}"
-                  [checked]="ans.correct" value="{{ ans.correct }}" />
-                Correcta
-                <span claas="circle">
-                  <span class="check"></span>
-                </span>
-              </label>
-            </td>
-            <td>
-              <label class="form-check form-check-radio">
-                <input class="form-check-input" type="radio" name="correct{{ ans.id }}" id="incorrect{{ ans.id }}"
-                  [checked]="!ans.correct" value="{{ ans.correct }}" />
-                Incorrecta
-                <span claas="circle">
-                  <span class="check"></span>
-                </span>
-              </label>
-            </td>
+            <mat-radio-group>
+              <td>
+                <mat-radio-button
+                  color="primary"
+                  name="correct{{ ans.id }}"
+                  [checked]="ans.correct"
+                  value="yes"
+                >
+                  Correcta
+                </mat-radio-button>
+              </td>
+              <td>
+                <mat-radio-button
+                  color="primary"
+                  name="correct{{ ans.id }}"
+                  [checked]="!ans.correct"
+                  value="no"
+                  #markedAnswerIncorrect
+                >
+                  Incorrecta
+                </mat-radio-button>
+              </td>
+            </mat-radio-group>
           </table>
           <table class="btnPanel">
             <td>
-              <button mat-raised-button color="primary" (click)="deleteAnswer( ans.id )">
+              <button
+                mat-raised-button
+                color="primary"
+                (click)="deleteAnswer(ans.id)"
+              >
                 <mat-icon>delete</mat-icon> Borrar
               </button>
             </td>
             <td>
-              <button mat-raised-button color="primary">
-                <mat-icon></mat-icon>No usar
-                <!-- te lo dije -->
+              <button
+                mat-raised-button
+                color="primary"
+                (click)="editAnswer(ans, answerText.value, markedAnswerIncorrect.checked)"
+              >
+                <mat-icon>build</mat-icon>Editar
               </button>
             </td>
           </table>
           <div *ngIf="!ans.correct">
-            <a *ngFor="let jus of markedJust.get(ans.id)" role="listitem" class="checkOverflow" required>
+            <a
+              *ngFor="let jus of markedJust.get(ans.id)"
+              role="listitem"
+              class="checkOverflow"
+              required
+            >
               <table>
                 <td style="width: 100%">
                   <mat-card-subtitle> JUSTIFICACION: </mat-card-subtitle>
                   <table style="width: 80%">
-                <td style="width: 80%">
-                  <textarea value="{{ jus.justificationText }}" style="width: 90%" rows="3"
-                    autocapitalize="characters"></textarea>
+                    <td style="width: 80%">
+                      <textarea
+                        value="{{ jus.justificationText }}"
+                        style="width: 90%"
+                        rows="3"
+                        autocapitalize="characters"
+                      ></textarea>
+                    </td>
+                    <mat-radio-group>
+                      <td>
+                        <mat-radio-button
+                          color="primary"
+                          name="valid{{ jus.id }}"
+                          [checked]="jus.valid"
+                          value="yes"
+                        >
+                          Válida
+                        </mat-radio-button>
+                      </td>
+                      <td>
+                        <mat-radio-button
+                          color="primary"
+                          name="valid{{ jus.id }}"
+                          [checked]="!jus.valid"
+                          value="no"
+                        >
+                          Inválida
+                        </mat-radio-button>
+                      </td>
+                    </mat-radio-group>
+                  </table>
                 </td>
-                <td>
-                  <label class="form-check form-check-radio">
-                    <input class="form-check-input" type="radio" name="valid{{jus.id}}" [checked]="jus.valid"
-                      value="{{ jus.valid }}" />
-                    Válida
-                    <span claas="circle">
-                      <span class="check"></span>
-                    </span>
-                  </label>
+                <td *ngIf="!jus.valid">
+                  <mat-card-subtitle> ERROR: </mat-card-subtitle>
+                  <textarea
+                    value="{{ jus.error }}"
+                    style="width: 200%"
+                    rows="3"
+                    autocapitalize="characters"
+                  ></textarea>
                 </td>
-                <td>
-                  <label class="form-check form-check-radio">
-                    <input class="form-check-input" type="radio" name="valid{{jus.id}}" [checked]="!jus.valid"
-                      value="{{ jus.valid }}" />
-                    Inválida
-                    <span claas="circle">
-                      <span class="check"></span>
-                    </span>
-                  </label>
-                </td>
-              </table>
-              </td>
-              <td *ngIf="!jus.valid">
-                <mat-card-subtitle> ERROR: </mat-card-subtitle>
-                <textarea value="{{ jus.error }}" style="width: 200%" rows="3" autocapitalize="characters"></textarea>
-              </td>
               </table>
               <table>
                 <td>
-                  <button mat-raised-button color="primary" (click)="deleteJustification( jus.id, ans.id )">
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    (click)="deleteJustification(jus.id, ans.id)"
+                  >
                     <mat-icon>delete</mat-icon>
                   </button>
                 </td>
@@ -102,12 +150,20 @@
             <mat-divider></mat-divider>
             <table>
               <td>
-                <button mat-raised-button color="primary" (click)="getMarkedJustificationsByAnswer(ans.id)">
+                <button
+                  mat-raised-button
+                  color="primary"
+                  (click)="getMarkedJustificationsByAnswer(ans.id)"
+                >
                   <span>Mostrar más</span>
                 </button>
               </td>
               <td>
-                <button mat-raised-button color="primary" (click)="addJustification(ans.id)">
+                <button
+                  mat-raised-button
+                  color="primary"
+                  (click)="addJustification(ans.id)"
+                >
                   <mat-icon>plus_one</mat-icon>
                 </button>
               </td>
@@ -127,42 +183,62 @@
     </mat-nav-list>
   </mat-card>
 
-
-
   <mat-card class="checkOverflow teacherContent">
     <mat-card-title>Respuestas por corregir</mat-card-title>
-    <mat-nav-list *ngIf="unmarkedAnswers?.length == 0" role="list" class="correctSize">
+    <mat-nav-list
+      *ngIf="unmarkedAnswers?.length == 0"
+      role="list"
+      class="correctSize"
+    >
       <mat-card-content>No hay respuestas por corregir</mat-card-content>
     </mat-nav-list>
-    <mat-nav-list *ngIf="unmarkedAnswers?.length > 0" role="list" class="correctSize">
-      <div *ngFor="let ans of unmarkedAnswers" role="listitem" class="checkOverflow">
+    <mat-nav-list
+      *ngIf="unmarkedAnswers?.length > 0"
+      role="list"
+      class="correctSize"
+    >
+      <div
+        *ngFor="let ans of unmarkedAnswers"
+        role="listitem"
+        class="checkOverflow"
+      >
         <div class="answer">
           <mat-divider></mat-divider>
           <table>
             <td style="width: 90%">
-              <textarea value="{{ ans.answerText }}" style="width: 90%" rows="3" autocapitalize="characters" disabled
-                required></textarea>
+              <textarea
+                value="{{ ans.answerText }}"
+                style="width: 90%"
+                rows="3"
+                autocapitalize="characters"
+                disabled
+                required
+              ></textarea>
             </td>
-            <td>
-              <label class="form-check form-check-radio">
-                <input class="form-check-input" type="radio" name="correct" id="correct{{ ans.id }}" [checked]="false"
-                  value="{{ ans.correct }}" />
-                Correcta
-                <span claas="circle">
-                  <span class="check"></span>
-                </span>
-              </label>
-            </td>
-            <td>
-              <label class="form-check form-check-radio">
-                <input class="form-check-input" type="radio" name="correct" id="incorrect{{ ans.id }}" [checked]="false"
-                  value="{{ ans.correct }}" />
-                Incorrecta
-                <span claas="circle">
-                  <span class="check"></span>
-                </span>
-              </label>
-            </td>
+            <mat-radio-group>
+              <td>
+                <mat-radio-button
+                  color="primary"
+                  name="correct"
+                  id="correct{{ ans.id }}"
+                  [checked]="false"
+                  value="yes"
+                >
+                  Correcta
+                </mat-radio-button>
+              </td>
+              <td>
+                <mat-radio-button
+                  color="primary"
+                  name="correct"
+                  id="incorrect{{ ans.id }}"
+                  [checked]="false"
+                  value="no"
+                >
+                  Incorrecta
+                </mat-radio-button>
+              </td>
+            </mat-radio-group>
           </table>
           <button mat-raised-button color="primary">
             <span>Corregir (no hace na)</span>
@@ -176,76 +252,117 @@
     </mat-nav-list>
   </mat-card>
 
-
   <mat-card class="checkOverflow teacherContent">
     <mat-card-title>Justificaciones por corregir</mat-card-title>
-    <mat-nav-list *ngIf="unmarkedJust?.length == 0" role="list" class="correctSize">
+    <mat-nav-list
+      *ngIf="unmarkedJust?.length == 0"
+      role="list"
+      class="correctSize"
+    >
       <mat-card-content>No hay justificaciones por corregir</mat-card-content>
     </mat-nav-list>
-    <mat-nav-list *ngIf="unmarkedJust?.length > 0" role="list" class="correctSize">
-      <div *ngFor="let jus of unmarkedJust" role="listitem" class="checkOverflow">
+    <mat-nav-list
+      *ngIf="unmarkedJust?.length > 0"
+      role="list"
+      class="correctSize"
+    >
+      <div
+        *ngFor="let jus of unmarkedJust"
+        role="listitem"
+        class="checkOverflow"
+      >
         <div class="answer">
           <table>
             <td style="width: 90%">
-              <textarea value="{{ jus.answer.answerText }}" style="width: 90%" rows="3" required disabled></textarea>
+              <textarea
+                value="{{ jus.answer.answerText }}"
+                style="width: 90%"
+                rows="3"
+                required
+                disabled
+              ></textarea>
             </td>
-            <td>
-              <label class="form-check form-check-radio">
-                <input class="form-check-input" type="radio" name="correct" id="correct{{ jus.answer.id }}"
-                  [checked]="jus.answer.correct === true" value="{{ jus.answer.correct }}" required disabled />
-                Correcta
-                <span claas="circle">
-                  <span class="check"></span>
-                </span>
-              </label>
-            </td>
-            <td>
-              <label class="form-check form-check-radio">
-                <input class="form-check-input" type="radio" name="correct" id="incorrect{{ jus.answer.id }}"
-                  [checked]="jus.answer.correct === false" value="{{ jus.answer.correct }}" required disabled />
-                Incorrecta
-                <span claas="circle">
-                  <span class="check"></span>
-                </span>
-              </label>
-            </td>
+            <mat-radio-group>
+              <td>
+                <mat-radio-button
+                  color="primary"
+                  name="correct"
+                  id="correct{{ jus.answer.id }}"
+                  [checked]="jus.answer.correct === true"
+                  value="yes"
+                  required
+                  disabled
+                >
+                  Correcta
+                </mat-radio-button>
+              </td>
+              <td>
+                <mat-radio-button
+                  color="primary"
+                  name="correct"
+                  id="incorrect{{ jus.answer.id }}"
+                  [checked]="jus.answer.correct === false"
+                  value="no"
+                  required
+                  disabled
+                >
+                  Incorrecta
+                </mat-radio-button>
+              </td>
+            </mat-radio-group>
           </table>
           <table>
             <td style="width: 100%">
               <mat-card-subtitle> JUSTIFICACION: </mat-card-subtitle>
               <table style="width: 80%">
-            <td style="width: 80%">
-              <textarea value="{{ jus.justificationText }}" style="width: 90%" rows="3" autocapitalize="characters"
-                disabled></textarea>
+                <td style="width: 80%">
+                  <textarea
+                    value="{{ jus.justificationText }}"
+                    style="width: 90%"
+                    rows="3"
+                    autocapitalize="characters"
+                    disabled
+                  ></textarea>
+                </td>
+                <mat-radio-group>
+                  <td>
+                    <mat-radio-button
+                      color="primary"
+                      name="valid{{ jus.id }}"
+                      [checked]="false"
+                      value="yes"
+                    >
+                      Válida
+                    </mat-radio-button>
+                  </td>
+                  <td>
+                    <mat-radio-button
+                      color="primary"
+                      name="valid{{ jus.id }}"
+                      [checked]="false"
+                      value="no"
+                    >
+                      Inválida
+                    </mat-radio-button>
+                  </td>
+                </mat-radio-group>
+              </table>
             </td>
-            <td>
-              <label class="form-check form-check-radio">
-                <input class="form-check-input" type="radio" name="valid{{jus.id}}" [checked]="false"
-                  value="{{ jus.valid }}" />
-                Válida
-                <span claas="circle">
-                  <span class="check"></span>
-                </span>
-              </label>
-            </td>
-            <td>
-              <label class="form-check form-check-radio">
-                <input class="form-check-input" type="radio" name="valid{{jus.id}}" [checked]="false"
-                  value="{{ jus.valid }}" />
-                Inválida
-                <span claas="circle">
-                  <span class="check"></span>
-                </span>
-              </label>
+            <td *ngIf="!jus.valid">
+              <mat-card-subtitle> ERROR: </mat-card-subtitle>
+              <textarea
+                value="{{ jus.error }}"
+                style="width: 200%"
+                rows="3"
+                autocapitalize="characters"
+              ></textarea>
             </td>
           </table>
-          </td>
-          <td *ngIf="!jus.valid">
-            <mat-card-subtitle> ERROR: </mat-card-subtitle>
-            <textarea value="{{ jus.error }}" style="width: 200%" rows="3" autocapitalize="characters"></textarea>
-          </td>
-          </table>
-          <button mat-raised-button color="primary" (click)="getUnmarkedJustifications()">
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="getUnmarkedJustifications()"
+          >
             <span>Mostrar más</span>
           </button>
         </div>
