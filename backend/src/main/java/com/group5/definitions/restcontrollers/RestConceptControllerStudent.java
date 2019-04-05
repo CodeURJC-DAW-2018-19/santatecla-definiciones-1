@@ -45,12 +45,10 @@ public class RestConceptControllerStudent {
 	@Autowired
 	private ConceptService conceptService;
 
-	@Autowired
-	private AnswerService answerService;
-
 	private final int DEFAULT_SIZE = 10;
 
-	@JsonView(Question.Saved.class)
+	private interface NewQuestion extends Question.Saved, Answer.Basic, Justification.Basic{}
+	@JsonView(NewQuestion.class)
 	@GetMapping("/concepts/{id}/newquestion")
 	public Question generateQuestion(@PathVariable long id) {
 		return questionGenerator.generateQuestion(id);

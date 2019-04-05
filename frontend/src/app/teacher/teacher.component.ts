@@ -128,7 +128,7 @@ export class TeacherComponent {
             if ((data.numberOfElements === 0) && (once == 0)) {
               this.unmarkedOnce = 1;
               this.dialogService.openAlert({
-                message: 'No hay más respuestas por corregidas',
+                message: 'No hay más respuestas por corregir',
                 title: 'No hay más respuestas',
                 closeButton: 'Cerrar'
               });

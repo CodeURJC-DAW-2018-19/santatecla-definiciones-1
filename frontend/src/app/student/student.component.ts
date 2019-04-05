@@ -103,7 +103,7 @@ export class StudentComponent {
           if (data.numberOfElements === 0 && once == 0) {
             this.unmarkedOnce = 1;
             this.dialogService.openAlert({
-              message: "No hay más preguntas por corregidas",
+              message: "No hay más preguntas por corregir",
               title: "No hay más preguntas",
               closeButton: "Cerrar"
             });
