@@ -65,7 +65,7 @@ export class TeacherComponent {
     private justificationService: JustificationService,
     private dialogService: TdDialogService
   ) {
-    this.router.routeReuseStrategy.shouldReuseRoute = function() {
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
       return false;
     };
     this.id = activatedRoute.snapshot.params["id"];
@@ -197,7 +197,6 @@ export class TeacherComponent {
                 this.markedJustOnce.set(answerId, 0);
                 this.markedJust.set(answerId, []);
               }
-              console.log('adding');
               this.markedJustPage.set(answerId, page);
               let just = this.markedJust.get(answerId).concat(data.content);
               this.markedJust.set(answerId, just);
@@ -206,7 +205,6 @@ export class TeacherComponent {
                 new MatTableDataSource(just)
               );
             }
-            console.log(this.markedJust);
           },
           error =>
             console.log(error + "markedjustifications in answer " + answerId)
@@ -309,8 +307,8 @@ export class TeacherComponent {
       result => {
         this.markedAnswers.push(result);
         this.markedJust.set(result.id, result.justifications);
-        
-        console.log(this.markedJust.get(result.id));
+        this.dataSourceMarked = new MatTableDataSource(this.markedAnswers);
+        this.dataSourceJustmarked.set(result.id, new MatTableDataSource(result.justifications));
       }
     );
   }
