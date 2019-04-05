@@ -63,6 +63,12 @@ public class RestConceptControllerTeacher {
 		concept.setId(conceptId);
 		if (concept.getChapter() == null)
 			concept.setChapter(oldConcept.getChapter());
+		if (concept.getConceptName() == null)
+			concept.setConceptName(oldConcept.getConceptName());
+		if (concept.getAnswers() == null)
+			concept.setAnswers(oldConcept.getAnswers());
+		if (concept.getURL() == null)
+			concept.setURL(oldConcept.getURL());
 		conceptService.save(concept);
 		return new ResponseEntity<>(concept, HttpStatus.OK);
 	}

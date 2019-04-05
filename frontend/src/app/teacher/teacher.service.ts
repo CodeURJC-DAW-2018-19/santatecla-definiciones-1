@@ -18,6 +18,6 @@ export class TeacherService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
-    return this.http.put<Concept>(this.apiUrl + "/concepts/" + id, conceptInfo, { headers: headers});
+    return this.http.put<Concept>(this.apiUrl + "/concepts/" + id, conceptInfo, { headers: headers, withCredentials: true});
   }
 }

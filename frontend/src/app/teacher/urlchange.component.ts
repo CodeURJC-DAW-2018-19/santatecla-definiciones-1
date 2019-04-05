@@ -6,7 +6,6 @@ import { Concept } from '../home/concept.model';
 /**
  * Url changer for teacher
  */
-//TODO: Error handling
 @Component({
   selector: "urlchange",
   templateUrl: "./urlchange.component.html",
