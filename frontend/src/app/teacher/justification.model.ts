@@ -5,6 +5,6 @@ export interface Justification {
     justificationText: string;
     marked: boolean;
     valid: boolean;
-    error: string;
+    error?: string;
     answer?: Answer;
 }

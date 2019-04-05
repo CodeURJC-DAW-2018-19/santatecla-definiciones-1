@@ -5,6 +5,11 @@
     <mat-card-title>Respuestas corregidas</mat-card-title>
     <mat-nav-list *ngIf="markedAnswers?.length == 0" role="list" class="correctSize">
       <mat-card-content>No hay respuestas corregidas</mat-card-content>
+      <div align="center">
+        <button mat-raised-button color="primary" (click)="openDialogAnswer()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
     </mat-nav-list>
     <mat-nav-list *ngIf="markedAnswers?.length > 0" role="list" class="correctSize">
       <div *ngFor="let ans of markedAnswers" role="listitem" class="checkOverflow">

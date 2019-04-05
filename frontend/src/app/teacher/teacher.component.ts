@@ -279,6 +279,10 @@ export class TeacherComponent {
     dialogRef.afterClosed().subscribe(
       result => {
         this.markedAnswers.push(result);
+        if(result.correct == false){
+          this.markedJust.set(result.id, result.justifications);
+        }
+        console.log(this.markedJust.get(result.id));
       }
     );
   }
