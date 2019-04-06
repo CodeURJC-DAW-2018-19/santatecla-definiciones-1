@@ -150,7 +150,7 @@ The following queries will be preceded by /chapters
 
 
 ## Concepts
-The following queries will be preceded by /chapters/{id}/concepts
+The following queries will be preceded by /chapters/{id}/concepts except modify concept and get url of concept, which will be preceded by /concepts/{conceptId}
 
 #### Show concepts
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#url-4)URL
@@ -188,53 +188,43 @@ The following queries will be preceded by /chapters/{id}/concepts
 			"content": [
 				{
 					"id": 15,
-					"conceptName": "Spring",
-					"URL": "http://www.urldelconcepto.com"
+					"conceptName": "Spring"
 				},
 				{
 					"id": 16,
-					"conceptName": "APIs REST",
-					"URL": "http://www.urldelconcepto.com"
+					"conceptName": "APIs REST"
 				},
 				{
 					"id": 17,
-					"conceptName": "Java EE",
-					"URL": "http://www.urldelconcepto.com"
+					"conceptName": "Java EE"
 				},
 				{
 					"id": 18,
-					"conceptName": "Javascript",
-					"URL": "http://www.urldelconcepto.com"
+					"conceptName": "Javascript"
 				},
 				{
 					"id": 19,
-					"conceptName": "HTML",
-					"URL": "http://www.urldelconcepto.com"
+					"conceptName": "HTML"
 				},
 				{
 					"id": 20,
-					"conceptName": "CSS",
-					"URL": "http://www.urldelconcepto.com"
+					"conceptName": "CSS"
 				},
 				{
 					"id": 21,
-					"conceptName": "Base de datos",
-					"URL": "http://www.urldelconcepto.com"
+					"conceptName": "Base de datos"
 				},
 				{
 					"id": 22,
-					"conceptName": "Adobe Flash",
-					"URL": "http://www.urldelconcepto.com"
+					"conceptName": "Adobe Flash"
 				},
 				{
 					"id": 23,
-					"conceptName": "TCP",
-					"URL": "http://www.urldelconcepto.com"
+					"conceptName": "TCP"
 				},
 				{
 					"id": 24,
-					"conceptName": "Navegador",
-					"URL": "http://www.urldelconcepto.com"
+					"conceptName": "Navegador"
 				}
     		]
 		}
@@ -260,8 +250,7 @@ The following queries will be preceded by /chapters/{id}/concepts
 	-	Data Params:
 		```
 			{
-				"conceptName": "concepto prueba",
-				"URL": "http://www.urldelconcepto.com"
+				"conceptName": "concepto prueba"
 			}
 		```
         
@@ -277,7 +266,7 @@ The following queries will be preceded by /chapters/{id}/concepts
 #### Modify concept
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#url-6)URL
     
-    < /chapters/{id}/concepts/{conceptId} >
+    < /concepts/{conceptId} >
     
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#method-6)Method:
     
@@ -285,12 +274,11 @@ The following queries will be preceded by /chapters/{id}/concepts
 
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-6)URL Params:
 
-	- 	id=[long]
 	- 	conceptId=[long] 
     
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-6)Example of query:
     
-    -   URL:  `/api/chapters/4/concepts/16`
+    -   URL:  `/api/concepts/16`
 	-   Data Params:
 		```
 			{
@@ -330,11 +318,35 @@ The following queries will be preceded by /chapters/{id}/concepts
 	```
 		{
 			"id": 56,
-			"conceptName": "concepto prueba",
-			"URL": "http://www.urldelconcepto.com"
+			"conceptName": "concepto prueba"
 		}
 	```
 
+#### Show url of concept
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#url-27)URL
+    
+    < /concepts/{conceptId} >
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#method-27)Method:
+    
+    `GET`
+
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-27)URL Params:
+
+	- 	conceptId=[long] 
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-27)Example of query:
+    
+    -   URL:  `/api/concepts/16`
+        
+- ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-27)Success Response:
+	```
+		{
+    		"id": 16,
+    		"conceptName": "concepto prueba",
+			"URL": "http://www.urldelconcepto.com"
+		}
+	```
 
 ## Diagram
 The following queries will be preceded by /diagraminfo
@@ -446,31 +458,6 @@ The following queries will be preceded by /diagraminfo
 
 ## Answers
 The following queries will be preceded by /concepts/{id}
-#### Show marked answer
--   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#url-9)URL
-    
-    < /concepts/{id} >
-    
--   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#method-9)Method:
-    
-    `GET`
-    
--   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-9)URL Params:
-    
-	-	id=[long]
-
--   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-9)Example of query:
-    
-    -   URL: `/api/concepts/15`
-        
-- ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-9) Success Response:
-	```
-	{
-		"id": 15,
-		"conceptName": "Spring",
-		"URL": "http://www.urldelconcepto.com"
-	}
-	```
 #### Show marked answer
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#url-9)URL
     
@@ -602,6 +589,58 @@ The following queries will be preceded by /concepts/{id}
 		}
 	```
 
+#### Show marked answer with unmarked justification
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#url-28)URL
+    
+    < /concepts/{id}/unmarkedjustifications >
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#method-28)Method:
+    
+    `GET`
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-28)URL Params:
+    
+	-	id=[long]
+    -   page=[int]
+
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-28)Example of query:
+    
+    -   URL:  `/api/concepts/15/unmarkedjustifications?page=0`
+        
+- 	##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-28) Success Response:
+	```
+		{
+			"size": 10,
+			"number": 0,
+			"totalElements": 1,
+			"last": true,
+			"totalPages": 1,
+			"sort": {
+				"sorted": false,
+				"unsorted": true,
+				"empty": true
+			},
+			"first": true,
+			"numberOfElements": 1,
+			"content": [
+				{
+					"id": 42,
+					"justificationText": "ES UNA IMPLEMENTACIÓN DE JPA",
+					"marked": false,
+					"valid": false,
+					"error": null,
+					"answer": {
+						"id": 31,
+						"answerText": "UN FRAMEWORK COMERCIAL",
+						"marked": true,
+						"correct": false
+					}
+				}
+			]
+		}
+	```
+
+
 #### Show unmarked answer
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#url-10)URL
     
@@ -658,7 +697,7 @@ The following queries will be preceded by /concepts/{id}
     
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-11)Example of query:
     
-    -   URL: `/api/concepts/15/answers/`
+    -   URL: `/api/concepts/15/answers`
 	-	Data Params:
 		```
 			{
@@ -715,15 +754,7 @@ The following queries will be preceded by /concepts/{id}
 			"answerText": "RESPUESTA ACTUALIZADA",
 			"marked": true,
 			"correct": false,
-			"justifications": [
-				{
-					"id": 56,
-					"justificationText": "nueva justificacion",
-					"marked": true,
-					"valid": false,
-					"error": "nuevo error"
-				}
-			]
+			"justifications": []
 		}
 	```
 
@@ -803,7 +834,56 @@ The following queries will be preceded by /concepts/{id}
 	```
 
 ## Justifications
-The following queries will be preceded by /answers/{answerId}
+The following queries will be preceded by /answers/{answerId} except show marked justifications of marked answer which will be preceded by /concepts/{conceptId}/answers/{answerId}
+
+#### Show marked justifications of marked answer
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#url-29)URL
+    
+    < /concepts/{conceptId}/answers/{answerId}/markedjustifications >
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#method-29)Method:
+    
+    `GET`
+    
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#params-29)URL Params:
+    
+	-	conceptId=[long]
+	-	answerId=[long]
+    -   page=[int]
+
+-   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#example-29)Example of query:
+    
+    -   URL:  `concepts/15/answers/29/markedjustifications?page=0`
+        
+- 	##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-29) Success Response:
+	```
+		{
+			"size": 10,
+			"number": 0,
+			"totalElements": 1,
+			"last": true,
+			"totalPages": 1,
+			"sort": {
+				"sorted": false,
+				"unsorted": true,
+				"empty": true
+			},
+			"first": true,
+			"numberOfElements": 1,
+			"content": [
+				{
+					"id": 40,
+					"justificationText": "SÓLO SE PUEDE UTILIZAR PARA DESARROLLAR SERVICIOS REST",
+					"marked": true,
+					"valid": false,
+					"error": "SPRING PERMITE EL DESARROLLO DE DIVERSOS TIPOS DE APLICACIONES DE SERVIDOR: APLICACIONES WEB, SERVICIOS REST, ANÁLISIS DE DATOS BIG DATA...",
+					"answer": {
+						"id": 29
+					}
+				}
+			]
+		}
+	```
 
 #### New justification
 -   ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#url-15)URL
@@ -836,10 +916,10 @@ The following queries will be preceded by /answers/{answerId}
 	```
 		{
 			"id": 56,
-			"answerText": "respuesta de prueba",
+			"justificationText": "justificacion añadida",
 			"marked": true,
-			"correct": true,
-			"justifications": []
+			"valid": true,
+			"error": "no se vera"
 		}
 	```
 
@@ -941,10 +1021,10 @@ The following queries will be preceded by /answers/{answerId}
 	```
 		{
 			"id": 56,
-			"answerText": "respuesta de prueba",
+			"justificationText": "nuevo texto",
 			"marked": true,
-			"correct": true,
-			"justifications": []
+			"valid": false,
+			"error": "nuevo error "
 		}
 	```
 
@@ -1096,7 +1176,7 @@ The following queries are preceded by /concepts/{id}
 		{
 			"size": 10,
 			"number": 0,
-			"totalElements": 11,
+			"totalElements": 12,
 			"last": false,
 			"totalPages": 2,
 			"sort": {
@@ -1114,7 +1194,11 @@ The following queries are preceded by /concepts/{id}
 					"yesNoQuestion": true,
 					"userResponse": true,
 					"marked": true,
-					"correct": true
+					"correct": true,
+					"answer": {
+						"answerText": "UN FRAMEWORK QUE PERMITE A UNA APLICACIÓN EJECUTARSE TANTO EN UN SERVIDOR DE APLICACIONES COMO EN UN SERVIDOR WEB"
+					},
+					"justification": null
 				},
 				{
 					"id": 44,
@@ -1123,7 +1207,27 @@ The following queries are preceded by /concepts/{id}
 					"yesNoQuestion": true,
 					"userResponse": true,
 					"marked": true,
-					"correct": false
+					"correct": false,
+					"answer": {
+						"answerText": "UN FRAMEWORK DE DESARROLLO DE APLICACIONES WEB"
+					},
+					"justification": {
+						"id": 40,
+						"justificationText": "SÓLO SE PUEDE UTILIZAR PARA DESARROLLAR SERVICIOS REST"
+					}
+				},
+				{
+					"id": 45,
+					"questionText": "¿QUÉ ES SPRING?",
+					"type": 0,
+					"yesNoQuestion": false,
+					"userResponse": false,
+					"marked": true,
+					"correct": false,
+					"answer": {
+						"answerText": "UN FRAMEWORK DE DESARROLLO DE APLICACIONES EMPRESARIALES BASADO EN JAVA"
+					},
+					"justification": null
 				},
 				{
 					"id": 47,
@@ -1132,7 +1236,11 @@ The following queries are preceded by /concepts/{id}
 					"yesNoQuestion": true,
 					"userResponse": true,
 					"marked": true,
-					"correct": true
+					"correct": true,
+					"answer": {
+						"answerText": "UN FRAMEWORK QUE PERMITE A UNA APLICACIÓN EJECUTARSE TANTO EN UN SERVIDOR DE APLICACIONES COMO EN UN SERVIDOR WEB"
+					},
+					"justification": null
 				},
 				{
 					"id": 48,
@@ -1141,7 +1249,11 @@ The following queries are preceded by /concepts/{id}
 					"yesNoQuestion": true,
 					"userResponse": true,
 					"marked": true,
-					"correct": true
+					"correct": true,
+					"answer": {
+						"answerText": "UN FRAMEWORK QUE PERMITE A UNA APLICACIÓN EJECUTARSE TANTO EN UN SERVIDOR DE APLICACIONES COMO EN UN SERVIDOR WEB"
+					},
+					"justification": null
 				},
 				{
 					"id": 49,
@@ -1150,7 +1262,11 @@ The following queries are preceded by /concepts/{id}
 					"yesNoQuestion": true,
 					"userResponse": true,
 					"marked": true,
-					"correct": true
+					"correct": true,
+					"answer": {
+						"answerText": "UN FRAMEWORK QUE PERMITE A UNA APLICACIÓN EJECUTARSE TANTO EN UN SERVIDOR DE APLICACIONES COMO EN UN SERVIDOR WEB"
+					},
+					"justification": null
 				},
 				{
 					"id": 50,
@@ -1159,7 +1275,11 @@ The following queries are preceded by /concepts/{id}
 					"yesNoQuestion": true,
 					"userResponse": true,
 					"marked": true,
-					"correct": true
+					"correct": true,
+					"answer": {
+						"answerText": "UN FRAMEWORK QUE PERMITE A UNA APLICACIÓN EJECUTARSE TANTO EN UN SERVIDOR DE APLICACIONES COMO EN UN SERVIDOR WEB"
+					},
+					"justification": null
 				},
 				{
 					"id": 51,
@@ -1168,7 +1288,11 @@ The following queries are preceded by /concepts/{id}
 					"yesNoQuestion": true,
 					"userResponse": true,
 					"marked": true,
-					"correct": true
+					"correct": true,
+					"answer": {
+						"answerText": "UN FRAMEWORK QUE PERMITE A UNA APLICACIÓN EJECUTARSE TANTO EN UN SERVIDOR DE APLICACIONES COMO EN UN SERVIDOR WEB"
+					},
+					"justification": null
 				},
 				{
 					"id": 52,
@@ -1177,7 +1301,11 @@ The following queries are preceded by /concepts/{id}
 					"yesNoQuestion": true,
 					"userResponse": true,
 					"marked": true,
-					"correct": true
+					"correct": true,
+					"answer": {
+						"answerText": "UN FRAMEWORK QUE PERMITE A UNA APLICACIÓN EJECUTARSE TANTO EN UN SERVIDOR DE APLICACIONES COMO EN UN SERVIDOR WEB"
+					},
+					"justification": null
 				},
 				{
 					"id": 53,
@@ -1186,16 +1314,11 @@ The following queries are preceded by /concepts/{id}
 					"yesNoQuestion": true,
 					"userResponse": true,
 					"marked": true,
-					"correct": true
-				},
-				{
-					"id": 54,
-					"questionText": "¿ES CORRECTO AFIRMAR QUE SPRING ES UN FRAMEWORK QUE PERMITE A UNA APLICACIÓN EJECUTARSE TANTO EN UN SERVIDOR DE APLICACIONES COMO EN UN SERVIDOR WEB?",
-					"type": 2,
-					"yesNoQuestion": true,
-					"userResponse": true,
-					"marked": true,
-					"correct": true
+					"correct": true,
+					"answer": {
+						"answerText": "UN FRAMEWORK QUE PERMITE A UNA APLICACIÓN EJECUTARSE TANTO EN UN SERVIDOR DE APLICACIONES COMO EN UN SERVIDOR WEB"
+					},
+					"justification": null
 				}
 			]
 		}
@@ -1226,7 +1349,7 @@ The following queries are preceded by /concepts/{id}
 		{
 			"size": 10,
 			"number": 0,
-			"totalElements": 2,
+			"totalElements": 1,
 			"last": true,
 			"totalPages": 1,
 			"sort": {
@@ -1235,17 +1358,8 @@ The following queries are preceded by /concepts/{id}
 				"empty": true
 			},
 			"first": true,
-			"numberOfElements": 2,
+			"numberOfElements": 1,
 			"content": [
-				{
-					"id": 45,
-					"questionText": "¿QUÉ ES SPRING?",
-					"type": 0,
-					"yesNoQuestion": false,
-					"userResponse": false,
-					"marked": false,
-					"correct": false
-				},
 				{
 					"id": 46,
 					"questionText": "¿POR QUÉ NO ES CORRECTO AFIRMAR QUE SPRING ES UN FRAMEWORK COMERCIAL?",
@@ -1253,7 +1367,14 @@ The following queries are preceded by /concepts/{id}
 					"yesNoQuestion": false,
 					"userResponse": false,
 					"marked": false,
-					"correct": false
+					"correct": false,
+					"answer": {
+						"answerText": "UN FRAMEWORK COMERCIAL"
+					},
+					"justification": {
+						"id": 42,
+						"justificationText": "ES UNA IMPLEMENTACIÓN DE JPA"
+					}
 				}
 			]
 		}
@@ -1281,12 +1402,24 @@ The following queries are preceded by /concepts/{id}
 	```
 		{
 			"id": 0,
-			"questionText": "¿ES CIERTO QUE SPRING NO ES UN FRAMEWORK DE DESARROLLO DE APLICACIONES WEB PORQUE SÓLO SE PUEDE UTILIZAR PARA DESARROLLAR SERVICIOS REST?",
+			"questionText": "¿ES CIERTO QUE SPRING NO ES UN FRAMEWORK DE DESARROLLO DE APLICACIONES EMPRESARIALES BASADO EN JAVA PORQUE NO ES CORRECTO?",
 			"type": 3,
 			"yesNoQuestion": true,
 			"userResponse": false,
 			"marked": false,
-			"correct": false
+			"correct": false,
+			"answer": {
+				"id": 30,
+				"answerText": "UN FRAMEWORK DE DESARROLLO DE APLICACIONES EMPRESARIALES BASADO EN JAVA",
+				"marked": true
+			},
+			"justification": {
+				"id": 59,
+				"justificationText": "NO ES CORRECTO",
+				"marked": true,
+				"valid": true,
+				"error": null
+			}
 		}
 	```
 
@@ -1322,8 +1455,16 @@ The following queries are preceded by /concepts/{id}
 - ##### [](https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/tree/master/API.md#success-26)Success Response:
 	```
 		{
-			"id": 56,
-			"answerText": "TEXTO DE RESPUES",
-			"marked": false
+			"id": 64,
+			"questionText": "¿ES CORRECTO AFIRMAR QUE SPRING ES UN FRAMEWORK PARA DESARROLLAR APLICACIONES WEB, SERVICIOS REST, WEBSOCKETS, ANÁLISIS DE BIG DATA...?",
+			"type": 2,
+			"yesNoQuestion": true,
+			"userResponse": true,
+			"marked": true,
+			"correct": true,
+			"answer": {
+				"answerText": "UN FRAMEWORK PARA DESARROLLAR APLICACIONES WEB, SERVICIOS REST, WEBSOCKETS, ANÁLISIS DE BIG DATA..."
+			},
+			"justification": null
 		}
 	```

@@ -74,7 +74,7 @@ public class RestChapterController {
 		return new ResponseEntity<>(con, HttpStatus.ACCEPTED);
 	}
 
-	@JsonView(Concept.Basic.class)
+	@JsonView(Concept.Url.class)
 	@PostMapping("/chapters/{id}/concepts")
 	public ResponseEntity<Concept> addConcept(@PathVariable long id, @RequestBody Concept concept) {
 		Chapter chapter = chapterService.findById(id);
