@@ -446,7 +446,7 @@ export class TeacherComponent {
 
   private editJustificationServiceCall(oldJustification: Justification, justificationText: string, valid: boolean, error: string) {
     this.justificationService
-    .editJustification(this.id, justificationText, !valid)
+    .editJustification(this.id, justificationText, !valid, error)
     .subscribe(
       data => {
         console.log(data);
