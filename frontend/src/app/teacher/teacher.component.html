@@ -231,6 +231,7 @@
                   id="correct{{ ans.id }}"
                   [checked]="false"
                   value="yes"
+                  #unmarkedAnsCorrect
                 >
                   Correcta
                 </mat-radio-button>
@@ -242,14 +243,15 @@
                   id="incorrect{{ ans.id }}"
                   [checked]="false"
                   value="no"
+                  #unmarkedAnsIncorrect
                 >
                   Incorrecta
                 </mat-radio-button>
               </td>
             </mat-radio-group>
           </table>
-          <button mat-raised-button color="primary">
-            <span>Corregir (no hace na)</span>
+          <button mat-raised-button color="primary" (click)="markAnswer(ans, unmarkedAnsCorrect.checked, unmarkedAnsIncorrect.checked)">
+            <span>Corregir</span>
           </button>
         </div>
         <mat-divider></mat-divider>

@@ -6,6 +6,7 @@ com/group5/definitions/model/Answer$Justifications.class
 com/group5/definitions/model/Question.class
 com/group5/definitions/usersession/Tab.class
 com/group5/definitions/DatabaseInfoLoader.class
+com/group5/definitions/restcontrollers/RestConceptControllerTeacher$JustificationsPerAnswer.class
 com/group5/definitions/restcontrollers/RestImageController.class
 com/group5/definitions/security/CSRFHandlerConfiguration.class
 com/group5/definitions/services/AnswerService.class
@@ -17,6 +18,7 @@ com/group5/definitions/model/Concept$Chapters.class
 com/group5/definitions/model/Concept$Answers.class
 com/group5/definitions/services/ImageService.class
 com/group5/definitions/repositories/ChapterRepository.class
+com/group5/definitions/model/Answer$IdOnly.class
 com/group5/definitions/model/Chapter$Concepts.class
 com/group5/definitions/controllers/TeacherController.class
 com/group5/definitions/controllers/ChapterController.class
@@ -43,6 +45,8 @@ com/group5/definitions/model/User.class
 com/group5/definitions/services/ConceptService.class
 com/group5/definitions/model/Question$Basic.class
 com/group5/definitions/services/JustificationService.class
+com/group5/definitions/restcontrollers/RestConceptControllerTeacher$JustificationsUnmarked.class
+com/group5/definitions/restcontrollers/RestConceptControllerStudent$NewQuestion.class
 com/group5/definitions/model/Concept.class
 com/group5/definitions/model/Answer$Basic.class
 com/group5/definitions/utilities/QuestionMarker.class
@@ -54,6 +58,7 @@ com/group5/definitions/usersession/UserSessionService.class
 com/group5/definitions/services/ChapterService.class
 com/group5/definitions/model/Justification.class
 com/group5/definitions/controllers/CustomErrorController.class
+com/group5/definitions/model/Justification$AnswerView.class
 com/group5/definitions/repositories/AnswerRepository.class
 com/group5/definitions/security/LoginController.class
 com/group5/definitions/controllers/CustomWebMvcConfigurerAdapter.class

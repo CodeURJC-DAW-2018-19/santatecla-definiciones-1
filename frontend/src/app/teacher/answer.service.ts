@@ -55,13 +55,29 @@ export class AnswerService {
     );
   }
 
-  editAnswer(conceptId: number, answerId: number, answerText: string, correct: boolean) {
+  editAnswer(
+    conceptId: number,
+    answerId: number,
+    answerText: string,
+    correct: boolean
+  ) {
     let body = {
       answerText: answerText,
       correct: correct
     };
     return this.http.put(
       this.apiUrl + "/concepts/" + conceptId + "/answers/" + answerId,
+      body,
+      { headers: this.headers, withCredentials: true }
+    );
+  }
+
+  markAnswer(conceptId: number, answerId: number, correct: boolean) {
+    let body = {
+      correct: correct
+    };
+    return this.http.put(
+      this.apiUrl + "/concepts/" + conceptId + "/correct/" + answerId,
       body,
       { headers: this.headers, withCredentials: true }
     );
