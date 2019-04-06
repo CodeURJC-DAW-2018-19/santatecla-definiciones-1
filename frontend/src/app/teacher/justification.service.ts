@@ -62,14 +62,14 @@ export class JustificationService {
          { withCredentials: true }
       );
    }
-   editJustification(answerId: number, justificationText: string, correct: boolean, error: string) {
+   editJustification(answerId: number, justId: number, justificationText: string, valid: boolean, error: string) {
       let body = {
          justificationText: justificationText,
-         correct: correct,
+         valid: valid,
          error: error
        };
        return this.http.put(
-         this.apiUrl + "/answers/" + answerId+ "/justifications",
+         this.apiUrl + "/answers/" + answerId+ "/justifications/" + justId,
          body,
          { headers: this.headers, withCredentials: true }
    );
