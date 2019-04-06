@@ -477,10 +477,54 @@ export class TeacherComponent {
             oldAnswer.correct = correct;
           }
         },
+        error => console.log(error)
+      );
+    }
+  }
+  editJustification(
+    oldJustification: Justification,
+    justificationText: string,
+    valid: boolean,
+    error: string
+  ) {
+    this.editJustificationServiceCall(
+      oldJustification,
+      justificationText,
+      valid,
+      error
+    );
+  }
+
+  private editJustificationServiceCall(
+    oldJustification: Justification,
+    justificationText: string,
+    valid: boolean,
+    error: string
+  ) {
+    this.justificationService
+      .editJustification(
+        this.id,
+        oldJustification.id,
+        justificationText,
+        valid,
+        error
+      )
+      .subscribe(
+        data => {
+          console.log(data);
+          oldJustification.justificationText = justificationText;
+          oldJustification.valid = valid;
+          if (!valid) {
+            oldJustification.error = error;
+          } else {
+            error = null;
+            oldJustification.error = null;
+          }
+          //TODO: Show edited justification dynamically yada yada yada (classic stuff)
+        },
         error => {
           console.log(error);
         }
       );
-    }
   }
 }
