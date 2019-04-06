@@ -1,7 +1,8 @@
 import { Component } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { TeacherService } from "./teacher.service";
-import { Concept } from '../home/concept.model';
+import { Concept } from "../home/concept.model";
+import { TdDialogService } from '@covalent/core';
 
 /**
  * Url changer for teacher
@@ -17,7 +18,8 @@ export class UrlChangerComponent {
   constructor(
     private router: Router,
     activatedRoute: ActivatedRoute,
-    private teacherService: TeacherService
+    private teacherService: TeacherService,
+    private dialogService: TdDialogService
   ) {
     this.id = activatedRoute.snapshot.params["id"];
     this.teacherService
@@ -34,8 +36,15 @@ export class UrlChangerComponent {
     this.teacherService
       .updateConceptInfo(this.id, conceptInfo)
       .subscribe(
-        (data: Concept) => (this.url = data["URL"]),
-        error => console.log(error)
+        (data: Concept) => {this.url = data["URL"];
+        this.dialogService.openAlert({
+          message: "URL guardada correctamente.",
+          closeButton: "Cerrar"
+        });},
+        error => this.dialogService.openAlert({
+          message: "Error al guardar la URL.",
+          closeButton: "Cerrar"
+        })
       );
   }
 }
