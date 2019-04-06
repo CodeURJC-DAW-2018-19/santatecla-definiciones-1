@@ -65,7 +65,7 @@ export class TeacherComponent {
     private justificationService: JustificationService,
     private dialogService: TdDialogService
   ) {
-    this.router.routeReuseStrategy.shouldReuseRoute = function() {
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
       return false;
     };
     this.id = activatedRoute.snapshot.params["id"];
@@ -317,7 +317,7 @@ export class TeacherComponent {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.addJustToMarkedAnswer(result, answerId);
+        this.addJustToMarkedAnswer(result, answerId)
       }
     });
   }
@@ -467,14 +467,44 @@ export class TeacherComponent {
             });
             dialogRef.afterClosed().subscribe(result => {
               if (result) {
-                //TODO: Remove from unmarked answers and move to marked answers
+                //delete from unmarked
+                const index = this.unmarkedAnswers.indexOf(oldAnswer, 0);
+                if (index >= 0) {
+                  this.unmarkedAnswers.splice(index, 1);
+                  this.dataSourceUnmarked = new MatTableDataSource(
+                    this.unmarkedAnswers
+                  );
+                }
+                //show in marked
+                this.markedAnswers.push(result);
+                this.dataSourceMarked = new MatTableDataSource(this.markedAnswers);
+                //show just
+                result.justifications.forEach(jus =>
+                  this.addJustToMarkedAnswer(result.id, jus)
+                );
                 //Note: It may be needed to show the new justification
                 oldAnswer.correct = correct;
               }
             });
           } else {
-            //TODO: Remove from unmarked answers and move to marked answers
-            oldAnswer.correct = correct;
+            //delete from unmarked
+            const index = this.unmarkedAnswers.indexOf(oldAnswer, 0);
+            if (index >= 0) {
+              this.unmarkedAnswers.splice(index, 1);
+              this.dataSourceUnmarked = new MatTableDataSource(
+                this.unmarkedAnswers
+              );
+            }
+            //show in marked
+            let ans: Answer = {
+              id: oldAnswer.id,
+              answerText: oldAnswer.answerText,
+              correct: true,
+              marked: true,
+              justifications: []
+            }
+            this.markedAnswers.push(ans);
+            this.dataSourceMarked = new MatTableDataSource(this.markedAnswers);
           }
         },
         error => {
