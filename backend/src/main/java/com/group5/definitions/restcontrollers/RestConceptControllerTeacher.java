@@ -227,20 +227,7 @@ public class RestConceptControllerTeacher {
 	public ResponseEntity<Answer> correctAnswer(@PathVariable long conceptId, @PathVariable long answerId,
 			@RequestBody Map<String, Object> body) {
 		Boolean correct = body.get("correct").toString().equals("true");
-		String justificationTextNew = null;
-		if (body.get("justificationTextNew") != null)
-			justificationTextNew = body.get("justificationTextNew").toString();
 		Answer answer = answerService.getOne(answerId);
-		if (!correct) {
-			if (justificationTextNew != null) {
-				Justification jus = new Justification(justificationTextNew, true, answer.getUser());
-				jus.setValid(true);
-				jus.setAnswer(answer);
-				justificationService.save(jus);
-				answer.addJustification(jus);
-			} else
-				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
 		answer.setCorrect(correct);
 		answer.setMarked(true);
 		for (Question q : answer.getQuestions()) {

@@ -65,7 +65,7 @@ export class TeacherComponent {
     private justificationService: JustificationService,
     private dialogService: TdDialogService
   ) {
-    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+    this.router.routeReuseStrategy.shouldReuseRoute = function() {
       return false;
     };
     this.id = activatedRoute.snapshot.params["id"];
@@ -198,7 +198,9 @@ export class TeacherComponent {
                 this.markedJust.set(answerId, []);
               }
               this.markedJustPage.set(answerId, page);
-              data.content.forEach(justification => this.addJustToMarkedAnswer(justification, answerId));
+              data.content.forEach(justification =>
+                this.addJustToMarkedAnswer(justification, answerId)
+              );
             }
           },
           error =>
@@ -301,7 +303,9 @@ export class TeacherComponent {
     dialogRef.afterClosed().subscribe(result => {
       this.markedAnswers.push(result);
       this.dataSourceMarked = new MatTableDataSource(this.markedAnswers);
-      result.justifications.forEach(jus => this.addJustToMarkedAnswer(result.id, jus));
+      result.justifications.forEach(jus =>
+        this.addJustToMarkedAnswer(result.id, jus)
+      );
     });
   }
 
@@ -370,7 +374,7 @@ export class TeacherComponent {
       this.dialogService.openAlert({
         message: "Es necesario especificar si la justificación es válida o no.",
         closeButton: "Cerrar"
-      })
+      });
     } else {
       if (errorText) {
         this.justificationService
@@ -384,7 +388,9 @@ export class TeacherComponent {
               const index = this.unmarkedJust.indexOf(oldJus, 0);
               if (index >= 0) {
                 this.unmarkedJust.splice(index, 1);
-                this.dataSourceJustUnmarked = new MatTableDataSource(this.unmarkedJust);
+                this.dataSourceJustUnmarked = new MatTableDataSource(
+                  this.unmarkedJust
+                );
               }
               // show just with marked answers
               let newJus: Justification = {
@@ -392,8 +398,8 @@ export class TeacherComponent {
                 justificationText: oldJus.justificationText,
                 marked: true,
                 valid: false,
-                error: errorText,
-              }
+                error: errorText
+              };
               this.addJustToMarkedAnswer(newJus, answerId);
             },
             error => console.log(error)
@@ -411,15 +417,17 @@ export class TeacherComponent {
                 const index = this.unmarkedJust.indexOf(oldJus, 0);
                 if (index >= 0) {
                   this.unmarkedJust.splice(index, 1);
-                  this.dataSourceJustUnmarked = new MatTableDataSource(this.unmarkedJust);
+                  this.dataSourceJustUnmarked = new MatTableDataSource(
+                    this.unmarkedJust
+                  );
                 }
                 // show just with marked answers
                 let newJus: Justification = {
                   id: justId,
                   justificationText: oldJus.justificationText,
                   marked: true,
-                  valid: true,
-                }
+                  valid: true
+                };
                 this.addJustToMarkedAnswer(newJus, answerId);
               },
               error => console.log(error)
@@ -439,5 +447,40 @@ export class TeacherComponent {
     let justOfAnswer = this.markedJust.get(ansId).concat(jus);
     this.markedJust.set(ansId, justOfAnswer);
     this.dataSourceJustmarked.set(ansId, new MatTableDataSource(justOfAnswer));
+  }
+
+  markAnswer(oldAnswer: Answer, correct: boolean, incorrect: boolean) {
+    if (!correct && !incorrect) {
+      this.dialogService.openAlert({
+        message: "Es necesario especificar si la respuesta es correcta o no.",
+        closeButton: "Cerrar"
+      });
+    } else {
+      this.answerService.markAnswer(this.id, oldAnswer.id, correct).subscribe(
+        data => {
+          console.log(data);
+          if (incorrect) {
+            let dialogRef = this.answerDialog.open(NewJustComponent, {
+              data: {
+                id: oldAnswer.id
+              }
+            });
+            dialogRef.afterClosed().subscribe(result => {
+              if (result) {
+                //TODO: Remove from unmarked answers and move to marked answers
+                //Note: It may be needed to show the new justification
+                oldAnswer.correct = correct;
+              }
+            });
+          } else {
+            //TODO: Remove from unmarked answers and move to marked answers
+            oldAnswer.correct = correct;
+          }
+        },
+        error => {
+          console.log(error);
+        }
+      );
+    }
   }
 }
