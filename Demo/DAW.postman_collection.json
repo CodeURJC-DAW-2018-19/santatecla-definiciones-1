@@ -663,6 +663,21 @@
 		{
 			"name": "https://localhost:8080/api/concepts/15/unmarkedanswers",
 			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "adminpass",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"body": {
@@ -670,7 +685,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "https://localhost:8080/api/concepts/15/unmarkedanswers",
+					"raw": "https://localhost:8080/api/concepts/15/unmarkedjustifications",
 					"protocol": "https",
 					"host": [
 						"localhost"
@@ -680,7 +695,48 @@
 						"api",
 						"concepts",
 						"15",
-						"unmarkedanswers"
+						"unmarkedjustifications"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:8080/api/concepts/15/unmarkedjustifications",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "adminpass",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:8080/api/concepts/15/unmarkedjustifications",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"concepts",
+						"15",
+						"unmarkedjustifications"
 					]
 				}
 			},
