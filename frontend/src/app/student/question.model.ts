@@ -1,4 +1,4 @@
-import { AnswerStudent } from './answerStudent.model';
+import { Answer } from '../teacher/answer.model';
 import { JustificationStudent } from './justificationStudent.model';
 
 export interface Question {
@@ -9,6 +9,6 @@ export interface Question {
     userResponse: boolean;
     marked: boolean;
     correct: boolean;
-    answer?: AnswerStudent;
+    answer?: Answer;
     justification?: JustificationStudent;
 }
