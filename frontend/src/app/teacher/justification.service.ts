@@ -62,6 +62,17 @@ export class JustificationService {
          { withCredentials: true }
       );
    }
+   editJustification(answerId: number, justificationText: string, correct: boolean) {
+      let body = {
+         justificationText: justificationText,
+         correct: correct
+       };
+       return this.http.put(
+         this.apiUrl + "/answers/" + answerId+ "/justifications",
+         body,
+         { headers: this.headers, withCredentials: true }
+   );
+   }  
 
    markJustification(answerId, justId, valid, errorText?) {
       let body = {

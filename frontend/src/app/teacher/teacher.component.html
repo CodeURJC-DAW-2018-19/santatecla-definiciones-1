@@ -153,6 +153,15 @@
                     <mat-icon></mat-icon>
                   </button>
                 </td>
+                <td>
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    (click)="editJustification(jus, justificationText.value, !jus.valid)"
+                  >
+                    <mat-icon>build</mat-icon>Editar
+                  </button>
+              </td>
               </table>
             </a>
             <mat-divider></mat-divider>
