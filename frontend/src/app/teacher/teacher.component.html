@@ -157,7 +157,7 @@
                   <button
                     mat-raised-button
                     color="primary"
-                    (click)="editJustification(jus, justificationText.value, !jus.valid)"
+                    (click)="editJustification(jus, justificationText.value, jus.valid, error)"
                   >
                     <mat-icon>build</mat-icon>Editar
                   </button>

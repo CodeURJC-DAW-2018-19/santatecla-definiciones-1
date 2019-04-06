@@ -440,32 +440,30 @@ export class TeacherComponent {
     this.markedJust.set(ansId, justOfAnswer);
     this.dataSourceJustmarked.set(ansId, new MatTableDataSource(justOfAnswer));
   }
-  editJustification(oldJustification: Justification, justificationText: string, incorrect: boolean) {
-    this.editJustificationServiceCall(oldJustification, justificationText, incorrect);
+  editJustification(oldJustification: Justification, justificationText: string, valid: boolean, error: string) {
+    this.editJustificationServiceCall(oldJustification, justificationText, valid, error);
   }
 
-  private editJustificationServiceCall(oldJustification: Justification, justificationText: string, valid: boolean) {
+  private editJustificationServiceCall(oldJustification: Justification, justificationText: string, valid: boolean, error: string) {
     this.justificationService
     .editJustification(this.id, justificationText, !valid)
     .subscribe(
       data => {
         console.log(data);
-        if (valid && oldJustification.valid) {
-          let dialogRef = this.answerDialog.open(NewJustComponent, {
-            data: {
-              justificationText: oldJustification,
-            }
-          });
-          dialogRef.afterClosed().subscribe(result => {
-            if (result) {
+        if (!valid && oldJustification.valid) {
               oldJustification.justificationText = justificationText;
-              oldJustification.valid = !valid;
-            }
-          });
-        } else if (!valid && !oldJustification.valid) {
+          }
+        
+        else if (!valid && !oldJustification.valid) {
           oldJustification.justificationText = justificationText;
           oldJustification.valid = !valid;
         }
+        else{
+          oldJustification.justificationText = justificationText;
+          oldJustification.valid = valid;
+          error = null;
+        }
+
       },
     error => {
       console.log(error);
