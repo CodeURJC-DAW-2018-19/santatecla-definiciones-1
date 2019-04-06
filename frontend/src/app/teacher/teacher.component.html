@@ -71,11 +71,17 @@
               >
                 <mat-icon>delete</mat-icon> Borrar
               </button>
-              
+
               <button
                 mat-raised-button
                 color="primary"
-                (click)="editAnswer(ans, answerText.value, markedAnswerIncorrect.checked)"
+                (click)="
+                  editAnswer(
+                    ans,
+                    answerText.value,
+                    markedAnswerIncorrect.checked
+                  )
+                "
               >
                 <mat-icon>build</mat-icon>Editar
               </button>
@@ -124,7 +130,7 @@
                     </mat-radio-group>
                   </table>
                 </td>
-                <td *ngIf="!jus.valid">
+                <td [hidden]="jus.valid">
                   <mat-card-subtitle> ERROR: </mat-card-subtitle>
                   <textarea
                     value="{{ jus.error }}"
@@ -333,6 +339,7 @@
                       name="valid{{ jus.id }}"
                       [checked]="false"
                       value="yes"
+                      #validRadio
                     >
                       Válida
                     </mat-radio-button>
@@ -351,25 +358,36 @@
                 </mat-radio-group>
               </table>
             </td>
-            <td *ngIf="invalidRadio.checked">
+            <td [hidden]="!invalidRadio.checked">
               <mat-card-subtitle> ERROR: </mat-card-subtitle>
               <textarea
-                value="{{ jus.error }}"
                 style="width: 200%"
                 rows="3"
                 autocapitalize="characters"
+                #errorMarkJust
               ></textarea>
             </td>
           </table>
-          <button
-            mat-raised-button
-            color="primary"
-            (click)="getUnmarkedJustifications()"
-          >
-            <span>Mostrar más</span>
-          </button>
+          <table class="btnPanel">
+            <td>
+              <button
+                mat-raised-button
+                (click)="this.markJust(jus.answer.id, jus.id, invalidRadio.checked, validRadio.checked, errorMarkJust?.value)"
+                color="primary"
+              >
+                <mat-icon>done</mat-icon>Corregir
+              </button>
+            </td>
+          </table>
         </div>
       </div>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="getUnmarkedJustifications()"
+      >
+        <span>Mostrar más</span>
+      </button>
     </mat-nav-list>
   </mat-card>
 </div>

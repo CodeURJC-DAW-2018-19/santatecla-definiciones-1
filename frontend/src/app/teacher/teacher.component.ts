@@ -65,7 +65,7 @@ export class TeacherComponent {
     private justificationService: JustificationService,
     private dialogService: TdDialogService
   ) {
-    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+    this.router.routeReuseStrategy.shouldReuseRoute = function() {
       return false;
     };
     this.id = activatedRoute.snapshot.params["id"];
@@ -303,14 +303,15 @@ export class TeacherComponent {
         id: this.id
       }
     });
-    dialogRef.afterClosed().subscribe(
-      result => {
-        this.markedAnswers.push(result);
-        this.markedJust.set(result.id, result.justifications);
-        this.dataSourceMarked = new MatTableDataSource(this.markedAnswers);
-        this.dataSourceJustmarked.set(result.id, new MatTableDataSource(result.justifications));
-      }
-    );
+    dialogRef.afterClosed().subscribe(result => {
+      this.markedAnswers.push(result);
+      this.markedJust.set(result.id, result.justifications);
+      this.dataSourceMarked = new MatTableDataSource(this.markedAnswers);
+      this.dataSourceJustmarked.set(
+        result.id,
+        new MatTableDataSource(result.justifications)
+      );
+    });
   }
 
   addJustification(answerId: number) {
@@ -332,10 +333,14 @@ export class TeacherComponent {
   }
 
   editAnswer(oldAnswer: Answer, answerText: string, incorrect: boolean) {
-    this.editAnswerServiceCall(oldAnswer, answerText, incorrect)
+    this.editAnswerServiceCall(oldAnswer, answerText, incorrect);
   }
 
-  private editAnswerServiceCall(oldAnswer: Answer, answerText: string, incorrect: boolean) {
+  private editAnswerServiceCall(
+    oldAnswer: Answer,
+    answerText: string,
+    incorrect: boolean
+  ) {
     this.answerService
       .editAnswer(this.id, oldAnswer.id, answerText, !incorrect)
       .subscribe(
@@ -370,5 +375,50 @@ export class TeacherComponent {
           console.log(error);
         }
       );
+  }
+
+  markJust(
+    answerId: number,
+    justId: number,
+    invalid: boolean,
+    valid: boolean,
+    errorText?: string
+  ) {
+    if (!valid && !invalid) {
+      this.dialogService.openAlert({
+        message: "Es necesario especificar si la justificación es válida o no.",
+        closeButton: "Cerrar"
+      })
+    } else {
+      if (errorText) {
+          this.justificationService
+            .markJustification(answerId, justId, !invalid, errorText)
+            .subscribe(
+              data => {
+                //TODO: show this marked justification in marked answers and remove from unmarked justifications (better use a new function)
+                console.log(data);
+              },
+              error => console.log(error)
+            );
+      } else {
+        if (!invalid) {
+          this.justificationService
+            .markJustification(answerId, justId, !invalid)
+            .subscribe(
+              data => {
+                //TODO: show this marked justification in marked answers and remove from unmarked justifications (better use a new function)
+                console.log(data);
+              },
+              error => console.log(error)
+            );
+        } else {
+          this.dialogService.openAlert({
+            message:
+              "Es necesario especificar el error si la justificación no es válida.",
+            closeButton: "Cerrar"
+          });
+        }
+      }
+    }
   }
 }
