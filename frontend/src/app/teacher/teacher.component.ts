@@ -65,7 +65,7 @@ export class TeacherComponent {
     private justificationService: JustificationService,
     private dialogService: TdDialogService
   ) {
-    this.router.routeReuseStrategy.shouldReuseRoute = function() {
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
       return false;
     };
     this.id = activatedRoute.snapshot.params["id"];
@@ -198,12 +198,7 @@ export class TeacherComponent {
                 this.markedJust.set(answerId, []);
               }
               this.markedJustPage.set(answerId, page);
-              let just = this.markedJust.get(answerId).concat(data.content);
-              this.markedJust.set(answerId, just);
-              this.dataSourceJustmarked.set(
-                answerId,
-                new MatTableDataSource(just)
-              );
+              data.content.forEach(justification => this.addJustToMarkedAnswer(justification, answerId));
             }
           },
           error =>
@@ -230,7 +225,7 @@ export class TeacherComponent {
               let answer: Answer = this.markedAnswers.find(
                 a => a.id == answerId
               );
-              let index = this.markedAnswers.indexOf(answer, 0);
+              const index = this.markedAnswers.indexOf(answer, 0);
               if (index >= 0) {
                 this.markedAnswers.splice(index, 1);
                 this.dataSourceMarked = new MatTableDataSource(
@@ -305,12 +300,8 @@ export class TeacherComponent {
     });
     dialogRef.afterClosed().subscribe(result => {
       this.markedAnswers.push(result);
-      this.markedJust.set(result.id, result.justifications);
       this.dataSourceMarked = new MatTableDataSource(this.markedAnswers);
-      this.dataSourceJustmarked.set(
-        result.id,
-        new MatTableDataSource(result.justifications)
-      );
+      result.justifications.forEach(jus => this.addJustToMarkedAnswer(result.id, jus));
     });
   }
 
@@ -322,12 +313,7 @@ export class TeacherComponent {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        let justOfAnswer = this.markedJust.get(answerId).concat(result);
-        this.markedJust.set(answerId, justOfAnswer);
-        this.dataSourceJustmarked.set(
-          answerId,
-          new MatTableDataSource(justOfAnswer)
-        );
+        this.addJustToMarkedAnswer(result, answerId);
       }
     });
   }
@@ -354,11 +340,7 @@ export class TeacherComponent {
             });
             dialogRef.afterClosed().subscribe(result => {
               if (result) {
-                this.markedJust.set(oldAnswer.id, [result]);
-                this.dataSourceJustmarked.set(
-                  oldAnswer.id,
-                  new MatTableDataSource(result)
-                );
+                this.addJustToMarkedAnswer(result, oldAnswer.id);
                 oldAnswer.answerText = answerText;
                 oldAnswer.correct = !incorrect;
               }
@@ -391,23 +373,54 @@ export class TeacherComponent {
       })
     } else {
       if (errorText) {
-          this.justificationService
-            .markJustification(answerId, justId, !invalid, errorText)
-            .subscribe(
-              data => {
-                //TODO: show this marked justification in marked answers and remove from unmarked justifications (better use a new function)
-                console.log(data);
-              },
-              error => console.log(error)
-            );
+        this.justificationService
+          .markJustification(answerId, justId, !invalid, errorText)
+          .subscribe(
+            data => {
+              // find just and delete from array
+              let oldJus: Justification = this.unmarkedJust.find(
+                j => j.id == justId
+              );
+              const index = this.unmarkedJust.indexOf(oldJus, 0);
+              if (index >= 0) {
+                this.unmarkedJust.splice(index, 1);
+                this.dataSourceJustUnmarked = new MatTableDataSource(this.unmarkedJust);
+              }
+              // show just with marked answers
+              let newJus: Justification = {
+                id: justId,
+                justificationText: oldJus.justificationText,
+                marked: true,
+                valid: false,
+                error: errorText,
+              }
+              this.addJustToMarkedAnswer(newJus, answerId);
+            },
+            error => console.log(error)
+          );
       } else {
         if (!invalid) {
           this.justificationService
             .markJustification(answerId, justId, !invalid)
             .subscribe(
               data => {
-                //TODO: show this marked justification in marked answers and remove from unmarked justifications (better use a new function)
-                console.log(data);
+                // find just and delete from array
+                let oldJus: Justification = this.unmarkedJust.find(
+                  j => j.id == justId
+                );
+                const index = this.unmarkedJust.indexOf(oldJus, 0);
+                if (index >= 0) {
+                  this.unmarkedJust.splice(index, 1);
+                  this.dataSourceJustUnmarked = new MatTableDataSource(this.unmarkedJust);
+                }
+                // show just with marked answers
+                let newJus: Justification = {
+                  id: justId,
+                  justificationText: oldJus.justificationText,
+                  marked: true,
+                  valid: true,
+                }
+                this.addJustToMarkedAnswer(newJus, answerId);
               },
               error => console.log(error)
             );
@@ -420,5 +433,11 @@ export class TeacherComponent {
         }
       }
     }
+  }
+
+  addJustToMarkedAnswer(jus: Justification, ansId: number) {
+    let justOfAnswer = this.markedJust.get(ansId).concat(jus);
+    this.markedJust.set(ansId, justOfAnswer);
+    this.dataSourceJustmarked.set(ansId, new MatTableDataSource(justOfAnswer));
   }
 }
