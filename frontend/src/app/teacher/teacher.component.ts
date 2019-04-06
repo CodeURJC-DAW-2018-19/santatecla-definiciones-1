@@ -15,6 +15,7 @@ import {
 } from "@angular/material";
 import { TdDialogService } from "@covalent/core";
 import { NewJustComponent } from "./newjust.component";
+import { stringify } from 'querystring';
 
 /**
  * Wrapper component for all teacher information.
@@ -379,13 +380,30 @@ export class TeacherComponent {
 
   private editJustificationServiceCall(oldJustification: Justification, justificationText: string, incorrect: boolean) {
     this.justificationService
-    .editJustification(oldJustification.id, justificationText, !incorrect)
+    .editJustification(this.id, justificationText, !incorrect)
     .subscribe(
       data => {
         console.log(data);
-    },
+        if (incorrect && oldJustification.correct) {
+          let dialogRef = this.answerDialog.open(NewJustComponent, {
+            data: {
+              justificationText: oldJustification,
+            }
+          });
+          dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+              oldJustification.justificationText = justificationText;
+              oldJustification.correct = !incorrect;
+            }
+          });
+        } else if (!incorrect && !oldJustification.correct) {
+          oldJustification.justificationText = justificationText;
+          oldJustification.correct = !incorrect;
+        }
+      },
     error => {
       console.log(error);
     }
+    );
   }
 }

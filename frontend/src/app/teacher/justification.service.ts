@@ -64,7 +64,7 @@ export class JustificationService {
 
    editJustification(answerId: number, justificationText: string, correct: boolean) {
       let body = {
-         answerText: justificationText,
+         justificationText: justificationText,
          correct: correct
        };
        return this.http.put(
@@ -72,4 +72,5 @@ export class JustificationService {
          body,
          { headers: this.headers, withCredentials: true }
    );
+}
 }
