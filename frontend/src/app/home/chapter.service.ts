@@ -49,8 +49,11 @@ export class ChapterService {
       'Content-Type': 'application/json',
     });
     const body = {
-      chapterName : chapterName
-    }
-    return this.http.post(this.apiUrl + "/chapters", {headers: headers, withCredentials: true})
+      chapterName: chapterName
+    };
+    return this.http.post(this.apiUrl + "/chapters",
+      body,
+      { headers: headers, withCredentials: true }
+    );
   }
 }

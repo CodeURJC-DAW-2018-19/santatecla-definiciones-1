@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -19,7 +19,9 @@ export class JustificationService {
    constructor(private http: HttpClient, private loginService: LoginService) { }
 
    apiUrl = environment.baseUrl;
-
+   headers = new HttpHeaders({
+      "Content-Type": "application/json"
+    });
    getUnmarkedJustifications(id: number, page: number) { //This methods gets us the answers that have at least 1
       return this.http.get<Page<Justification>>(
          this.apiUrl + "/concepts/" + id + "/unmarkedjustifications" + "?page=" + page,
@@ -73,4 +75,16 @@ export class JustificationService {
          { headers: this.headers, withCredentials: true }
    );
 }
+   markJustification(answerId, justId, valid, errorText?) {
+      let body = {
+         valid: valid
+      }
+      if (errorText) {
+         body["errorText"] = errorText
+      }
+      return this.http.put(
+         this.apiUrl + "/answers/" + answerId + "/correct/" + justId, body, {headers: this.headers, withCredentials:true}
+      )
+   }
+
 }

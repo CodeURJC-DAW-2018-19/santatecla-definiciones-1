@@ -75,12 +75,17 @@ export class ChapterComponent {
   addChapters(data: Page<Chapter>) {
     for (let ch of data.content) {
       //Set chapter first to keep ordering
-      this.chapterConcepts.set(ch, []);
-      if (!this.conceptsPage.has(ch)) { //add the chapter to both maps
-        this.conceptsPage.set(ch, -1);
-        this.conceptsOnce.set(ch, false);
+      console.log(this.chapterConcepts.get(ch));
+      if (!this.chapterConcepts.has(ch)) {
+        //console.log(this.chapterConcepts.has(ch));
+        this.chapterConcepts.set(ch, []);
+        if (!this.conceptsPage.has(ch)) { //add the chapter to both maps
+          this.conceptsPage.set(ch, -1);
+          this.conceptsOnce.set(ch, false);
+        }
+        this.getConcepts(ch);
+        //console.log(this.chapterConcepts);
       }
-      this.getConcepts(ch);
     }
   }
 
@@ -207,12 +212,15 @@ export class ChapterComponent {
       acceptButton: "Crear",
       cancelButton: "Cancelar",
       width: '500px',
-      height: '175px'
+      height: '250px'
     }).afterClosed().subscribe((newChapterName: string) => {
       if (newChapterName) {
-        this.chapterService.createChapter(newChapterName)
+        this.chapterService.createChapter(newChapterName).subscribe(
+          (data: Chapter) => {this.chapterConcepts.set(data, []); console.log()},
+          error => console.error(error)
+        );
       } else {
-        alert("Tienes que escribir un nombre para el tema en el campo de texto.")
+        alert("Tienes que escribir un nombre para el tema en el campo de texto.");
       }
     })
   }

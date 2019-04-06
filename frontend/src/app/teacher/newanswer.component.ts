@@ -34,44 +34,32 @@ export class NewAnswerComponent {
   }
 
   newAnswer() {
-    let answer: Answer;
-    if (this.correct === true) {
-      answer = {
-        answerText: this.answerText,
-        marked: this.marked,
-        correct: this.correct
+    let justificationArray = [];
+    let justification: Justification;
+    if (this.validJustification !== false) {
+      justification = {
+        justificationText: this.justificationText,
+        marked: this.markedJustification,
+        valid: this.validJustification,
+        error: this.error,
       };
-    }else {
-      let justificationArray = [];
-      let justification: Justification;
-      if (this.validJustification !== false) {
-        justification = {
-          justificationText: this.justificationText,
-          marked: this.markedJustification,
-          valid: this.validJustification,
-          error: this.error,
-        };
-        console.log(this.error);
-        console.log(justification.error);
-      } else {
-        justification = {
-          justificationText: this.justificationText,
-          marked: this.markedJustification,
-          valid: this.validJustification,
-        };
-      }
-      
-      
-      if (justification.justificationText != null) {
-        justificationArray.push(justification);
-      }
-      answer = {
-        answerText: this.answerText,
-        marked: this.marked,
-        correct: this.correct,
-        justifications: justificationArray
+    } else {
+      justification = {
+        justificationText: this.justificationText,
+        marked: this.markedJustification,
+        valid: this.validJustification,
       };
     }
+
+    if (justification.justificationText != null) {
+      justificationArray.push(justification);
+    }
+    let answer: Answer = {
+      answerText: this.answerText,
+      marked: this.marked,
+      correct: this.correct,
+      justifications: justificationArray
+    };
     this.answerService.postNewAnswer(this.id, answer).subscribe(
       data => this.dialogRef.close(data),
       error => console.log(error)

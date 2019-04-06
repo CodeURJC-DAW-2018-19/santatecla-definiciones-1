@@ -54,6 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers("/image/upload").hasAnyRole("TEACHER");
 		http.authorizeRequests().antMatchers("/image/{conceptName}").permitAll();
 
+		http.authorizeRequests().antMatchers("/new/**").permitAll();
 		// Login form
 		http.formLogin().loginPage("/login");
 		http.formLogin().usernameParameter("username");

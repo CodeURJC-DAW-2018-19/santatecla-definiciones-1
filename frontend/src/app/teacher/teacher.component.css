@@ -46,9 +46,6 @@ mat-card-subtitle{
     font-size: 80%;
 }
 
-.showMoreBtn{
-    background-color:  mat-color($accent);
-}
 
 .correctSize .mat-list-item {
     height: auto;
@@ -70,4 +67,12 @@ mat-card-subtitle{
 .icon {
     float: left;
     width: 10%;
+}
+
+table {
+    width:90%
+}
+
+button {
+    margin: 5px
 }
