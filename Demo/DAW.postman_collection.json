@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "83831c9e-0000-40a8-9c63-5186c763094d",
+		"_postman_id": "4a9ce233-f504-471d-9014-6a74fc25956f",
 		"name": "DAW",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -274,7 +274,7 @@
 			"response": []
 		},
 		{
-			"name": "https://localhost:8080/api/chapters/4/concepts/16",
+			"name": "https://localhost:8080/api/concepts/16",
 			"request": {
 				"auth": {
 					"type": "basic",
@@ -320,6 +320,31 @@
 						"api",
 						"chapters",
 						"4",
+						"concepts",
+						"16"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:8080/api/concepts/16",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:8080/api/concepts/16",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
 						"concepts",
 						"16"
 					]
@@ -590,7 +615,7 @@
 			"response": []
 		},
 		{
-			"name": "https://localhost:8080/api/concepts/15",
+			"name": "https://localhost:8080/api/concepts/15/markedanswers",
 			"request": {
 				"auth": {
 					"type": "basic",
@@ -619,7 +644,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "https://localhost:8080/api/concepts/15",
+					"raw": "https://localhost:8080/api/concepts/15/markedanswers",
 					"protocol": "https",
 					"host": [
 						"localhost"
@@ -628,7 +653,8 @@
 					"path": [
 						"api",
 						"concepts",
-						"15"
+						"15",
+						"markedanswers"
 					]
 				}
 			},
@@ -655,6 +681,40 @@
 						"concepts",
 						"15",
 						"unmarkedanswers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:8080/api/concepts/15/answers/29/markedjustifications?page=0",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:8080/api/concepts/15/answers/29/markedjustifications?page=0",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"concepts",
+						"15",
+						"answers",
+						"29",
+						"markedjustifications"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						}
 					]
 				}
 			},
@@ -765,7 +825,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"answerText\": \"nueva respuesta\",\n\t\"correct\": true\n}"
+					"raw": "{\n\t\"answerText\": \"nueva respuesta\",\n\t\"marked\": true,\n\t\"correct\": true\n}"
 				},
 				"url": {
 					"raw": "https://localhost:8080/api/concepts/15/answers",
@@ -1001,6 +1061,88 @@
 						"31",
 						"correct",
 						"42"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:8080/api/concepts/15/image",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "adminpass",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "file",
+							"type": "file",
+							"src": ""
+						}
+					]
+				},
+				"url": {
+					"raw": "https://localhost:8080/api/concepts/15/image",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"concepts",
+						"15",
+						"image"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:8080/api/concepts/15/image",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:8080/api/concepts/15/image",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"concepts",
+						"15",
+						"image"
 					]
 				}
 			},
