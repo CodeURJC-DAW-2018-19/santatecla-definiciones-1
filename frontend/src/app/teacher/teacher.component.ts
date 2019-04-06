@@ -188,7 +188,7 @@ export class TeacherComponent {
             if (data.numberOfElements === 0 && once == 0) {
               this.markedJustOnce.set(answerId, 1);
               this.dialogService.openAlert({
-                message: "No hay más justificaciones en esta respuesta", //TODO: put answer name
+                message: "No hay más justificaciones en esta respuesta",
                 title: "No hay más justificaciones",
                 closeButton: "Cerrar"
               });
@@ -304,7 +304,7 @@ export class TeacherComponent {
       this.markedAnswers.push(result);
       this.dataSourceMarked = new MatTableDataSource(this.markedAnswers);
       result.justifications.forEach(jus =>
-        this.addJustToMarkedAnswer(result.id, jus)
+        this.addJustToMarkedAnswer(jus, result.id)
       );
     });
   }
@@ -317,7 +317,11 @@ export class TeacherComponent {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.addJustToMarkedAnswer(result, answerId)
+        let ans: Answer = {
+          id: answerId
+        }
+        result.answer = ans;
+        this.addJustToMarkedAnswer(result, answerId);
       }
     });
   }
@@ -444,7 +448,10 @@ export class TeacherComponent {
   }
 
   addJustToMarkedAnswer(jus: Justification, ansId: number) {
-    let justOfAnswer = this.markedJust.get(ansId).concat(jus);
+    if(!this.markedJust.get(ansId)){
+      this.markedJust.set(ansId, []);
+    }
+    let justOfAnswer: Justification[] = this.markedJust.get(ansId).concat(jus);
     this.markedJust.set(ansId, justOfAnswer);
     this.dataSourceJustmarked.set(ansId, new MatTableDataSource(justOfAnswer));
   }
@@ -458,7 +465,6 @@ export class TeacherComponent {
     } else {
       this.answerService.markAnswer(this.id, oldAnswer.id, correct).subscribe(
         data => {
-          console.log(data);
           if (incorrect) {
             let dialogRef = this.answerDialog.open(NewJustComponent, {
               data: {
@@ -476,14 +482,36 @@ export class TeacherComponent {
                   );
                 }
                 //show in marked
-                this.markedAnswers.push(result);
+                let ans: Answer = {
+                  id: oldAnswer.id,
+                  answerText: oldAnswer.answerText,
+                  correct: false,
+                  marked: true,
+                }
+                this.markedAnswers.push(ans);
                 this.dataSourceMarked = new MatTableDataSource(this.markedAnswers);
                 //show just
-                result.justifications.forEach(jus =>
-                  this.addJustToMarkedAnswer(result.id, jus)
-                );
-                //Note: It may be needed to show the new justification
-                oldAnswer.correct = correct;
+                let jus: Justification;
+                if (result.valid) {
+                  jus = {
+                    id: result.id,
+                    justificationText: result.justificationText,
+                    marked: true,
+                    valid: result.valid,
+                    answer: ans
+                  }
+                } else {
+                  jus = {
+                    id: result.id,
+                    justificationText: result.justificationText,
+                    marked: true,
+                    valid: result.valid,
+                    error: result.error,
+                    answer: ans
+                  }
+                }
+                this.markedJust.set(ans.id, [jus]);
+                this.dataSourceJustmarked.set(ans.id, new MatTableDataSource(this.markedJust.get(ans.id)));
               }
             });
           } else {
@@ -541,7 +569,7 @@ export class TeacherComponent {
       )
       .subscribe(
         data => {
-          console.log(data);
+          // update info 
           oldJustification.justificationText = justificationText;
           oldJustification.valid = valid;
           if (!valid) {
@@ -550,7 +578,17 @@ export class TeacherComponent {
             error = null;
             oldJustification.error = null;
           }
-          //TODO: Show edited justification dynamically yada yada yada (classic stuff)
+          console.log(oldJustification);
+          oldJustification.answer.id = oldJustification.answer.id;
+          let id = oldJustification.answer.id;
+          //find jus
+          let oldJus: Justification = this.markedJust.get(id).find(
+            j => j.id == oldJustification.id
+          );
+          const index = this.markedJust.get(id).indexOf(oldJus, 0);
+          //update
+          this.markedJust.get(id)[index] = oldJustification;
+          this.dataSourceJustmarked.set(id, new MatTableDataSource(this.markedJust.get(id)));
         },
         error => {
           console.log(error);

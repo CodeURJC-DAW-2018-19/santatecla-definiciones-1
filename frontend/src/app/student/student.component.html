@@ -39,7 +39,7 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumnsMarked;"></tr>
             </table>
         </mat-card-content>
-        <mat-card-actions>
+        <mat-card-actions  align="center">
             <button mat-raised-button color="primary" (click)="getMarkedQuestions()">
                 <span>Mostrar más</span>
             </button>
@@ -78,7 +78,7 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumnsUnmarked;"></tr>
             </table>
         </mat-card-content>
-        <mat-card-actions>
+        <mat-card-actions align="center">
             <button mat-raised-button color="primary" (click)="getUnmarkedQuestions()">
                 <span>Mostrar más</span>
             </button>
