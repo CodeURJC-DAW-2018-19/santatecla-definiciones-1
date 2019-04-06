@@ -119,16 +119,7 @@ public class RestConceptControllerTeacher {
 	public ResponseEntity<Answer> updateAnswer(@PathVariable Long conceptId, @PathVariable Long answerId,
 			@RequestBody Map<String, Object> body) {
 		String answerText = body.get("answerText").toString();
-		String justText = null;
-		if (body.get("justText") != null)
-			justText = body.get("justText").toString();
 		Boolean correct = body.get("correct").toString().equals("true");
-		Boolean valid = null;
-		if (body.get("valid") != null)
-			valid = body.get("valid").toString().equals("true");
-		String errorText = null;
-		if (body.get("errorText") != null)
-			errorText = body.get("errorText").toString();
 
 		Answer ans = answerService.getOne(answerId);
 		if (ans == null)

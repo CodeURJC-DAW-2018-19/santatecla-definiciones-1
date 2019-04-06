@@ -346,6 +346,7 @@
                       name="valid{{ jus.id }}"
                       [checked]="false"
                       value="no"
+                      #invalidRadio
                     >
                       Inválida
                     </mat-radio-button>
@@ -353,7 +354,7 @@
                 </mat-radio-group>
               </table>
             </td>
-            <td *ngIf="!jus.valid">
+            <td *ngIf="invalidRadio.checked">
               <mat-card-subtitle> ERROR: </mat-card-subtitle>
               <textarea
                 value="{{ jus.error }}"
