@@ -1,6 +1,6 @@
 # santatecla-definiciones-1
 ## Video (Spanish)
-Click on the image below to see it.
+Click on the image below to watch it.
 
 [![video](https://i.ytimg.com/vi/zrTJ87mw1ho/hqdefault.jpg)](https://youtu.be/zrTJ87mw1ho)
 
