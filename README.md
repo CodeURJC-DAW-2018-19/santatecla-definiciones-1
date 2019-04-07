@@ -62,7 +62,7 @@ Here is how it looks when you want to add a new answer
 
 ## Development Environment
 
-### Developing
+### Developing (Spring Boot backend)
 
 It's recomended to use an IDE with Maven support at worst, and is better if it has support for Spring and/or Spring Boot applications.
 We use the Spring Tool Suite (based on Eclipse). More info at: https://spring.io/tools
@@ -71,14 +71,23 @@ The application will run on port 8443, so if you're running it on localhost the 
 https://localhost:8443
 Note that a Mysql database is needed, so you may have to edit the *application.properties* file on the *src/main/resources* directory properly.
 
+### Developing (Angular frontend)
+
+To run a development server with the Angular frontend, all you need to do is run the following command on your terminal (in the /frontend directory)
+> npm start
+This will run a server with the frontend on development mode. This makes it so the backend server to ask for the information has to be running in https://localhost:8443 (default URL of backend)
+
+Note that, when first running it, you have to install the node.js dependencies
+> npm install
 
 ### Building the application image with Docker
 
 For this you will need to have Docker installed. More info at: https://docs.docker.com/install/
-The easiest way to build the application is using the *create_image.ps1* Powershell script in the *docker* directory. This will run a docker container with maven which will generate the .jar file and build a docker image with the application.
+The easiest way to build the application is using the *create_image.ps1* Powershell script in the *docker* directory. This will run a docker container with maven which will generate the .jar file, compile the Angular frontend in production mode and build a docker image with the application.
 If you have Maven installed you can also do:
 > mvn package
-
+or:
+> mvn clean install
 This will generate the .jar in the *target* directory.
 Note that a mysql database will be needed.
 
@@ -92,7 +101,7 @@ Note that you can also move the *docker-compose.yml* file anywhere and run the c
 
 Where PATH is the path in your file system where the file *docker-compose.yml* is.
 This will download all the needed images (mysql and app) from Docker Hub and run container with the database and the application.
-The application will run on port 8080.
+The application will run on port 8080. The new Angular frontend runs on /new/ URL.
 
 ## Database Entities
 
