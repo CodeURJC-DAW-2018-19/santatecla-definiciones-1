@@ -119,6 +119,9 @@ The application will run on port 8080. The new Angular frontend runs on /new/ UR
 
 <img src="https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/ClassDiagram.png"/>
 
+## New Class Diagrams and Templates 
+
+<img src="https://github.com/CodeURJC-DAW-2018-19/santatecla-definiciones-1/blob/master/img/ClassDiagramPhase4.PNG"/>
 
 ## API Rest Documentation
 
