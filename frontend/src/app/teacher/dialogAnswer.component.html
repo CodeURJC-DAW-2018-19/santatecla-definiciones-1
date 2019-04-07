@@ -1,34 +1,56 @@
 <h1 mat-dialog-title>Nueva respuesta</h1>
 <div mat-dialog-content>
-    <form class="newAnswer">
-        <p class="padding">Respuesta:</p>
+  <form class="newAnswer">
+    <p class="padding">Respuesta:</p>
+    <mat-form-field>
+      <input matInput [(ngModel)]="answerText" name="answerText" />
+    </mat-form-field>
+    <mat-radio-group
+      aria-label="Selecciona una opción"
+      class="padding"
+      [(ngModel)]="correct"
+      name="correct"
+    >
+      <mat-radio-button value="true">Correcta</mat-radio-button>
+      <mat-radio-button value="false" #incorrect>Incorrecta</mat-radio-button>
+    </mat-radio-group>
+    <div *ngIf="incorrect.checked">
+      <p class="padding">Justificacion:</p>
+      <mat-form-field>
+        <input
+          matInput
+          class="padding"
+          [(ngModel)]="justificationText"
+          name="justificationText"
+        />
+      </mat-form-field>
+      <mat-radio-group
+        aria-label="Selecciona una opción"
+        class="padding"
+        [(ngModel)]="validJustification"
+        name="validJustification"
+      >
+        <mat-radio-button value="true">Valida</mat-radio-button>
+        <mat-radio-button value="false" #invalid>Invalida</mat-radio-button>
+      </mat-radio-group>
+
+      <div *ngIf="invalid.checked">
+        <p class="padding">Error:</p>
         <mat-form-field>
-            <input matInput [(ngModel)]="answerText" name="answerText">
+          <input matInput class="padding" [(ngModel)]="error" name="error" />
         </mat-form-field>
-        <mat-radio-group aria-label="Selecciona una opción" class="padding" [(ngModel)]="correct" name="correct">
-            <mat-radio-button value="true">Correcta</mat-radio-button>
-            <mat-radio-button value="false">Incorrecta</mat-radio-button>
-        </mat-radio-group>
-        <div *ngIf="!correct">
-            <p class="padding">Justificacion: </p>
-            <mat-form-field>
-                <input matInput class="padding" [(ngModel)]="justificationText" name="justificationText">
-            </mat-form-field>
-            <mat-radio-group aria-label="Selecciona una opción" class="padding" [(ngModel)]="validJustification"
-                name="validJustification">
-                <mat-radio-button value="true">Valida</mat-radio-button>
-                <mat-radio-button value="false">Invalida</mat-radio-button>
-            </mat-radio-group>
-        </div>
-        <div *ngIf="!validJustification">
-            <p class="padding">Error: </p>
-            <mat-form-field>
-                <input matInput class="padding" [(ngModel)]="error" name="error">
-            </mat-form-field>
-        </div>
-    </form>
+      </div>
+    </div>
+  </form>
 </div>
 <div mat-dialog-actions>
-    <button mat-button [disabled]="(!correct) || (!answerText)" (click)="newAnswer()" cdkFocusInitial>Aceptar</button>
-    <button mat-button (click)="onNoClick()">Cancelar</button>
+  <button
+    mat-button
+    [disabled]="!correct || !answerText"
+    (click)="newAnswer()"
+    cdkFocusInitial
+  >
+    Aceptar
+  </button>
+  <button mat-button (click)="onNoClick()">Cancelar</button>
 </div>
