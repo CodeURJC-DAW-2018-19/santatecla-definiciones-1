@@ -84,12 +84,19 @@ Note that, when first running it, you have to install the node.js dependencies
 
 For this you will need to have Docker installed. More info at: https://docs.docker.com/install/
 The easiest way to build the application is using the *create_image.ps1* Powershell script in the *docker* directory. This will run a docker container with maven which will generate the .jar file, compile the Angular frontend in production mode and build a docker image with the application.
-If you have Maven installed you can also do:
+
+If you have Maven installed and want to compile the Spring Boot backend you can also do:
 > mvn package
 or:
 > mvn clean install
-This will generate the .jar in the *target* directory.
+This will generate the .jar in the *target* directory in the /backend directory.
 Note that a mysql database will be needed.
+
+If you have Maven installed and want to compile the Spring Boot backend you can also do:
+> ng build
+or:
+> mvn build --prod
+This will generate the compiled files in the *dist* directory in the /frontend directory.
 
 ## How to run the application with Docker Compose
 
