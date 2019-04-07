@@ -217,8 +217,6 @@ export class StudentComponent {
         )
         .subscribe(
           data => {
-            console.log(questionText);
-            console.log(data);
             this.addNewQuestion(data);
           },
           error => console.log(error)
@@ -228,8 +226,6 @@ export class StudentComponent {
         .saveAnswer(this.id, questionType, answerText, questionText, answerId)
         .subscribe(
           data => {
-            console.log(questionText);
-            console.log(data);
             this.addNewQuestion(data);
           },
           error => console.log(error)
@@ -239,8 +235,6 @@ export class StudentComponent {
         .saveAnswer(this.id, questionType, answerText, questionText, answerId)
         .subscribe(
           data => {
-            console.log(questionText);
-            console.log(data);
             this.addNewQuestion(data);
           },
           error => console.log(error)
