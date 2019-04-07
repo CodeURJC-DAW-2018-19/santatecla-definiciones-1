@@ -303,9 +303,10 @@ export class TeacherComponent {
     dialogRef.afterClosed().subscribe(result => {
       this.markedAnswers.push(result);
       this.dataSourceMarked = new MatTableDataSource(this.markedAnswers);
-      result.justifications.forEach(jus =>
-        this.addJustToMarkedAnswer(jus, result.id)
-      );
+      result.justifications.forEach(jus => {
+        jus.answer = result;
+        this.addJustToMarkedAnswer(jus, result.id);
+      });
     });
   }
 
@@ -339,7 +340,6 @@ export class TeacherComponent {
       .editAnswer(this.id, oldAnswer.id, answerText, !incorrect)
       .subscribe(
         data => {
-          console.log(data);
           if (incorrect && oldAnswer.correct) {
             let dialogRef = this.answerDialog.open(NewJustComponent, {
               data: {
@@ -348,6 +348,10 @@ export class TeacherComponent {
             });
             dialogRef.afterClosed().subscribe(result => {
               if (result) {
+                let ans: Answer = {
+                  id: oldAnswer.id
+                }
+                result.answer = ans;
                 this.addJustToMarkedAnswer(result, oldAnswer.id);
                 oldAnswer.answerText = answerText;
                 oldAnswer.correct = !incorrect;
@@ -448,7 +452,7 @@ export class TeacherComponent {
   }
 
   addJustToMarkedAnswer(jus: Justification, ansId: number) {
-    if(!this.markedJust.get(ansId)){
+    if (!this.markedJust.get(ansId)) {
       this.markedJust.set(ansId, []);
     }
     let justOfAnswer: Justification[] = this.markedJust.get(ansId).concat(jus);
@@ -578,7 +582,6 @@ export class TeacherComponent {
             error = null;
             oldJustification.error = null;
           }
-          console.log(oldJustification);
           oldJustification.answer.id = oldJustification.answer.id;
           let id = oldJustification.answer.id;
           //find jus

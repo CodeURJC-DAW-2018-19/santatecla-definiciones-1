@@ -35,20 +35,13 @@ export class NewAnswerComponent {
 
   newAnswer() {
     let justificationArray = [];
-    let justification: Justification;
+    let justification: Justification = {
+      justificationText: this.justificationText,
+      marked: this.markedJustification,
+      valid: this.validJustification,
+    }
     if (this.validJustification !== false) {
-      justification = {
-        justificationText: this.justificationText,
-        marked: this.markedJustification,
-        valid: this.validJustification,
-        error: this.error,
-      };
-    } else {
-      justification = {
-        justificationText: this.justificationText,
-        marked: this.markedJustification,
-        valid: this.validJustification,
-      };
+      justification.error = this.error;
     }
 
     if (justification.justificationText != null) {
@@ -61,7 +54,10 @@ export class NewAnswerComponent {
       justifications: justificationArray
     };
     this.answerService.postNewAnswer(this.id, answer).subscribe(
-      data => this.dialogRef.close(data),
+      data => {
+        
+        this.dialogRef.close(data);
+      },
       error => console.log(error)
     );
   }

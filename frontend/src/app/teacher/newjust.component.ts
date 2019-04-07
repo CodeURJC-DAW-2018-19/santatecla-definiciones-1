@@ -1,6 +1,7 @@
 import { Component, Inject} from "@angular/core";
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material'
 import { Justification } from './justification.model';
+import { Answer } from './answer.model';
 import { JustificationService } from "./justification.service";
 
 
@@ -29,6 +30,10 @@ export class NewJustComponent {
             error: this.error,
             marked: true
         };
+        let ans: Answer = {
+            id: this.id
+        }
+        justification.answer = ans;
         this.justificationService.postNewJustification(this.id, justification).subscribe(
             data =>this.dialogRef.close(data),
             error => console.log(error)
