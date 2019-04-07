@@ -11,7 +11,7 @@
     <mat-icon *ngIf="tab.value.closable" (click)="closeTab(tab.key, $event)">close</mat-icon>
   </a>
   <a mat-tab-link *ngIf="!this.loginService.isLogged" (click)='openLoginDialog()'>Login</a>
-  <a mat-tab-link *ngIf="this.loginService.isLogged" (click)='logOut()'>Logout</a>
+  <a mat-tab-link *ngIf="this.loginService.isLogged" (click)='logOut()'>Logout ({{this.loginService.user.name}})</a>
 </nav>
 <!-- Login -->
 <ng-template #loginDialog let-dialogRef="dialogRef">
