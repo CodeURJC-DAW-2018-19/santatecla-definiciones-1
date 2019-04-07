@@ -1,7 +1,8 @@
 {{#concepts}}
     <li class="chapterInfo">
         <img src='/image/concept/{{id}}' class="conceptImage" />
-        <a href="/concept/{{id}}">{{ conceptName }}</a>
+        {{#seeDiagram}}<a href="/concept/{{id}}">{{ conceptName }}</a>{{/seeDiagram}}
+        {{^seeDiagram}}{{conceptName}}{{/seeDiagram}}
         {{#teacher}}
         <form action="/deleteConcept/concept/{{id}}" onclick="return confirmation()" method="post">
             <button type="submit" class="btn btn-primary btn-fab btn-round">
