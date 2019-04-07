@@ -1,4 +1,10 @@
 # santatecla-definiciones-1
+## Video (Spanish)
+Click on the image below to see it.
+
+[![video](https://i.ytimg.com/vi/zrTJ87mw1ho/hqdefault.jpg)](https://youtu.be/zrTJ87mw1ho)
+
+Direct link: https://youtu.be/zrTJ87mw1ho
 ## Authors
 
 |Name|E-mail|Github|
