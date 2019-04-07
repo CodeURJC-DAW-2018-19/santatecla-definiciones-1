@@ -9,7 +9,7 @@
             <mat-radio-button value="true">Correcta</mat-radio-button>
             <mat-radio-button value="false">Incorrecta</mat-radio-button>
         </mat-radio-group>
-        <div *ngIf="correct">
+        <div *ngIf="!correct">
             <p class="padding">Justificacion: </p>
             <mat-form-field>
                 <input matInput class="padding" [(ngModel)]="justificationText" name="justificationText">
@@ -20,7 +20,7 @@
                 <mat-radio-button value="false">Invalida</mat-radio-button>
             </mat-radio-group>
         </div>
-        <div *ngIf="validJustification">
+        <div *ngIf="!validJustification">
             <p class="padding">Error: </p>
             <mat-form-field>
                 <input matInput class="padding" [(ngModel)]="error" name="error">
