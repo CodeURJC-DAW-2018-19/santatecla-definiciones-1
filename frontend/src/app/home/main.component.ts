@@ -148,6 +148,10 @@ export class ChapterComponent {
     });
     dialogRef.afterClosed().subscribe(
       result => {
+        this.imageService.getImage(id).subscribe(
+          (data: Blob) => this.imageService.createImageFromBlob(data, ((image) => result.image = image)),
+          error => console.log(error)
+        )
         let chapters = Array.from(this.chapterConcepts.keys());
         let chapter: Chapter = chapters.find(j => j.id == id);
         let concepts = this.chapterConcepts.get(chapter);
