@@ -13,7 +13,6 @@ Direct link: https://youtu.be/zrTJ87mw1ho
 |Iván Chicano Capelo | i.chicano.2016@alumnos.urjc.es  |	[ivchicano](https://github.com/ivchicano)   |
 |Diego Jara López	    | d.jaral@alumnos.urjc.es	        | [DiegoJL97](https://github.com/DiegoJL97)   |
 |David Muñoz Alonso	  | d.munoza.2016@alumnos.urjc.es	  | [ggeettaa](https://github.com/ggeettaa)    |
-|Ramón Barrabés Parra	| r.barrabes.2016@alumnos.urjc.es |	[ram2701](https://github.com/ram2701)     |
 
 ## Trello 
 
